@@ -1,0 +1,9 @@
+%html
+  %head
+    %title Brandizzle
+  %body
+    #flash
+      - flash.each do |name, msg|
+        = content_tag :div, h(msg), :id => "flash_#{name}"
+  
+    = yield

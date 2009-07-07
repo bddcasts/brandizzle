@@ -1,0 +1,10 @@
+%h1 Add brand
+
+- form_for @brand do |f|
+  %p
+    = f.label :name
+    %br
+    = f.text_field :name
+
+  %p
+    = f.submit 'Create'

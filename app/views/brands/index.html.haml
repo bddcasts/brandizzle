@@ -3,3 +3,5 @@
 %ul
 - @brands.each do |brand|
   %li=h brand.name
+  
+= link_to 'Add Brand', new_brand_path
