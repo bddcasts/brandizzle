@@ -12,6 +12,8 @@ module NavigationHelpers
       '/'
     when /the about page/
       '/about'
+    when /the dashboard/
+      brands_path
     
     # Add more mappings here.
     # Here is a more fancy example:
