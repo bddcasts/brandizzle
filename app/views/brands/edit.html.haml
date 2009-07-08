@@ -1,1 +1,10 @@
 %h1=h @brand.name
+
+= button_to "Delete", brand_path(@brand), :method => :delete
+
+- form_for @brand do |f|
+  = render :partial => 'fields', :locals => { :f => f }
+
+  %p
+    = f.submit 'Update'
+

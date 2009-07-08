@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BrandsController do
   before(:each) do
     @brand = mock_model(Brand)
+    Brand.stub!(:find).and_return(@brand)
   end
   
   describe "handling GET index" do
@@ -78,10 +79,6 @@ describe BrandsController do
   end
 
   describe "handling GET edit" do
-    before(:each) do
-      Brand.stub!(:find).and_return(@brand)
-    end
-    
     def do_get
       get :edit, :id => 37
     end
@@ -98,4 +95,59 @@ describe BrandsController do
     end
   end
 
+  describe "handling PUT update" do
+    def put_with_valid_attributes
+      @brand.should_receive(:update_attributes).with("name" => "updated brand name").and_return(true)
+      put :update, :id => 34, :brand => { :name => "updated brand name" }
+    end
+    
+    def put_with_invalid_attributes
+      @brand.should_receive(:update_attributes).and_return(false)
+      put :update, :id => 34
+    end
+    
+    
+    it "finds the specified brand and assigns it for the view" do
+      Brand.should_receive(:find).with("34").and_return(@brand)
+      put_with_valid_attributes
+      assigns[:brand].should == @brand
+    end
+    
+    it "should set the flash and redirect to the edit page if update succeeds" do
+      put_with_valid_attributes
+      response.should redirect_to(edit_brand_path(@brand))
+      flash[:notice].should == 'Brand updated.'
+    end
+    
+    it "renders the edit template if brand update fails" do
+      put_with_invalid_attributes
+      response.should render_template(:edit)
+    end
+  end
+  
+  describe "handling DELETE destroy" do
+    before(:each) do
+      @brand.stub!(:destroy).and_return(true)
+    end
+    
+    def do_delete
+      delete :destroy, :id => 55
+    end
+    
+    it "finds the specified brand" do
+      Brand.should_receive(:find).with("55").and_return(@brand)
+      do_delete
+    end
+    
+    it "destroys the brand" do
+      @brand.should_receive(:destroy)
+      do_delete
+    end
+    
+    it "sets the flash and redirects to the dashboard" do
+      do_delete
+      response.should redirect_to(brands_path)
+      flash[:notice].should == 'Brand deleted.'
+    end
+  end
 end

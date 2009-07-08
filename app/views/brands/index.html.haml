@@ -2,6 +2,6 @@
 
 %ul
 - @brands.each do |brand|
-  %li=h brand.name
+  %li= link_to h(brand.name), edit_brand_path(brand)
   
 = link_to 'Add Brand', new_brand_path
