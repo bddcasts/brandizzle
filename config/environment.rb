@@ -7,7 +7,7 @@ RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  config.gem 'haml', :version => '>= 2.2'
+  config.gem 'haml', :version => '~> 2.0'
   config.gem 'jnunemaker-twitter', :lib => 'twitter', :version => '>= 0.6.12'
   config.time_zone = 'UTC'
 end
