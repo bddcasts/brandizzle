@@ -1,9 +1,11 @@
 %html
   %head
     %title Brandizzle
+    = stylesheet_link_tag '960', 'reset', 'text'
   %body
-    #flash
-      - flash.each do |name, msg|
-        = content_tag :div, h(msg), :id => "flash_#{name}"
-  
-    = yield
+    .container_12
+      #flash
+        - flash.each do |name, msg|
+          = content_tag :div, h(msg), :id => "flash_#{name}"
+      
+      = yield

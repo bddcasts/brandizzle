@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => "brands"
-  map.resources :brands
+  map.resources :brands do |brand|
+    brand.resources :searches, :only => [:create, :update, :destroy]
+  end
   
   map.with_options(:controller => 'pages', :action => 'show') do |pages|
     pages.connect '/about', :id => 'about'

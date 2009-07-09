@@ -5,12 +5,13 @@ Feature: Manage Brands
 
   Background:
     Given an existing brand "BDDCasts"
-      And I am on the dashboard
 
   Scenario: A user sees the dashboard
+    Given I am on the dashboard
      Then I should see "BDDCasts"
   
   Scenario: Adding a new brand
+    Given I am on the dashboard
      When I follow "Add brand"
       And I fill in "Name" with "BDDCasts"
       And I press "Create"
@@ -18,18 +19,32 @@ Feature: Manage Brands
       And I should see "BDDCasts"
       
   Scenario: Update a brand
-     When I follow "BDDCasts"
+    Given I am on the brand edit page for "BDDCasts"
       And I fill in "Name" with "DDDCasts"
       And I press "Update"
      Then I should see "Brand updated."
       And I should see "DDDCasts"
   
   Scenario: Delete a brand
-     When I follow "BDDCasts"
+    Given I am on the brand edit page for "BDDCasts"
       And I press "Delete"
      Then I should see "Brand deleted"
       And I should be on the dashboard
       And I should not see "BDDCasts"
+  
+  Scenario: Add a search
+    Given I am on the brand edit page for "BDDCasts"
+     When I fill in "search_term" with "jschoolcraft"
+      And I press "Add term"
+     Then I should see "Added search term."
+      And I should see "jschoolcraft"
+      
+  Scenario: Delete a search
+    Given there is a search "jschoolcraft" for "BDDCasts"
+     When I am on the brand edit page for "BDDCasts"
+      And I delete search term "jschoolcraft"
+     Then I should see "Deleted search term."
+      And I should not see "jschoolcraft"
   
   
     

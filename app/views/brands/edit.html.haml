@@ -1,10 +1,33 @@
-%h1=h @brand.name
+.grid_6
+  %h1=h @brand.name
 
-= button_to "Delete", brand_path(@brand), :method => :delete
+.grid_6
+  = button_to "Delete", brand_path(@brand), :method => :delete
 
-- form_for @brand do |f|
-  = render :partial => 'fields', :locals => { :f => f }
+.clear
 
-  %p
-    = f.submit 'Update'
+.grid_6
+  - form_for [@brand, @search] do |f|
+    %fieldset
+      %legend Searches
+    
+      = f.text_field :term
+      = f.submit 'Add term'
+      
+      %hr
+      
+  %ul
+    - @brand.searches.each do |search|
+      %li
+        =h search.term
+        = button_to "Delete", brand_search_path(@brand, search), :method => :delete, :id => dom_id(search, :delete)
+  
+.grid_6
+  - form_for @brand do |f|
+    %fieldset
+      %legend Settings
+    
+      = render :partial => 'fields', :locals => { :f => f }
 
+      %p
+        = f.submit 'Update'

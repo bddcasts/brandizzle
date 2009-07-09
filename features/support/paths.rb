@@ -14,6 +14,8 @@ module NavigationHelpers
       '/about'
     when /the dashboard/
       brands_path
+    when /the brand edit page for "([^\"]*)"/
+      edit_brand_path(Brand.find_by_name($1))
     
     # Add more mappings here.
     # Here is a more fancy example:

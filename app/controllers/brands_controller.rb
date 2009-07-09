@@ -19,6 +19,7 @@ class BrandsController < ApplicationController
   
   def edit
     @brand = Brand.find(params[:id])
+    @search = Search.new
   end
   
   def update

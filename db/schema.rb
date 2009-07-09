@@ -9,12 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090707151522) do
+ActiveRecord::Schema.define(:version => 20090708150505) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "searches", :force => true do |t|
+    t.integer  "brand_id"
+    t.string   "term"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "searches", ["brand_id"], :name => "index_searches_on_brand_id"
 
 end

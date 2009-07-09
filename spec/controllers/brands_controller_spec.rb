@@ -79,14 +79,24 @@ describe BrandsController do
   end
 
   describe "handling GET edit" do
+    before(:each) do
+      @search = mock_model(Search)
+    end
+    
     def do_get
       get :edit, :id => 37
-    end
+    end  
     
     it "should find the specified brand and assign it for the view" do
       Brand.should_receive(:find).with("37").and_return(@brand)
       do_get
       assigns[:brand].should == @brand
+    end
+
+    it "should create a new search and assign it for the view" do
+      Search.should_receive(:new).and_return(@search)
+      do_get
+      assigns[:search].should == @search
     end
     
     it "should render the edit template" do
