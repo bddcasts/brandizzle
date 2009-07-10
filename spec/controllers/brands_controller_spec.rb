@@ -4,6 +4,7 @@ describe BrandsController do
   before(:each) do
     @brand = mock_model(Brand)
     Brand.stub!(:find).and_return(@brand)
+    @results = (1..10).map { mock_model(SearchResult) }
   end
   
   describe "handling GET index" do
@@ -24,6 +25,12 @@ describe BrandsController do
     it "should render the index template" do
       do_get
       response.should render_template(:index)
+    end
+    
+    it "finds the latest search results and assigns them for the view" do
+      SearchResult.should_receive(:latest).and_return(@results)
+      do_get
+      assigns[:results].should == @results
     end
     
   end

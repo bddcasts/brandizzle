@@ -1,7 +1,31 @@
 %h1 Brands
 
-%ul
-- @brands.each do |brand|
-  %li= link_to h(brand.name), edit_brand_path(brand)
+.grid_9
+  %table
+    %thead
+      %tr
+        %th Source
+        %th Message
+        %th Created
+        %th
+    %tbody
+      - if @results && !@results.empty?
+        - @results.each do |result| 
+          %tr
+            %td
+              %a{:href => result.url}= h result.source
+            %td
+              %p
+                = h result.body
+            %td{:style => 'white-space: nowrap;'}= result.created_at.to_s(:short)
+              
+      - else
+        %tr
+          %td{:colspan => 3}
+            No results.
+.grid_3
+  %ul
+  - @brands.each do |brand|
+    %li= link_to h(brand.name), edit_brand_path(brand)
   
-= link_to 'Add Brand', new_brand_path
+  = link_to 'Add Brand', new_brand_path
