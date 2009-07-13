@@ -27,5 +27,6 @@ config.action_mailer.delivery_method = :test
 # like if you have constraints or database-specific column types
 # config.active_record.schema_format = :sql
 config.gem 'remarkable_rails', :lib => false, :version => '>= 3.1.7'
+config.gem "thoughtbot-factory_girl", :lib => 'factory_girl'
 
 require 'pp'

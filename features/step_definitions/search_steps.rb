@@ -15,6 +15,15 @@ Given /^"([^\"]*)" has the following search results:$/ do |search_term, table|
   end
 end
 
+Given /^"([^\"]*)" has (\d+) search results$/ do |search_term, results|
+  search = Search.find_by_term(search_term)
+  1.upto(results.to_i) do |index|
+    search.results.create!(
+      :body => "Search result ##{index}", 
+      :created_at => index.hours.ago)
+  end
+end
+
 Then /^I should see the following search results:$/ do |table|
   table.hashes.each do |result|
     # response.should contain(result["message"])

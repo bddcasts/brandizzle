@@ -12,8 +12,8 @@ describe BrandsController do
       @brands = [@brand]
     end
     
-    def do_get
-      get :index
+    def do_get(options={})
+      get :index, options
     end
     
     it "should find all the brands and assign them for the view" do
@@ -27,9 +27,9 @@ describe BrandsController do
       response.should render_template(:index)
     end
     
-    it "finds the latest search results and assigns them for the view" do
-      SearchResult.should_receive(:latest).and_return(@results)
-      do_get
+    it "finds the latest search results for the given page and assigns them for the view" do
+      SearchResult.should_receive(:latest).with(:page => "12").and_return(@results)
+      do_get(:page => 12)
       assigns[:results].should == @results
     end
     

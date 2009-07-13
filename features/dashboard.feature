@@ -22,3 +22,14 @@ Feature: Dashboard
   Scenario: Looking at the dashboard with no search results
     When I am on the dashboard
     Then I should see "No results."
+  
+  Scenario: Paginating search results
+    Given "bdd screencast" has 20 search results
+     When I am on the dashboard
+     Then I should see "Search result #1"
+      And I should see "Search result #15"
+      And I should not see "Search result #16"
+     When I follow "2"
+     Then I should see "Search result #16"
+      And I should not see "Search result #15"
+  

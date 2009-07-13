@@ -23,6 +23,8 @@
         %tr
           %td{:colspan => 3}
             No results.
+  = will_paginate @results
+
 .grid_3
   %ul
   - @brands.each do |brand|
