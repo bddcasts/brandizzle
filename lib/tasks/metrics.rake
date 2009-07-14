@@ -5,5 +5,5 @@ begin
     config.graphs = []
   end
 rescue LoadError
-  abort 'install metric_fu to run this task'
+  puts 'install metric_fu to run this task'
 end
