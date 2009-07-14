@@ -28,5 +28,6 @@ config.action_mailer.delivery_method = :test
 # config.active_record.schema_format = :sql
 config.gem 'remarkable_rails', :lib => false, :version => '>= 3.1.7'
 config.gem "thoughtbot-factory_girl", :lib => 'factory_girl'
+config.gem 'jscruggs-metric_fu', :version => '1.1.4', :lib => 'metric_fu'
 
 require 'pp'
