@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090709150641) do
+ActiveRecord::Schema.define(:version => 20090713154021) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20090709150641) do
     t.string   "term"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "latest_id"
   end
 
   add_index "searches", ["brand_id"], :name => "index_searches_on_brand_id"
