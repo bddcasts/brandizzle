@@ -11,5 +11,8 @@ Rails::Initializer.run do |config|
   config.gem 'jnunemaker-twitter', :lib => 'twitter', :version => '>= 0.6.12'
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :version => '>= 2.3.11'
   config.gem 'javan-whenever', :lib => false, :version => '>= 0.3.5'
+  config.gem 'json', :version => '>= 1.1.6'
   config.time_zone = 'UTC'
 end
+
+require 'open-uri'

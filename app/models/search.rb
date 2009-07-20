@@ -4,10 +4,11 @@ class Search < ActiveRecord::Base
   has_many :results, :class_name => "SearchResult", :foreign_key => "search_id"
   
   class << self
-    def run_against_twitter
+    def run
       searches = Search.find(:all)
       searches.each do |search|
         search.run_against_twitter
+        search.run_against_blog_search
       end
     end
   end
@@ -30,6 +31,32 @@ class Search < ActiveRecord::Base
     if latest_id.blank? || max_id > latest_id.to_i
       self.latest_id = max_id 
       save
+    end
+  end
+
+  def run_against_blog_search
+    pages = [0]
+    loop do
+      page = pages.pop
+      url = "http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=#{term}&rsz=large&start=#{page}"
+
+      json_results = JSON.parse(open(url).read)
+      json_results["responseData"]["results"].each do |r|
+        results.create(
+          :source => 'blog',
+          :body => r["content"],
+          :url => r["postUrl"],
+          :created_at => r["publishedDate"]
+        )
+      end
+
+      if (page == 0)
+        json_results["responseData"]["cursor"]["pages"].each do |p|
+          pages << p["start"] unless p["start"] == "0"
+        end
+      end
+      break if pages.empty?
+
     end
   end
 end

@@ -6,25 +6,27 @@ describe Search do
   it { should belong_to :brand }
   it { should have_many :results }
   
-  describe "run against twitter (class method)" do
+  describe "run" do
     before(:each) do
       @searches = (1..3).map { |i| Search.create(:term => "search-#{i}") }
       @searches.each do |search|
         search.stub!(:run_against_twitter)
+        search.stub!(:run_against_blog_search)
       end
       Search.stub!(:find).and_return(@searches)
     end
     
     it "should find all the searches" do
       Search.should_receive(:find).with(:all).and_return(@searches)
-      Search.run_against_twitter
+      Search.run
     end
     
     it "runs a twitter search for each search" do
       @searches.each_with_index do |search, i|
         search.should_receive(:run_against_twitter)
+        search.should_receive(:run_against_blog_search)
       end
-      Search.run_against_twitter
+      Search.run
     end
   end
   
@@ -100,6 +102,41 @@ describe Search do
         @search.run_against_twitter
         @search.reload
       }.should_not change(@search, :latest_id)
+    end
+  end
+
+  describe "#run_against_blog_search" do
+    before(:each) do
+      @response = File.open(File.dirname(__FILE__) + "/../fixtures/bdd.json")
+      @json_response = JSON.parse(@response.read)
+      @response.rewind
+      @search = Search.create(:term => "bdd")
+      @search.stub!(:open).and_return(@response)
+      JSON.stub!(:parse).and_return(@json_response)
+    end
+    
+    it "fetches the results from blog search" do
+      0.upto(7) do |i|
+        @search.should_receive(:open).with("http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=bdd&rsz=large&start=#{i*8}").and_return(@response)
+      end
+      @search.run_against_blog_search
+    end
+    
+    it "parses search results" do
+      JSON.should_receive(:parse).with(@response).exactly(8).times.and_return(@json_response)
+      @search.run_against_blog_search
+    end
+    
+    it "creates a new search result for each result" do
+      @json_response["responseData"]["results"].each do |r|
+        @search.results.should_receive(:create).with(
+          :source => 'blog',
+          :body => r["content"],
+          :url => r["postUrl"],
+          :created_at => r["publishedDate"]
+        ).exactly(8).times
+      end
+      @search.run_against_blog_search
     end
   end
 end
