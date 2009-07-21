@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090713154021) do
+ActiveRecord::Schema.define(:version => 20090721151957) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(:version => 20090713154021) do
   end
 
   add_index "search_results", ["search_id"], :name => "index_search_results_on_search_id"
+  add_index "search_results", ["url"], :name => "index_search_results_on_url", :unique => true
 
   create_table "searches", :force => true do |t|
     t.integer  "brand_id"

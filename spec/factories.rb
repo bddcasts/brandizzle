@@ -4,5 +4,5 @@ end
 
 Factory.define(:search_result) do |f|
   f.sequence(:body) { |i| "Search result ##{i}" }
-  f.url "http://twitter.com/someone/statuses/123456"
+  f.sequence(:url) { |i| "http://twitter.com/someone/statuses/123456#{i}" }
 end
