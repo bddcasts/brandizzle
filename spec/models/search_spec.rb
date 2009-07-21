@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Search do
-  it { should have_column :term, :latest_id, :type => :string }
-  it { should validate_presence_of :term }
-  it { should belong_to :brand }
-  it { should have_many :results }
+  # it { should have_column :term, :latest_id, :type => :string }
+  # it { should validate_presence_of :term }
+  # it { should belong_to :brand }
+  # it { should have_many :results }
   
   describe "run" do
     before(:each) do
@@ -105,38 +105,62 @@ describe Search do
     end
   end
 
-  describe "#run_against_blog_search" do
+  describe "#parse_response" do
     before(:each) do
-      @response = File.open(File.dirname(__FILE__) + "/../fixtures/bdd.json")
-      @json_response = JSON.parse(@response.read)
-      @response.rewind
+      @json_string = open(File.dirname(__FILE__) + "/../fixtures/bdd.json").read
+      @json = JSON.parse(@json_string)
       @search = Search.create(:term => "bdd")
-      @search.stub!(:open).and_return(@response)
-      JSON.stub!(:parse).and_return(@json_response)
-    end
-    
-    it "fetches the results from blog search" do
-      0.upto(7) do |i|
-        @search.should_receive(:open).with("http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=bdd&rsz=large&start=#{i*8}").and_return(@response)
-      end
-      @search.run_against_blog_search
-    end
-    
-    it "parses search results" do
-      JSON.should_receive(:parse).with(@response).exactly(8).times.and_return(@json_response)
-      @search.run_against_blog_search
     end
     
     it "creates a new search result for each result" do
-      @json_response["responseData"]["results"].each do |r|
+      @json["responseData"]["results"].each do |r|
         @search.results.should_receive(:create).with(
           :source => 'blog',
           :body => r["content"],
           :url => r["postUrl"],
           :created_at => r["publishedDate"]
-        ).exactly(8).times
+        )
+      end
+      @search.parse_response(@json_string, 33)
+    end
+    
+    it "returns an array with all the start indices to fetch if start == 0" do
+      @search.parse_response(@json_string, 0).should == [8, 16, 24, 32, 40, 48, 56]
+    end
+    
+    it "returns an empty array if start >= 0" do
+      @search.parse_response(@json_string, 1).should be_empty
+    end
+    
+  end
+
+  describe "#run_against_blog_search" do
+    before(:each) do
+      @response_file = open(File.dirname(__FILE__) + "/../fixtures/bdd.json")
+      @response = open(File.dirname(__FILE__) + "/../fixtures/bdd.json").read
+      @json_response = JSON.parse(@response)
+      @search = Search.create(:term => "bdd")
+      # @search.stub!(:open).and_return(@response_file)
+      def @search.open(*args)
+        File.open(File.dirname(__FILE__) + "/../fixtures/bdd.json")
+      end
+    end
+    
+    it "fetches the results from blog search" do
+      JSON.stub!(:parse).and_return(@json_response)
+      0.upto(7) do |i|
+        @search.should_receive(:open).with("http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=bdd&rsz=large&start=#{i*8}").and_return(@response_file)
       end
       @search.run_against_blog_search
     end
+    
+    it "parses search results for each page" do
+      0.upto(7) do |page|
+        returns = page == 0 ? [8, 16, 24, 32, 40, 48, 56] : []
+        @search.should_receive(:parse_response).with(@response, page*8).and_return(returns)
+      end
+      @search.run_against_blog_search
+    end
+
   end
 end
