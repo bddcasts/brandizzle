@@ -1,7 +1,12 @@
 class BrandsController < ApplicationController
   def index
     @brands = Brand.find(:all)
-    @results = SearchResult.latest(:page => params[:page])
+    options = {
+      :page => params[:page],
+      :brand_id => params[:brand_id],
+      :source => params[:source] 
+    }
+    @results = SearchResult.latest(options)
   end
   
   def new

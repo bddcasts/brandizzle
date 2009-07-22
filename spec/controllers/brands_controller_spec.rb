@@ -27,9 +27,9 @@ describe BrandsController do
       response.should render_template(:index)
     end
     
-    it "finds the latest search results for the given page and assigns them for the view" do
-      SearchResult.should_receive(:latest).with(:page => "12").and_return(@results)
-      do_get(:page => 12)
+    it "finds the latest search results for the given page and filters and assigns them for the view" do
+      SearchResult.should_receive(:latest).with(:page => "12", :brand_id => '45', :source => 'blog').and_return(@results)
+      do_get(:page => 12, :brand_id => '45', :source => 'blog')
       assigns[:results].should == @results
     end
     

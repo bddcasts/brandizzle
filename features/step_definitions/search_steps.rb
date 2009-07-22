@@ -1,5 +1,5 @@
 Given /^there is a search "([^\"]*)" for "([^\"]*)"$/ do |term, brand_name|
-  brand = Brand.find_by_name(brand_name)
+  brand = Brand.find_by_name(brand_name) || Factory.create(:brand, :name => brand_name)
   brand.searches.create!(:term => term)
 end
 

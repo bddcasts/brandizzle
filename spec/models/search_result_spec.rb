@@ -12,13 +12,28 @@ describe SearchResult do
   }
 
   describe ".latest" do
-    before(:each) do
-      @all_searches = (1..40).map { |i|
-        Factory.create(:search_result, :created_at => i.hours.ago)
-      }
+    it "finds the latest search results for a given brand" do
+      @brand1 = Factory.create(:brand)
+      @results = (1..5).map { |i|
+        Factory.create(:search_result,
+          :created_at => i.hours.ago,
+          :search => Factory.create(:search, :brand => @brand1)) }
+      SearchResult.latest(:brand_id => @brand1.id).should == @results
+    end
+    
+    it "finds the latest search results for a given source" do
+      @blog_results = (1..5).map { |i|
+        Factory.create(:search_result,
+          :created_at => i.hours.ago,
+          :source => 'blog') }
+      @twit_results = (1..5).map { Factory.create(:search_result, :source => 'twitter') }
+      SearchResult.latest(:source => 'blog').should == @blog_results
     end
     
     it "finds the latest search results for given page" do
+      @all_searches = (1..20).map { |i|
+        Factory.create(:search_result, :created_at => i.hours.ago, :search => nil)
+      }
       SearchResult.latest(:page => 1).should == @all_searches[0..14]
     end
   end

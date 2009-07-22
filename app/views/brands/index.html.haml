@@ -1,5 +1,17 @@
 %h1 Brands
 
+- form_tag do
+  = label_tag :brand
+  %select#brand{:name => 'brand_id'}
+    %option{:value => ''} - All -
+    = options_from_collection_for_select(Brand.all, :id, :name)
+  = label_tag :source
+  %select#source{:name => 'source'}
+    %option{:value => ''} - All -
+    %option twitter
+    %option blog
+  = submit_tag "Filter"
+
 .grid_9
   %table
     %thead
