@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe SearchResult do
   it { should have_column(:body, :type => :text) }
   it { should have_column(:source, :url, :type => :string) }
+  it { should have_column(:follow_up, :type => :boolean) }
   it { should have_index(:url).unique(true) }
   it { should belong_to(:search) }
   
@@ -18,6 +19,7 @@ describe SearchResult do
         Factory.create(:search_result,
           :created_at => i.hours.ago,
           :search => Factory.create(:search, :brand => @brand1)) }
+      Factory.create(:search_result)
       SearchResult.latest(:brand_id => @brand1.id).should == @results
     end
     
@@ -30,11 +32,37 @@ describe SearchResult do
       SearchResult.latest(:source => 'blog').should == @blog_results
     end
     
+    it "finds the latest search results by flag" do
+      @follow_up = (1..5).map { |i|
+        Factory.create(:search_result, :created_at => i.hours.ago, :follow_up => true) }
+      Factory.create(:search_result)
+      
+      SearchResult.latest(:flag => 'follow up').should == @follow_up
+    end
+    
     it "finds the latest search results for given page" do
       @all_searches = (1..20).map { |i|
         Factory.create(:search_result, :created_at => i.hours.ago, :search => nil)
       }
       SearchResult.latest(:page => 1).should == @all_searches[0..14]
+    end
+  end
+
+  describe "#toggle_follow_up" do
+    it "should set follow_up to true if not set" do
+      @search_result = Factory.create(:search_result)
+      lambda {
+        @search_result.toggle_follow_up
+      }.should change(@search_result, :follow_up?)
+      @search_result.follow_up?.should be_true
+    end
+    
+    it "should set follow_up to false if set" do
+      @search_result = Factory.create(:search_result, :follow_up => true)
+      lambda {
+        @search_result.toggle_follow_up
+      }.should change(@search_result, :follow_up?)
+      @search_result.follow_up?.should be_false
     end
   end
 

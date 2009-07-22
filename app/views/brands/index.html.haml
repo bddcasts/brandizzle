@@ -10,6 +10,10 @@
     %option{:value => ''} - All -
     %option twitter
     %option blog
+  = label_tag :flag
+  %select#flag{:name => 'flag'}
+    %option{:value => ''} - All -
+    %option follow up
   = submit_tag "Filter"
 
 .grid_9
@@ -30,10 +34,10 @@
               %p
                 = h result.body
             %td{:style => 'white-space: nowrap;'}= result.created_at.to_s(:short)
-              
+            %td= button_to result.follow_up? ? 'Done' : 'Follow up', [:follow_up, result]
       - else
         %tr
-          %td{:colspan => 3}
+          %td{:colspan => 4}
             No results.
   = will_paginate @results
 

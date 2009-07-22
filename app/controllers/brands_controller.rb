@@ -4,7 +4,8 @@ class BrandsController < ApplicationController
     options = {
       :page => params[:page],
       :brand_id => params[:brand_id],
-      :source => params[:source] 
+      :source => params[:source],
+      :flag => params[:flag]
     }
     @results = SearchResult.latest(options)
   end

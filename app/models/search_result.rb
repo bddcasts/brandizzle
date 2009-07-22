@@ -20,6 +20,10 @@ class SearchResult < ActiveRecord::Base
         conditions_str << "search_results.source = ?"
         conditions_arg << options[:source]
       end
+
+      unless options[:flag].blank?
+        conditions_str << "search_results.follow_up = 1"
+      end
       
       conditions = [conditions_str.join(' AND '), *conditions_arg]
       
@@ -29,5 +33,9 @@ class SearchResult < ActiveRecord::Base
         :include => [ :search => :brand ],
         :conditions => conditions)
     end  
+  end
+
+  def toggle_follow_up
+    update_attribute(:follow_up, !follow_up?)
   end
 end

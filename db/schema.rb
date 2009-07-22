@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090721151957) do
+ActiveRecord::Schema.define(:version => 20090722152636) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20090721151957) do
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "follow_up"
   end
 
   add_index "search_results", ["search_id"], :name => "index_search_results_on_search_id"
@@ -38,5 +39,18 @@ ActiveRecord::Schema.define(:version => 20090721151957) do
   end
 
   add_index "searches", ["brand_id"], :name => "index_searches_on_brand_id"
+
+  create_table "typus_users", :force => true do |t|
+    t.string   "first_name",       :default => "",    :null => false
+    t.string   "last_name",        :default => "",    :null => false
+    t.string   "role",                                :null => false
+    t.string   "email",                               :null => false
+    t.boolean  "status",           :default => false
+    t.string   "token",                               :null => false
+    t.string   "salt",                                :null => false
+    t.string   "crypted_password",                    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

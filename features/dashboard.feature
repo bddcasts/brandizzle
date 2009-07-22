@@ -56,4 +56,23 @@ Feature: Dashboard
       And I press "Filter"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
-       
+  
+  Scenario: Mark a search result for follow up
+    Given "bdd screencast" has 1 search results
+      And I am on the dashboard
+     When I press "Follow Up" 
+     Then I should be on the dashboard
+     When I press "Done"
+     Then I should be on the dashboard
+  
+  Scenario: Filter dashboard results by follow up  
+    Given "bdd screencast" has the following search results:
+        | source  | body                                  | url                             | created_at        | follow_up |
+        | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 | true      |
+        | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |           |
+      And I am on the dashboard
+     When I select "follow up" from "Flag"
+      And I press "Filter"
+     Then I should see "Does anyone know any bdd screencasts?"
+      And I should not see "This blog is teh stuff"
+  
