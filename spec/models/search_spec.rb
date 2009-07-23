@@ -140,10 +140,16 @@ describe Search do
       @response = open(File.dirname(__FILE__) + "/../fixtures/bdd.json").read
       @json_response = JSON.parse(@response)
       @search = Search.create(:term => "bdd")
-      # @search.stub!(:open).and_return(@response_file)
       def @search.open(*args)
         File.open(File.dirname(__FILE__) + "/../fixtures/bdd.json")
       end
+    end
+    
+    it "properly escapes the search terms for calling open on" do
+      search = Factory.create(:search, :term => "this is a multi word term")
+      @response_without_pages = open(File.dirname(__FILE__) + "/../fixtures/bdd_without_pages.json")
+      search.should_receive(:open).with("http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=this%20is%20a%20multi%20word%20term&rsz=large&start=0").and_return(@response_without_pages)
+      search.run_against_blog_search
     end
     
     it "fetches the results from blog search" do

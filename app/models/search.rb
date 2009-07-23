@@ -38,7 +38,7 @@ class Search < ActiveRecord::Base
     pages = [0]
     loop do
       start = pages.pop
-      url = "http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=#{term}&rsz=large&start=#{start}"
+      url = "http://ajax.googleapis.com/ajax/services/search/blogs?v=1.0&q=#{URI.escape(term)}&rsz=large&start=#{start}"
 
       pages.concat(parse_response(open(url).read, start))
       
