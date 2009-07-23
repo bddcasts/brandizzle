@@ -18,7 +18,7 @@ describe SearchResult do
       @results = (1..5).map { |i|
         Factory.create(:search_result,
           :created_at => i.hours.ago,
-          :search => Factory.create(:search, :brand => @brand1)) }
+          :search => Factory.create(:search, :brands => [@brand1])) }
       Factory.create(:search_result)
       SearchResult.latest(:brand_id => @brand1.id).should == @results
     end

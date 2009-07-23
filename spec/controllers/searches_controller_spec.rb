@@ -3,24 +3,24 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe SearchesController do
   
   before(:each) do
-    @brand = stub_model(Brand)
+    @brand = mock_model(Brand, :searches => mock("brand searches"))
     Brand.stub!(:find).and_return(@brand)
     @search = mock_model(Search)
   end
   
   describe "handling POST create" do
     before(:each) do
-      @brand.searches.stub!(:build).and_return(@search)
+      @brand.stub!(:add_search).and_return(@search)
     end
     
     def post_with_valid_params
-      @search.should_receive(:save).and_return(true)
+      @search.should_receive(:new_record?).and_return(false)
       post :create, :brand_id => 37, :search => { :term => 'new term' }
     end
     
     def post_with_invalid_params
-      @search.should_receive(:save).and_return(false)
-      post :create, :brand_id => 37
+      @search.should_receive(:new_record?).and_return(true)
+      post :create, :brand_id => 37, :search => {}
     end
     
     it "should find the brand and assigns it for the view" do
@@ -30,7 +30,7 @@ describe SearchesController do
     end
     
     it "should build a search from params and assigns it for the view" do
-      @brand.searches.should_receive(:build).with("term" => "new term").and_return(@search)
+      @brand.should_receive(:add_search).with("new term").and_return(@search)
       post_with_valid_params
       assigns[:search].should == @search
     end
@@ -51,7 +51,7 @@ describe SearchesController do
   describe "handling DELETE destroy" do
     before(:each) do
       @brand.searches.stub!(:find).and_return(@search)
-      @search.stub!(:destroy).and_return(true)
+      @brand.stub!(:remove_search)
     end
     
     def do_delete
@@ -71,7 +71,7 @@ describe SearchesController do
     end
     
     it "should destroy the search" do
-      @search.should_receive(:destroy).and_return(true)
+      @brand.should_receive(:remove_search).with(@search)
       do_delete
     end
     

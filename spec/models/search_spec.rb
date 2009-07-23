@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Search do
-  # it { should have_column :term, :latest_id, :type => :string }
-  # it { should validate_presence_of :term }
-  # it { should belong_to :brand }
-  # it { should have_many :results }
+  it { should have_column(:term, :latest_id, :type => :string) }
+  it { should validate_presence_of(:term) }
+  it { should have_and_belong_to_many(:brands) }
+  it { should have_many(:results) }
   
   describe "run" do
     before(:each) do

@@ -4,7 +4,6 @@ end
 
 Factory.define(:search) do |f|
   f.sequence(:term) { |i| "Search term #{i}" }
-  f.association :brand, :factory => :brand
 end
 
 Factory.define(:search_result) do |f|

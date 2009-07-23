@@ -1,6 +1,6 @@
 Given /^there is a search "([^\"]*)" for "([^\"]*)"$/ do |term, brand_name|
   brand = Brand.find_by_name(brand_name) || Factory.create(:brand, :name => brand_name)
-  brand.searches.create!(:term => term)
+  brand.add_search(term)
 end
 
 When /^I delete search term "([^\"]*)"$/ do |search_term|

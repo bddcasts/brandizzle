@@ -30,7 +30,7 @@ class SearchResult < ActiveRecord::Base
       paginate(
         :page => options[:page],
         :order => "search_results.created_at DESC",
-        :include => [ :search => :brand ],
+        :include => [ :search => :brands ],
         :conditions => conditions)
     end  
   end

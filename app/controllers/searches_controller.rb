@@ -2,8 +2,8 @@ class SearchesController < ApplicationController
   before_filter :find_brand
   
   def create
-    @search = @brand.searches.build(params[:search])
-    if @search.save
+    @search = @brand.add_search(params[:search][:term]) if params[:search]
+    if @search && !@search.new_record?
       flash[:notice] = "Added search term."
     else
       flash[:error] = "Search term not added."
@@ -13,7 +13,7 @@ class SearchesController < ApplicationController
   
   def destroy
     @search = @brand.searches.find(params[:id])
-    @search.destroy
+    @brand.remove_search(@search)
     flash[:notice] = "Deleted search term."
     redirect_to edit_brand_path(@brand)    
   end
