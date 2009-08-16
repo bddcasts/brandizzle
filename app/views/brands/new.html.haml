@@ -1,7 +1,11 @@
-%h1 Add brand
+.grid_12
+  %h2 Add brand
 
-- form_for @brand do |f|
-  = render :partial => 'fields', :locals => { :f => f }
+.grid_6
+  - form_for @brand do |f|
+    %fieldset
+      %legend Brand
+      = render :partial => 'fields', :locals => { :f => f }
 
-  %p
-    = f.submit 'Create'
+      %p
+        = f.submit 'Create'

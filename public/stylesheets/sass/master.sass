@@ -1,0 +1,92 @@
+@import pagination.sass
+@import text.sass
+@import flash
+@import form.sass
+@import sidebar.sass
+
+=clearfix
+  display: inline-block
+  &:after
+    content: "."
+    display: block
+    height: 0
+    clear: both
+    visibility: hidden
+  * html &
+    height: 1px
+
+.clearfix
+  +clearfix
+
+html, body
+  :background-color #E5ECF3
+
+#header
+  :background-color #1B5790
+
+h1#hero
+  :margin 10px 0
+  a, a:visited
+    :text-decoration none
+    :color white
+
+#page
+  :background-color #fff
+  :padding 10px 0
+  :margin-top 20px
+  :min-height 35em
+
+#filters
+  :margin-bottom 1em
+
+#delete-brand
+  :text-align right
+
+#results
+  td
+    :text-align top
+    :padding 4px
+    
+    &.body
+      a
+        :display block
+        :text-decoration none
+        :color #555
+        
+        &:hover
+          :color #000
+    
+    &.source
+      a
+        :text-indent -999px
+        :width 16px
+        :height 16px
+        :display block
+        :background transparent url() no-repeat 50% 50%
+    
+        &.twitter
+          :background-image url(../images/balloon-twitter.png)
+
+        &.blog
+          :background-image url(../images/feed-balloon.png)
+
+#searches
+  :display relative
+  
+  li
+    +clearfix
+    :display list-item
+    a.delete
+      :float right
+
+#footer
+  :font-size 85%
+  :text-align center
+  :color #555
+  :margin-top 1em
+  :padding-bottom 1em
+
+  p
+    :margin 0
+    :line-height 1.6em
+    

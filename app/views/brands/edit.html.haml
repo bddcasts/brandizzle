@@ -1,8 +1,9 @@
 .grid_6
-  %h1=h @brand.name
+  %h2=h @brand.name
 
-.grid_6
-  = button_to "Delete", brand_path(@brand), :method => :delete
+.grid_6.right
+  #delete-brand
+    = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete"
 
 .clear
 
@@ -16,11 +17,11 @@
       
       %hr
       
-  %ul
-    - @brand.searches.each do |search|
-      %li
-        =h search.term
-        = button_to "Delete", brand_search_path(@brand, search), :method => :delete, :id => dom_id(search, :delete)
+      %ul#searches
+        - @brand.searches.each do |search|
+          %li
+            =h search.term
+            = link_to "Remove", brand_search_path(@brand, search), :method => :delete, :id => dom_id(search, :delete), :class => 'delete'
   
 .grid_6
   - form_for @brand do |f|

@@ -1,11 +1,29 @@
 %html
   %head
     %title Brandizzle
-    = stylesheet_link_tag '960', 'reset', 'text'
+    = stylesheet_link_tag '960', 'reset', 'text', 'master', :media => 'screen', :cache => true
   %body
     .container_12
-      #flash
-        - flash.each do |name, msg|
-          = content_tag :div, h(msg), :id => "flash_#{name}"
-      
-      = yield
+      #header
+        .grid_12
+          %h1#hero
+            = link_to 'Brandizzle', root_path
+        .clear
+      .grid_12
+        #flash
+          - flash.each do |key, message|
+            %div.flash(id=key)
+              =h message
+      .clear
+      #page
+        = yield
+        .clear
+
+      #footer
+        %p
+          %a{:href => '/'} Home
+          |
+          %a{:href => '/about'} About
+        %p
+          &copy; 2009
+          %a{:href => 'http://bddcasts.com', :title => 'BDD Screencasts'} BDDCasts.com

@@ -1,49 +1,50 @@
-%h1 Brands
+.grid_12
+  %h2 Latest results
 
-- form_tag do
-  = label_tag :brand
-  %select#brand{:name => 'brand_id'}
-    %option{:value => ''} - All -
-    = options_from_collection_for_select(Brand.all, :id, :name)
-  = label_tag :source
-  %select#source{:name => 'source'}
-    %option{:value => ''} - All -
-    %option twitter
-    %option blog
-  = label_tag :flag
-  %select#flag{:name => 'flag'}
-    %option{:value => ''} - All -
-    %option follow up
-  = submit_tag "Filter"
+  #filters
+    - form_tag do
+      = label_tag :brand
+      %select#brand{:name => 'brand_id'}
+        %option{:value => ''} - All -
+        = options_from_collection_for_select(Brand.all, :id, :name)
+      = label_tag :source
+      %select#source{:name => 'source'}
+        %option{:value => ''} - All -
+        %option twitter
+        %option blog
+      = label_tag :flag
+      %select#flag{:name => 'flag'}
+        %option{:value => ''} - All -
+        %option follow up
+      = submit_tag "Filter"
 
 .grid_9
-  %table
-    %thead
-      %tr
-        %th Source
-        %th Message
-        %th Created
-        %th
+  %table#results
     %tbody
       - if @results && !@results.empty?
         - @results.each do |result| 
           %tr
-            %td
-              %a{:href => result.url}= h result.source
-            %td
-              %p
-                = h result.body
+            %td.source
+              %a{:href => result.url, :class => result.source, :title => result.source}
+                = h result.source
+            %td.body
+              %a{:href => result.url, :title => result.url}
+                = sanitize result.body
             %td{:style => 'white-space: nowrap;'}= result.created_at.to_s(:short)
             %td= button_to result.follow_up? ? 'Done' : 'Follow up', [:follow_up, result]
       - else
         %tr
           %td{:colspan => 4}
             No results.
-  = will_paginate @results
+  = will_paginate @results, :prev_label => '&laquo; Newer', :next_label => 'Older &raquo;'
 
 .grid_3
-  %ul
-  - @brands.each do |brand|
-    %li= link_to h(brand.name), edit_brand_path(brand)
-  
-  = link_to 'Add Brand', new_brand_path
+  #sidebar
+    %h3 Monitored brands
+
+    %ul
+      - @brands.each do |brand|
+        %li= link_to h(brand.name), edit_brand_path(brand)
+
+    #add-brand
+      = link_to 'Add Brand', new_brand_path
