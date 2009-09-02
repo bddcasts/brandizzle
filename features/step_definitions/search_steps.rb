@@ -5,7 +5,7 @@ end
 
 When /^I delete search term "([^\"]*)"$/ do |search_term|
   search = Search.find_by_term(search_term)
-  click_button("delete_search_#{search.id}")
+  click_link("delete_search_#{search.id}")
 end
 
 Given /^"([^\"]*)" has the following search results:$/ do |search_term, table|
