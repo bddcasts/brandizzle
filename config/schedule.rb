@@ -6,6 +6,10 @@ every 1.hour, :at => 45 do
   rake "brandizzle:reset_demo"
 end
 
-every 30.minutes do
+every 1.hour, :at => 17 do
+  runner "Search.run"
+end
+
+every 1.hour, :at => 47 do
   runner "Search.run"
 end
