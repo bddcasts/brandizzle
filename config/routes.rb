@@ -6,6 +6,10 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :search_results, :only => [], :member => { :follow_up => :post }
   
+  map.resources :users
+  map.resource :user_session
+  map.resource :account, :controller => "users"
+  
   map.with_options(:controller => 'pages', :action => 'show') do |pages|
     pages.connect '/about', :id => 'about'
     pages.connect '/pages/:id'

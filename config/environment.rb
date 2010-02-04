@@ -13,6 +13,8 @@ Rails::Initializer.run do |config|
   config.gem 'whenever',      :lib => false,            :version => '>= 0.4.1'
   config.gem 'json',                                    :version => '>= 1.2.0'
   config.gem 'searchlogic',                             :version => '>= 2.4.7'
+  config.gem 'authlogic',                               :version => '>= 2.1.3'
+  config.gem 'formtastic',                              :version => '>= 0.9.7'
   config.time_zone = 'UTC'
 end
 

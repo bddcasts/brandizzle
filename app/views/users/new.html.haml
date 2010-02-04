@@ -1,0 +1,12 @@
+.grid_12
+  %h2 Register for an account
+  
+.grid_6
+  - semantic_form_for @user do |f|
+    - f.inputs do
+      = f.input :login
+      = f.input :email
+      = f.input :password
+      = f.input :password_confirmation
+    - f.buttons do
+      = f.commit_button "Create my account"

@@ -1,13 +1,15 @@
 %html
   %head
     %title Brandizzle
-    = stylesheet_link_tag '960', 'reset', 'text', 'master', :media => 'screen', :cache => true
+    = stylesheet_link_tag '960', 'reset', 'text', 'master', 'formtastic', :media => 'screen'
   %body
     .container_12
       #header
         .grid_12
           %h1#hero
             = link_to 'Brandizzle', root_path
+          %ul
+            %li= link_to 'Sign up', new_account_path
         .clear
       .grid_12
         #flash
