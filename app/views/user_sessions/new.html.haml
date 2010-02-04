@@ -1,0 +1,11 @@
+.grid_12
+  %h2 Login
+  
+.grid_6
+  - semantic_form_for @user_session, :url => user_session_path do |f|
+    - f.inputs do
+      %li= f.errors_on(:base)
+      = f.input :login
+      = f.input :password
+    - f.buttons do
+      = f.commit_button "Login"

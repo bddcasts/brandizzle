@@ -23,3 +23,32 @@ Feature: User Accounts
     Given I am on the registration page
      When I press "Create my account"
      Then I should see "Acount registration failed!"
+  
+  Scenario: Visiting the login page
+    Given I am on the homepage
+     When I follow "Login"
+     Then I should be on the login page
+      And I should see "Login"
+  
+  Scenario: Logging in successfully
+    Given a user exists with login: "Cartman", password: "secret"
+      And I am on the login page
+      And I fill in "Login" with "Cartman"
+      And I fill in "Password" with "secret"
+      And I press "Login"
+     Then I should be on the homepage
+      And I should see "Welcome Cartman"
+  
+  Scenario: Failing to log in
+    Given I am on the login page
+      And I fill in "Login" with "Cartman"
+      And I fill in "Password" with "secret"
+      And I press "Login"
+     Then I should see "is not valid"
+     
+  Scenario: Logging out
+    Given I am logged in
+      And I am on the homepage
+     When I follow "Sign out"
+     Then I should be on the homepage
+      And I should see "Logout successful!"

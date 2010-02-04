@@ -13,6 +13,7 @@ require 'spec/rails'
 Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
 
 Spec::Runner.configure do |config|
+  include Authlogic::TestCase
   # If you're not using ActiveRecord you should remove these
   # lines, delete config/database.yml and disable :active_record
   # in your config/boot.rb
@@ -21,36 +22,24 @@ Spec::Runner.configure do |config|
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
   
   FakeWeb.allow_net_connect = false
+  
+  config.before(:each) do
+    activate_authlogic
+  end
 
-  # == Fixtures
-  #
-  # You can declare fixtures for each example_group like this:
-  #   describe "...." do
-  #     fixtures :table_a, :table_b
-  #
-  # Alternatively, if you prefer to declare them only once, you can
-  # do so right here. Just uncomment the next line and replace the fixture
-  # names with your fixtures.
-  #
-  # config.global_fixtures = :table_a, :table_b
-  #
-  # If you declare global fixtures, be aware that they will be declared
-  # for all of your examples, even those that don't use them.
-  #
-  # You can also declare which fixtures to use (for example fixtures for test/fixtures):
-  #
-  # config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
-  #
-  # == Mock Framework
-  #
-  # RSpec uses it's own mocking framework by default. If you prefer to
-  # use mocha, flexmock or RR, uncomment the appropriate line:
-  #
-  # config.mock_with :mocha
-  # config.mock_with :flexmock
-  # config.mock_with :rr
-  #
-  # == Notes
-  #
-  # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+  def current_user(stubs = {})
+    @current_user ||= stub_model(User, stubs)
+  end
+
+  def user_session(stubs = {}, user_stubs = {})
+    @current_user_session ||= mock_model(UserSession, {:record => current_user(user_stubs)}.merge(stubs))
+  end
+
+  def login_user(session_stubs = {}, user_stubs = {})
+    UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs))
+  end
+
+  def logout_user
+    @current_user_session = nil
+  end
 end

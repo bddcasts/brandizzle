@@ -16,8 +16,13 @@ module NavigationHelpers
       brands_path
     when /the brand edit page for "([^\"]*)"/
       edit_brand_path(Brand.find_by_name($1))
+
+    #account related paths
     when /the registration page/
       new_account_path
+    when /the login page/
+      new_user_session_path
+
     
     # Add more mappings here.
     # Here is a more fancy example:

@@ -8,8 +8,13 @@
         .grid_12
           %h1#hero
             = link_to 'Brandizzle', root_path
-          %ul
-            %li= link_to 'Sign up', new_account_path
+          .account
+            %ul
+              - if current_user
+                %li= link_to "Sign out", user_session_path, :method => 'delete'
+              - else
+                %li= link_to "Login", new_user_session_path
+                %li= link_to "Sign up", new_account_path
         .clear
       .grid_12
         #flash

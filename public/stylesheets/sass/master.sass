@@ -26,6 +26,7 @@ html, body
 
 h1#hero
   :margin 10px 0
+  :float left
   a, a:visited
     :text-decoration none
     :color white
@@ -89,4 +90,16 @@ h1#hero
   p
     :margin 0
     :line-height 1.6em
-    
+
+.account
+  :float right
+  ul
+    :padding-top 10px
+    li
+      :list-style none
+      :float left
+    a
+      :color #ffffff
+      :text-decoration none
+      &:hover
+        :text-decoration underline
