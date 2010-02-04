@@ -22,6 +22,8 @@ module NavigationHelpers
       new_account_path
     when /the login page/
       new_user_session_path
+    when /my account page/
+      edit_account_path
 
     
     # Add more mappings here.

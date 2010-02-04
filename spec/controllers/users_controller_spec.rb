@@ -68,4 +68,61 @@ describe UsersController do
       response.should render_template(:new)
     end
   end
+
+  describe "handling GET edit" do
+    before(:each) do
+      login_user
+    end
+    
+    def do_get
+      get :edit
+    end
+    
+    it "assigsn the current user for the view" do
+      do_get
+      assigns[:user].should == current_user
+    end
+    
+    it "renders the edit template" do
+      do_get
+      response.should render_template(:edit)
+    end
+  end
+  
+  describe "handling PUT update" do
+    before(:each) do
+      login_user
+    end
+    
+    def do_put_with_valid_attributes(options={})
+      current_user.should_receive(:save).and_return(true)
+      put :update, :user => options
+    end
+    
+    def do_put_with_invalid_attributes(options={})
+      current_user.should_receive(:save).and_return(false)
+      put :update, :user => options
+    end
+    
+    it "assigns the current user for the view" do
+      do_put_with_valid_attributes
+      assigns[:user].should == current_user
+    end
+    
+    it "assigns the updated attributes to the current user" do
+      current_user.should_receive(:attributes=).with("password" => "secret")
+      do_put_with_valid_attributes(:password => "secret")
+    end
+    
+    it "sets the flash message and redirects to the account page on success" do
+      do_put_with_valid_attributes
+      flash[:notice].should_not be_nil
+      response.should redirect_to(edit_account_path)
+    end
+    
+    it "renders the edit template on failure" do
+      do_put_with_invalid_attributes
+      response.should render_template(:edit)
+    end
+  end
 end

@@ -17,4 +17,19 @@ class UsersController < ApplicationController
       render :new
     end
   end
+  
+  def edit
+    @user = current_user
+  end
+  
+  def update
+    @user = current_user
+    @user.attributes = params[:user]
+    if @user.save
+      flash[:notice] = "Account information updated!"
+      redirect_to edit_account_path
+    else
+      render :edit
+    end
+  end
 end
