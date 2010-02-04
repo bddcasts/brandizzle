@@ -38,15 +38,17 @@ describe UsersController do
     before(:each) do
       @user = mock_model(User)
       User.stub!(:new).and_return(@user)
+      
+      @user.stub!(:deliver_activation_instructions!)
     end
     
     def do_post_with_valid_attributes(options={})
-      @user.should_receive(:save).and_return(true)
+      @user.should_receive(:save_without_session_maintenance).and_return(true)
       post :create, :user => options
     end
     
     def do_post_with_invalid_attributes(options={})
-      @user.should_receive(:save).and_return(false)
+      @user.should_receive(:save_without_session_maintenance).and_return(false)
       post :create, :user => options
     end
     
@@ -54,6 +56,11 @@ describe UsersController do
       User.should_receive(:new).with("login" => "Cartman").and_return(@user)
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:user].should == @user
+    end
+    
+    it "delivers the activation instructions email" do
+      @user.should_receive(:deliver_activation_instructions!)
+      do_post_with_valid_attributes
     end
     
     it "sets the flash message and redirects to home page on success" do

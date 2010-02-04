@@ -9,7 +9,7 @@ Feature: User Accounts
      Then I should be on the registration page
       And I should see "Register for an account"
 
-  Scenario: Registering for a new account
+  Scenario: Registering for a new account and activating your account
     Given I am on the registration page
      When I fill in "Login" with "cartman"
       And I fill in "Email" with "cartman@example.com"
@@ -17,7 +17,17 @@ Feature: User Accounts
       And I fill in "Password confirmation" with "secret"
       And I press "Create my account"
      Then I should be on the homepage
-      And I should see "Thank you for registering cartman, your account has been created!"
+      And I should see "Your account has been created. Please check your e-mail for your account activation instructions!"
+      And "cartman@example.com" should receive an email
+     When I open the email
+     Then I should see "[Brandizzle.com] Activation Instructions" in the email subject
+      And a clear email queue
+     When I click the first link in the email
+     Then I should be on the homepage
+      And I should see "Welcome cartman! Your account has been activated!"      
+      And "cartman@example.com" should receive an email
+     When I open the email
+     Then I should see "[Brandizzle.com] Activation Complete" in the email subject
   
   Scenario: Failing to register due to invalid parameters
     Given I am on the registration page

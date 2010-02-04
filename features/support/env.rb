@@ -12,6 +12,7 @@ require 'cucumber/rails/rspec'
 require 'cucumber/rails/world'
 require 'cucumber/rails/active_record'
 require 'cucumber/web/tableish'
+require 'email_spec/cucumber'
 
 require 'webrat'
 require 'webrat/core/matchers'

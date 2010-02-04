@@ -27,4 +27,5 @@ config.gem 'webrat',           :lib => false
 config.gem 'rspec',            :lib => false
 config.gem 'rspec-rails',      :lib => false
 config.gem 'factory_girl'
-config.gem 'pickle',           :lib => false,     :version => '>=0.2.1'
+config.gem 'pickle',           :lib => false,         :version => '>= 0.2.1'
+config.gem 'email_spec',       :lib => 'email_spec',  :version => '>= 0.4.0'

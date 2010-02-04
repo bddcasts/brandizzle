@@ -17,4 +17,9 @@ Factory.define(:user) do |f|
   f.email { |u| "#{u.login}@example.com"}
   f.password "secret"
   f.password_confirmation { |u| u.password }
+  f.active true
+end
+
+Factory.define(:inactive_user, :parent => :user) do |f|
+  f.active false
 end

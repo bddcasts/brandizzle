@@ -9,8 +9,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     
-    if @user.save
-      flash[:notice] = "Thank you for registering #{current_user}, your account has been created!"
+    if @user.save_without_session_maintenance
+      @user.deliver_activation_instructions!
+      flash[:notice] = "Your account has been created. Please check your e-mail for your account activation instructions!"
       redirect_to root_path
     else
       flash[:error] = "Acount registration failed!"
