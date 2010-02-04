@@ -1,22 +1,18 @@
 .grid_12
   %h2 Latest results
 
-  #filters
-    - form_tag do
-      = label_tag :brand
-      %select#brand{:name => 'brand_id'}
-        %option{:value => ''} - All -
-        = options_from_collection_for_select(Brand.all, :id, :name)
-      = label_tag :source
-      %select#source{:name => 'source'}
-        %option{:value => ''} - All -
-        %option twitter
-        %option blog
-      = label_tag :flag
-      %select#flag{:name => 'flag'}
-        %option{:value => ''} - All -
-        %option follow up
-      = submit_tag "Filter"
+  #filters  
+    - form_for @search do |f|    
+      = f.label :search_brands_id_is, "Brand"
+      = f.collection_select(:search_brands_id_is, @brands, :id, :name, { :include_blank => "- All -" })
+    
+      = f.label :source_is, "Source"
+      = f.select :source_is, [["twitter", "twitter"], ["blog", "blog"]], :include_blank => "- All -"
+    
+      = f.label :follow_up_is, "Flag"
+      = f.select :follow_up_is, [["follow up", true]], :include_blank => "- All -"
+    
+      = f.submit "Filter"
 
 .grid_9
   %table#results

@@ -1,13 +1,13 @@
 class BrandsController < ApplicationController
   def index
-    @brands = Brand.find(:all)
-    options = {
+    @brands = Brand.all
+    
+    @search = SearchResult.search(params[:search])
+    @results = @search.paginate(
       :page => params[:page],
-      :brand_id => params[:brand_id],
-      :source => params[:source],
-      :flag => params[:flag]
-    }
-    @results = SearchResult.latest(options)
+      :per_page => 15,
+      :include => [:search => :brands],
+      :order => "search_results.created_at DESC")
   end
   
   def new

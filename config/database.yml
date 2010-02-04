@@ -17,8 +17,8 @@ test: &TEST
 production:
   adapter: mysql
   database: brandizzle
-  username: brandizzle
-  password: sekrit
+  username: root
+  password: 
   encoding: utf8
   host: localhost
 

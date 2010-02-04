@@ -10,6 +10,7 @@ describe BrandsController do
   describe "handling GET index" do
     before(:each) do
       @brands = [@brand]
+      @search = mock(Searchlogic::Search, :paginate => @results)
     end
     
     def do_get(options={})
@@ -17,7 +18,7 @@ describe BrandsController do
     end
     
     it "should find all the brands and assign them for the view" do
-      Brand.should_receive(:find).with(:all).and_return(@brands)
+      Brand.should_receive(:all).and_return(@brands)
       do_get
       assigns[:brands].should == @brands
     end
@@ -27,15 +28,24 @@ describe BrandsController do
       response.should render_template(:index)
     end
     
-    it "finds the latest search results for the given page and filters and assigns them for the view" do
+    it "creates a new search for the search results and assigns it for the view" do
       SearchResult.
-        should_receive(:latest).
-        with(:page => "12", :brand_id => '45', :source => 'blog', :flag => 'follow up').
-        and_return(@results)
-      do_get(:page => 12, :brand_id => '45', :source => 'blog', :flag => 'follow up')
-      assigns[:results].should == @results
+        should_receive(:search).
+        with(hash_including("test" => "test")).
+        and_return(@search)
+        
+      do_get(:search => { :test => "test"} )
+      assigns[:search].should == @search
     end
     
+    it "paginates the search results and assigns them for the view" do
+      @search.
+        should_receive(:paginate).
+        with(hash_including(:page => "3")).
+        and_return(@results)
+      do_get(:page => 3)
+      assigns[:results].should == @results
+    end
   end
 
   describe "handling GET new" do

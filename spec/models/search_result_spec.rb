@@ -12,42 +12,6 @@ describe SearchResult do
     should validate_uniqueness_of(:url)
   }
 
-  describe ".latest" do
-    it "finds the latest search results for a given brand" do
-      @brand1 = Factory.create(:brand)
-      @results = (1..5).map { |i|
-        Factory.create(:search_result,
-          :created_at => i.hours.ago,
-          :search => Factory.create(:search, :brands => [@brand1])) }
-      Factory.create(:search_result)
-      SearchResult.latest(:brand_id => @brand1.id).should == @results
-    end
-    
-    it "finds the latest search results for a given source" do
-      @blog_results = (1..5).map { |i|
-        Factory.create(:search_result,
-          :created_at => i.hours.ago,
-          :source => 'blog') }
-      @twit_results = (1..5).map { Factory.create(:search_result, :source => 'twitter') }
-      SearchResult.latest(:source => 'blog').should == @blog_results
-    end
-    
-    it "finds the latest search results by flag" do
-      @follow_up = (1..5).map { |i|
-        Factory.create(:search_result, :created_at => i.hours.ago, :follow_up => true) }
-      Factory.create(:search_result)
-      
-      SearchResult.latest(:flag => 'follow up').should == @follow_up
-    end
-    
-    it "finds the latest search results for given page" do
-      @all_searches = (1..20).map { |i|
-        Factory.create(:search_result, :created_at => i.hours.ago, :search => nil)
-      }
-      SearchResult.latest(:page => 1).should == @all_searches[0..14]
-    end
-  end
-
   describe "#toggle_follow_up" do
     it "should set follow_up to true if not set" do
       @search_result = Factory.create(:search_result)

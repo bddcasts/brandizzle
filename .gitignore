@@ -9,4 +9,5 @@ coverage.data
 *~
 *.tmproj
 public/stylesheets/master.css
+public/stylesheets/all.css
 rerun.txt
