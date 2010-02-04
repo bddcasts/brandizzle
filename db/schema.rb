@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100204094627) do
+ActiveRecord::Schema.define(:version => 20100204161330) do
 
   create_table "brands", :force => true do |t|
     t.string   "name"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20100204094627) do
   add_index "brands_searches", ["brand_id"], :name => "index_brands_searches_on_brand_id"
   add_index "brands_searches", ["search_id"], :name => "index_brands_searches_on_search_id"
 
-  create_table "search_results", :force => true do |t|
+  create_table "results", :force => true do |t|
     t.integer  "search_id"
     t.text     "body"
     t.string   "source"
@@ -36,8 +36,7 @@ ActiveRecord::Schema.define(:version => 20100204094627) do
     t.boolean  "follow_up"
   end
 
-  add_index "search_results", ["search_id"], :name => "index_search_results_on_search_id"
-  add_index "search_results", ["url"], :name => "index_search_results_on_url", :unique => true
+  add_index "results", ["url"], :name => "index_results_on_url", :unique => true
 
   create_table "searches", :force => true do |t|
     t.string   "term"

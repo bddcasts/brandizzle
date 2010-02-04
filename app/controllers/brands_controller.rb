@@ -2,12 +2,12 @@ class BrandsController < ApplicationController
   def index
     @brands = Brand.all
     
-    @search = SearchResult.search(params[:search])
+    @search = Result.search(params[:search])
     @results = @search.paginate(
       :page => params[:page],
       :per_page => 15,
       :include => [:search => :brands],
-      :order => "search_results.created_at DESC")
+      :order => "results.created_at DESC")
   end
   
   def new

@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :brands do |brand|
     brand.resources :searches, :only => [:create, :update, :destroy]
   end
-  map.resources :search_results, :only => [], :member => { :follow_up => :post }
+  map.resources :results, :only => [], :member => { :follow_up => :post }
   
   map.resources :users
   map.resource :user_session

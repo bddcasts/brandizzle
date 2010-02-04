@@ -8,24 +8,24 @@ When /^I delete search term "([^\"]*)"$/ do |search_term|
   click_link("delete_search_#{search.id}")
 end
 
-Given /^"([^\"]*)" has the following search results:$/ do |search_term, table|
+Given /^"([^\"]*)" has the following results:$/ do |search_term, table|
   search = Search.find_by_term(search_term)
   table.hashes.each do |result|
     search.results.create!(result)
   end
 end
 
-Given /^"([^\"]*)" has (\d+) search results$/ do |search_term, results|
+Given /^"([^\"]*)" has (\d+) results$/ do |search_term, results|
   search = Search.find_by_term(search_term)
   1.upto(results.to_i) do |index|
     search.results.create!(
-      :body => "Search result ##{index}", 
+      :body => "Result ##{index}", 
       :url => "http://www.example-#{index}.com/foo",
       :created_at => index.hours.ago)
   end
 end
 
-Then /^I should see the following search results:$/ do |table|
+Then /^I should see the following results:$/ do |table|
   table.hashes.each do |result|
     # response.should contain(result["message"])
     response.should have_tag("tr") do

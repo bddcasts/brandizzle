@@ -4,7 +4,7 @@ describe BrandsController do
   before(:each) do
     @brand = mock_model(Brand)
     Brand.stub!(:find).and_return(@brand)
-    @results = (1..10).map { mock_model(SearchResult) }
+    @results = (1..10).map { mock_model(Result) }
   end
   
   describe "handling GET index" do
@@ -29,7 +29,7 @@ describe BrandsController do
     end
     
     it "creates a new search for the search results and assigns it for the view" do
-      SearchResult.
+      Result.
         should_receive(:search).
         with(hash_including("test" => "test")).
         and_return(@search)

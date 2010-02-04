@@ -1,7 +1,7 @@
 class Search < ActiveRecord::Base
   validates_presence_of :term
   has_and_belongs_to_many :brands
-  has_many :results, :class_name => "SearchResult", :foreign_key => "search_id"
+  has_many :results
   
   class << self
     def run
