@@ -61,7 +61,7 @@ describe Search do
           "source"=>"&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;"}
       ]))
       Twitter::Search.stub!(:new).and_return(@twitter_search)
-      @new_result = mock_model(Result, :searches => mock("searches", :null_object => true))
+      @returned_result = mock_model(Result)
     end
 
     it "creates a new twitter search and fetches the results since latest id" do
@@ -89,7 +89,7 @@ describe Search do
             :source => "twitter",
             :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"
           })).
-          and_return(@new_result)
+          and_return(@returned_result)
       end
       @search.run_against_twitter
     end
@@ -119,7 +119,7 @@ describe Search do
       @json_string = open(File.dirname(__FILE__) + "/../fixtures/bdd.json").read
       @json = JSON.parse(@json_string)
       @search = Search.create(:term => "bdd")
-      @new_result = mock_model(Result, :searches => mock("searches", :null_object => true))
+      @returned_result = mock_model(Result)
     end
     
     it "creates a new search result for each result" do
@@ -132,7 +132,7 @@ describe Search do
             :created_at => r["publishedDate"],
             :url => r["postUrl"]
           })
-        ).and_return(@new_result)
+        ).and_return(@returned_result)
       end
       @search.parse_response(@json_string, 33)
     end

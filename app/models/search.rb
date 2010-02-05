@@ -2,7 +2,7 @@ class Search < ActiveRecord::Base
   validates_presence_of :term
   has_and_belongs_to_many :brands
   has_and_belongs_to_many :results
-  
+
   class << self
     def run
       searches = Search.find(:all)
@@ -27,9 +27,8 @@ class Search < ActiveRecord::Base
         :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"      
       }
       
-      # Result.find_by_url_or_create(url, self, options)
       r = Result.find_or_create_by_url(options)
-      r.searches << self unless r.searches.include?(self)
+      results << r unless results.include?(r)
     end
     
     if latest_id.blank? || max_id > latest_id.to_i
@@ -63,9 +62,8 @@ class Search < ActiveRecord::Base
         :url => r["postUrl"]
       }
       
-      # Result.find_by_url_or_create(url, self, options)
       r = Result.find_or_create_by_url(options)
-      r.searches << self unless r.searches.include?(self)
+      results << r unless results.include?(r)
     end
     
     if start == 0
