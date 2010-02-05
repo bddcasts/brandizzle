@@ -1,10 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Search do
-  it { should have_column(:term, :latest_id, :type => :string) }
-  it { should validate_presence_of(:term) }
-  it { should have_and_belong_to_many(:brands) }
-  it { should have_many(:results) }
+  #columns
+  should_have_column :term, :latest_id, :type => :string
+  
+  #validations
+  should_validate_presence_of :term
+  
+  #associations
+  should_have_and_belong_to_many :brands
+  should_have_and_belong_to_many :results
   
   describe "run" do
     before(:each) do
@@ -73,14 +78,15 @@ describe Search do
       @search.run_against_twitter
     end
 
-    it "creates a new search result for each twitter result" do
+    it "finds or creates a new result for each twitter result" do
       @twitter_search.fetch.results.each do |result|
-        @search.results.should_receive(:create).with(hash_including({
-          :created_at => result["created_at"],
-          :body => result["text"],
-          :source => "twitter",
-          :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"
-        }))        
+        url = "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"        
+        Result.should_receive(:find_by_url_or_create).
+          with(url, @search, hash_including({
+            :created_at => result["created_at"],
+            :body => result["text"],
+            :source => "twitter"
+          }))
       end
       @search.run_against_twitter
     end
@@ -114,11 +120,15 @@ describe Search do
     
     it "creates a new search result for each result" do
       @json["responseData"]["results"].each do |r|
-        @search.results.should_receive(:create).with(
-          :source => 'blog',
-          :body => r["content"],
-          :url => r["postUrl"],
-          :created_at => r["publishedDate"]
+        url = r["postUrl"]
+        Result.should_receive(:find_by_url_or_create).with(
+          url,
+          @search,
+          hash_including({
+            :source => 'blog',
+            :body => r["content"],
+            :created_at => r["publishedDate"]
+          })
         )
       end
       @search.parse_response(@json_string, 33)

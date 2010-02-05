@@ -1,7 +1,7 @@
 class Search < ActiveRecord::Base
   validates_presence_of :term
   has_and_belongs_to_many :brands
-  has_many :results
+  has_and_belongs_to_many :results
   
   class << self
     def run
@@ -20,12 +20,15 @@ class Search < ActiveRecord::Base
     max_id = 0
     twitter_results.each do |result|
       max_id = [result["id"], max_id].max
-      results.create(
+
+      url = "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"      
+      options = {
         :source => 'twitter',
         :created_at => result["created_at"],
         :body => result["text"],
-        :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"
-      )
+      }
+      
+      Result.find_by_url_or_create(url, self, options)
     end
     
     if latest_id.blank? || max_id > latest_id.to_i
@@ -51,12 +54,15 @@ class Search < ActiveRecord::Base
     
     json_results = JSON.parse(response)
     json_results["responseData"]["results"].each do |r|
-      results.create(
+
+      url = r["postUrl"]
+      options = {
         :source => 'blog',
         :body => r["content"],
-        :url => r["postUrl"],
         :created_at => r["publishedDate"]
-      )
+      }
+      
+      Result.find_by_url_or_create(url, self, options)
     end
     
     if start == 0

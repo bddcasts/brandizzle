@@ -31,10 +31,10 @@ describe BrandsController do
     it "creates a new search for the search results and assigns it for the view" do
       Result.
         should_receive(:search).
-        with(hash_including("test" => "test")).
+        with(hash_including("follow_up" => "test")).
         and_return(@search)
         
-      do_get(:search => { :test => "test"} )
+      do_get(:search => { :follow_up => "test"} )
       assigns[:search].should == @search
     end
     

@@ -1,10 +1,10 @@
 class Result < ActiveRecord::Base
-  belongs_to :search
-  validates_uniqueness_of :url
+  has_and_belongs_to_many :searches
   
   class << self
-    def per_page
-      15
+    def find_by_url_or_create(url, search, options={})
+      result = find(:first, :conditions => { :url => url }) || create(options.merge(:url => url))
+      result.searches << search unless result.searches.include?(search)
     end
   end
 

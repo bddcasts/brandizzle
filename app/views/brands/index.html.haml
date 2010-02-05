@@ -1,10 +1,10 @@
 .grid_12
   %h2 Latest results
 
-  #filters  
+  #filters
     - form_for @search do |f|    
-      = f.label :search_brands_id_is, "Brand"
-      = f.collection_select(:search_brands_id_is, @brands, :id, :name, { :include_blank => "- All -" })
+      = f.label :searches_brands_id_is, "Brand"
+      = f.collection_select(:searches_brands_id_is, @brands, :id, :name, { :include_blank => "- All -" })
     
       = f.label :source_is, "Source"
       = f.select :source_is, [["twitter", "twitter"], ["blog", "blog"]], :include_blank => "- All -"

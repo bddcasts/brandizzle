@@ -9,7 +9,6 @@ end
 Factory.define(:result) do |f|
   f.sequence(:body) { |i| "Result ##{i}" }
   f.sequence(:url) { |i| "http://twitter.com/someone/statuses/123456#{i}" }
-  f.association :search, :factory => :search
 end
 
 Factory.define(:user) do |f|
