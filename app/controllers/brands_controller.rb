@@ -4,11 +4,11 @@ class BrandsController < ApplicationController
   def index
     @brands = current_user.brands
 
-    @search = Result.search((params[:search] || {}).merge(:searches_brands_user_id_is => current_user.id))
+    @search = Result.search(params[:search]) #((params[:search] || {}).merge(:queries_brands_user_id_is => current_user.id))
     @results = @search.paginate(
       :page => params[:page],
       :per_page => 15,
-      :include => [:searches => :brands],
+      :include => [:queries => :brands],
       :order => "results.created_at DESC")
   end
   
@@ -28,7 +28,7 @@ class BrandsController < ApplicationController
   
   def edit
     @brand = current_user.brands.find(params[:id])
-    @search = Search.new
+    @query = Query.new
   end
   
   def update

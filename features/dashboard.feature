@@ -5,7 +5,7 @@ Feature: Dashboard
   Background: 
     Given I am logged in as "cartman"
       And a brand: "BDDCasts" exists with name: "BDDCasts", user: user "cartman"
-      And there is a search "bdd screencast" for "BDDCasts"
+      And there is a query "bdd screencast" for "BDDCasts"
       
   Scenario: Looking at the dashboard with results
     Given "bdd screencast" has the following results:
@@ -36,7 +36,7 @@ Feature: Dashboard
   
   Scenario: Filter dashboard results by Brand
     Given a brand: "Bar" exists with name: "Bar", user: user "cartman"
-      And there is a search "foo" for "Bar"
+      And there is a query "foo" for "Bar"
       And "bdd screencast" has the following results:
         | source  | body                                  | url                             | created_at        |
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |

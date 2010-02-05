@@ -35,16 +35,16 @@ Feature: Manage Brands
   
   Scenario: Add a search
     Given I am on the brand edit page for "Kerfluegle"
-     When I fill in "search_term" with "jschoolcraft"
+     When I fill in "query_term" with "jschoolcraft"
       And I press "Add term"
-     Then I should see "Added search term."
+     Then I should see "Added query term."
       And I should see "jschoolcraft"
       
   Scenario: Delete a search
-    Given there is a search "jschoolcraft" for "Kerfluegle"
+    Given there is a query "jschoolcraft" for "Kerfluegle"
      When I am on the brand edit page for "Kerfluegle"
-      And I delete search term "jschoolcraft"
-     Then I should see "Deleted search term."
+      And I delete query term "jschoolcraft"
+     Then I should see "Deleted query term."
       And I should not see "jschoolcraft"
   
   

@@ -107,7 +107,7 @@ describe BrandsController do
 
   describe "handling GET edit" do
     before(:each) do
-      @search = mock_model(Search)
+      @query = mock_model(Query)
     end
     
     def do_get
@@ -120,10 +120,10 @@ describe BrandsController do
       assigns[:brand].should == @brand
     end
 
-    it "should create a new search and assign it for the view" do
-      Search.should_receive(:new).and_return(@search)
+    it "should create a new query and assign it for the view" do
+      Query.should_receive(:new).and_return(@query)
       do_get
-      assigns[:search].should == @search
+      assigns[:query].should == @query
     end
     
     it "should render the edit template" do

@@ -9,50 +9,50 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100205072828) do
+ActiveRecord::Schema.define(:version => 20100205115518) do
+
+  create_table "brand_queries", :force => true do |t|
+    t.integer "brand_id"
+    t.integer "query_id"
+  end
+
+  add_index "brand_queries", ["brand_id", "query_id"], :name => "index_brand_queries_on_brand_id_and_query_id"
+  add_index "brand_queries", ["brand_id"], :name => "index_brand_queries_on_brand_id"
+  add_index "brand_queries", ["query_id"], :name => "index_brand_queries_on_query_id"
 
   create_table "brands", :force => true do |t|
+    t.integer  "user_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
-  create_table "brands_searches", :id => false, :force => true do |t|
-    t.integer "brand_id"
-    t.integer "search_id"
+  create_table "queries", :force => true do |t|
+    t.string   "term"
+    t.string   "latest_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "brands_searches", ["brand_id", "search_id"], :name => "index_brands_searches_on_brand_id_and_search_id"
-  add_index "brands_searches", ["brand_id"], :name => "index_brands_searches_on_brand_id"
-  add_index "brands_searches", ["search_id"], :name => "index_brands_searches_on_search_id"
 
   create_table "results", :force => true do |t|
     t.text     "body"
     t.string   "source"
     t.string   "url"
+    t.boolean  "follow_up"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "follow_up"
   end
 
   add_index "results", ["url"], :name => "index_results_on_url", :unique => true
 
-  create_table "results_searches", :id => false, :force => true do |t|
-    t.integer "search_id"
+  create_table "search_results", :force => true do |t|
+    t.integer "query_id"
     t.integer "result_id"
   end
 
-  add_index "results_searches", ["result_id"], :name => "index_results_searches_on_result_id"
-  add_index "results_searches", ["search_id", "result_id"], :name => "index_results_searches_on_search_id_and_result_id"
-  add_index "results_searches", ["search_id"], :name => "index_results_searches_on_search_id"
-
-  create_table "searches", :force => true do |t|
-    t.string   "term"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "latest_id"
-  end
+  add_index "search_results", ["query_id", "result_id"], :name => "index_search_results_on_query_id_and_result_id"
+  add_index "search_results", ["query_id"], :name => "index_search_results_on_query_id"
+  add_index "search_results", ["result_id"], :name => "index_search_results_on_result_id"
 
   create_table "users", :force => true do |t|
     t.string   "login",                                :null => false
@@ -61,9 +61,9 @@ ActiveRecord::Schema.define(:version => 20100205072828) do
     t.string   "password_salt",                        :null => false
     t.string   "persistence_token",                    :null => false
     t.string   "perishable_token",                     :null => false
+    t.boolean  "active",            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",            :default => false, :null => false
   end
 
 end

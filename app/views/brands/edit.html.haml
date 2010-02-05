@@ -8,20 +8,20 @@
 .clear
 
 .grid_6
-  - form_for [@brand, @search] do |f|
+  - form_for [@brand, @query] do |f|
     %fieldset
-      %legend Searches
+      %legend Queries
     
       = f.text_field :term
       = f.submit 'Add term'
       
       %hr
       
-      %ul#searches
-        - @brand.searches.each do |search|
+      %ul#queries
+        - @brand.queries.each do |query|
           %li
-            =h search.term
-            = link_to "Remove", brand_search_path(@brand, search), :method => :delete, :id => dom_id(search, :delete), :class => 'delete'
+            = h query.term
+            = link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete'
   
 .grid_6
   - form_for @brand do |f|

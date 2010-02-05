@@ -2,7 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => "user_sessions", :action => "new"
   
   map.resources :brands do |brand|
-    brand.resources :searches, :only => [:create, :update, :destroy]
+    brand.resources :queries, :only => [:create, :update, :destroy]
   end
   map.resources :results, :only => [], :member => { :follow_up => :post }
   

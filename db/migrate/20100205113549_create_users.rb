@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string    :password_salt,       :null => false
       t.string    :persistence_token,   :null => false
       t.string    :perishable_token,    :null => false
+      t.boolean   :active,              :null => false, :default => false
       
       t.timestamps
     end

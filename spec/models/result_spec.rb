@@ -9,7 +9,8 @@ describe Result do
   it { should have_index(:url).unique(true) }
   
   #associations
-  should_have_and_belong_to_many :searches
+  should_have_many :search_results
+  should_have_many :queries, :through => :search_results
   
   describe "#toggle_follow_up" do
     it "should set follow_up to true if not set" do

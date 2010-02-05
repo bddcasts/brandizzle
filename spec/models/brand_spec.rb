@@ -4,71 +4,72 @@ describe Brand do
   #columns
   should_have_column :name, :type => :string
   
+  #associations
+  should_have_many :brand_queries
+  should_have_many :queries, :through => :brand_queries
+  should_belong_to :user
+  
   #validations
   should_validate_presence_of :name
   
-  #associations
-  should_have_and_belong_to_many :searches
-  should_belong_to :user
-  
-  describe "#add_search" do
+  describe "#add_query" do
     before(:each) do
       @brand = Factory.create(:brand)
     end
     
-    it "creates a new search associated if it does not exist yet" do
+    it "creates a new query associated if it does not exist yet" do
       lambda {
-        @brand.add_search('foo')
-      }.should change(Search, :count)
-      @brand.searches.map(&:term).should include('foo')
+        @brand.add_query('foo')
+      }.should change(Query, :count)
+      @brand.queries.map(&:term).should include('foo')
     end
     
-    it "for an existing search it associates it with the brand and does not create a new one" do
-      @search = Factory.create(:search, :term => 'foo')
+    it "for an existing query it associates it with the brand and does not create a new one" do
+      @query = Factory.create(:query, :term => 'foo')
       lambda {
-        @brand.add_search('foo')
-      }.should_not change(Search, :count)
-      @brand.searches.map(&:term).should include('foo')
+        @brand.add_query('foo')
+      }.should_not change(Query, :count)
+      @brand.queries.map(&:term).should include('foo')
     end
     
-    it "returns the search" do
-      @search = @brand.add_search('foo')
-      @search.term.should == 'foo'
+    it "returns the query" do
+      @query = @brand.add_query('foo')
+      @query.term.should == 'foo'
     end
   end
   
   describe "#remove_search" do
     before(:each) do
       @brand = Factory.create(:brand)
-      @bar_search = @brand.add_search('bar')
+      @bar_query = @brand.add_query('bar')
     end
     
-    it "removes the search from the brand" do
-      @brand.remove_search(@bar_search)
-      @brand.searches.map(&:term).should_not include('bar')
+    it "removes the query from the brand" do
+      @brand.remove_query(@bar_query)
+      @brand.queries.map(&:term).should_not include('bar')
     end
     
-    it "does not destroy the search if it is associated to any brand" do
+    it "does not destroy the query if it is associated to any brand" do
       another_brand = Factory.create(:brand)
-      another_brand.add_search('bar')
+      another_brand.add_query('bar')
       lambda {
-        @brand.remove_search(@bar_search)
-      }.should_not change(Search, :count)
+        @brand.remove_query(@bar_query)
+      }.should_not change(Query, :count)
     end
     
-    it "destroys the search if it is no longer associated to any brand" do
+    it "destroys the query if it is no longer associated to any brand" do
       lambda {
-        @brand.remove_search(@bar_search)
-      }.should change(Search, :count).by(-1)
-      Search.find_by_term('bar').should be_nil
+        @brand.remove_query(@bar_query)
+      }.should change(Query, :count).by(-1)
+      Query.find_by_term('bar').should be_nil
     end
     
-    it "does nothing for a search not associated with the brand" do
+    it "does nothing for a query not associated with the brand" do
       another_brand = Factory.create(:brand)
-      foo_search = another_brand.add_search('foo')
+      foo_query = another_brand.add_query('foo')
       lambda {
-        @brand.remove_search(foo_search)
-      }.should_not change(Search, :count)
+        @brand.remove_query(foo_query)
+      }.should_not change(Query, :count)
     end
   end
 end

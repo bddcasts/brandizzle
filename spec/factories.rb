@@ -3,8 +3,12 @@ Factory.define(:brand) do |f|
   f.association :user
 end
 
-Factory.define(:search) do |f|
-  f.sequence(:term) { |i| "Search term #{i}" }
+Factory.define(:query) do |f|
+  f.sequence(:term) { |i| "Query term #{i}" }
+end
+
+Factory.define(:since_query, :parent => :query) do |f|
+  f.latest_id "1234"
 end
 
 Factory.define(:result) do |f|

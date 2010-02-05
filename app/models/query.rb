@@ -1,14 +1,17 @@
-class Search < ActiveRecord::Base
+class Query < ActiveRecord::Base
   validates_presence_of :term
-  has_and_belongs_to_many :brands
-  has_and_belongs_to_many :results
+  has_many :brand_queries
+  has_many :brands, :through => :brand_queries
+  
+  has_many :search_results
+  has_many :results, :through => :search_results
 
   class << self
     def run
-      searches = Search.find(:all)
-      searches.each do |search|
-        search.run_against_twitter
-        search.run_against_blog_search
+      queries = Query.find(:all)
+      queries.each do |query|
+        query.run_against_twitter
+        query.run_against_blog_search
       end
     end
   end
@@ -27,8 +30,8 @@ class Search < ActiveRecord::Base
         :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"      
       }
       
-      r = Result.find_or_create_by_url(options)
-      results << r unless results.include?(r)
+      returned_result = Result.find_or_create_by_url(options)
+      results << returned_result unless results.include?(returned_result)
     end
     
     if latest_id.blank? || max_id > latest_id.to_i
@@ -62,8 +65,8 @@ class Search < ActiveRecord::Base
         :url => r["postUrl"]
       }
       
-      r = Result.find_or_create_by_url(options)
-      results << r unless results.include?(r)
+      returned_result = Result.find_or_create_by_url(options)
+      results << returned_result unless results.include?(returned_result)
     end
     
     if start == 0

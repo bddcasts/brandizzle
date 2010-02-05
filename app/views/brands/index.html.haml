@@ -3,8 +3,8 @@
 
   #filters
     - form_for @search do |f|    
-      = f.label :searches_brands_id_is, "Brand"
-      = f.collection_select(:searches_brands_id_is, @brands, :id, :name, { :include_blank => "- All -" })
+      = f.label :queries_brands_id_is, "Brand"
+      = f.collection_select :queries_brands_id_is, @brands, :id, :name, { :include_blank => "- All -" }
     
       = f.label :source_is, "Source"
       = f.select :source_is, [["twitter", "twitter"], ["blog", "blog"]], :include_blank => "- All -"

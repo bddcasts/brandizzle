@@ -1,24 +1,24 @@
-Given /^there is a search "([^\"]*)" for "([^\"]*)"$/ do |term, brand_name|
+Given /^there is a query "([^\"]*)" for "([^\"]*)"$/ do |term, brand_name|
   brand = Brand.find_by_name(brand_name)
-  brand.add_search(term)
+  brand.add_query(term)
 end
 
-When /^I delete search term "([^\"]*)"$/ do |search_term|
-  search = Search.find_by_term(search_term)
-  click_link("delete_search_#{search.id}")
+When /^I delete query term "([^\"]*)"$/ do |query_term|
+  query = Query.find_by_term(query_term)
+  click_link("delete_query_#{query.id}")
 end
 
-Given /^"([^\"]*)" has the following results:$/ do |search_term, table|
-  search = Search.find_by_term(search_term)
+Given /^"([^\"]*)" has the following results:$/ do |query_term, table|
+  query = Query.find_by_term(query_term)
   table.hashes.each do |result|
-    search.results.create!(result)
+    query.results.create!(result)
   end
 end
 
-Given /^"([^\"]*)" has (\d+) results$/ do |search_term, results|
-  search = Search.find_by_term(search_term)
+Given /^"([^\"]*)" has (\d+) results$/ do |query_term, results|
+  query = Query.find_by_term(query_term)
   1.upto(results.to_i) do |index|
-    search.results.create!(
+    query.results.create!(
       :body => "Result ##{index}", 
       :url => "http://www.example-#{index}.com/foo",
       :created_at => index.hours.ago)

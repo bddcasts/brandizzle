@@ -1,18 +1,21 @@
 class Brand < ActiveRecord::Base
-  validates_presence_of :name
-  has_and_belongs_to_many :searches
   belongs_to :user
   
-  def add_search(term)
-    search = Search.find_or_create_by_term(term)
-    searches << search
-    search
+  has_many :brand_queries
+  has_many :queries, :through => :brand_queries
+  
+  validates_presence_of :name
+  
+  def add_query(term)
+    query = Query.find_or_create_by_term(term)
+    queries << query
+    query
   end
   
-  def remove_search(search)
-    if searches.include?(search)
-      searches.delete(search)
-      search.destroy if search.brands.count == 0
+  def remove_query(query)
+    if queries.include?(query)
+      queries.delete(query)
+      query.destroy if query.brands.count == 0
     end
   end
 end

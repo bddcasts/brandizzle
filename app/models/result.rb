@@ -1,5 +1,6 @@
 class Result < ActiveRecord::Base
-  has_and_belongs_to_many :searches
+  has_many :search_results
+  has_many :queries, :through => :search_results
 
   def toggle_follow_up
     update_attribute(:follow_up, !follow_up?)

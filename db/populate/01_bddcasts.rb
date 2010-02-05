@@ -10,16 +10,16 @@ cristi.activate!
 [istvan, jeff, cristi].each_with_index do |user, index|
   bddcasts = Brand.create_or_update(:id => index+1, :name => 'BDDCasts', :user => user)
   
-  bddcasts.add_search('bddcasts')
-  bddcasts.add_search('bdd screencasts')
-  bddcasts.add_search(user.login)
+  bddcasts.add_query('bddcasts')
+  bddcasts.add_query('bdd screencasts')
+  bddcasts.add_query(user.login)
   # bddcasts.add_search('cucumber rspec screencast')
   # bddcasts.add_search('behavior driven development')
   
   railsbridge = Brand.create_or_update(:id => index+4, :name => 'RailsBridge', :user => user)
   
-  railsbridge.add_search('railsbridge')
-  railsbridge.add_search('rails workshop')
+  railsbridge.add_query('railsbridge')
+  railsbridge.add_query('rails workshop')
   # railsbridge.add_search('railstutor')
   # railsbridge.add_search('rails mentor')
   # railsbridge.add_search('rails activist')
