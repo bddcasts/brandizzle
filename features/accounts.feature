@@ -23,7 +23,7 @@ Feature: User Accounts
      Then I should see "[Brandizzle.com] Activation Instructions" in the email subject
       And a clear email queue
      When I click the first link in the email
-     Then I should be on the homepage
+     Then I should be on the dashboard
       And I should see "Welcome cartman! Your account has been activated!"      
       And "cartman@example.com" should receive an email
      When I open the email
@@ -46,7 +46,7 @@ Feature: User Accounts
       And I fill in "Login" with "Cartman"
       And I fill in "Password" with "secret"
       And I press "Login"
-     Then I should be on the homepage
+     Then I should be on the dashboard
       And I should see "Welcome Cartman"
   
   Scenario: Failing to log in
@@ -57,8 +57,8 @@ Feature: User Accounts
      Then I should see "is not valid"
      
   Scenario: Logging out
-    Given I am logged in
-      And I am on the homepage
+    Given I am logged in as "cartman"
+      And I am on the dashboard
      When I follow "Sign out"
      Then I should be on the homepage
       And I should see "Logout successful!"

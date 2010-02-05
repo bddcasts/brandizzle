@@ -9,6 +9,9 @@ describe User do
                      :persistence_token,
                      :perishable_token,
                      :type => :string
+
+  #associations
+  should_have_many :brands
   
   describe "#active?" do
     it "returns true if user is active" do

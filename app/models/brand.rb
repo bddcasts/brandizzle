@@ -1,6 +1,7 @@
 class Brand < ActiveRecord::Base
   validates_presence_of :name
   has_and_belongs_to_many :searches
+  belongs_to :user
   
   def add_search(term)
     search = Search.find_or_create_by_term(term)

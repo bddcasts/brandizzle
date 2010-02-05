@@ -2,8 +2,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe BrandsController do
   before(:each) do
-    @brand = mock_model(Brand)
-    Brand.stub!(:find).and_return(@brand)
+    login_user
+    @brand = mock_model(Brand, :user => current_user)
+    current_user.stub_chain(:brands, :find).and_return(@brand)
     @results = (1..10).map { mock_model(Result) }
   end
   
@@ -18,7 +19,7 @@ describe BrandsController do
     end
     
     it "should find all the brands and assign them for the view" do
-      Brand.should_receive(:all).and_return(@brands)
+      current_user.should_receive(:brands).and_return(@brands)
       do_get
       assigns[:brands].should == @brands
     end
@@ -49,12 +50,17 @@ describe BrandsController do
   end
 
   describe "handling GET new" do
+    before(:each) do
+      @brand = mock_model(Brand)
+      current_user.stub_chain(:brands, :build).and_return(@brand)
+    end
+    
     def do_get
       get :new
     end
     
     it "should build an empty brand and assign it for the view" do
-      Brand.should_receive(:new).and_return(@brand)
+      current_user.brands.should_receive(:build).and_return(@brand)
       do_get
       assigns[:brand].should == @brand
     end
@@ -67,7 +73,8 @@ describe BrandsController do
 
   describe "handling POST create" do
     before(:each) do
-      Brand.stub!(:new).and_return(@brand)
+      @brand = mock_model(Brand)
+      current_user.stub_chain(:brands, :build).and_return(@brand)
     end
     
     def post_with_valid_attributes
@@ -81,7 +88,7 @@ describe BrandsController do
     end
     
     it "builds a new Brand from params and assigns it for the view" do
-      Brand.should_receive(:new).with("name" => "a_new_brand").and_return(@brand)
+      current_user.brands.should_receive(:build).with("name" => "a_new_brand").and_return(@brand)
       post_with_valid_attributes
       assigns[:brand].should == @brand
     end
@@ -108,7 +115,7 @@ describe BrandsController do
     end  
     
     it "should find the specified brand and assign it for the view" do
-      Brand.should_receive(:find).with("37").and_return(@brand)
+      current_user.brands.should_receive(:find).with("37").and_return(@brand)
       do_get
       assigns[:brand].should == @brand
     end
@@ -138,7 +145,7 @@ describe BrandsController do
     
     
     it "finds the specified brand and assigns it for the view" do
-      Brand.should_receive(:find).with("34").and_return(@brand)
+      current_user.brands.should_receive(:find).with("34").and_return(@brand)
       put_with_valid_attributes
       assigns[:brand].should == @brand
     end
@@ -165,7 +172,7 @@ describe BrandsController do
     end
     
     it "finds the specified brand" do
-      Brand.should_receive(:find).with("55").and_return(@brand)
+      current_user.brands.should_receive(:find).with("55").and_return(@brand)
       do_delete
     end
     

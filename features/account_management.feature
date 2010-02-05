@@ -4,14 +4,14 @@ Feature: Account management
   I want to manage my account information
   
   Scenario: Visiting my account
-    Given I am logged in
-      And I am on the homepage
+    Given I am logged in as "cartman"
+      And I am on the dashboard
      When I follow "My account"
      Then I should be on my account page
       And I should see "Edit your account information"
   
   Scenario: Update password
-    Given I am logged in
+    Given I am logged in as "cartman"
       And I am on my account page
       And I fill in "Password" with "better_secret"
       And I fill in "Password confirmation" with "better_secret"
@@ -34,5 +34,5 @@ Feature: Account management
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Update my password and log me in"
-     Then I should be on the homepage
+     Then I should be on the dashboard
       And I should see "Password successfully updated!"

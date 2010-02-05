@@ -3,7 +3,7 @@ class ResultsController < ApplicationController
   
   def follow_up
     @result.toggle_follow_up
-    redirect_to request.referer || root_path
+    redirect_to request.referer || brands_path
   end
 
   private

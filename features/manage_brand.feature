@@ -4,7 +4,8 @@ Feature: Manage Brands
   I want to manage my brands
 
   Background:
-    Given an existing brand "Kerfluegle"
+    Given I am logged in as "cartman"
+      And a brand exists with name: "Kerfluegle", user: user "cartman"
 
   Scenario: A user sees the dashboard
     Given I am on the dashboard

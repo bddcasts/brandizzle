@@ -61,6 +61,7 @@ describe Search do
           "source"=>"&lt;a href=&quot;http://www.tweetdeck.com/&quot;&gt;TweetDeck&lt;/a&gt;"}
       ]))
       Twitter::Search.stub!(:new).and_return(@twitter_search)
+      @new_result = mock_model(Result, :searches => mock("searches", :null_object => true))
     end
 
     it "creates a new twitter search and fetches the results since latest id" do
@@ -80,13 +81,15 @@ describe Search do
 
     it "finds or creates a new result for each twitter result" do
       @twitter_search.fetch.results.each do |result|
-        url = "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"        
-        Result.should_receive(:find_by_url_or_create).
-          with(url, @search, hash_including({
+        Result.
+          should_receive(:find_or_create_by_url).
+          with(hash_including({
             :created_at => result["created_at"],
             :body => result["text"],
-            :source => "twitter"
-          }))
+            :source => "twitter",
+            :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"
+          })).
+          and_return(@new_result)
       end
       @search.run_against_twitter
     end
@@ -116,20 +119,20 @@ describe Search do
       @json_string = open(File.dirname(__FILE__) + "/../fixtures/bdd.json").read
       @json = JSON.parse(@json_string)
       @search = Search.create(:term => "bdd")
+      @new_result = mock_model(Result, :searches => mock("searches", :null_object => true))
     end
     
     it "creates a new search result for each result" do
       @json["responseData"]["results"].each do |r|
-        url = r["postUrl"]
-        Result.should_receive(:find_by_url_or_create).with(
-          url,
-          @search,
-          hash_including({
+        Result.
+          should_receive(:find_or_create_by_url).
+          with(hash_including({
             :source => 'blog',
             :body => r["content"],
-            :created_at => r["publishedDate"]
+            :created_at => r["publishedDate"],
+            :url => r["postUrl"]
           })
-        )
+        ).and_return(@new_result)
       end
       @search.parse_response(@json_string, 33)
     end

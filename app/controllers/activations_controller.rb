@@ -11,6 +11,6 @@ class ActivationsController < ApplicationController
     UserSession.create(@user)
   
     flash[:notice] = "Welcome #{@user}! Your account has been activated!"
-    redirect_to root_path
+    redirect_to brands_path
   end
 end

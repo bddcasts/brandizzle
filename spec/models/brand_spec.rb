@@ -1,9 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Brand do
-  it { should have_column(:name, :type => :string) }
-  it { should validate_presence_of(:name) }
-  it { should have_and_belong_to_many(:searches) }
+  #columns
+  should_have_column :name, :type => :string
+  
+  #validations
+  should_validate_presence_of :name
+  
+  #associations
+  should_have_and_belong_to_many :searches
+  should_belong_to :user
   
   describe "#add_search" do
     before(:each) do

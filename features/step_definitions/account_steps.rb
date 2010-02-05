@@ -1,11 +1,7 @@
-Given /^I log in with login: "([^\"]*)", password: "([^\"]*)"$/ do |login, password|
-  user = User.find_by_login(login) || Factory.create(:user, :login => login, :password => password)
+Given /^I am logged in as "([^\"]*)"$/ do |login|
+  Given %Q{a user: "#{login}" exists with login: "#{login}", password: "secret"}
   When %Q{I am on the login page}
    And %Q{I fill in "Login" with "#{login}"}
-   And %Q{I fill in "Password" with "#{password}"}
+   And %Q{I fill in "Password" with "secret"}
    And %Q{I press "Login"}
-end
-
-Given /^I am logged in$/ do
-  Given %Q{I log in with login: "my_login", password: "secret"}
 end

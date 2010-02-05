@@ -1,8 +1,10 @@
 class BrandsController < ApplicationController
+  before_filter :require_user
+  
   def index
-    @brands = Brand.all
+    @brands = current_user.brands
 
-    @search = Result.search(params[:search])
+    @search = Result.search((params[:search] || {}).merge(:searches_brands_user_id_is => current_user.id))
     @results = @search.paginate(
       :page => params[:page],
       :per_page => 15,
@@ -11,11 +13,11 @@ class BrandsController < ApplicationController
   end
   
   def new
-    @brand = Brand.new
+    @brand = current_user.brands.build
   end
   
   def create
-    @brand = Brand.new(params[:brand])
+    @brand = current_user.brands.build(params[:brand])
     if @brand.save
       flash[:notice] = "Brand successfully created."
       redirect_to edit_brand_path(@brand)
@@ -25,12 +27,12 @@ class BrandsController < ApplicationController
   end
   
   def edit
-    @brand = Brand.find(params[:id])
+    @brand = current_user.brands.find(params[:id])
     @search = Search.new
   end
   
   def update
-    @brand = Brand.find(params[:id])
+    @brand = current_user.brands.find(params[:id])
     if @brand.update_attributes(params[:brand])
       flash[:notice] = "Brand updated."
       redirect_to edit_brand_path(@brand)
@@ -40,7 +42,7 @@ class BrandsController < ApplicationController
   end
   
   def destroy
-    @brand = Brand.find(params[:id])
+    @brand = current_user.brands.find(params[:id])
     @brand.destroy
     flash[:notice] = "Brand deleted."
     redirect_to brands_path

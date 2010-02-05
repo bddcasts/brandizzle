@@ -1,5 +1,6 @@
 Factory.define(:brand) do |f|
   f.sequence(:name) { |i| "Brand #{i}" }
+  f.association :user
 end
 
 Factory.define(:search) do |f|

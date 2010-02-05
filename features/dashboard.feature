@@ -3,7 +3,9 @@ Feature: Dashboard
   I want to see results in a dashboard
   
   Background: 
-    Given there is a search "bdd screencast" for "BDDCasts"
+    Given I am logged in as "cartman"
+      And a brand: "BDDCasts" exists with name: "BDDCasts", user: user "cartman"
+      And there is a search "bdd screencast" for "BDDCasts"
       
   Scenario: Looking at the dashboard with results
     Given "bdd screencast" has the following results:
@@ -33,7 +35,8 @@ Feature: Dashboard
       And I should not see "Result #15"
   
   Scenario: Filter dashboard results by Brand
-    Given there is a search "foo" for "Bar"
+    Given a brand: "Bar" exists with name: "Bar", user: user "cartman"
+      And there is a search "foo" for "Bar"
       And "bdd screencast" has the following results:
         | source  | body                                  | url                             | created_at        |
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |

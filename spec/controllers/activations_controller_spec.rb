@@ -36,7 +36,7 @@ describe ActivationsController do
     it "sets the flash message and redirects to home page" do
       do_get
       flash[:notice].should_not be_nil
-      response.should redirect_to(root_path)
+      response.should redirect_to(brands_path)
     end
   end
 end

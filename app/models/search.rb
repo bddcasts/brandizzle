@@ -20,15 +20,16 @@ class Search < ActiveRecord::Base
     max_id = 0
     twitter_results.each do |result|
       max_id = [result["id"], max_id].max
-
-      url = "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"      
       options = {
         :source => 'twitter',
         :created_at => result["created_at"],
         :body => result["text"],
+        :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"      
       }
       
-      Result.find_by_url_or_create(url, self, options)
+      # Result.find_by_url_or_create(url, self, options)
+      r = Result.find_or_create_by_url(options)
+      r.searches << self unless r.searches.include?(self)
     end
     
     if latest_id.blank? || max_id > latest_id.to_i
@@ -55,14 +56,16 @@ class Search < ActiveRecord::Base
     json_results = JSON.parse(response)
     json_results["responseData"]["results"].each do |r|
 
-      url = r["postUrl"]
       options = {
         :source => 'blog',
         :body => r["content"],
-        :created_at => r["publishedDate"]
+        :created_at => r["publishedDate"],
+        :url => r["postUrl"]
       }
       
-      Result.find_by_url_or_create(url, self, options)
+      # Result.find_by_url_or_create(url, self, options)
+      r = Result.find_or_create_by_url(options)
+      r.searches << self unless r.searches.include?(self)
     end
     
     if start == 0
