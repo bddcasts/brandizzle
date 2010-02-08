@@ -1,10 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => "user_sessions", :action => "new"
   
-  map.resources :brands do |brand|
+  map.resources :brands, :except => [:index] do |brand|
     brand.resources :queries, :only => [:create, :update, :destroy]
   end
-  map.resources :results, :only => [], :member => { :follow_up => :post }
+  map.resources :brand_results, :only => [:index], :member => { :follow_up => :post }
   
   map.resources :users
   map.resource :user_session

@@ -7,6 +7,8 @@ describe Brand do
   #associations
   should_have_many :brand_queries
   should_have_many :queries, :through => :brand_queries
+  should_have_many :brand_results
+  should_have_many :results, :through => :brand_results
   should_belong_to :user
   
   #validations

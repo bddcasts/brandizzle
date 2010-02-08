@@ -1,17 +1,6 @@
 class BrandsController < ApplicationController
   before_filter :require_user
-  
-  def index
-    @brands = current_user.brands
-
-    @search = Result.search(params[:search]) #((params[:search] || {}).merge(:queries_brands_user_id_is => current_user.id))
-    @results = @search.paginate(
-      :page => params[:page],
-      :per_page => 15,
-      :include => [:queries => :brands],
-      :order => "results.created_at DESC")
-  end
-  
+    
   def new
     @brand = current_user.brands.build
   end
@@ -45,6 +34,6 @@ class BrandsController < ApplicationController
     @brand = current_user.brands.find(params[:id])
     @brand.destroy
     flash[:notice] = "Brand deleted."
-    redirect_to brands_path
+    redirect_to brand_results_path
   end
 end

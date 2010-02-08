@@ -10,7 +10,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
       flash[:notice] = "Welcome #{@user_session.record}!"
-      redirect_back_or_default brands_path
+      redirect_back_or_default brand_results_path
     else
       render :action => :new
     end

@@ -64,7 +64,7 @@ describe Query do
       ]))
       Twitter::Search.stub!(:new).and_return(@twitter_search)
       
-      @returned_result = mock_model(Result)
+      @returned_result = Factory.create(:result)
     end
 
     it "creates a new twitter search and fetches the results since latest id" do
@@ -96,6 +96,20 @@ describe Query do
       end
       @query.run_against_twitter
     end
+    
+    it "links the returned (found or newly created) result to the current query" do
+      Result.stub!(:find_or_create_by_url).and_return(@returned_result)
+      @query.run_against_twitter
+      @query.results.should include(@returned_result)
+    end
+    
+    it "links the returned (found or newly created) result to the current query's brands" do
+      @brand = Factory.create(:brand)
+      Factory.create(:brand_query, :brand => @brand, :query => @query)
+      Result.stub!(:find_or_create_by_url).and_return(@returned_result)
+      @query.run_against_twitter
+      @brand.results.should include(@returned_result)
+    end
 
     it "saves the message id for the latest twitter result" do
       lambda {
@@ -122,7 +136,7 @@ describe Query do
       @json_string = open(File.dirname(__FILE__) + "/../fixtures/bdd.json").read
       @json = JSON.parse(@json_string)
       @query = Factory.create(:query)
-      @returned_result = mock_model(Result)
+      @returned_result = Factory.create(:result)
     end
     
     it "creates a new result for each result" do
@@ -140,6 +154,20 @@ describe Query do
       @query.parse_response(@json_string, 33)
     end
     
+    it "links the returned (found or newly created) to the current query" do
+      Result.stub!(:find_or_create_by_url).and_return(@returned_result)
+      @query.parse_response(@json_string, 33)
+      @query.results.should include(@returned_result)
+    end
+
+    it "links the returned (found or newly created) to the current query's brands" do
+      @brand = Factory.create(:brand)
+      Factory.create(:brand_query, :brand => @brand, :query => @query)
+      Result.stub!(:find_or_create_by_url).and_return(@returned_result)
+      @query.parse_response(@json_string, 33)
+      @brand.results.should include(@returned_result)
+    end
+    
     it "returns an array with all the start indices to fetch if start == 0" do
       @query.parse_response(@json_string, 0).should == [8, 16, 24, 32, 40, 48, 56]
     end
@@ -147,7 +175,6 @@ describe Query do
     it "returns an empty array if start >= 0" do
       @query.parse_response(@json_string, 1).should be_empty
     end
-    
   end
 
   describe "#run_against_blog_search" do

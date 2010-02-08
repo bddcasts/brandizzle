@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100205115518) do
+ActiveRecord::Schema.define(:version => 20100208082457) do
 
   create_table "brand_queries", :force => true do |t|
     t.integer "brand_id"
@@ -19,6 +19,18 @@ ActiveRecord::Schema.define(:version => 20100205115518) do
   add_index "brand_queries", ["brand_id", "query_id"], :name => "index_brand_queries_on_brand_id_and_query_id"
   add_index "brand_queries", ["brand_id"], :name => "index_brand_queries_on_brand_id"
   add_index "brand_queries", ["query_id"], :name => "index_brand_queries_on_query_id"
+
+  create_table "brand_results", :force => true do |t|
+    t.integer  "brand_id"
+    t.integer  "result_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "follow_up",  :default => false
+  end
+
+  add_index "brand_results", ["brand_id", "result_id"], :name => "index_brand_results_on_brand_id_and_result_id"
+  add_index "brand_results", ["brand_id"], :name => "index_brand_results_on_brand_id"
+  add_index "brand_results", ["result_id"], :name => "index_brand_results_on_result_id"
 
   create_table "brands", :force => true do |t|
     t.integer  "user_id"
@@ -38,7 +50,6 @@ ActiveRecord::Schema.define(:version => 20100205115518) do
     t.text     "body"
     t.string   "source"
     t.string   "url"
-    t.boolean  "follow_up"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

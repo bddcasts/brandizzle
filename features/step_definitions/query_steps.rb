@@ -11,17 +11,19 @@ end
 Given /^"([^\"]*)" has the following results:$/ do |query_term, table|
   query = Query.find_by_term(query_term)
   table.hashes.each do |result|
-    query.results.create!(result)
+    r = query.results.create!(result)
+    r.brands << query.brands
   end
 end
 
 Given /^"([^\"]*)" has (\d+) results$/ do |query_term, results|
   query = Query.find_by_term(query_term)
   1.upto(results.to_i) do |index|
-    query.results.create!(
+    r = query.results.create!(
       :body => "Result ##{index}", 
       :url => "http://www.example-#{index}.com/foo",
       :created_at => index.hours.ago)
+    r.brands << query.brands
   end
 end
 

@@ -3,6 +3,11 @@ Factory.define(:brand) do |f|
   f.association :user
 end
 
+Factory.define(:brand_query) do |f|
+  f.association :brand
+  f.association :query
+end
+
 Factory.define(:query) do |f|
   f.sequence(:term) { |i| "Query term #{i}" }
 end
@@ -14,6 +19,12 @@ end
 Factory.define(:result) do |f|
   f.sequence(:body) { |i| "Result ##{i}" }
   f.sequence(:url) { |i| "http://twitter.com/someone/statuses/123456#{i}" }
+end
+
+Factory.define(:brand_result) do |f|
+  f.association :brand
+  f.association :result
+  f.follow_up false
 end
 
 Factory.define(:user) do |f|

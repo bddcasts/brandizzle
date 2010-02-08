@@ -28,7 +28,7 @@ class PasswordResetsController < ApplicationController
     
     if @user.save
       flash[:notice] = "Password successfully updated!"
-      redirect_to brands_path
+      redirect_to brand_results_path
     else
       render :edit
     end

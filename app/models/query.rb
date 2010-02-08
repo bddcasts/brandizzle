@@ -21,7 +21,7 @@ class Query < ActiveRecord::Base
     twitter_results = twitter_search.fetch().results
     
     max_id = 0
-    twitter_results.each do |result|
+    returned_results = twitter_results.map do |result|
       max_id = [result["id"], max_id].max
       options = {
         :source => 'twitter',
@@ -32,11 +32,26 @@ class Query < ActiveRecord::Base
       
       returned_result = Result.find_or_create_by_url(options)
       results << returned_result unless results.include?(returned_result)
+      
+      returned_result
     end
+    
+    link_brand_results(returned_results.map(&:id))
+    # self.send_later(:link_brand_results, returned_results.map(&:id))
     
     if latest_id.blank? || max_id > latest_id.to_i
       self.latest_id = max_id 
       save
+    end
+  end
+  
+  def link_brand_results(returned_results_ids)
+    returned_results = Result.find(returned_results_ids)
+    
+    returned_results.each do |returned_result|
+      brands.each do |brand|
+        returned_result.brands << brand unless returned_result.brands.include?(brand)
+      end
     end
   end
 
@@ -56,7 +71,7 @@ class Query < ActiveRecord::Base
     pages = []
     
     json_results = JSON.parse(response)
-    json_results["responseData"]["results"].each do |r|
+    returned_results = json_results["responseData"]["results"].map do |r|
 
       options = {
         :source => 'blog',
@@ -67,7 +82,11 @@ class Query < ActiveRecord::Base
       
       returned_result = Result.find_or_create_by_url(options)
       results << returned_result unless results.include?(returned_result)
+      
+      returned_result
     end
+    
+    link_brand_results(returned_results.map(&:id))
     
     if start == 0
       json_results["responseData"]["cursor"]["pages"].each do |p|

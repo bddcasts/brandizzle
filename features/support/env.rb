@@ -48,6 +48,11 @@ ActionController::Base.allow_rescue = false
 # block that will explicitly put your database in a known state.
 Cucumber::Rails::World.use_transactional_fixtures = true
 
+After do |scenario|
+  if scenario.failed?
+    # save_and_open_page
+  end
+end
 # How to clean your database when transactions are turned off. See
 # http://github.com/bmabey/database_cleaner for more info.
 require 'database_cleaner'

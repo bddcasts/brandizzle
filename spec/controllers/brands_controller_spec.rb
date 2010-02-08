@@ -3,50 +3,6 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BrandsController do
   before(:each) do
     login_user
-    @brand = mock_model(Brand, :user => current_user)
-    current_user.stub_chain(:brands, :find).and_return(@brand)
-    @results = (1..10).map { mock_model(Result) }
-  end
-  
-  describe "handling GET index" do
-    before(:each) do
-      @brands = [@brand]
-      @search = mock(Searchlogic::Search, :paginate => @results)
-    end
-    
-    def do_get(options={})
-      get :index, options
-    end
-    
-    it "should find all the brands and assign them for the view" do
-      current_user.should_receive(:brands).and_return(@brands)
-      do_get
-      assigns[:brands].should == @brands
-    end
-    
-    it "should render the index template" do
-      do_get
-      response.should render_template(:index)
-    end
-    
-    it "creates a new search for the search results and assigns it for the view" do
-      Result.
-        should_receive(:search).
-        with(hash_including("follow_up" => "test")).
-        and_return(@search)
-        
-      do_get(:search => { :follow_up => "test"} )
-      assigns[:search].should == @search
-    end
-    
-    it "paginates the search results and assigns them for the view" do
-      @search.
-        should_receive(:paginate).
-        with(hash_including(:page => "3")).
-        and_return(@results)
-      do_get(:page => 3)
-      assigns[:results].should == @results
-    end
   end
 
   describe "handling GET new" do
@@ -107,6 +63,9 @@ describe BrandsController do
 
   describe "handling GET edit" do
     before(:each) do
+      @brand = mock_model(Brand, :user => current_user)
+      current_user.stub_chain(:brands, :find).and_return(@brand)
+      
       @query = mock_model(Query)
     end
     
@@ -133,6 +92,11 @@ describe BrandsController do
   end
 
   describe "handling PUT update" do
+    before(:each) do
+      @brand = mock_model(Brand, :user => current_user)
+      current_user.stub_chain(:brands, :find).and_return(@brand)
+    end
+    
     def put_with_valid_attributes
       @brand.should_receive(:update_attributes).with("name" => "updated brand name").and_return(true)
       put :update, :id => 34, :brand => { :name => "updated brand name" }
@@ -164,6 +128,8 @@ describe BrandsController do
   
   describe "handling DELETE destroy" do
     before(:each) do
+      @brand = mock_model(Brand, :user => current_user)
+      current_user.stub_chain(:brands, :find).and_return(@brand)
       @brand.stub!(:destroy).and_return(true)
     end
     
@@ -183,7 +149,7 @@ describe BrandsController do
     
     it "sets the flash and redirects to the dashboard" do
       do_delete
-      response.should redirect_to(brands_path)
+      response.should redirect_to(brand_results_path)
       flash[:notice].should == 'Brand deleted.'
     end
   end

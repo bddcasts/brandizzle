@@ -4,6 +4,9 @@ class Brand < ActiveRecord::Base
   has_many :brand_queries
   has_many :queries, :through => :brand_queries
   
+  has_many :brand_results
+  has_many :results, :through => :brand_results
+  
   validates_presence_of :name
   
   def add_query(term)
