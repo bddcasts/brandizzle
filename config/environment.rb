@@ -15,6 +15,7 @@ Rails::Initializer.run do |config|
   config.gem 'searchlogic',                             :version => '>= 2.4.7'
   config.gem 'authlogic',                               :version => '>= 2.1.3'
   config.gem 'formtastic',                              :version => '>= 0.9.7'
+  config.gem 'delayed_job',                             :version => '>= 1.8.4'
   config.time_zone = 'UTC'
 end
 

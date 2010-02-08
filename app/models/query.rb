@@ -36,8 +36,7 @@ class Query < ActiveRecord::Base
       returned_result
     end
     
-    link_brand_results(returned_results.map(&:id))
-    # self.send_later(:link_brand_results, returned_results.map(&:id))
+    self.send_later(:link_brand_results, returned_results.map(&:id))
     
     if latest_id.blank? || max_id > latest_id.to_i
       self.latest_id = max_id 
@@ -45,16 +44,6 @@ class Query < ActiveRecord::Base
     end
   end
   
-  def link_brand_results(returned_results_ids)
-    returned_results = Result.find(returned_results_ids)
-    
-    returned_results.each do |returned_result|
-      brands.each do |brand|
-        returned_result.brands << brand unless returned_result.brands.include?(brand)
-      end
-    end
-  end
-
   def run_against_blog_search
     pages = [0]
     loop do
@@ -86,7 +75,7 @@ class Query < ActiveRecord::Base
       returned_result
     end
     
-    link_brand_results(returned_results.map(&:id))
+    self.send_later(:link_brand_results, returned_results.map(&:id))
     
     if start == 0
       json_results["responseData"]["cursor"]["pages"].each do |p|
@@ -95,5 +84,15 @@ class Query < ActiveRecord::Base
     end
     
     pages
+  end
+
+  def link_brand_results(returned_results_ids)
+    returned_results = Result.find(returned_results_ids)
+    
+    returned_results.each do |returned_result|
+      brands.each do |brand|
+        returned_result.brands << brand unless returned_result.brands.include?(brand)
+      end
+    end
   end
 end

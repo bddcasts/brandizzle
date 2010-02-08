@@ -102,14 +102,6 @@ describe Query do
       @query.run_against_twitter
       @query.results.should include(@returned_result)
     end
-    
-    it "links the returned (found or newly created) result to the current query's brands" do
-      @brand = Factory.create(:brand)
-      Factory.create(:brand_query, :brand => @brand, :query => @query)
-      Result.stub!(:find_or_create_by_url).and_return(@returned_result)
-      @query.run_against_twitter
-      @brand.results.should include(@returned_result)
-    end
 
     it "saves the message id for the latest twitter result" do
       lambda {
@@ -159,14 +151,6 @@ describe Query do
       @query.parse_response(@json_string, 33)
       @query.results.should include(@returned_result)
     end
-
-    it "links the returned (found or newly created) to the current query's brands" do
-      @brand = Factory.create(:brand)
-      Factory.create(:brand_query, :brand => @brand, :query => @query)
-      Result.stub!(:find_or_create_by_url).and_return(@returned_result)
-      @query.parse_response(@json_string, 33)
-      @brand.results.should include(@returned_result)
-    end
     
     it "returns an array with all the start indices to fetch if start == 0" do
       @query.parse_response(@json_string, 0).should == [8, 16, 24, 32, 40, 48, 56]
@@ -209,6 +193,20 @@ describe Query do
         @query.should_receive(:parse_response).with(@response, page*8).and_return(returns)
       end
       @query.run_against_blog_search
+    end
+  end
+
+  describe "#link_brand_results" do
+    it "links the returned (found or newly created) result to the current query's brands" do
+      returned_results = (1..3).map { Factory.create(:result)}
+      
+      query = Factory.create(:query)
+      brand = Factory.create(:brand)
+      Factory.create(:brand_query, :brand => brand, :query => query)
+
+      query.link_brand_results(returned_results.map(&:id))
+      
+      brand.results.should == returned_results
     end
   end
 end
