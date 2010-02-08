@@ -3,33 +3,30 @@
 @import flash
 @import form.sass
 @import sidebar.sass
-
-=clearfix
-  display: inline-block
-  &:after
-    content: "."
-    display: block
-    height: 0
-    clear: both
-    visibility: hidden
-  * html &
-    height: 1px
-
-.clearfix
-  +clearfix
-
+@import tools.sass
 html, body
   :background-color #E5ECF3
 
 #header
   :background-color #1B5790
+  :padding 0 10px
+  h1
+    :margin 10px 0
+    :float left
+    a, a:visited
+      :text-decoration none
+      :color white
 
-h1#hero
-  :margin 10px 0
-  :float left
-  a, a:visited
-    :text-decoration none
-    :color white
+#footer
+  :font-size 85%
+  :text-align center
+  :color #555
+  :margin-top 1em
+  :padding-bottom 1em
+
+  p
+    :margin 0
+    :line-height 1.6em
 
 #page
   :background-color #fff
@@ -40,8 +37,14 @@ h1#hero
 #filters
   :margin-bottom 1em
 
-#delete-brand
-  :text-align right
+#actions
+  form, a
+    :float right
+  a
+    :font-size 12px
+    :text-decoration none
+  form
+    :margin-top 1px
 
 #results
   td
@@ -75,21 +78,9 @@ h1#hero
   :display relative
   
   li
-    +clearfix
     :display list-item
     a.delete
       :float right
-
-#footer
-  :font-size 85%
-  :text-align center
-  :color #555
-  :margin-top 1em
-  :padding-bottom 1em
-
-  p
-    :margin 0
-    :line-height 1.6em
 
 .account
   :float right

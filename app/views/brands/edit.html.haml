@@ -2,7 +2,8 @@
   %h2=h @brand.name
 
 .grid_6.right
-  #delete-brand
+  #actions
+    = link_to "Go back", brand_results_path
     = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete"
 
 .clear

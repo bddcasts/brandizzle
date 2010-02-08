@@ -4,19 +4,7 @@
     = stylesheet_link_tag '960', 'reset', 'text', 'master', 'formtastic', 'formtastic_changes', :media => 'screen'
   %body
     .container_12
-      #header
-        .grid_12
-          %h1#hero
-            = link_to 'Brandizzle', brands_path
-          .account
-            %ul
-              - if current_user
-                %li= link_to "My account", edit_account_path
-                %li= link_to "Sign out", user_session_path, :method => 'delete'
-              - else
-                %li= link_to "Login", new_user_session_path
-                %li= link_to "Sign up", new_account_path
-        .clear
+      = render "shared/header"
       .grid_12
         #flash
           - flash.each do |key, message|
@@ -27,11 +15,4 @@
         = yield
         .clear
 
-      #footer
-        %p
-          %a{:href => '/'} Home
-          |
-          %a{:href => '/about'} About
-        %p
-          &copy; 2009
-          %a{:href => 'http://bddcasts.com', :title => 'BDD Screencasts'} BDDCasts.com
+      = render "shared/footer"
