@@ -5,10 +5,15 @@ Feature: Dashboard
   Background: 
     Given I am logged in as "cartman"
       And a brand: "BDDCasts" exists with name: "BDDCasts", user: user "cartman"
-      And there is a query "bdd screencast" for "BDDCasts"
+      And a query: "bdd screencast" exists with term: "bdd screencast"
+      And a brand query exists with brand: brand "BDDCasts", query: query "bdd screencast"
       
+  Scenario: Looking at the dashboard with no results
+    When I am on the dashboard
+    Then I should see "No results."
+  
   Scenario: Looking at the dashboard with results
-    Given "bdd screencast" has the following results:
+    Given query: "bdd screencast" has the following results for brand: "BDDCasts":
       | source  | body                                  | url                             | created_at        |
       | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
       | twitter | bdd screencasts anyone?               | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
@@ -19,13 +24,9 @@ Feature: Dashboard
       | Does anyone know any bdd screencasts? | 09 Jul 2009 13:28 |
       | bdd screencasts anyone?               | 09 Jul 2009 15:16 |
       | Awesome bdd screencast: blah blah     | 09 Jul 2009 18:25 |
-      
-  Scenario: Looking at the dashboard with no results
-    When I am on the dashboard
-    Then I should see "No results."
-  
+        
   Scenario: Paginating results
-    Given "bdd screencast" has 20 results
+    Given query: "bdd screencast" has 20 results for brand: "BDDCasts"
      When I am on the dashboard
      Then I should see "Result #1"
       And I should see "Result #15"
@@ -36,11 +37,12 @@ Feature: Dashboard
   
   Scenario: Filter dashboard results by Brand
     Given a brand: "Bar" exists with name: "Bar", user: user "cartman"
-      And there is a query "foo" for "Bar"
-      And "bdd screencast" has the following results:
+      And a query: "foo" exists with term: "foo"
+      And a brand query exists with brand: brand "Bar", query: query "foo"
+      And query: "bdd screencast" has the following results for brand: "BDDCasts":
         | source  | body                                  | url                             | created_at        |
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
-      And "foo" has the following results:
+      And query: "foo" has the following results for brand: "Bar":
         | source  | body                                       | url                             | created_at        |
         | twitter | Isn't foo the awesomest variable name evar | http://twitter.com/statuses/789 | 09 Jul 2009 18:25 |
       And I am on the dashboard
@@ -50,7 +52,7 @@ Feature: Dashboard
       And I should not see "Isn't foo the awesomest variable name evar"
 
   Scenario: Filter dashboard results by Source
-    Given "bdd screencast" has the following results:
+    Given query: "bdd screencast" has the following results for brand: "BDDCasts":
         | source  | body                                  | url                             | created_at        |
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |
@@ -61,7 +63,7 @@ Feature: Dashboard
       And I should not see "This blog is teh stuff"
   
   Scenario: Mark a result for follow up
-    Given "bdd screencast" has 1 results
+    Given query "bdd screencast" has 1 results for brand: "BDDCasts"
       And I am on the dashboard
      When I press "Follow Up" 
      Then I should be on the dashboard
@@ -69,7 +71,7 @@ Feature: Dashboard
      Then I should be on the dashboard
   
   Scenario: Filter dashboard results by follow up  
-    Given "bdd screencast" has the following results:
+    Given query: "bdd screencast" has the following results for brand: "BDDCasts":
         | source  | body                                  | url                             | created_at        | follow_up |
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 | true      |
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |           |

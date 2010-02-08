@@ -5,7 +5,7 @@ Feature: Manage Brands
 
   Background:
     Given I am logged in as "cartman"
-      And a brand exists with name: "Kerfluegle", user: user "cartman"
+      And a brand: "Kerfluegle" exists with name: "Kerfluegle", user: user "cartman"
 
   Scenario: A user sees the dashboard
     Given I am on the dashboard
@@ -39,9 +39,10 @@ Feature: Manage Brands
       And I press "Add term"
      Then I should see "Added query term."
       And I should see "jschoolcraft"
-      
+
   Scenario: Delete a search
-    Given there is a query "jschoolcraft" for "Kerfluegle"
+    Given a query "jschoolcraft" exists with term: "jschoolcraft"
+      And a brand query exists with brand: brand "Kerfluegle", query: query "jschoolcraft"
      When I am on the brand edit page for "Kerfluegle"
       And I delete query term "jschoolcraft"
      Then I should see "Deleted query term."
