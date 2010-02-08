@@ -6,7 +6,7 @@ Feature: Account management
   Scenario: Visiting my account
     Given I am logged in as "cartman"
       And I am on the dashboard
-     When I follow "My account"
+     When I follow "cartman"
      Then I should be on my account page
       And I should see "Edit your account information"
   

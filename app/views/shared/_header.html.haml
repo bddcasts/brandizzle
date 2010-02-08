@@ -4,7 +4,9 @@
   .account
     %ul
       - if current_user
-        %li= link_to "My account", edit_account_path
+        %li
+          Welcome
+          = link_to current_user.login, edit_account_path
         %li= link_to "Sign out", user_session_path, :method => 'delete'
       - else
         %li= link_to "Login", new_user_session_path
