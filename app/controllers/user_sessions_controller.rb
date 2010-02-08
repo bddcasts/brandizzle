@@ -19,6 +19,6 @@ class UserSessionsController < ApplicationController
   def destroy
     current_user_session.destroy
     flash[:notice] = "Logout successful!"
-    redirect_back_or_default root_path
+    redirect_back_or_default new_user_session_path
   end
 end

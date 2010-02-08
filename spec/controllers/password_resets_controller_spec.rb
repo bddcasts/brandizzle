@@ -36,10 +36,10 @@ describe PasswordResetsController do
       do_post_with_valid_attributes
     end
     
-    it "sets the flash message and redirects to the homepage on success" do
+    it "sets the flash message and redirects to the login page on success" do
       do_post_with_valid_attributes
       flash[:notice].should_not be_nil
-      response.should redirect_to(root_path)
+      response.should redirect_to(new_user_session_path)
     end
     
     it "sets the flash message and renders the new template on failure" do
@@ -75,7 +75,7 @@ describe PasswordResetsController do
       User.should_receive(:find_using_perishable_token).with("foo").and_return(nil)
       do_get
       flash[:notice].should_not be_nil
-      response.should redirect_to(root_path)
+      response.should redirect_to(new_user_session_path)
     end
   end
 
@@ -103,7 +103,7 @@ describe PasswordResetsController do
       User.stub(:find_using_perishable_token).and_return(nil)
       put :update, :id => "foo"
       flash[:notice].should_not be_nil
-      response.should redirect_to(root_path)
+      response.should redirect_to(new_user_session_path)
     end
     
     it "assigns the password and password confirmation to the user" do

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     if @user.save_without_session_maintenance
       @user.deliver_activation_instructions!
       flash[:notice] = "Your account has been created. Please check your e-mail for your account activation instructions!"
-      redirect_to root_path
+      redirect_to new_user_session_path
     else
       flash[:error] = "Acount registration failed!"
       render :new

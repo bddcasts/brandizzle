@@ -66,7 +66,7 @@ describe UsersController do
     it "sets the flash message and redirects to home page on success" do
       do_post_with_valid_attributes
       flash[:notice].should_not be_nil
-      response.should redirect_to(root_path)
+      response.should redirect_to(new_user_session_path)
     end
     
     it "sets the flash message and renders the new template on failure" do

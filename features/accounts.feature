@@ -16,7 +16,7 @@ Feature: User Accounts
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Create my account"
-     Then I should be on the homepage
+     Then I should be on the login page
       And I should see "Your account has been created. Please check your e-mail for your account activation instructions!"
       And "cartman@example.com" should receive an email
      When I open the email
@@ -60,5 +60,5 @@ Feature: User Accounts
     Given I am logged in as "cartman"
       And I am on the dashboard
      When I follow "Sign out"
-     Then I should be on the homepage
+     Then I should be on the login page
       And I should see "Logout successful!"

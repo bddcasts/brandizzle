@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.root :controller => "user_sessions", :action => "new"
+  map.root :controller => "brand_results"
   
   map.resources :brands, :except => [:index] do |brand|
     brand.resources :queries, :only => [:create, :update, :destroy]

@@ -25,7 +25,7 @@ Feature: Account management
       And I follow "Forgot your password?"
       And I fill in "Email" with "cartman@example.com"
       And I press "Request password reset"
-     Then I should be on the homepage
+     Then I should be on the login page
       And I should see "We have sent password reset instructions to cartman@example.com. Please check your email."
       And "cartman@example.com" should receive an email
      When I open the email
