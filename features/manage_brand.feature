@@ -28,26 +28,23 @@ Feature: Manage Brands
   
   Scenario: Delete a brand
     Given I am on the brand edit page for "Kerfluegle"
-      And I press "Delete"
+      And I press "Delete brand"
      Then I should see "Brand deleted"
       And I should be on the dashboard
       And I should not see "Kerfluegle"
   
-  Scenario: Add a search
+  Scenario: Add a query
     Given I am on the brand edit page for "Kerfluegle"
      When I fill in "query_term" with "jschoolcraft"
       And I press "Add term"
      Then I should see "Added query term."
       And I should see "jschoolcraft"
 
-  @javascript
-  Scenario: Delete a search
-    Given a query "jschoolcraft" exists with term: "jschoolcraft"
-      And a brand query exists with brand: brand "Kerfluegle", query: query "jschoolcraft"
-     When I am on the brand edit page for "Kerfluegle"
-      And I follow "Remove"
-     Then I should see "Deleted query term."
-      And I should not see "jschoolcraft"
-  
-  
-    
+  # @javascript
+  # Scenario: Delete a query
+  #   Given a query "jschoolcraft" exists with term: "jschoolcraft"
+  #     And a brand query exists with brand: brand "Kerfluegle", query: query "jschoolcraft"
+  #    When I am on the brand edit page for "Kerfluegle"
+  #     And I follow "Remove"
+  #    Then I should see "Deleted query term."
+  #     And I should not see "jschoolcraft"

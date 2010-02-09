@@ -4,7 +4,7 @@
 .grid_6.right
   #actions
     = link_to "Go back", brand_results_path
-    = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete"
+    = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete", :confirm => "Are you sure you want to delete '#{@brand.name}' brand?"
 
 .clear
 
@@ -22,7 +22,7 @@
         - @brand.queries.each do |query|
           %li
             = h query.term
-            = link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete'
+            = link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete', :confirm => "Are you sure you want to delete '#{query.term}' term?"
   
 .grid_6
   - form_for @brand do |f|
