@@ -9,7 +9,6 @@ class BrandResultsController < ApplicationController
     
     @brand_results = @search.paginate(
       :page => params[:page],
-      :per_page => 15,
       :include => [:result],
       :order => "results.created_at DESC")
   end

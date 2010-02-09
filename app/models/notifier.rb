@@ -1,6 +1,4 @@
-class Notifier < ActionMailer::Base
-  default_url_options[:host] = "brandizzle.com"
-  
+class Notifier < ActionMailer::Base  
   def activation_instructions(user)
     subject       "[Brandizzle.com] Activation Instructions"
     from          sender

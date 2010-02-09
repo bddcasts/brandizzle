@@ -16,7 +16,12 @@ Rails::Initializer.run do |config|
   config.gem 'authlogic',                               :version => '>= 2.1.3'
   config.gem 'formtastic',                              :version => '>= 0.9.7'
   config.gem 'delayed_job',                             :version => '>= 1.8.4'
+  config.gem 'settingslogic',                           :version => '>= 2.0.5'
   config.time_zone = 'UTC'
+  
+  config.after_initialize do
+    ActionMailer::Base.default_url_options[:host] = Settings.host
+  end
 end
 
 require 'open-uri'
