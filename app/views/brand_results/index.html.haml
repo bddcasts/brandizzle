@@ -26,7 +26,7 @@
               %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
                 = h brand_result.result.source
             %td.body
-              %a{:href => brand_result.result.url, :title => brand_result.result.url}
+              %a{:href => brand_result.result.url, :title => brand_result.result.url, :target => "_blank" }
                 = sanitize brand_result.result.body
             %td{:style => 'white-space: nowrap;'}= brand_result.result.created_at.to_s(:short)
             %td= button_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result]
