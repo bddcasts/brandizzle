@@ -33,3 +33,9 @@
 
       %p
         = f.submit 'Update'
+
+- content_for :head do
+  :javascript
+    $(document).ready(function(){
+      $("#query_term").focus();
+    });

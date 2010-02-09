@@ -14,3 +14,9 @@
 
       %p
         = f.submit 'Create'
+
+- content_for :head do
+  :javascript
+    $(document).ready(function(){
+      $("#brand_name").focus();
+    });
