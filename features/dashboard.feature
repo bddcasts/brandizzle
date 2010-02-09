@@ -35,6 +35,7 @@ Feature: Dashboard
      Then I should see "Result #16"
       And I should not see "Result #15"
   
+  @javascript
   Scenario: Filter dashboard results by Brand
     Given a brand: "Bar" exists with name: "Bar", user: user "cartman"
       And a query: "foo" exists with term: "foo"
@@ -47,10 +48,10 @@ Feature: Dashboard
         | twitter | Isn't foo the awesomest variable name evar | http://twitter.com/statuses/789 | 09 Jul 2009 18:25 |
       And I am on the dashboard
      When I select "BDDCasts" from "Brand"
-      And I press "Filter"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "Isn't foo the awesomest variable name evar"
-
+      
+  @javascript
   Scenario: Filter dashboard results by Source
     Given query: "bdd screencast" has the following results for brand: "BDDCasts":
         | source  | body                                  | url                             | created_at        |
@@ -58,18 +59,19 @@ Feature: Dashboard
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |
       And I am on the dashboard
      When I select "twitter" from "Source"
-      And I press "Filter"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
   
+  @javascript
   Scenario: Mark a result for follow up
     Given query "bdd screencast" has 1 results for brand: "BDDCasts"
       And I am on the dashboard
-     When I press "Follow Up" 
+     When I press "Follow up"
      Then I should be on the dashboard
      When I press "Done"
      Then I should be on the dashboard
   
+  @javascript
   Scenario: Filter dashboard results by follow up  
     Given query: "bdd screencast" has the following results for brand: "BDDCasts":
         | source  | body                                  | url                             | created_at        | follow_up |
@@ -77,7 +79,6 @@ Feature: Dashboard
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |           |
       And I am on the dashboard
      When I select "follow up" from "Flag"
-      And I press "Filter"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
   

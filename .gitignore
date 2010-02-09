@@ -12,3 +12,4 @@ public/stylesheets/master.css
 public/stylesheets/all.css
 rerun.txt
 webrat-*.html
+capybara-*.html

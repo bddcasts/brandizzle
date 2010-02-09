@@ -5,7 +5,7 @@ Feature: User Accounts
   
   Scenario: Visiting the registration page
     Given I am on the homepage
-     When I follow "Sign Up"
+     When I follow "Sign up"
      Then I should be on the registration page
       And I should see "Register for an account"
 
@@ -56,6 +56,7 @@ Feature: User Accounts
       And I press "Login"
      Then I should see "is not valid"
      
+  @javascript
   Scenario: Logging out
     Given I am logged in as "cartman"
       And I am on the dashboard
