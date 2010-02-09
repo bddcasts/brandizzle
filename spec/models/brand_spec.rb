@@ -7,7 +7,7 @@ describe Brand do
   #associations
   should_have_many :brand_queries
   should_have_many :queries, :through => :brand_queries
-  should_have_many :brand_results
+  should_have_many :brand_results, :dependent => :destroy
   should_have_many :results, :through => :brand_results
   should_belong_to :user
   
@@ -57,13 +57,6 @@ describe Brand do
       lambda {
         @brand.remove_query(@bar_query)
       }.should_not change(Query, :count)
-    end
-    
-    it "destroys the query if it is no longer associated to any brand" do
-      lambda {
-        @brand.remove_query(@bar_query)
-      }.should change(Query, :count).by(-1)
-      Query.find_by_term('bar').should be_nil
     end
     
     it "does nothing for a query not associated with the brand" do
