@@ -2,17 +2,19 @@
   %h2 Latest results
 
   #filters
-    - form_for @search do |f|    
-      = f.label :brand_id_is, "Brand"
-      = f.collection_select :brand_id_is, @brands, :id, :name, { :include_blank => "- All -" }
-    
-      = f.label :result_source_is, "Source"
-      = f.select :result_source_is, [["twitter", "twitter"], ["blog", "blog"]], :include_blank => "- All -"
-    
-      = f.label :follow_up_is, "Flag"
-      = f.select :follow_up_is, [["follow up", true]], :include_blank => "- All -"
-    
-      = f.submit "Filter"
+    - form_for @search, :html => { :id => "filter-form" } do |f|    
+      %fieldset
+        %legend Filter the results
+        %ul
+          %li
+            = f.label :brand_id_is, "Brand:"
+            = f.collection_select :brand_id_is, @brands, :id, :name, { :include_blank => "- All -" }
+          %li
+            = f.label :result_source_is, "Source:"
+            = f.select :result_source_is, [["twitter", "twitter"], ["blog", "blog"]], :include_blank => "- All -"
+          %li
+            = f.label :follow_up_is, "Flag:"
+            = f.select :follow_up_is, [["follow up", true]], :include_blank => "- All -"
 
 .grid_9
   %table#results
