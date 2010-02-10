@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100208134035) do
+ActiveRecord::Schema.define(:version => 20100209140532) do
 
   create_table "brand_queries", :force => true do |t|
     t.integer "brand_id"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(:version => 20100208134035) do
     t.datetime "updated_at"
   end
 
+  create_table "invitations", :force => true do |t|
+    t.integer  "sender_id"
+    t.string   "recipient_email"
+    t.string   "token"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "queries", :force => true do |t|
     t.string   "term"
     t.string   "latest_id"
@@ -88,6 +96,8 @@ ActiveRecord::Schema.define(:version => 20100208134035) do
     t.boolean  "active",            :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "invitation_id"
+    t.integer  "invitation_limit"
   end
 
 end

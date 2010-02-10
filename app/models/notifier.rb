@@ -23,6 +23,15 @@ class Notifier < ActionMailer::Base
     body          :edit_password_reset_url => edit_password_reset_url(user.perishable_token)
   end
   
+  #with invitations
+  def invitation(invitation)
+    subject       "[Brandizzle.com] Invitation to our private beta"
+    from          sender
+    recipients    invitation.recipient_email
+    sent_on       Time.now
+    body          :signup_url => signup_url(invitation.token)
+  end
+  
   private
     def sender
       "noreply@brandizzle.com"

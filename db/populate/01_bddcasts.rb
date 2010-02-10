@@ -1,36 +1,49 @@
 def populate
-  istvan = User.create_or_update(:id => 1, :login => "ihoka", :email => "ihoka@brandizzle.com", :password => "secret", :password_confirmation => "secret")
-  istvan.activate!
+  create_user("ihoka@brandizzle.com")
+  create_user("jschoolcraft@brandizzle.com")
+  create_user("cristi@brandizzle.com")
 
-  jeff = User.create_or_update(:id => 2, :login => "jschoolcraft", :email => "jschoolcraft@brandizzle.com", :password => "secret", :password_confirmation => "secret")
-  jeff.activate!
-
-  cristi = User.create_or_update(:id => 3, :login => "cristi", :email => "cristi@brandizzle.com", :password => "secret", :password_confirmation => "secret")
-  cristi.activate!
-
-  [istvan, jeff, cristi].each_with_index do |user, index|
+  User.all.each_with_index do |user, index|
     bddcasts = Brand.create_or_update(:id => index+1, :name => 'BDDCasts', :user => user)
   
     add_query_to_brand(bddcasts, 'bddcasts')
     add_query_to_brand(bddcasts, 'bdd screencasts')
     add_query_to_brand(bddcasts, user.login)
-    # bddcasts.add_search('cucumber rspec screencast')
-    # bddcasts.add_search('behavior driven development')
   
     railsbridge = Brand.create_or_update(:id => index+4, :name => 'RailsBridge', :user => user)
   
     add_query_to_brand(railsbridge, 'railsbridge')
     add_query_to_brand(railsbridge, 'rails workshop')
-    # railsbridge.add_search('railstutor')
-    # railsbridge.add_search('rails mentor')
-    # railsbridge.add_search('rails activist')
-    # railsbridge.add_search('rails community')
   end
+end
+
+def create_user(email)
+  invitation = create_fake_invitation(email)
+  login = email.split('@').first
+  
+  user = User.create_or_update(
+    :login => login,
+    :email => email,
+    :password => "secret",
+    :password_confirmation => "secret",
+    :invitation_token => invitation.token)
+    
+  # user.activate! #without invitations
+  update_invitation_limit(user) #with invitations
 end
 
 def add_query_to_brand(brand, query_term)
   query = Query.find_or_create_by_term(query_term)
   brand.queries << query
+end
+
+def update_invitation_limit(user)
+  user.invitation_limit = 100
+  user.save
+end
+
+def create_fake_invitation(email)
+  invitation = Invitation.create_or_update(:recipient_email => email)
 end
 
 populate

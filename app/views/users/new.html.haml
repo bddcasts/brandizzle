@@ -4,6 +4,8 @@
 .grid_6
   - semantic_form_for @user do |f|
     - f.inputs do
+      = f.hidden_field :invitation_token #with invitations
+      = f.error_message_on :invitation_id #with invitations
       = f.input :login
       = f.input :email
       = f.input :password

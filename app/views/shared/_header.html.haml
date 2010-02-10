@@ -7,7 +7,10 @@
         %li
           Welcome
           = link_to current_user.login, edit_account_path
+        - if current_user.invitation_limit > 0
+          %li
+            = link_to "Invite your friends", new_invitation_path
+            = "(#{current_user.invitation_limit} left)"
         %li= link_to "Sign out", user_session_path, :method => 'delete'
       - else
         %li= link_to "Login", new_user_session_path
-        %li= link_to "Sign up", new_account_path
