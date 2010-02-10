@@ -4,7 +4,7 @@ defaults: &defaults
   pagination:
     results_per_page: 15
   invitations:
-    limit: 5
+    limit: 0
 
 development:
   <<: *defaults

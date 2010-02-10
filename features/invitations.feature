@@ -5,6 +5,7 @@ Feature: Invite friends
   
   Scenario: Sending beta invitations
     Given I am logged in as "cartman"
+      And "cartman" has invitations to send
       And I am on the dashboard
      When I follow "Invite your friends"
       And I fill in "Friend's email address" with "stan@example.com"
@@ -15,6 +16,7 @@ Feature: Invite friends
   Scenario: Sending invitation to an already registered user
     Given a user exists with email: "stan@example.com"
       And I am logged in as "cartman"
+      And "cartman" has invitations to send
       And I am on the dashboard
      When I follow "Invite your friends"
       And I fill in "Friend's email address" with "stan@example.com"

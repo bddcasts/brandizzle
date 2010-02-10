@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user,    :only => [:edit, :update]
+  before_filter :require_invitation, :only => [:new]
   
   def new
     @user = User.new(:invitation_token => params[:invitation_token])
@@ -32,4 +33,14 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+  
+  private
+    def require_invitation
+      @invitation = Invitation.find_by_token(params[:invitation_token])
+      unless @invitation
+        flash[:notice] = "We're sorry, but we could not locate your invitation. " +  
+        "If you are having issues try copying and pasting the URL from your email into your browser."
+        redirect_to new_user_session_path
+      end
+    end
 end

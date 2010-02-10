@@ -14,16 +14,17 @@ describe UsersController do
   end
   
   describe "handling GET new" do
-    def do_get
-      get :new
-    end
-    
     before(:each) do
       @invitation = mock_model(Invitation, :recipient_email => "test@example.com")
       @user = mock_model(User, :invitation => @invitation)
       
       User.stub!(:new).and_return(@user)
+      Invitation.stub!(:find_by_token).with("qwerty").and_return(@invitation)
       @user.stub!(:email=)
+    end
+    
+    def do_get(options={})
+      get :new, { :invitation_token => "qwerty" }.merge(options)
     end
     
     it "creates a new user and assigns it for the view" do
@@ -40,6 +41,13 @@ describe UsersController do
     it "renders the new template" do
       do_get
       response.should render_template(:new)
+    end
+    
+    it "sets the flash message and redirects to login path if no invitation is present" do
+      Invitation.should_receive(:find_by_token).and_return(nil)
+      do_get
+      flash[:notice].should_not be_nil
+      response.should redirect_to(new_user_session_path)
     end
   end
 
