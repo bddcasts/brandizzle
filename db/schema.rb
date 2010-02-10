@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(:version => 20100209140532) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "invitation_id"
-    t.integer  "invitation_limit"
+    t.integer  "invitation_limit",  :default => 0
   end
 
 end
