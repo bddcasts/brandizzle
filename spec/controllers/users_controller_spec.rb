@@ -19,11 +19,11 @@ describe UsersController do
     end
     
     before(:each) do
-      @invitation = mock_model(Invitation, :recipient_email => "test@example.com") #with invitations
-      @user = mock_model(User, :invitation => @invitation) #without invitations requires no invitation
+      @invitation = mock_model(Invitation, :recipient_email => "test@example.com")
+      @user = mock_model(User, :invitation => @invitation)
       
       User.stub!(:new).and_return(@user)
-      @user.stub!(:email=) #with invitations
+      @user.stub!(:email=)
     end
     
     it "creates a new user and assigns it for the view" do
@@ -32,7 +32,6 @@ describe UsersController do
       assigns[:user].should == @user
     end
     
-    #with invitations
     it "assigns the invitation's recipient email to the user" do
       @user.should_receive(:email=).with("test@example.com")
       do_get
@@ -48,20 +47,15 @@ describe UsersController do
     before(:each) do
       @user = mock_model(User)
       User.stub!(:new).and_return(@user)
-      
-      # @user.stub!(:deliver_activation_instructions!) #without invitations
-      UserSession.stub!(:create)
     end
     
     def do_post_with_valid_attributes(options={})
-      # @user.should_receive(:save_without_session_maintenance).and_return(true) #without invitations
-      @user.should_receive(:save).and_return(true) #with invitations
+      @user.should_receive(:save).and_return(true)
       post :create, :user => options
     end
     
     def do_post_with_invalid_attributes(options={})
-      # @user.should_receive(:save_without_session_maintenance).and_return(true) #without invitations
-      @user.should_receive(:save).and_return(false) #with invitations
+      @user.should_receive(:save).and_return(false)
       post :create, :user => options
     end
     
@@ -70,19 +64,6 @@ describe UsersController do
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:user].should == @user
     end
-    
-    #without invitations
-    # it "delivers the activation instructions email" do
-    #   @user.should_receive(:deliver_activation_instructions!)
-    #   do_post_with_valid_attributes
-    # end
-    
-    #without invitations
-    # it "sets the flash message and redirects to home page on success" do
-    #   do_post_with_valid_attributes
-    #   flash[:notice].should_not be_nil
-    #   response.should redirect_to(new_user_session_path)
-    # end
     
     it "sets the flash message and redirects to home page on success" do
       do_post_with_valid_attributes

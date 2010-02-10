@@ -8,13 +8,11 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resource :user_session
-  map.resource :account, :controller => "users", :except => [:new] #without invitations needs the new account path
-  map.signup '/signup/:invitation_token', :controller => "users", :action => "new" #with invitations
-  map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
+  map.resource :account, :controller => "users", :except => [:new]
+  map.signup '/signup/:invitation_token', :controller => "users", :action => "new"
   map.resources :password_resets, :only => [:new, :create, :edit, :update]
-  map.resources :invitations, :only => [:new, :create] #with invitations
-  
-  
+  map.resources :invitations, :only => [:new, :create]
+
   map.with_options(:controller => 'pages', :action => 'show') do |pages|
     pages.connect '/about', :id => 'about'
     pages.connect '/pages/:id'
