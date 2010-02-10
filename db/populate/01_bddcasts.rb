@@ -5,13 +5,11 @@ def populate
 
   User.all.each_with_index do |user, index|
     bddcasts = Brand.create_or_update(:id => index+1, :name => 'BDDCasts', :user => user)
-  
     add_query_to_brand(bddcasts, 'bddcasts')
     add_query_to_brand(bddcasts, 'bdd screencasts')
     add_query_to_brand(bddcasts, user.login)
   
     railsbridge = Brand.create_or_update(:id => index+4, :name => 'RailsBridge', :user => user)
-  
     add_query_to_brand(railsbridge, 'railsbridge')
     add_query_to_brand(railsbridge, 'rails workshop')
   end
@@ -27,9 +25,8 @@ def create_user(email)
     :password => "secret",
     :password_confirmation => "secret",
     :invitation_token => invitation.token)
-    
-  # user.activate! #without invitations
-  update_invitation_limit(user) #with invitations
+
+  update_invitation_limit(user)
 end
 
 def add_query_to_brand(brand, query_term)

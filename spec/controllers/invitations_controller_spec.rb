@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe InvitationsController do
   before(:each) do
-    login_user
+    login_user({}, {:invitation_limit => 1})
   end
   
   describe "handling GET new" do
@@ -24,6 +24,13 @@ describe InvitationsController do
     it "renders the new template" do
       do_get
       response.should render_template(:new)
+    end
+    
+    it "sets the flash message and redirects if current user has no invitations to send" do
+      current_user.should_receive(:invitation_limit).and_return(0)
+      do_get
+      flash[:notice].should_not be_nil
+      response.should redirect_to(brand_results_path)
     end
   end
   
@@ -63,7 +70,7 @@ describe InvitationsController do
     it "sets the flash error message and renders the new template on failure" do
       @invitation.should_receive(:save).and_return(false)
       post :create, :invitation => {}
-      flash[:error].should_not be_nil
+      # flash[:error].should_not be_nil
       response.should render_template(:new)
     end
   end

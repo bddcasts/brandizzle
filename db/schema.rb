@@ -87,13 +87,13 @@ ActiveRecord::Schema.define(:version => 20100209140532) do
   add_index "search_results", ["result_id"], :name => "index_search_results_on_result_id"
 
   create_table "users", :force => true do |t|
-    t.string   "login",                                :null => false
-    t.string   "email",                                :null => false
-    t.string   "crypted_password",                     :null => false
-    t.string   "password_salt",                        :null => false
-    t.string   "persistence_token",                    :null => false
-    t.string   "perishable_token",                     :null => false
-    t.boolean  "active",            :default => false, :null => false
+    t.string   "login",                               :null => false
+    t.string   "email",                               :null => false
+    t.string   "crypted_password",                    :null => false
+    t.string   "password_salt",                       :null => false
+    t.string   "persistence_token",                   :null => false
+    t.string   "perishable_token",                    :null => false
+    t.boolean  "active",            :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "invitation_id"
