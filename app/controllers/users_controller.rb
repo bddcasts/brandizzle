@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Your account has been created."
       redirect_to brand_results_path
     else
-      flash[:error] = "Acount registration failed!"
+      flash.now[:error] = "Acount registration failed!"
       render :new
     end
   end

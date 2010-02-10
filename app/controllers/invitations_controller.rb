@@ -13,7 +13,7 @@ class InvitationsController < ApplicationController
       flash[:notice] = "Thank you, invitation sent."
       redirect_to brand_results_url
     else
-      flash[:error] = "Invitation failed! #{@invitation.errors.on_base}"
+      flash.now[:error] = "Invitation failed! #{@invitation.errors.on_base}"
       render :action => 'new'
     end
   end
