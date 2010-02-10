@@ -31,3 +31,13 @@ namespace :deploy do
     end
   end
 end
+
+namespace :gems do
+  task :install, :roles => :app, :except => {:no_symlink => true} do
+    run <<-CMD
+      cd #{release_path} &&
+      rake gems:install RAILS_ENV=#{rails_env}
+    CMD
+  end
+end
+after 'deploy:update_code', 'gems:install'
