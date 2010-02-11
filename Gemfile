@@ -12,6 +12,7 @@ group :rails do
   gem 'i18n', '>= 0.1.3'
   gem 'tmail', '~> 1.2.3'
   gem 'text-format', '>= 0.6.3', :require => 'text/format'
+  gem 'mysql', '2.8.1'
 end
 
 gem 'haml',          '2.2.19'

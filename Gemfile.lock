@@ -42,6 +42,12 @@ dependencies:
     version: = 2.2.19
     require: 
     - haml
+  mysql: 
+    group: 
+    - :rails
+    version: = 2.8.1
+    require: 
+    - mysql
   memcache-client: 
     group: 
     - :rails
@@ -187,12 +193,12 @@ specs:
     version: 2.3.5
 - text-hyphen: 
     version: 1.0.0
-- pickle: 
-    version: 0.2.1
 - i18n: 
     version: 0.3.3
 - email_spec: 
     version: 0.4.0
+- pickle: 
+    version: 0.2.1
 - json_pure: 
     version: 1.2.0
 - bundler: 
@@ -219,12 +225,12 @@ specs:
     version: "1.16"
 - crack: 
     version: 0.1.6
+- tmail: 
+    version: 1.2.7.1
 - whenever: 
     version: 0.4.1
 - delayed_job: 
     version: 1.8.4
-- tmail: 
-    version: 1.2.7.1
 - hashie: 
     version: 0.1.8
 - oauth: 
@@ -261,6 +267,8 @@ specs:
     version: 1.4.1
 - chronic: 
     version: 0.2.3
+- mysql: 
+    version: 2.8.1
 - haml: 
     version: 2.2.19
 - authlogic: 
@@ -289,17 +297,17 @@ specs:
     version: 1.0.4
 - cucumber: 
     version: 0.6.2
-- tzinfo: 
-    version: 0.3.16
 - fakeweb: 
     version: 1.2.8
 - twitter: 
     version: 0.8.3
+- tzinfo: 
+    version: 0.3.16
 - activeresource: 
     version: 2.3.5
 - rails: 
     version: 2.3.5
-hash: 8c0daa7fab3dac92db3cd97fbc9e3b9d8b976100
+hash: bb24b2fc81742ef88ff61168f8ebef8ef1510b95
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
