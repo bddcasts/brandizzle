@@ -13,3 +13,4 @@ public/stylesheets/all.css
 rerun.txt
 webrat-*.html
 capybara-*.html
+vendor/bundler_gems
