@@ -14,6 +14,7 @@ set :compress_assets, false
 set :keep_releases, 6
 after "deploy:update", "deploy:cleanup"
 after "deploy:update_code", "deploy:link_config"
+after "deploy:symlink", "deploy:update_crontab"
 
 # require 'san_juan'
 # san_juan.role :app, %w[dj]
@@ -30,14 +31,23 @@ namespace :deploy do
       end
     end
   end
-end
-
-namespace :gems do
-  task :install, :roles => :app, :except => {:no_symlink => true} do
-    run <<-CMD
-      cd #{release_path} &&
-      rake gems:install RAILS_ENV=#{rails_env}
-    CMD
+  
+  desc "Update the crontab file"
+  task :update_crontab, :roles => :db do
+    run "cd #{release_path} && whenever --update-crontab #{application} --set environment=#{rails_env}"
   end
 end
-after 'deploy:update_code', 'gems:install'
+
+namespace :bundler do
+  task :symlink_vendor do
+    run %Q{ rm -fr #{release_path}/vendor/bundler_gems}
+    run %Q{ mkdir -p #{shared_path}/bundler_gems}
+    run %Q{ ln -nfs #{shared_path}/bundler_gems #{release_path}/vendor/bundler_gems}
+  end
+ 
+  task :bundle_new_release do
+    bundler.symlink_vendor
+    run("cd #{release_path} && bundle install vendor/bundler_gems && bundle lock")
+  end
+end
+after 'deploy:update_code', 'bundler:bundle_new_release'
