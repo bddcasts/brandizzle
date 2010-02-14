@@ -10,7 +10,7 @@ Rails::Initializer.run do |config|
   config.time_zone = 'UTC'
   
   config.after_initialize do
-    # ActionMailer::Base.default_url_options[:host] = Settings.host
+    ActionMailer::Base.default_url_options[:host] = Settings.host
   end
 end
 

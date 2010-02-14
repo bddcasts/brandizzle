@@ -4,6 +4,11 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environment'))
 require 'spec/autorun'
 require 'spec/rails'
+require 'remarkable_rails'
+require 'factory_girl'
+require 'factories'
+require 'authlogic/test_case'
+require 'fakeweb'
 
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
