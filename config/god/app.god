@@ -18,8 +18,8 @@ end
     w.name = "dj-#{num}"
     w.group = "delayed_job"
     
-    w.uid = 'apps'
-    w.gid = 'apps'
+    w.uid = 'brandizzle'
+    w.gid = 'brandizzle'
     
     w.interval = 30.seconds
     w.start = "/opt/ruby-enterprise-current/bin/rake -f #{rails_root}/Rakefile jobs:work RAILS_ENV=#{rails_env}"

@@ -16,10 +16,10 @@ after "deploy:update", "deploy:cleanup"
 after "deploy:update_code", "deploy:link_config"
 after "deploy:symlink", "deploy:update_crontab"
 
-# require 'san_juan'
-# san_juan.role :app, %w[dj]
-# before "deploy:restart", "god:all:reload"
-# before "deploy:restart", "god:app:dj:restart"
+require 'san_juan'
+san_juan.role :app, %w[delayed_job]
+before "deploy:restart", "god:all:reload"
+before "deploy:restart", "god:app:delayed_job:restart"
 
 set :config_files, %w(database.yml)
 namespace :deploy do
