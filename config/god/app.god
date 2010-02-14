@@ -22,7 +22,7 @@ end
     w.gid = 'apps'
     
     w.interval = 30.seconds
-    w.start = "rake -f #{rails_root}/Rakefile jobs:work RAILS_ENV=#{rails_env}"
+    w.start = "/opt/ruby-enterprise-current/bin/rake -f #{rails_root}/Rakefile jobs:work RAILS_ENV=#{rails_env}"
   
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|
