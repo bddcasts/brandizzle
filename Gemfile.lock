@@ -1,266 +1,204 @@
 --- 
 dependencies: 
+  tzinfo: 
+    group: 
+    - :default
+    version: ~> 0.3.12
   fakeweb: 
     group: 
     - :test
     version: ">= 0"
-    require: 
-    - fakeweb
-  tzinfo: 
-    group: 
-    - :rails
-    version: ~> 0.3.12
-    require: 
-    - tzinfo
   mongrel: 
     group: 
     - :cucumber
     version: = 1.1.5
-    require: 
-    - mongrel
-  text-format: 
-    group: 
-    - :rails
-    version: ">= 0.6.3"
-    require: 
-    - text/format
   rails: 
     group: 
-    - :rails
+    - :default
     version: ~> 2.3.5
-    require: 
-    - rails
+  text-format: 
+    group: 
+    - :default
+    version: ">= 0.6.3"
+  searchlogic: 
+    group: 
+    - :default
+    version: = 2.4.11
   mysql: 
     group: 
-    - :rails
+    - :default
     version: = 2.8.1
-    require: 
-    - mysql
   memcache-client: 
     group: 
-    - :rails
-    version: ">= 1.7.4"
-    require: 
-    - memcache-client
+    - :default
+    version: ">= 1.7.8"
   rake: 
     group: 
-    - :rails
+    - :default
     version: = 0.8.7
-    require: 
-    - rake
+  haml: 
+    group: 
+    - :default
+    version: = 2.2.20
   authlogic: 
     group: 
     - :default
     version: = 2.1.3
-    require: 
-    - authlogic
-  searchlogic: 
-    group: 
-    - :default
-    version: = 2.4.10
-    require: 
-    - searchlogic
-  haml: 
-    group: 
-    - :default
-    version: = 2.2.19
-    require: 
-    - haml
-  rspec: 
-    group: 
-    - :cucumber
-    version: = 1.3.0
-    require: 
-    - rspec
-  tmail: 
-    group: 
-    - :rails
-    version: ~> 1.2.3
-    require: 
-    - tmail
-  delayed_job: 
-    group: 
-    - :default
-    version: = 1.8.4
-    require: 
-    - delayed_job
   whenever: 
     group: 
     - :default
     version: = 0.4.1
-    require: 
-    - whenever
-  database_cleaner: 
+  tmail: 
+    group: 
+    - :default
+    version: ~> 1.2.3
+  delayed_job: 
+    group: 
+    - :default
+    version: = 1.8.4
+  rspec: 
     group: 
     - :cucumber
-    version: = 0.4.3
-    require: 
-    - database_cleaner
+    version: = 1.3.0
   rspec-rails: 
     group: 
     - :cucumber
     version: = 1.3.2
-    require: 
-    - rspec-rails
-  rack: 
-    group: 
-    - :rails
-    version: = 1.0.1
-    require: 
-    - rack
   formtastic: 
     group: 
     - :default
     version: = 0.9.7
-    require: 
-    - formtastic
+  rack: 
+    group: 
+    - :default
+    version: = 1.0.1
+  database_cleaner: 
+    group: 
+    - :cucumber
+    version: = 0.4.3
   cucumber-rails: 
     group: 
     - :cucumber
     version: = 0.2.4
-    require: 
-    - cucumber-rails
   factory_girl: 
     group: 
     - :cucumber
     version: = 1.2.3
-    require: 
-    - factory_girl
-  json: 
-    group: 
-    - :default
-    version: = 1.2.0
-    require: 
-    - json
   will_paginate: 
     group: 
     - :default
     version: = 2.3.12
-    require: 
-    - will_paginate
-  bundler: 
+  json: 
     group: 
-    - :rails
-    version: = 0.9.4
-    require: 
-    - bundler
+    - :default
+    version: = 1.2.0
   settingslogic: 
     group: 
     - :default
     version: = 2.0.5
-    require: 
-    - settingslogic
-  email_spec: 
+  bundler: 
     group: 
-    - :cucumber
-    version: = 0.4.0
-    require: 
-    - email_spec
+    - :default
+    version: = 0.9.7
   pickle: 
     group: 
     - :cucumber
     version: = 0.2.1
-    require: 
-    - pickle
+  i18n: 
+    group: 
+    - :default
+    version: ">= 0.1.3"
   remarkable_rails: 
     group: 
     - :test
     version: = 3.1.12
-    require: 
-    - remarkable_rails
-  i18n: 
+  email_spec: 
     group: 
-    - :rails
-    version: ">= 0.1.3"
-    require: 
-    - i18n
+    - :cucumber
+    version: = 0.4.0
   builder: 
     group: 
-    - :rails
+    - :default
     version: ~> 2.1.2
-    require: 
-    - builder
   capybara: 
     group: 
     - :cucumber
     version: = 0.3.0
-    require: 
-    - capybara
   twitter: 
     group: 
     - :default
     version: = 0.8.3
-    require: 
-    - twitter
 specs: 
-- text-hyphen: 
-    version: 1.0.0
 - activesupport: 
     version: 2.3.5
+- text-hyphen: 
+    version: 1.0.0
 - builder: 
     version: 2.1.2
-- daemons: 
-    version: 1.0.10
-- email_spec: 
-    version: 0.4.0
 - i18n: 
     version: 0.3.3
+- email_spec: 
+    version: 0.4.0
 - pickle: 
     version: 0.2.1
+- daemons: 
+    version: 1.0.10
 - json_pure: 
     version: 1.2.0
-- actionmailer: 
-    version: 2.3.5
 - bundler: 
-    version: 0.9.4
+    version: 0.9.7
 - settingslogic: 
     version: 2.0.5
-- json: 
-    version: 1.2.0
-- will_paginate: 
-    version: 2.3.12
 - factory_girl: 
     version: 1.2.3
 - cucumber-rails: 
     version: 0.2.4
-- gem_plugin: 
-    version: 0.2.3
-- cgi_multipart_eof_fix: 
-    version: 2.5.0
+- will_paginate: 
+    version: 2.3.12
+- json: 
+    version: 1.2.0
 - formtastic: 
     version: 0.9.7
 - database_cleaner: 
     version: 0.4.3
+- gem_plugin: 
+    version: 0.2.3
+- cgi_multipart_eof_fix: 
+    version: 2.5.0
+- crack: 
+    version: 0.1.7
+- tmail: 
+    version: 1.2.7.1
+- whenever: 
+    version: 0.4.1
+- delayed_job: 
+    version: 1.8.4
 - rubyforge: 
     version: 2.0.3
 - ruby-hmac: 
     version: 0.4.0
 - mime-types: 
     version: "1.16"
-- tmail: 
-    version: 1.2.7.1
-- delayed_job: 
-    version: 1.8.4
-- whenever: 
-    version: 0.4.1
-- crack: 
-    version: 0.1.6
 - oauth: 
     version: 0.3.6
 - hashie: 
     version: 0.1.8
 - selenium-webdriver: 
     version: 0.0.17
-- memcache-client: 
-    version: 1.7.8
+- polyglot: 
+    version: 0.3.0
+- treetop: 
+    version: 1.4.4
 - mysql: 
     version: 2.8.1
+- memcache-client: 
+    version: 1.7.8
 - rake: 
     version: 0.8.7
 - ffi: 
-    version: 0.6.0
+    version: 0.6.2
 - gemcutter: 
-    version: 0.3.0
+    version: 0.4.0
 - hoe: 
     version: 2.5.0
 - nokogiri: 
@@ -270,23 +208,23 @@ specs:
 - authlogic: 
     version: 2.1.3
 - haml: 
-    version: 2.2.19
-- polyglot: 
-    version: 0.3.0
-- treetop: 
-    version: 1.4.3
+    version: 2.2.20
 - diff-lcs: 
     version: 1.1.2
 - rspec: 
     version: 1.3.0
 - remarkable: 
-    version: 3.1.12
+    version: 3.1.13
 - culerity: 
-    version: 0.2.8
+    version: 0.2.9
 - remarkable_activerecord: 
-    version: 3.1.12
-- httparty: 
-    version: 0.4.5
+    version: 3.1.13
+- text-format: 
+    version: 1.0.0
+- activerecord: 
+    version: 2.3.5
+- searchlogic: 
+    version: 2.4.11
 - fastthread: 
     version: 1.0.7
 - mongrel: 
@@ -299,31 +237,29 @@ specs:
     version: 0.3.0
 - actionpack: 
     version: 2.3.5
+- actionmailer: 
+    version: 2.3.5
 - rspec-rails: 
     version: 1.3.2
 - remarkable_rails: 
     version: 3.1.12
-- text-format: 
-    version: 1.0.0
-- activerecord: 
-    version: 2.3.5
-- searchlogic: 
-    version: 2.4.10
-- activeresource: 
-    version: 2.3.5
-- rails: 
-    version: 2.3.5
+- httparty: 
+    version: 0.4.5
 - term-ansicolor: 
     version: 1.0.4
 - cucumber: 
     version: 0.6.2
-- tzinfo: 
-    version: 0.3.16
 - fakeweb: 
     version: 1.2.8
 - twitter: 
     version: 0.8.3
-hash: 981444544b378451f99dccdddbdf9787b8ee2292
+- activeresource: 
+    version: 2.3.5
+- rails: 
+    version: 2.3.5
+- tzinfo: 
+    version: 0.3.16
+hash: 7e94a05c13ee672837bd24c9edccddea663df392
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
