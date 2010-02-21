@@ -14,3 +14,4 @@ rerun.txt
 webrat-*.html
 capybara-*.html
 vendor/bundler_gems
+.bundle/environment.rb
