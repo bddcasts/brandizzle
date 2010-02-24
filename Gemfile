@@ -14,6 +14,7 @@ group :default do
   gem 'formtastic',    '0.9.7'
   gem 'delayed_job',   '1.8.4'
   gem 'settingslogic', '2.0.5'
+  gem 'twitter',       '0.8.3'
 end
 
 group :rails do
