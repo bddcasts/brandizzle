@@ -1,43 +1,46 @@
 #sidebar
   %h3 Monitored brands
+  .right
+    = link_to 'Add Brand', new_brand_path
   %ul
-    - current_user.brands.each do |brand|
+    - @brands.each do |brand|
       %li= link_to h(brand.name), edit_brand_path(brand)
 
 #content
   .span-9
-    %h2=h @brand.name
+    %h3="Edit #{@brand.name} brand"
   .span-9.last
     = link_to "Go back", brands_path, :class => "back_link"
   .clear
   
-  %h4 Settings
-  .span-9
-    - semantic_form_for @brand do |f|
-      - f.inputs do
-        = f.input :name
+  #settings
+    %h4 Settings
+    .span-11
+      - semantic_form_for @brand do |f|
+        - f.inputs do
+          = f.input :name
+        - f.buttons do
+          = f.commit_button 'Update'
     
-        %li
-          = f.submit 'Update'
-  .span-9.last.right
-    = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete", :confirm => "Are you sure you want to delete '#{@brand.name}' brand?"
-  .clear
+    .span-6.last.right
+      = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete", :confirm => "Are you sure you want to delete '#{@brand.name}' brand?"
   
-  %h4 Queries
-  .span-9
-    - semantic_form_for [@brand, @query] do |f|
-      - f.inputs do
-        = f.input :term
-        %li
-          = f.submit 'Add term'
+  #queries
+    .span-11
+      %h4 Queries
+      - semantic_form_for [@brand, @query] do |f|
+        - f.inputs do
+          = f.input :term
+          %li
+            = f.submit 'Add term'
   
-  .span-9.last
-    %ul#queries
-      - @brand.queries.each do |query|
-        %li
-          = h query.term
-          = link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete', :confirm => "Are you sure you want to delete '#{query.term}' term?"
-
+    .span-6.last
+      %h4 Terms
+      %ul#terms
+        - @brand.queries.each do |query|
+          %li
+            = h query.term
+            = link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete', :confirm => "Are you sure you want to delete '#{query.term}' term?"
 
 
 - content_for :head do

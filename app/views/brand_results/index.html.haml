@@ -30,7 +30,7 @@
             %td.created_at{:rowspan => 2}= brand_result.result.created_at.to_s(:short)
           %tr
             %td.controls
-              = link_to brand_result.result.url
+              = link_to h(brand_result.result.url), brand_result.result.url, :target => "_blank"
               \|
               = link_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result], :method => :post
 

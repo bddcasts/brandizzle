@@ -1,9 +1,6 @@
 class BrandsController < ApplicationController
   before_filter :require_user
-  
-  def index
-    @brands = current_user.brands
-  end  
+  before_filter :find_brands, :only => [:index, :new, :edit]
   
   def new
     @brand = current_user.brands.build
@@ -40,4 +37,9 @@ class BrandsController < ApplicationController
     flash[:notice] = "Brand deleted."
     redirect_to brand_results_path
   end
+  
+  private
+    def find_brands
+      @brands = current_user.brands
+    end
 end
