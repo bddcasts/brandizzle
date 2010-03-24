@@ -1,10 +1,9 @@
 .inner
   %h3 Reset Your Password
   
-  .span-12
-    - semantic_form_for @user, :url => password_reset_path(:id => @user.perishable_token) do |f|
-      - f.inputs do
-        = f.input :password
-        = f.input :password_confirmation
-      - f.buttons do
-        = f.commit_button "Update my password and log me in"
+  - semantic_form_for @user, :url => password_reset_path(:id => @user.perishable_token) do |f|
+    - f.inputs do
+      = f.input :password
+      = f.input :password_confirmation
+    - f.buttons do
+      = f.commit_button "Update my password and log me in"

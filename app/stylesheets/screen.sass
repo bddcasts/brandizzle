@@ -1,21 +1,22 @@
 @import blueprint/reset.sass
 @import partials/base.sass
 @import blueprint
-@import blueprint/modules/scaffolding.sass
 @import partials/tools.sass
 @import partials/flash.sass
 @import partials/header.sass
 @import partials/footer.sass
+@import partials/sidebar.sass
 @import partials/pagination.sass
 @import partials/results.sass
 @import partials/brands.sass
+@import partials/formtastic_base.sass
+@import partials/forms.sass
+
 
 // To generate css equivalent to the blueprint css but with your configuration applied, uncomment:
 // +blueprint
 
-//Recommended Blueprint configuration with scoping and semantic layout:
 +blueprint-typography("body.bp")
-+blueprint-scaffolding("body.bp")
 
 body.bp
   +blueprint-utilities
@@ -25,31 +26,34 @@ body.bp
   +blueprint-form
   :margin 1px 0
   :background-color #DDD
-  
+  :font 13px/1.5 Helvetica,Arial,'Liberation Sans',FreeSans,sans-serif
 
 .container
   +container
 
 body.bp
-  #page
-    :margin-top 20px
+  #bd
+    +container
+  #main-content
+    :margin-top 16px
+    +clearfix
+    
   #sidebar
-    !sidebar_columns = floor(!blueprint_grid_columns / 4)
-    +column(!sidebar_columns)
-    .inner
-      :border 1px solid #000
+    +column(6)
+    +inner
+    :border 1px solid #000
+    :margin-right 16px
+    
   #content
-    !content_columns = ceil(3 * !blueprint_grid_columns / 4)
-    +column(!content_columns, true)
-    .inner
-      :min-height 300px
+    +column(18, true)
+    +inner
   
   .inner
-    :background-color #FFF
-    :padding 5px
-    +rounded
-    +clearfix
+    +inner
     
   a, a:visited
     :color #105CB6
+  ul
+    :margin-left 0
+    :margin-right 0
     

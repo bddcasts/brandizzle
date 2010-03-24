@@ -22,10 +22,7 @@
   :border-radius = !radius
   :-moz-border-radius = !radius
   :-webkit-border-radius = !radius
-  
-  
-  border-top-left-radius
-  
+
 =rounded-top(!radius = 5px)
   :border-top-left-radius = !radius
   :-moz-border-radius-topleft = !radius
@@ -41,3 +38,10 @@
   :border-bottom-right-radius = !radius
   :-moz-border-radius-bottomright = !radius
   :-webkit-border-bottom-right-radius = !radius
+
+=inner
+  :background-color #FFF
+  :padding 10px
+  :min-height 350px
+  +rounded
+  +clearfix

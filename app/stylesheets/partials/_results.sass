@@ -9,13 +9,7 @@
       :white-space nowrap
       
     &.body
-      a
-        :display block
-        :text-decoration none
-        :color #555
-        
-        &:hover
-          :color #000
+      :color #555
     
     &.source
       a
@@ -30,3 +24,6 @@
 
         &.blog
           :background-image url("/images/feed-balloon.png")
+    &.controls
+      a
+        +hover-link

@@ -1,32 +1,37 @@
 #sidebar
-  .inner
-    %h3 Brands
-    %ul
-      %li=link_to "All", brand_results_path
-      - @brands.each do |brand|
-        %li= link_to brand.name, brand_results_path(:search => {:brand_id_is => brand.id})
-    
-    %h3 Timeframe
-      
-#content
-  .inner
-    #entries
-      = page_entries_info @brand_results, :entry_name => "result"
-    - if @brand_results && !@brand_results.empty?
-      %table#results
-        %tbody
-          - @brand_results.each do |brand_result|
-            %tr
-              %td.source{:rowspan => 2}
-                %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
-                  = h brand_result.result.source
-              %td.body
-                %a{:href => brand_result.result.url, :title => brand_result.result.url, :target => "_blank" }
-                  = sanitize brand_result.result.body
-              %td.created_at{:rowspan => 2}= brand_result.result.created_at.to_s(:short)
-            %tr
-              %td.controls
-                = link_to brand_result.result.url
-                = link_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result], :method => :post
+  %h3 Brands
+  %ul
+    %li=link_to "All", brand_results_path(merge_search_params({:brand_id_is => nil}))
+    - @brands.each do |brand|
+      %li= link_to brand.name, brand_results_path(merge_search_params({:brand_id_is => brand.id}))
+  
+  %h3 Timeframe
+  %ul
+    %li= link_to "Today", brand_results_path(time_filter("today"))
+    %li= link_to "Yesterday", brand_results_path(time_filter("yesterday"))
+    %li= link_to "This Week", brand_results_path(time_filter("this week"))
+    %li= link_to "Last week", brand_results_path(time_filter("last week"))
+    %li= link_to "This month", brand_results_path(time_filter("this month"))
+    %li= link_to "Last month", brand_results_path(time_filter("last month"))
+    %li= link_to "Any time", brand_results_path(time_filter)
 
-    = will_paginate @brand_results, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;'
+#content
+  #entries
+    = page_entries_info @brand_results, :entry_name => "result"
+  - if @brand_results && !@brand_results.empty?
+    %table#results
+      %tbody
+        - @brand_results.each do |brand_result|
+          %tr
+            %td.source{:rowspan => 2}
+              %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
+                = h brand_result.result.source
+            %td.body= sanitize brand_result.result.body
+            %td.created_at{:rowspan => 2}= brand_result.result.created_at.to_s(:short)
+          %tr
+            %td.controls
+              = link_to brand_result.result.url
+              \|
+              = link_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result], :method => :post
+
+  = will_paginate @brand_results, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;'

@@ -1,6 +1,7 @@
 class BrandResultsController < ApplicationController
   before_filter :require_user
   before_filter :find_result
+  helper :filter
   
   def index
     @brands = current_user.brands

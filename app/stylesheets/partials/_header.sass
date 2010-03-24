@@ -1,24 +1,25 @@
 @import compass/utilities.sass
 
 body.bp
-  #header
+  #hd
     :background-color #1B5790
     +rounded-top
+    +container
     h1
       :margin 10px
       :float left
+      :font
+        :size 175%
+        :weight bold
       a, a:visited
         :text-decoration none
         :color white
         
-  .account
-    :float right
-    :margin-right 10px
-    ul
-      :margin 10px 0 0 0
+    ul#account-links
+      +horizontal-list
+      :margin 10px 10px 0 0
+      :float right
       li
-        :list-style none
-        :float left
         :color #ffffff
         :margin-left 15px
       a
@@ -26,6 +27,7 @@ body.bp
         :text-decoration none
         &:hover
           :text-decoration underline
+
   #nav    
     +column(25)
     :margin-top 5px
@@ -37,15 +39,12 @@ body.bp
 
         a
           :background-color #466BB1
-          :-moz-border-radius-topleft 5px
-          :-moz-border-radius-topright 5px
-          :-webkit-border-top-left-radius 5px
-          :-webkit-border-top-right-radius 5px
           :color #FFFFFF
           :text-decoration none
           :display block
           :padding 4px 8px 5px
           :text-align center
+          +rounded-top
           &:hover
             :background-color #97BAFF
         &.selected
