@@ -1,10 +1,15 @@
 %html
   %head
-    %title Brandizzle
-    = stylesheet_link_tag '960', 'reset', 'text', 'master', 'formtastic', 'formtastic_changes', :media => 'screen'
+    %title Brandizzle    
+    = stylesheet_link_tag 'compiled/screen.css', 'formtastic', 'formtastic_changes', :media => 'screen, projection'
+    = stylesheet_link_tag 'compiled/print.css', :media => 'print'
+    /[if lt IE 8]
+      = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
+    
+    
     = javascript_include_tag 'jquery-1.4.1', 'application'
     = yield :head
-  %body
+  %body.bp
     .container_12
       = render "shared/header"
       .grid_12
