@@ -15,20 +15,21 @@ group :default do
   gem 'delayed_job',   '1.8.4'
   gem 'settingslogic', '2.0.5'
   gem 'twitter',       '0.8.3'
+  gem 'compass',       '0.8.17'
 end
 
 group :rails do
-  gem 'rails', '~> 2.3.5'
-  gem 'rack',    '1.0.1'
-  gem 'bundler', '0.9.4'
-  gem 'rake',    '0.8.7'
-  gem 'builder', '~> 2.1.2'
-  gem 'memcache-client', '>= 1.7.4'
-  gem 'tzinfo', '~> 0.3.12'
-  gem 'i18n', '>= 0.1.3'
-  gem 'tmail', '~> 1.2.3'
-  gem 'text-format', '>= 0.6.3', :require => 'text/format'
-  gem 'mysql', '2.8.1'
+  gem 'rails',            '~> 2.3.5'
+  gem 'rack',             '1.0.1'
+  gem 'bundler',          '0.9.13'
+  gem 'rake',             '0.8.7'
+  gem 'builder',          '~> 2.1.2'
+  gem 'memcache-client',  '>= 1.7.4'
+  gem 'tzinfo',           '~> 0.3.12'
+  gem 'i18n',             '>= 0.1.3'
+  gem 'tmail',            '~> 1.2.3'
+  gem 'text-format',      '>= 0.6.3', :require => 'text/format'
+  gem 'mysql',            '2.8.1'
 end
 
 group :test do
