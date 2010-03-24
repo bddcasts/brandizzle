@@ -1,12 +1,12 @@
-.grid_12
-  %h2 Edit your account information
+.inner
+  %h3 Edit your account information
 
-.grid_6
-  - semantic_form_for @user, :url => account_path do |f|
-    - f.inputs do
-      = f.input :password
-      = f.input :password_confirmation
-    - f.buttons do
-      = f.commit_button "Update information"
-      or
-      = link_to "Cancel", brand_results_path
+  .span-12
+    - semantic_form_for @user, :url => account_path do |f|
+      - f.inputs do
+        = f.input :password
+        = f.input :password_confirmation
+      - f.buttons do
+        = f.commit_button "Update information"
+        or
+        = link_to "Cancel", brand_results_path

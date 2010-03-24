@@ -1,6 +1,10 @@
 class BrandsController < ApplicationController
   before_filter :require_user
-    
+  
+  def index
+    @brands = current_user.brands
+  end  
+  
   def new
     @brand = current_user.brands.build
   end

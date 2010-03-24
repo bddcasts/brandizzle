@@ -1,0 +1,32 @@
+#entries
+  :font-weight bold
+  :margin-bottom 10px
+#results
+  td
+    :vertical-align top
+    :padding 4px
+    &.created_at
+      :white-space nowrap
+      
+    &.body
+      a
+        :display block
+        :text-decoration none
+        :color #555
+        
+        &:hover
+          :color #000
+    
+    &.source
+      a
+        :text-indent -999px
+        :width 16px
+        :height 16px
+        :display block
+        :background transparent url() no-repeat 50% 50%
+    
+        &.twitter
+          :background-image url("/images/balloon-twitter.png")
+
+        &.blog
+          :background-image url("/images/feed-balloon.png")

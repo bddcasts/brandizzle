@@ -1,48 +1,32 @@
-.grid_12
-  %h2 Latest results
-
-  #filters
-    - form_for @search, :html => { :id => "filter-form" } do |f|    
-      %fieldset
-        %legend Filter the results
-        %ul
-          %li
-            = f.label :brand_id_is, "Brand:"
-            = f.collection_select :brand_id_is, @brands, :id, :name, { :include_blank => "- All -" }
-          %li
-            = f.label :result_source_is, "Source:"
-            = f.select :result_source_is, [["twitter", "twitter"], ["blog", "blog"]], :include_blank => "- All -"
-          %li
-            = f.label :follow_up_is, "Flag:"
-            = f.select :follow_up_is, [["follow up", true]], :include_blank => "- All -"
-
-.grid_9
-  %table#results
-    %tbody
-      - if @brand_results && !@brand_results.empty?
-        - @brand_results.each do |brand_result|
-          %tr
-            %td.source
-              %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
-                = h brand_result.result.source
-            %td.body
-              %a{:href => brand_result.result.url, :title => brand_result.result.url, :target => "_blank" }
-                = sanitize brand_result.result.body
-            %td{:style => 'white-space: nowrap;'}= brand_result.result.created_at.to_s(:short)
-            %td= button_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result]
-      - else
-        %tr
-          %td{:colspan => 4}
-            No results.
-  = will_paginate @brand_results, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;'
-
-.grid_3
-  #sidebar
-    %h3 Monitored brands
-
+#sidebar
+  .inner
+    %h3 Brands
     %ul
+      %li=link_to "All", brand_results_path
       - @brands.each do |brand|
-        %li= link_to h(brand.name), edit_brand_path(brand)
+        %li= link_to brand.name, brand_results_path(:search => {:brand_id_is => brand.id})
+    
+    %h3 Timeframe
+      
+#content
+  .inner
+    #entries
+      = page_entries_info @brand_results, :entry_name => "result"
+    - if @brand_results && !@brand_results.empty?
+      %table#results
+        %tbody
+          - @brand_results.each do |brand_result|
+            %tr
+              %td.source{:rowspan => 2}
+                %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
+                  = h brand_result.result.source
+              %td.body
+                %a{:href => brand_result.result.url, :title => brand_result.result.url, :target => "_blank" }
+                  = sanitize brand_result.result.body
+              %td.created_at{:rowspan => 2}= brand_result.result.created_at.to_s(:short)
+            %tr
+              %td.controls
+                = link_to brand_result.result.url
+                = link_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result], :method => :post
 
-    #add-brand
-      = link_to 'Add Brand', new_brand_path
+    = will_paginate @brand_results, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;'

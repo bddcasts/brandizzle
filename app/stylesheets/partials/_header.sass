@@ -1,0 +1,55 @@
+@import compass/utilities.sass
+
+body.bp
+  #header
+    :background-color #1B5790
+    +rounded-top
+    h1
+      :margin 10px
+      :float left
+      a, a:visited
+        :text-decoration none
+        :color white
+        
+  .account
+    :float right
+    :margin-right 10px
+    ul
+      :margin 10px 0 0 0
+      li
+        :list-style none
+        :float left
+        :color #ffffff
+        :margin-left 15px
+      a
+        :color #ffffff
+        :text-decoration none
+        &:hover
+          :text-decoration underline
+  #nav    
+    +column(25)
+    :margin-top 5px
+    ul
+      +horizontal-list
+      li
+        :margin-left 10px
+        :padding 0 5px 0 0
+
+        a
+          :background-color #466BB1
+          :-moz-border-radius-topleft 5px
+          :-moz-border-radius-topright 5px
+          :-webkit-border-top-left-radius 5px
+          :-webkit-border-top-right-radius 5px
+          :color #FFFFFF
+          :text-decoration none
+          :display block
+          :padding 4px 8px 5px
+          :text-align center
+          &:hover
+            :background-color #97BAFF
+        &.selected
+          a
+            :background-color #97BAFF
+            
+            

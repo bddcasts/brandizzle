@@ -10,16 +10,12 @@
     = javascript_include_tag 'jquery-1.4.1', 'application'
     = yield :head
   %body.bp
-    .container_12
-      = render "shared/header"
-      .grid_12
-        #flash
-          - flash.each do |key, message|
-            %div.flash(id=key)
-              =h message
-      .clear
+    = render "shared/header"
+    #main-content.container
+      #flash
+        - flash.each do |key, message|
+          %div.flash(id=key)
+            =h message
       #page
         = yield
-        .clear
-
-      = render "shared/footer"
+    = render "shared/footer"

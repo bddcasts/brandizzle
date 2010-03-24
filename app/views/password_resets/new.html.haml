@@ -1,14 +1,14 @@
-.grid_12
-  %h2 Recover password
+.inner
+  %h3 Recover password
   
-.grid_6
-  - form_tag password_resets_path, :class => "formtastic" do
-    %fieldset.inputs
-      %ol
-        %li.string.required
-          = label_tag :email
-          = text_field_tag :email
-    %fieldset.buttons
-      %ol
-        %li.commit
-          = submit_tag "Request password reset"
+  .span-12
+    - form_tag password_resets_path, :class => "formtastic" do
+      %fieldset.inputs
+        %ol
+          %li.string.required
+            = label_tag :email
+            = text_field_tag :email, {}, :size => 50
+      %fieldset.buttons
+        %ol
+          %li.commit
+            = submit_tag "Request password reset"

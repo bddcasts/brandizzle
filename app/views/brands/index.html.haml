@@ -1,0 +1,11 @@
+#sidebar
+  .inner
+    %h3 Monitored brands
+    %ul
+      - @brands.each do |brand|
+        %li= link_to h(brand.name), edit_brand_path(brand)
+
+#content
+  .inner
+    #add-brand
+      = link_to 'Add Brand', new_brand_path
