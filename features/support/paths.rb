@@ -6,8 +6,10 @@ module NavigationHelpers
       '/'
     when /the about page/
       '/about'
-    when /the dashboard/
+    when /the results page/
       brand_results_path
+    when /the brands index page/
+      brands_path
     when /the brand edit page for "([^\"]*)"/
       edit_brand_path(Brand.find_by_name($1))
 

@@ -8,12 +8,12 @@ Feature: Manage Brands
       And a brand: "Kerfluegle" exists with name: "Kerfluegle", user: user "cartman"
 
   Scenario: A user sees the dashboard
-    Given I am on the dashboard
+    Given I am on the brands index page
      Then I should see "Kerfluegle"
   
   Scenario: Adding a new brand
-    Given I am on the dashboard
-     When I follow "Add Brand"
+    Given I am on the brands index page
+     When I follow "Add a new brand"
       And I fill in "Name" with "Kerfluegle"
       And I press "Create"
      Then I should see "Brand successfully created."
@@ -30,7 +30,7 @@ Feature: Manage Brands
     Given I am on the brand edit page for "Kerfluegle"
       And I press "Delete brand"
      Then I should see "Brand deleted"
-      And I should be on the dashboard
+      And I should be on the brands index page
       And I should not see "Kerfluegle"
   
   Scenario: Add a query

@@ -35,7 +35,7 @@ class BrandsController < ApplicationController
     @brand = current_user.brands.find(params[:id])
     @brand.destroy
     flash[:notice] = "Brand deleted."
-    redirect_to brand_results_path
+    redirect_to brands_path
   end
   
   private

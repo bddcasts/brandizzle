@@ -20,7 +20,7 @@ describe QueriesController do
     
     def post_with_invalid_params
       @query.should_receive(:new_record?).and_return(true)
-      post :create, :brand_id => 37, :query => {}
+      post :create, :brand_id => 37, :query => { :term => 'new term' }
     end
     
     it "should find the brand and assigns it for the view" do

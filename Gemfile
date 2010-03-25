@@ -35,19 +35,20 @@ end
 group :test do
   gem 'rspec',            '1.3.0'
   gem 'rspec-rails',      '1.3.2'
-  gem 'remarkable_rails', '3.1.12'
+  gem 'remarkable_rails', '3.1.13'
   gem 'factory_girl',     '1.2.3'
   gem 'fakeweb'
 end
 
 group :cucumber do
-  gem 'cucumber-rails',   '0.2.4'
-  gem 'database_cleaner', '0.4.3'
-  gem 'capybara',         '0.3.0'
-  gem 'rspec',            '1.3.0'
-  gem 'rspec-rails',      '1.3.2'
-  gem 'factory_girl',     '1.2.3'
-  gem 'pickle',           '0.2.1'
-  gem 'email_spec',       '0.4.0'
-  gem 'mongrel',          '1.1.5'
+  gem 'cucumber-rails',     '0.2.4'
+  gem 'database_cleaner',   '0.4.3'
+  gem 'capybara',           '0.3.6'
+  gem 'rspec',              '1.3.0'
+  gem 'rspec-rails',        '1.3.2'
+  gem 'factory_girl',       '1.2.3'
+  gem 'pickle',             '0.2.1'
+  gem 'email_spec',         '0.4.0'
+  gem 'mongrel',            '1.1.5'
+  gem 'launchy',            '0.3.5'
 end

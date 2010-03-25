@@ -5,6 +5,28 @@ describe BrandsController do
     login_user
   end
 
+  describe "handling GET index" do
+    before(:each) do
+      @brands = (1..3).map{ mock_model(Brand) }
+      current_user.stub!(:brands).and_return(@brands)
+    end
+    
+    def do_get
+      get :index
+    end
+    
+    it "finds the current user's brands and assigns them for the view" do
+      current_user.should_receive(:brands).and_return(@brands)
+      do_get
+      assigns[:brands].should == @brands
+    end
+    
+    it "renders the index template" do
+      do_get
+      response.should render_template(:index)
+    end
+  end
+
   describe "handling GET new" do
     before(:each) do
       @brand = mock_model(Brand)
@@ -149,7 +171,7 @@ describe BrandsController do
     
     it "sets the flash and redirects to the dashboard" do
       do_delete
-      response.should redirect_to(brand_results_path)
+      response.should redirect_to(brands_path)
       flash[:notice].should == 'Brand deleted.'
     end
   end

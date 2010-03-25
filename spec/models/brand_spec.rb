@@ -40,7 +40,7 @@ describe Brand do
     end
   end
   
-  describe "#remove_search" do
+  describe "#remove_query" do
     before(:each) do
       @brand = Factory.create(:brand)
       @bar_query = @brand.add_query('bar')
