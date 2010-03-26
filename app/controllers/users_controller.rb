@@ -3,6 +3,8 @@ class UsersController < ApplicationController
   before_filter :require_user,    :only => [:edit, :update]
   before_filter :require_invitation, :only => [:new]
   
+  layout :detect_layout
+  
   def new
     @user = User.new(:invitation_token => params[:invitation_token])
     @user.email = @user.invitation.recipient_email if @user.invitation
@@ -42,5 +44,9 @@ class UsersController < ApplicationController
         "If you are having issues try copying and pasting the URL from your email into your browser."
         redirect_to new_user_session_path
       end
+    end
+    
+    def detect_layout
+      action_name == "new" && "login" || "application"
     end
 end

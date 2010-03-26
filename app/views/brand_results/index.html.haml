@@ -23,15 +23,15 @@
       %tbody
         - @brand_results.each do |brand_result|
           %tr
-            %td.source{:rowspan => 2}
+            %td.source
               %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
                 = h brand_result.result.source
-            %td.body= sanitize brand_result.result.body
-            %td.created_at{:rowspan => 2}= brand_result.result.created_at.to_s(:short)
-          %tr
-            %td.controls
+            %td.body
+              %div
+                = sanitize brand_result.result.body
               = link_to h(brand_result.result.url), brand_result.result.url, :target => "_blank"
               \|
               = link_to brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result], :method => :post
+            %td.created_at= brand_result.result.created_at.to_s(:short)
 
   = will_paginate @brand_results, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;'

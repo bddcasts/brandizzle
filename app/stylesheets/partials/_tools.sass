@@ -39,9 +39,15 @@
   :-moz-border-radius-bottomright = !radius
   :-webkit-border-bottom-right-radius = !radius
 
+=inset-border-shadow(!radius = 10px)
+  :-moz-box-shadow= "inset" 0 0 !radius #CCC
+  :-webkit-box-shadow= "inset" 0 0 !radius #CCC
+  :box-shadow= "inset" 0 0 !radius #CCC
+
 =inner
   :background-color #FFF
   :padding 10px
   :min-height 350px
   +rounded
   +clearfix
+  +inset-border-shadow

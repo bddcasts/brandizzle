@@ -342,32 +342,42 @@ body.bp .pagination {
 /* line 5, ../../../app/stylesheets/partials/_results.sass */
 #results td {
   vertical-align: top;
-  padding: 4px; }
-  /* line 8, ../../../app/stylesheets/partials/_results.sass */
+  padding: 10px 4px 4px 4px;
+  border-bottom: 1px dashed #999; }
+  /* line 9, ../../../app/stylesheets/partials/_results.sass */
   #results td.created_at {
     white-space: nowrap; }
-  /* line 11, ../../../app/stylesheets/partials/_results.sass */
+  /* line 12, ../../../app/stylesheets/partials/_results.sass */
   #results td.body {
     color: #555; }
-  /* line 15, ../../../app/stylesheets/partials/_results.sass */
-  #results td.source a {
-    text-indent: -999px;
-    width: 16px;
-    height: 16px;
-    display: block;
-    background: transparent url() no-repeat 50% 50%; }
+    /* line 14, ../../../app/stylesheets/partials/_results.sass */
+    #results td.body a {
+      text-decoration: none; }
+      /* line 4, ../../../../../../../.rvm/gems/ruby-1.8.7-p249/gems/compass-0.8.17/frameworks/compass/stylesheets/compass/utilities/links/_hover_link.sass */
+      #results td.body a:hover {
+        text-decoration: underline; }
+      /* line 17, ../../../app/stylesheets/partials/_results.sass */
+      #results td.body a:visited:hover {
+        color: #000; }
+  /* line 20, ../../../app/stylesheets/partials/_results.sass */
+  #results td.source {
+    border: none; }
     /* line 22, ../../../app/stylesheets/partials/_results.sass */
-    #results td.source a.twitter {
-      background-image: url("/images/balloon-twitter.png"); }
-    /* line 25, ../../../app/stylesheets/partials/_results.sass */
-    #results td.source a.blog {
-      background-image: url("/images/feed-balloon.png"); }
-  /* line 28, ../../../app/stylesheets/partials/_results.sass */
-  #results td.controls a {
-    text-decoration: none; }
-    /* line 4, ../../../../../../../.rvm/gems/ruby-1.8.7-p249/gems/compass-0.8.17/frameworks/compass/stylesheets/compass/utilities/links/_hover_link.sass */
-    #results td.controls a:hover {
-      text-decoration: underline; }
+    #results td.source a {
+      text-indent: -999px;
+      width: 16px;
+      height: 16px;
+      display: block;
+      background: transparent url() no-repeat 50% 50%; }
+      /* line 29, ../../../app/stylesheets/partials/_results.sass */
+      #results td.source a.twitter {
+        background-image: url("/images/balloon-twitter.png"); }
+      /* line 32, ../../../app/stylesheets/partials/_results.sass */
+      #results td.source a.blog {
+        background-image: url("/images/feed-balloon.png"); }
+/* line 35, ../../../app/stylesheets/partials/_results.sass */
+#results tr:last-child td {
+  border: none; }
 
 /* line 2, ../../../app/stylesheets/partials/_brands.sass */
 body.bp #settings, body.bp #queries {
@@ -1465,8 +1475,9 @@ body.bp #sidebar {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   *display: inline-block;
-  border: 1px solid #000;
-  margin-right: 18px; }
+  -moz-box-shadow: inset 0 0 10px #cccccc;
+  -webkit-box-shadow: inset 0 0 10px #cccccc;
+  box-shadow: inset 0 0 10px #cccccc; }
   /* line 101, ../../../../../../../.rvm/gems/ruby-1.8.7-p249/gems/compass-0.8.17/frameworks/blueprint/stylesheets/blueprint/modules/_grid.sass */
   * html body.bp #sidebar {
     overflow-x: hidden; }
@@ -1477,7 +1488,7 @@ body.bp #sidebar {
     height: 0;
     clear: both;
     visibility: hidden; }
-/* line 47, ../../../app/stylesheets/screen.sass */
+/* line 45, ../../../app/stylesheets/screen.sass */
 body.bp #content {
   display: inline;
   float: left;
@@ -1489,7 +1500,10 @@ body.bp #content {
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  *display: inline-block; }
+  *display: inline-block;
+  -moz-box-shadow: inset 0 0 10px #cccccc;
+  -webkit-box-shadow: inset 0 0 10px #cccccc;
+  box-shadow: inset 0 0 10px #cccccc; }
   /* line 101, ../../../../../../../.rvm/gems/ruby-1.8.7-p249/gems/compass-0.8.17/frameworks/blueprint/stylesheets/blueprint/modules/_grid.sass */
   * html body.bp #content {
     overflow-x: hidden; }
@@ -1500,7 +1514,7 @@ body.bp #content {
     height: 0;
     clear: both;
     visibility: hidden; }
-/* line 51, ../../../app/stylesheets/screen.sass */
+/* line 49, ../../../app/stylesheets/screen.sass */
 body.bp .inner {
   background-color: #FFF;
   padding: 10px;
@@ -1508,7 +1522,10 @@ body.bp .inner {
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  *display: inline-block; }
+  *display: inline-block;
+  -moz-box-shadow: inset 0 0 10px #cccccc;
+  -webkit-box-shadow: inset 0 0 10px #cccccc;
+  box-shadow: inset 0 0 10px #cccccc; }
   /* line 98, ../../../app/stylesheets/partials/_formtastic_base.sass */
   body.bp .inner:after {
     content: " ";
@@ -1516,10 +1533,10 @@ body.bp .inner {
     height: 0;
     clear: both;
     visibility: hidden; }
-/* line 54, ../../../app/stylesheets/screen.sass */
+/* line 52, ../../../app/stylesheets/screen.sass */
 body.bp a, body.bp a:visited {
   color: #105CB6; }
-/* line 56, ../../../app/stylesheets/screen.sass */
+/* line 54, ../../../app/stylesheets/screen.sass */
 body.bp ul {
   margin-left: 0;
   margin-right: 0; }

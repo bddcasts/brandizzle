@@ -4,23 +4,24 @@
 
   %ul#account-links
     - if current_user
+      %li= "Welcome #{current_user}"
       - if current_user.invitation_limit > 0
         %li
           = link_to "Invite your friends", new_invitation_path
           = "(#{current_user.invitation_limit} left)"
       %li
-        = link_to "My account", edit_account_path
+        = link_to "My info", edit_account_path
       %li= link_to "Sign out", user_session_path, :method => 'delete'
     - else
       %li= link_to "Login", new_user_session_path
 
   #nav
     %ul
-      %li{:class => controller.controller_name == 'brand_results' ? "selected" : nil}
+      %li{:class => active("results") ? "selected" : nil}
         = link_to "Results", brand_results_path
-      %li
-        = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true} )
-      %li{:class => controller.controller_name == "brands" ? "selected" : nil}
+      %li{:class => active("follow_up") ? "selected" : nil}
+        = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true } )
+      %li{:class => active("brands") ? "selected" : nil}
         = link_to "Brands", brands_path
       %li= link_to "Team", "#"
       %li= link_to "Search", "#"

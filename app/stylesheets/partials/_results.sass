@@ -4,14 +4,21 @@
 #results
   td
     :vertical-align top
-    :padding 4px
+    :padding 10px 4px 4px 4px
+    :border-bottom 1px dashed #999
     &.created_at
       :white-space nowrap
       
     &.body
       :color #555
+      a
+        +hover-link
+        &:visited
+          &:hover
+            :color #000
     
     &.source
+      :border none
       a
         :text-indent -999px
         :width 16px
@@ -24,6 +31,6 @@
 
         &.blog
           :background-image url("/images/feed-balloon.png")
-    &.controls
-      a
-        +hover-link
+  tr:last-child
+    td
+      :border none

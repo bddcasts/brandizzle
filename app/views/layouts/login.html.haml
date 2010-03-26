@@ -6,11 +6,13 @@
     = stylesheet_link_tag 'compiled/print.css', :media => 'print'
     /[if lte IE 8]
       = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
-    
-    = javascript_include_tag 'jquery-1.4.1', 'application'
-    = yield :head
   %body.bp
-    = render "shared/header"
+    #hd
+      %h1
+        = link_to 'Brandizzle', brand_results_path
+
+      %ul#account-links
+        %li= link_to "Login", new_user_session_path
     #bd
       #flash
         - flash.each do |key, message|
