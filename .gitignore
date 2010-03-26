@@ -13,3 +13,5 @@ rerun.txt
 webrat-*.html
 capybara-*.html
 vendor/bundler_gems
+vendor/cache/*.gem
+.bundle

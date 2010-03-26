@@ -18,10 +18,14 @@ dependencies:
     version: ">= 0.6.3"
     require: 
     - text/format
+  annotate: 
+    group: 
+    - :default
+    version: = 2.4.0
   rails: 
     group: 
     - :rails
-    version: ~> 2.3.5
+    version: = 2.3.5
   mongrel: 
     group: 
     - :cucumber
@@ -34,18 +38,18 @@ dependencies:
     group: 
     - :rails
     version: = 0.8.7
-  searchlogic: 
-    group: 
-    - :default
-    version: = 2.4.10
-  haml: 
-    group: 
-    - :default
-    version: = 2.2.19
   authlogic: 
     group: 
     - :default
     version: = 2.1.3
+  haml: 
+    group: 
+    - :default
+    version: = 2.2.19
+  searchlogic: 
+    group: 
+    - :default
+    version: = 2.4.10
   mysql: 
     group: 
     - :rails
@@ -54,14 +58,14 @@ dependencies:
     group: 
     - :cucumber
     version: = 1.3.0
-  whenever: 
-    group: 
-    - :default
-    version: = 0.4.1
   delayed_job: 
     group: 
     - :default
     version: = 1.8.4
+  whenever: 
+    group: 
+    - :default
+    version: = 0.4.1
   tmail: 
     group: 
     - :rails
@@ -82,14 +86,14 @@ dependencies:
     group: 
     - :cucumber
     version: = 1.3.2
-  will_paginate: 
-    group: 
-    - :default
-    version: = 2.3.12
   json: 
     group: 
     - :default
     version: = 1.2.0
+  will_paginate: 
+    group: 
+    - :default
+    version: = 2.3.12
   factory_girl: 
     group: 
     - :cucumber
@@ -97,7 +101,7 @@ dependencies:
   cucumber-rails: 
     group: 
     - :cucumber
-    version: = 0.2.4
+    version: = 0.3.0
   settingslogic: 
     group: 
     - :default
@@ -133,7 +137,7 @@ dependencies:
   twitter: 
     group: 
     - :default
-    version: = 0.8.3
+    version: = 0.8.6
   capybara: 
     group: 
     - :cucumber
@@ -153,6 +157,8 @@ specs:
     version: 2.3.5
 - activeresource: 
     version: 2.3.5
+- annotate: 
+    version: 2.4.0
 - authlogic: 
     version: 2.1.3
 - builder: 
@@ -192,7 +198,7 @@ specs:
 - configuration: 
     version: 1.1.0
 - crack: 
-    version: 0.1.7
+    version: 0.1.6
 - diff-lcs: 
     version: 1.1.2
 - polyglot: 
@@ -204,7 +210,7 @@ specs:
 - cucumber: 
     version: 0.6.3
 - cucumber-rails: 
-    version: 0.2.4
+    version: 0.3.0
 - daemons: 
     version: 1.0.10
 - database_cleaner: 
@@ -226,7 +232,7 @@ specs:
 - hashie: 
     version: 0.1.8
 - httparty: 
-    version: 0.4.5
+    version: 0.5.2
 - i18n: 
     version: 0.3.6
 - json: 
@@ -268,14 +274,14 @@ specs:
 - tmail: 
     version: 1.2.7.1
 - twitter: 
-    version: 0.8.3
+    version: 0.8.6
 - tzinfo: 
     version: 0.3.17
 - whenever: 
     version: 0.4.1
 - will_paginate: 
     version: 2.3.12
-hash: 850d5a6504aa13d6270d5396cf023baaf9050a32
+hash: 217d18f05c79f56271d9a90ebc06b47972d7f712
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

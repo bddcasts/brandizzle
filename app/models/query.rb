@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: queries
+#
+#  id         :integer(4)      not null, primary key
+#  term       :string(255)
+#  latest_id  :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Query < ActiveRecord::Base
   validates_presence_of :term
   has_many :brand_queries

@@ -5,7 +5,6 @@ source :gemcutter
 
 group :default do
   gem 'haml',          '2.2.19'
-  gem 'twitter',       '0.8.3'
   gem 'will_paginate', '2.3.12'
   gem 'whenever',      '0.4.1'
   gem 'json',          '1.2.0'
@@ -14,12 +13,13 @@ group :default do
   gem 'formtastic',    '0.9.7'
   gem 'delayed_job',   '1.8.4'
   gem 'settingslogic', '2.0.5'
-  gem 'twitter',       '0.8.3'
+  gem 'twitter',       '0.8.6'
   gem 'compass',       '0.8.17'
+  gem 'annotate',      '2.4.0'
 end
 
 group :rails do
-  gem 'rails',            '~> 2.3.5'
+  gem 'rails',            '2.3.5'
   gem 'rack',             '1.0.1'
   gem 'bundler',          '0.9.13'
   gem 'rake',             '0.8.7'
@@ -41,7 +41,7 @@ group :test do
 end
 
 group :cucumber do
-  gem 'cucumber-rails',     '0.2.4'
+  gem 'cucumber-rails',     '0.3.0'
   gem 'database_cleaner',   '0.4.3'
   gem 'capybara',           '0.3.6'
   gem 'rspec',              '1.3.0'
