@@ -1,9 +1,13 @@
-#sidebar
+.inner
+  .right
+    = link_to 'Add a new brand', new_brand_path
+
   %h3 Monitored brands
-  %ul
+  %ul#brands
     - @brands.each do |brand|
       %li= link_to h(brand.name), edit_brand_path(brand)
-
-#content
-  #add-brand
-    = link_to 'Add a new brand', new_brand_path
+      %li
+        %ul#terms
+          - brand.queries.each do |query|
+            %li= query.term
+          

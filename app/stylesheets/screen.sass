@@ -35,14 +35,14 @@ body.bp
   #bd
     +container
   #main-content
-    :margin-top 16px
+    :margin-top 18px
     +clearfix
     
   #sidebar
     +column(6)
     +inner
     :border 1px solid #000
-    :margin-right 16px
+    :margin-right= !blueprint_grid_margin - 2px
     
   #content
     +column(18, true)

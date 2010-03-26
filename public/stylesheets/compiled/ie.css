@@ -78,3 +78,7 @@ select {
 button {
   position: relative;
   top: 0.25em; }
+
+/* line 5, ../../../app/stylesheets/ie.sass */
+#hd, #bd, #ft {
+  text-align: left; }
