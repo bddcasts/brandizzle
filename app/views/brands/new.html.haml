@@ -1,17 +1,11 @@
-#sidebar
-  %h3 Monitored brands
-  %ul
-    - @brands.each do |brand|
-      %li= link_to h(brand.name), "#"
-
-#content
-  .span-9
+.inner
+  .span-16.last
     %h3 Add brand
   .span-9.last.right
     = link_to "Go back", brands_path
   .clear
 
-  #settings
+  .box
     %h4 Settings
     - semantic_form_for @brand do |f|
       - f.inputs do

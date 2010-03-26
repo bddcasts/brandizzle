@@ -106,4 +106,8 @@ class Query < ActiveRecord::Base
       end
     end
   end
+  
+  def to_s
+    term
+  end
 end

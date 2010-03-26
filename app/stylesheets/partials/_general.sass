@@ -1,0 +1,52 @@
+.container
+  +container
+
+body.bp
+  #bd
+    +container
+  #main-content
+    :margin-top 18px
+    +clearfix
+    
+  #sidebar
+    +column(6)
+    +inner
+    
+  #content
+    +column(18, true)
+    +inner
+  
+  .inner
+    +inner
+    
+  a
+    :color #105CB6
+    :outline none
+    +hover-link
+    &:visited
+      :color #105CB6
+    &.add
+      :background transparent url("/images/add.png") no-repeat 0 50%
+      :display block
+      :padding-left 20px
+      :margin-bottom 10px
+    &.remove
+      :background transparent url("/images/cross-circle.png") no-repeat 0 50%
+      :color red
+      :padding-left 18px
+  ul
+    :margin-left 0
+    :margin-right 0
+  
+  .no-wrap
+    +nowrap
+  
+  table.index
+    tr
+      td
+        :vertical-align top
+        :padding 10px 4px 4px 4px
+        :border-bottom 1px dashed #999
+      &:last-child
+        td
+          :border none

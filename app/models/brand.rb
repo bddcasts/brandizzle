@@ -32,4 +32,8 @@ class Brand < ActiveRecord::Base
       queries.delete(query)
     end
   end
+  
+  def to_s
+    name
+  end
 end

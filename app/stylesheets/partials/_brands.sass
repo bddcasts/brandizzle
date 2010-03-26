@@ -1,12 +1,12 @@
 body.bp
-  #settings, #queries
-    +column(17, true)
+  .box
     :border 1px solid #ccc
     :padding 10px
     :margin 0 0 10px 10px
-  #brands, #terms
-    +no-bullets
-  #brands
-    :margin-left 20px
-    #terms
-      :margin-left 20px
+    +clearfix
+  td.terms
+    :color #666
+  table.terms
+    tr
+      td
+        :padding 2px 4px

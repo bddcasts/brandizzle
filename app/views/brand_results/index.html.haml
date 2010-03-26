@@ -19,7 +19,7 @@
   #entries
     = page_entries_info @brand_results, :entry_name => "result"
   - if @brand_results && !@brand_results.empty?
-    %table#results
+    %table#results.index
       %tbody
         - @brand_results.each do |brand_result|
           %tr
