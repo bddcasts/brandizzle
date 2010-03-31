@@ -64,6 +64,10 @@ describe AccountsController do
     before(:each) do
       @account = mock_model(Account)
       Account.stub!(:new).and_return(@account)
+      
+      @team = mock_model(Team)
+      @account.stub!(:build_team).and_return(@team)
+      @account.stub_chain(:holder, :team=)
     end
     
     def do_post_with_valid_attributes(options={})
@@ -80,6 +84,17 @@ describe AccountsController do
       Account.should_receive(:new).with("login" => "Cartman").and_return(@account)
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:account].should == @account
+    end
+    
+    it "builds a new team for the account and assigns it for the view" do
+      @account.should_receive(:build_team).and_return(@team)
+      do_post_with_valid_attributes
+      assigns[:team].should == @team
+    end
+    
+    it "assigns the account team to the account holder" do
+      @account.holder.should_receive(:team=).with(@team)
+      do_post_with_valid_attributes
     end
     
     it "sets the flash message and redirects to home page on success" do

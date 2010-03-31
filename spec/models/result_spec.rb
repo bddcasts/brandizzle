@@ -25,3 +25,4 @@ describe Result do
   should_have_many :brand_results
   should_have_many :brands, :through => :brand_results  
 end
+

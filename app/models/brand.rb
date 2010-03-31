@@ -3,14 +3,14 @@
 # Table name: brands
 #
 #  id         :integer(4)      not null, primary key
-#  user_id    :integer(4)
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  team_id    :integer(4)
 #
 
 class Brand < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :team
   
   has_many :brand_queries
   has_many :queries, :through => :brand_queries

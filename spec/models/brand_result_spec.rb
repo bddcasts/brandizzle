@@ -39,3 +39,4 @@ describe BrandResult do
   end
   
 end
+

@@ -1,0 +1,18 @@
+.inner
+  %h3 Team members
+  = link_to "Add a new member", new_user_path, :class => "add"
+  %table#members.index
+    %thead
+      %tr
+        %th User
+        %th Email
+        %th &nbsp;
+    %tbody
+      - @team.team_members.each do |member|
+        %tr
+          %td= member
+          %td= member.email
+          %td.no-wrap
+            = link_to "Edit", edit_user_path(member)
+            \|
+            = link_to "Remove", user_path(member), :method => :delete, :class => "remove", :confirm => "Are you sure you want to remove #{member}?" 

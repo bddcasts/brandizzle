@@ -13,6 +13,9 @@ class AccountsController < ApplicationController
   
   def create
     @account = Account.new(params[:account])
+    @team = @account.build_team
+    @account.holder.team = @team
+    
     if @account.save
       flash[:notice] = "Your account has been created."
       redirect_to brand_results_path
@@ -47,6 +50,13 @@ class AccountsController < ApplicationController
     end
     
     def detect_layout
-      action_name == "new" && "login" || "application"
+      case action_name
+      when "new"
+        "login"
+      when "create"
+        "login"
+      else
+        "application"
+      end
     end
 end

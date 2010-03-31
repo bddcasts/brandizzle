@@ -23,7 +23,8 @@
         = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true } )
       %li{:class => active("brands") ? "selected" : nil}
         = link_to "Brands", brands_path
-      %li= link_to "Team", "#"
+      %li{:class => active("teams") ? "selected" : nil}
+        = link_to "Team", teams_path
       - if current_user.account_holder?
         %li{:class => active("account") ? "selected" : nil}
           = link_to "My account", edit_account_path

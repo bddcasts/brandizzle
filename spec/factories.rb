@@ -1,6 +1,6 @@
 Factory.define(:brand) do |f|
   f.sequence(:name) { |i| "Brand #{i}" }
-  f.association :user
+  f.association :team
 end
 
 Factory.define(:query) do |f|
@@ -32,6 +32,10 @@ Factory.define(:search_result) do |f|
   f.association :result
 end
 
+Factory.define(:team) do |f|
+
+end
+
 Factory.define(:account) do |f|
   f.association :holder, :factory => :user
 end
@@ -43,6 +47,7 @@ Factory.define(:user) do |f|
   f.password_confirmation { |u| u.password }
   f.active true
   f.association :invitation
+  f.association :team
 end
 
 Factory.define(:account_holder, :parent => :user) do |f|

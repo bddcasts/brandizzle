@@ -10,6 +10,8 @@ module ApplicationHelper
       controller.controller_name == "brands"
     when s = "account"
       controller.controller_name == "accounts"
+    when s = "teams"
+      controller.controller_name == "teams"
     end
   end
 end

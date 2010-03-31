@@ -3,13 +3,13 @@ def populate
   create_user("jschoolcraft@brandizzle.com")
   create_user("cristi@brandizzle.com")
 
-  User.all.each_with_index do |user, index|
-    bddcasts = Brand.create_or_update(:id => index+1, :name => 'BDDCasts', :user => user)
+  Team.all.each_with_index do |team, index|
+    bddcasts = Brand.create_or_update(:id => index+1, :name => 'BDDCasts', :team => team)
     add_query_to_brand(bddcasts, 'bddcasts')
     add_query_to_brand(bddcasts, 'bdd screencasts')
-    add_query_to_brand(bddcasts, user.login)
+    add_query_to_brand(bddcasts, team.team_members.first.login)
   
-    railsbridge = Brand.create_or_update(:id => index+4, :name => 'RailsBridge', :user => user)
+    railsbridge = Brand.create_or_update(:id => index+4, :name => 'RailsBridge', :team => team)
     add_query_to_brand(railsbridge, 'railsbridge')
     add_query_to_brand(railsbridge, 'rails workshop')
   end
@@ -18,14 +18,21 @@ end
 def create_user(email)
   invitation = create_fake_invitation(email)
   login = email.split('@').first
-  
+    
   user = User.create_or_update(
     :login => login,
     :email => email,
     :password => "secret",
     :password_confirmation => "secret",
     :invitation_token => invitation.token)
-
+  
+  account = Account.create_or_update(
+    :team => Team.create,
+    :holder => user)
+    
+  user.team = account.team
+  user.save
+  
   update_invitation_limit(user)
 end
 

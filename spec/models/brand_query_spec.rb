@@ -14,3 +14,4 @@ describe BrandQuery do
   should_belong_to :brand
   should_belong_to :query
 end
+

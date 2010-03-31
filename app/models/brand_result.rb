@@ -22,3 +22,4 @@ class BrandResult < ActiveRecord::Base
     toggle!(:follow_up)
   end
 end
+

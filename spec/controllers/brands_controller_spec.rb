@@ -3,12 +3,13 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BrandsController do
   before(:each) do
     login_user
+    @current_team = current_user.team
   end
 
   describe "handling GET index" do
     before(:each) do
       @brands = (1..3).map{ mock_model(Brand) }
-      current_user.stub!(:brands).and_return(@brands)
+      @current_team.stub!(:brands).and_return(@brands)
     end
     
     def do_get
@@ -16,7 +17,7 @@ describe BrandsController do
     end
     
     it "finds the current user's brands and assigns them for the view" do
-      current_user.should_receive(:brands).and_return(@brands)
+      @current_team.should_receive(:brands).and_return(@brands)
       do_get
       assigns[:brands].should == @brands
     end
@@ -30,7 +31,7 @@ describe BrandsController do
   describe "handling GET new" do
     before(:each) do
       @brand = mock_model(Brand)
-      current_user.stub_chain(:brands, :build).and_return(@brand)
+      @current_team.stub_chain(:brands, :build).and_return(@brand)
     end
     
     def do_get
@@ -38,7 +39,7 @@ describe BrandsController do
     end
     
     it "should build an empty brand and assign it for the view" do
-      current_user.brands.should_receive(:build).and_return(@brand)
+      @current_team.brands.should_receive(:build).and_return(@brand)
       do_get
       assigns[:brand].should == @brand
     end
@@ -52,7 +53,7 @@ describe BrandsController do
   describe "handling POST create" do
     before(:each) do
       @brand = mock_model(Brand)
-      current_user.stub_chain(:brands, :build).and_return(@brand)
+      @current_team.stub_chain(:brands, :build).and_return(@brand)
     end
     
     def post_with_valid_attributes
@@ -66,7 +67,7 @@ describe BrandsController do
     end
     
     it "builds a new Brand from params and assigns it for the view" do
-      current_user.brands.should_receive(:build).with("name" => "a_new_brand").and_return(@brand)
+      @current_team.brands.should_receive(:build).with("name" => "a_new_brand").and_return(@brand)
       post_with_valid_attributes
       assigns[:brand].should == @brand
     end
@@ -86,7 +87,7 @@ describe BrandsController do
   describe "handling GET edit" do
     before(:each) do
       @brand = mock_model(Brand, :user => current_user)
-      current_user.stub_chain(:brands, :find).and_return(@brand)
+      @current_team.stub_chain(:brands, :find).and_return(@brand)
       
       @query = mock_model(Query)
     end
@@ -96,7 +97,7 @@ describe BrandsController do
     end  
     
     it "should find the specified brand and assign it for the view" do
-      current_user.brands.should_receive(:find).with("37").and_return(@brand)
+      @current_team.brands.should_receive(:find).with("37").and_return(@brand)
       do_get
       assigns[:brand].should == @brand
     end
@@ -116,7 +117,7 @@ describe BrandsController do
   describe "handling PUT update" do
     before(:each) do
       @brand = mock_model(Brand, :user => current_user)
-      current_user.stub_chain(:brands, :find).and_return(@brand)
+      @current_team.stub_chain(:brands, :find).and_return(@brand)
     end
     
     def put_with_valid_attributes
@@ -131,7 +132,7 @@ describe BrandsController do
     
     
     it "finds the specified brand and assigns it for the view" do
-      current_user.brands.should_receive(:find).with("34").and_return(@brand)
+      @current_team.brands.should_receive(:find).with("34").and_return(@brand)
       put_with_valid_attributes
       assigns[:brand].should == @brand
     end
@@ -151,7 +152,7 @@ describe BrandsController do
   describe "handling DELETE destroy" do
     before(:each) do
       @brand = mock_model(Brand, :user => current_user)
-      current_user.stub_chain(:brands, :find).and_return(@brand)
+      @current_team.stub_chain(:brands, :find).and_return(@brand)
       @brand.stub!(:destroy).and_return(true)
     end
     
@@ -160,7 +161,7 @@ describe BrandsController do
     end
     
     it "finds the specified brand" do
-      current_user.brands.should_receive(:find).with("55").and_return(@brand)
+      @current_team.brands.should_receive(:find).with("55").and_return(@brand)
       do_delete
     end
     

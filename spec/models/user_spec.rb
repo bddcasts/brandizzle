@@ -4,16 +4,17 @@
 #
 #  id                :integer(4)      not null, primary key
 #  login             :string(255)     not null
-#  email             :string(255)     not null
+#  email             :string(255)     not null, indexed
 #  crypted_password  :string(255)     not null
 #  password_salt     :string(255)     not null
 #  persistence_token :string(255)     not null
-#  perishable_token  :string(255)     not null
-#  active            :boolean(1)      default(FALSE), not null
+#  perishable_token  :string(255)     not null, indexed
+#  active            :boolean(1)      default(TRUE), not null
 #  created_at        :datetime
 #  updated_at        :datetime
 #  invitation_id     :string(255)
-#  invitation_limit  :integer(4)      default(0)
+#  invitation_limit  :integer(4)
+#  team_id           :integer(4)
 #
 
 require 'spec_helper'
@@ -30,11 +31,10 @@ describe User do
 
 
   #associations
-  should_have_many :brands
-  
   should_have_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   should_belong_to :invitation
   should_have_one :account
+  should_belong_to :team, :counter_cache => true
   
   describe "#to_s" do
     it "returns the login for the user" do
@@ -55,3 +55,4 @@ describe User do
     end
   end
 end
+

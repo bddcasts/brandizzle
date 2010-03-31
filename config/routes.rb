@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :brand_results, :only => [:index], :member => { :follow_up => :post }
   
+  map.resources :teams
   map.resources :users
   map.resource :user_session
   map.resource :account, :except => [:new]
