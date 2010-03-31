@@ -8,6 +8,8 @@ module ApplicationHelper
       controller.controller_name == 'brand_results' && params[:search] && params[:search].try(:[], :follow_up_is) == "true"
     when s = "brands"
       controller.controller_name == "brands"
+    when s = "account"
+      controller.controller_name == "accounts"
     end
   end
 end

@@ -19,13 +19,14 @@
 class User < ActiveRecord::Base
   acts_as_authentic
   
-  validates_presence_of :invitation_id, :message => 'Invitation is required'
-  validates_uniqueness_of :invitation_id, :message => 'Invitation has already been used'
+  validates_presence_of :invitation_id, :message => 'Invitation is required', :if => :account_holder?
+  validates_uniqueness_of :invitation_id, :message => 'Invitation has already been used', :if => :account_holder?
   
   has_many :brands
   has_many :brand_results, :through => :brands
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   belongs_to :invitation
+  has_one :account
   
   before_create :set_invitation_limit
     
@@ -46,6 +47,10 @@ class User < ActiveRecord::Base
 
   def invitation_token=(token)
     self.invitation = Invitation.find_by_token(token)
+  end
+
+  def account_holder?
+    !account.blank?
   end
 
   private

@@ -10,7 +10,7 @@
           = link_to "Invite your friends", new_invitation_path
           = "(#{current_user.invitation_limit} left)"
       %li
-        = link_to "My info", edit_account_path
+        = link_to "My info", edit_user_path(current_user)
       %li= link_to "Sign out", user_session_path, :method => 'delete'
     - else
       %li= link_to "Login", new_user_session_path
@@ -24,4 +24,7 @@
       %li{:class => active("brands") ? "selected" : nil}
         = link_to "Brands", brands_path
       %li= link_to "Team", "#"
+      - if current_user.account_holder?
+        %li{:class => active("account") ? "selected" : nil}
+          = link_to "My account", edit_account_path
       %li= link_to "Search", "#"

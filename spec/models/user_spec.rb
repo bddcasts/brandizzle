@@ -28,19 +28,30 @@ describe User do
                      :perishable_token,
                      :type => :string
 
-  #validations
-  should_validate_presence_of :invitation_id, :message => 'Invitation is required'
 
   #associations
   should_have_many :brands
   
   should_have_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   should_belong_to :invitation
+  should_have_one :account
   
   describe "#to_s" do
     it "returns the login for the user" do
       user = Factory.build(:user, :login => "Cartman")
       user.to_s.should == "Cartman"
+    end
+  end
+  
+  describe "#account_holder?" do
+    it "returns true if the specified user is account holder" do
+      user = Factory.build(:account_holder)
+      user.should be_account_holder
+    end
+    
+    it "returns false if the specified user is not account holder" do
+      user = Factory.build(:user)
+      user.should_not be_account_holder
     end
   end
 end

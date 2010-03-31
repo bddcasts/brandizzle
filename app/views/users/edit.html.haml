@@ -1,7 +1,7 @@
 .inner
   %h3 Edit your account information
 
-  - semantic_form_for @user, :url => account_path do |f|
+  - semantic_form_for @user do |f|
     - f.inputs do
       = f.input :password
       = f.input :password_confirmation

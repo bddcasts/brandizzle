@@ -32,6 +32,10 @@ Factory.define(:search_result) do |f|
   f.association :result
 end
 
+Factory.define(:account) do |f|
+  f.association :holder, :factory => :user
+end
+
 Factory.define(:user) do |f|
   f.sequence(:login) { |i| "user-#{i}"}
   f.email { |u| "#{u.login}@example.com"}
@@ -39,6 +43,10 @@ Factory.define(:user) do |f|
   f.password_confirmation { |u| u.password }
   f.active true
   f.association :invitation
+end
+
+Factory.define(:account_holder, :parent => :user) do |f|
+  f.association :account
 end
 
 Factory.define(:invitation) do |f|

@@ -8,8 +8,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resource :user_session
-  map.resource :account, :controller => "users", :except => [:new]
-  map.signup '/signup/:invitation_token', :controller => "users", :action => "new"
+  map.resource :account, :except => [:new]
+  map.signup '/signup/:invitation_token', :controller => "accounts", :action => "new"
   map.resources :password_resets, :only => [:new, :create, :edit, :update]
   map.resources :invitations, :only => [:new, :create]
 
