@@ -16,6 +16,7 @@ group :default do
   gem 'twitter',       '0.8.6'
   gem 'compass',       '0.8.17'
   gem 'annotate',      '2.4.0'
+  gem 'viewtastic',    '0.1.2'
 end
 
 group :rails do

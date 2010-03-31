@@ -1,0 +1,9 @@
+%tr
+  %td.source
+    %a{:href => brand_result.result.url, :class => brand_result.result.source, :title => brand_result.result.source}
+      = h brand_result.result.source
+  %td.body
+    %div
+      = sanitize brand_result.result.body
+    = brand_result.action_links.join(" | ")
+  %td.created_at= brand_result.result.created_at.to_s(:short)

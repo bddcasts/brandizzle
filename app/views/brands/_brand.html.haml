@@ -1,0 +1,4 @@
+%tr{:id => brand.dom_id}
+  %td= brand.name
+  %td.terms= brand.queries.join(", ")
+  %td.no-wrap= brand.action_links.join(" | ")

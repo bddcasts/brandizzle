@@ -1,6 +1,7 @@
 .inner
   %h3 Monitored brands
-  = link_to "Add a new brand", new_brand_path, :class => "add"
+  - if current_user.account_holder?
+    = link_to "Add a new brand", new_brand_path, :class => "add"
   %table#brands.index
     %thead
       %tr
@@ -9,11 +10,4 @@
         %th &nbsp;
     %tbody
       - @brands.each do |brand|
-        %tr{:id => dom_id(brand)}
-          %td= brand
-          %td.terms= brand.queries.join(", ")
-          %td.no-wrap
-            = link_to "Manage", edit_brand_path(brand)
-            \|
-            = link_to "Remove", brand_path(brand), :method => :delete, :class => "remove", :confirm => "Are you sure you want to remove #{brand}?" 
-            
+        = render "brand", :object => present_brand(brand)

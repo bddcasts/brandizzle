@@ -10,7 +10,7 @@
 #
 
 class Brand < ActiveRecord::Base
-  belongs_to :team
+  belongs_to :team, :counter_cache => true
   
   has_many :brand_queries
   has_many :queries, :through => :brand_queries
