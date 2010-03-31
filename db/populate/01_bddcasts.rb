@@ -7,7 +7,7 @@ def populate
     bddcasts = Brand.create_or_update(:id => index+1, :name => 'BDDCasts', :team => team)
     add_query_to_brand(bddcasts, 'bddcasts')
     add_query_to_brand(bddcasts, 'bdd screencasts')
-    add_query_to_brand(bddcasts, team.team_members.first.login)
+    add_query_to_brand(bddcasts, team.members.first.login)
   
     railsbridge = Brand.create_or_update(:id => index+4, :name => 'RailsBridge', :team => team)
     add_query_to_brand(railsbridge, 'railsbridge')

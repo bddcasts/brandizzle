@@ -48,6 +48,7 @@ Factory.define(:user) do |f|
   f.active true
   f.association :invitation
   f.association :team
+  f.account nil
 end
 
 Factory.define(:account_holder, :parent => :user) do |f|

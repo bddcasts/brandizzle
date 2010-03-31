@@ -3,8 +3,8 @@ Feature: Results
   I want to see results in a dashboard
   
   Background: 
-    Given I am logged in as "cartman"
-      And a brand: "BDDCasts" exists with name: "BDDCasts", user: user "cartman"
+    Given I am logged in as account holder "cartman"
+      And a brand: "BDDCasts" exists with name: "BDDCasts", team: team "cartman_team"
       And a query: "bdd screencast" exists with term: "bdd screencast"
       And a brand query exists with brand: brand "BDDCasts", query: query "bdd screencast"
       
@@ -36,7 +36,7 @@ Feature: Results
       And I should not see "Result #15"
   
   Scenario: Filter results by Brand
-    Given a brand: "Bar" exists with name: "Bar", user: user "cartman"
+    Given a brand: "Bar" exists with name: "Bar", team: team "cartman_team"
       And a query: "foo" exists with term: "foo"
       And a brand query exists with brand: brand "Bar", query: query "foo"
       And query: "bdd screencast" has the following results for brand: "BDDCasts":
@@ -50,7 +50,7 @@ Feature: Results
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "Isn't foo the awesomest variable name evar"
   
-  @sop
+  @wip
   Scenario: Filter results by date range
     Given query: "bdd screencast" has the following results for brand: "BDDCasts":
         | source  | body                                  | url                             | created_at        |
@@ -60,20 +60,7 @@ Feature: Results
      When I follow "Today" within "#sidebar"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
-  
-      
-  @javascript @disabled
-  Scenario: Filter dashboard results by Source
-    Given query: "bdd screencast" has the following results for brand: "BDDCasts":
-        | source  | body                                  | url                             | created_at        |
-        | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
-        | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |
-      And I am on the dashboard
-     When I select "twitter" from "Source"
-     Then I should see "Does anyone know any bdd screencasts?"
-      And I should not see "This blog is teh stuff"
-  
-  @javascript
+    
   Scenario: Mark a result for follow up
     Given query "bdd screencast" has 1 results for brand: "BDDCasts"
       And I am on the results page

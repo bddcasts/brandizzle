@@ -8,8 +8,8 @@
         %th Email
         %th &nbsp;
     %tbody
-      - @team.team_members.each do |member|
-        %tr
+      - @team.members.each do |member|
+        %tr{ :id => dom_id(member) }
           %td= member
           %td= member.email
           %td.no-wrap

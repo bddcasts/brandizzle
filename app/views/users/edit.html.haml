@@ -1,5 +1,5 @@
 .inner
-  %h3 Edit your account information
+  %h3= "Edit #{@user}'s information"
 
   - semantic_form_for @user do |f|
     - f.inputs do

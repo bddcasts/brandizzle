@@ -1,15 +1,15 @@
 class UsersController < ApplicationController
-  before_filter :require_user  
+  before_filter :require_user, :current_team
   
   def new
-    @user = User.new
+    @user = current_team.members.build
   end
   
   def create
-    @user = User.new(params[:user])
+    @user = current_team.members.build(params[:user])
     if @user.save
       flash[:notice] = "The user has been created."
-      redirect_to brand_results_path
+      redirect_to team_path
     else
       flash.now[:error] = "User registration failed!"
       render :new
@@ -17,16 +17,23 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = current_user
+    @user = current_team.members.find(params[:id])
   end
   
   def update
-    @user = current_user
+    @user = current_team.members.find(params[:id])
     if @user.update_attributes(params[:user])
       flash[:notice] = "Account information updated!"
-      redirect_to edit_user_path(current_user)
+      redirect_to team_path
     else
       render :edit
     end
+  end
+  
+  def destroy
+    @user = current_team.members.find(params[:id])
+    @user.destroy
+    flash[:success] = "Successfully removed!"
+    redirect_to team_path
   end
 end

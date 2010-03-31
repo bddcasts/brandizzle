@@ -10,7 +10,7 @@ Feature: User Accounts
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Create my account"
-     Then I should be on the dashboard
+     Then I should be on the results page
       And I should see "Your account has been created."
   
   Scenario: Visiting the login page
@@ -25,7 +25,7 @@ Feature: User Accounts
       And I fill in "Login" with "Cartman"
       And I fill in "Password" with "secret"
       And I press "Login"
-     Then I should be on the dashboard
+     Then I should be on the results page
       And I should see "Welcome Cartman"
   
   Scenario: Failing to log in
@@ -34,8 +34,26 @@ Feature: User Accounts
       And I fill in "Password" with "secret"
       And I press "Login"
      Then I should see "is not valid"
-     
-  @javascript
+  
+  Scenario: Recovering and reseting password
+    Given a user exists with email: "cartman@example.com"
+     When I am on the login page
+      And I follow "Forgot your password?"
+      And I fill in "Email" with "cartman@example.com"
+      And I press "Request password reset"
+     Then I should be on the login page
+      And I should see "We have sent password reset instructions to cartman@example.com. Please check your email."
+      And "cartman@example.com" should receive an email
+     When I open the email
+     Then I should see "[Brandizzle.com] Password Reset Instructions" in the email subject
+     When I click the first link in the email
+      And I fill in "Password" with "secret"
+      And I fill in "Password confirmation" with "secret"
+      And I press "Update my password and log me in"
+     Then I should be on the results page
+      And I should see "Password successfully updated!"
+  
+  @javascript @disabled
   Scenario: Logging out
     Given I am logged in as "cartman"
       And I am on the dashboard

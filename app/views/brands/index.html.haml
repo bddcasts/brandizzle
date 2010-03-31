@@ -9,7 +9,7 @@
         %th &nbsp;
     %tbody
       - @brands.each do |brand|
-        %tr
+        %tr{:id => dom_id(brand)}
           %td= brand
           %td.terms= brand.queries.join(", ")
           %td.no-wrap

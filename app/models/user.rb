@@ -20,8 +20,8 @@
 class User < ActiveRecord::Base
   acts_as_authentic
   
-  validates_presence_of :invitation_id, :message => 'Invitation is required'
-  validates_uniqueness_of :invitation_id, :message => 'Invitation has already been used'
+  validates_presence_of :invitation_id, :message => 'Invitation is required', :if => :account_holder?
+  validates_uniqueness_of :invitation_id, :message => 'Invitation has already been used', :if => :account_holder?
   
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   belongs_to :invitation
