@@ -51,6 +51,10 @@ Factory.define(:user) do |f|
   f.account nil
 end
 
+Factory.define(:inactive_user, :parent => :user) do |f|
+  f.active false
+end
+
 Factory.define(:invitation) do |f|
   f.sequence(:recipient_email) { |i| "invited-user-#{i}@example.com" }
 end

@@ -41,6 +41,20 @@ describe User do
     end
   end
   
+  describe "#toggle_active" do
+    it "should set active to true if set to false" do
+      @user = Factory.create(:inactive_user)
+      @user.toggle_active
+      @user.should be_active
+    end
+    
+    it "should set active to false if set to true" do
+      @user = Factory.create(:user)
+      @user.toggle_active
+      @user.should_not be_active
+    end
+  end
+    
   describe "#account_holder?" do
     it "returns true if the specified user is account holder" do
       user = Factory.build(:user, :account => Factory.build(:account))

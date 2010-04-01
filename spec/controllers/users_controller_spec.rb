@@ -142,4 +142,29 @@ describe UsersController do
       response.should redirect_to(team_path)
     end
   end
+
+  describe "handling POST alter_status" do
+    before(:each) do
+      @user = mock_model(User)
+      @current_team.stub_chain(:members, :find).and_return(@user)
+      @user.stub!(:active?)
+    end
+    
+    def do_post
+      @user.should_receive(:toggle_active)
+      post :alter_status, :id => 42
+    end
+    
+    it "finds the user and assigns it for the view" do
+      @current_team.members.should_receive(:find).with("42").and_return(@user)
+      do_post
+      assigns[:user].should == @user
+    end
+    
+    it "sets the flash message and redirects to the team page" do
+      do_post
+      flash[:success].should_not be_nil
+      response.should redirect_to(team_path)
+    end
+  end
 end

@@ -14,7 +14,7 @@ class BrandResultsController < ApplicationController
   end
   
   def follow_up
-    @brand_result.toggle_follow_up    
+    @brand_result.toggle_follow_up
     redirect_to request.referer || brands_path
   end
 

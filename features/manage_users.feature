@@ -47,4 +47,21 @@ Feature: Account management
      Then I should be on the team page
       And I should see "Successfully removed!"
       And I should not see "stan@example.com"
-    
+  
+  Scenario: Disabling a user from my team
+    Given I am logged in as account holder "cartman"
+      And a user "stan" exists with login: "stan", email: "stan@example.com", team: team "cartman_team"
+      And I am on the team page
+     When I follow "Disable" for user "stan"
+     Then I should be on the team page
+      And I should see "User disabled!"
+      And I should see "Enable" for user "stan"
+      
+  Scenario: Enabling an inactive user from my team
+    Given I am logged in as account holder "cartman"
+      And an inactive user "stan" exists with login: "stan", email: "stan@example.com", team: team "cartman_team"
+      And I am on the team page
+     When I follow "Enable" for user "stan"
+     Then I should be on the team page
+      And I should see "User enabled!"
+      And I should see "Disable" for user "stan"

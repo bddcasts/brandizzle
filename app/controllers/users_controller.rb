@@ -36,4 +36,11 @@ class UsersController < ApplicationController
     flash[:success] = "Successfully removed!"
     redirect_to team_path
   end
+  
+  def alter_status
+    @user = current_team.members.find(params[:id])
+    @user.toggle_active
+    flash[:success] = @user.active? ? "User enabled!" : "User disabled!"
+    redirect_to team_path
+  end
 end

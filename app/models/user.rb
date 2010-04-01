@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
     !account.blank?
   end
 
+  def toggle_active
+    toggle!(:active)
+  end
+
   private
     def set_invitation_limit
       self.invitation_limit = Settings.invitations.limit
