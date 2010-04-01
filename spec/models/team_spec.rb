@@ -2,11 +2,10 @@
 #
 # Table name: teams
 #
-#  id          :integer(4)      not null, primary key
-#  account_id  :integer(4)
-#  users_count :integer(4)      default(0)
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id         :integer(4)      not null, primary key
+#  account_id :integer(4)
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 require 'spec_helper'

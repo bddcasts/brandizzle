@@ -12,7 +12,6 @@
 #  active            :boolean(1)      default(TRUE), not null
 #  created_at        :datetime
 #  updated_at        :datetime
-#  invitation_id     :string(255)
 #  invitation_limit  :integer(4)
 #  team_id           :integer(4)
 #
