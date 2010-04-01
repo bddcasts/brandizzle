@@ -9,12 +9,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100331095635) do
+ActiveRecord::Schema.define(:version => 20100401090031) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "invitation_id"
   end
 
   create_table "brand_queries", :force => true do |t|
@@ -108,7 +109,6 @@ ActiveRecord::Schema.define(:version => 20100331095635) do
     t.boolean  "active",            :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "invitation_id"
     t.integer  "invitation_limit"
     t.integer  "team_id"
   end

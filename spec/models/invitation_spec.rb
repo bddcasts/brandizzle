@@ -36,5 +36,5 @@ describe Invitation do
   
   #associations
   should_belong_to :sender, :class_name => "User"
-  should_have_one :recipient, :class_name => "User"
+  should_have_one :recipient, :class_name => "Account"
 end

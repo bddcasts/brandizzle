@@ -17,8 +17,8 @@ describe AccountsController do
   describe "handling GET new" do
     before(:each) do
       @invitation = mock_model(Invitation, :recipient_email => "test@example.com")
-      @account = mock_model(Account)
-      @user = mock_model(User, :invitation => @invitation)
+      @account = mock_model(Account, :invitation => @invitation)
+      @user = mock_model(User)
       
       Account.stub!(:new).and_return(@account)
       @account.stub(:build_holder).and_return(@user)

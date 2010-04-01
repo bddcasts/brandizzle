@@ -11,10 +11,7 @@
 
 require 'spec_helper'
 
-describe Team do
-  #columns
-  should_have_column :users_count, :type => :integer
-  
+describe Team do  
   #associations
   should_have_many :members, :class_name => "User"
   should_have_many :brands

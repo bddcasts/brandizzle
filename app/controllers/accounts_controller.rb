@@ -6,9 +6,9 @@ class AccountsController < ApplicationController
   layout :detect_layout
   
   def new
-    @account = Account.new
-    @user = @account.build_holder(:invitation_token => params[:invitation_token])
-    @user.email = @user.invitation.recipient_email if @user.invitation
+    @account = Account.new(:invitation => @invitation)
+    @user = @account.build_holder
+    @user.email = @account.invitation.recipient_email if @invitation
   end
   
   def create

@@ -6,7 +6,8 @@ class CreateAccounts < ActiveRecord::Migration
     end
     
     User.all.each do |user|
-      Account.create(:holder => user)
+      a = Account.new(:holder => user)
+      a.save(false)
     end
     
   end

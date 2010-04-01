@@ -12,7 +12,7 @@
 
 class Invitation < ActiveRecord::Base
   belongs_to :sender, :class_name => 'User'
-  has_one :recipient, :class_name => 'User'
+  has_one :recipient, :class_name => 'Account'
 
   validates_presence_of :recipient_email
   validates_format_of :recipient_email, :with => Authlogic::Regex.email

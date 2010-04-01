@@ -38,6 +38,7 @@ end
 
 Factory.define(:account) do |f|
   f.association :holder, :factory => :user
+  f.association :invitation
 end
 
 Factory.define(:user) do |f|
@@ -46,7 +47,6 @@ Factory.define(:user) do |f|
   f.password "secret"
   f.password_confirmation { |u| u.password }
   f.active true
-  f.association :invitation
   f.association :team
   f.account nil
 end

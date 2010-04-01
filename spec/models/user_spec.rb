@@ -32,9 +32,8 @@ describe User do
 
   #associations
   should_have_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
-  should_belong_to :invitation
   should_have_one :account
-  should_belong_to :team, :counter_cache => true
+  should_belong_to :team
   
   describe "#to_s" do
     it "returns the login for the user" do
@@ -45,7 +44,7 @@ describe User do
   
   describe "#account_holder?" do
     it "returns true if the specified user is account holder" do
-      user = Factory.build(:account_holder)
+      user = Factory.build(:user, :account => Factory.build(:account))
       user.should be_account_holder
     end
     

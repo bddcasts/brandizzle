@@ -6,7 +6,8 @@ class CreateTeam < ActiveRecord::Migration
     end
     
     Account.all.each do |account|
-      Team.create(:account => account)
+      t = Team.new(:account => account)
+      t.save(false)
     end
   end
 

@@ -17,6 +17,7 @@ describe Account do
   
   #associations
   should_belong_to :holder, :class_name => "User", :foreign_key => "user_id"
+  should_belong_to :invitation
   should_have_one :team
   should_accept_nested_attributes_for :holder
 end

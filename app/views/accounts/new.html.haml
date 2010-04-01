@@ -2,10 +2,10 @@
   %h3 Register for an account
   
   - semantic_form_for @account, :url => account_path do |f|
+    = f.hidden_field :invitation_id
+    = f.error_message_on :invitation_id
     - f.fields_for :holder do |holder_form|
       - f.inputs do
-        = holder_form.hidden_field :invitation_token
-        = holder_form.error_message_on :invitation_id
         = holder_form.input :login
         = holder_form.input :email
         = holder_form.input :password
