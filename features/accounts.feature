@@ -53,10 +53,9 @@ Feature: User Accounts
      Then I should be on the results page
       And I should see "Password successfully updated!"
   
-  @javascript @disabled
   Scenario: Logging out
     Given I am logged in as "cartman"
-      And I am on the dashboard
+      And I am on the results page
      When I follow "Sign out"
      Then I should be on the login page
       And I should see "Logout successful!"

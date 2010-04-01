@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = current_team.members.build(params[:user])
     if @user.save
+      @user.deliver_user_invitation!
       flash[:notice] = "The user has been created."
       redirect_to team_path
     else

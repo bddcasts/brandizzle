@@ -32,6 +32,7 @@ describe UsersController do
     before(:each) do
       @user = mock_model(User)
       @current_team.stub_chain(:members, :build).and_return(@user)
+      @user.stub!(:deliver_user_invitation!)
     end
     
     def do_post_with_valid_attributes(options={})
@@ -48,6 +49,11 @@ describe UsersController do
       @current_team.members.should_receive(:build).with("login" => "Cartman").and_return(@user)
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:user].should == @user
+    end
+    
+    it "delivers the user invitation on success" do
+      @user.should_receive(:deliver_user_invitation!)
+      do_post_with_valid_attributes
     end
     
     it "sets the flash message and redirects to team page on success" do

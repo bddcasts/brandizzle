@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100401090031) do
+ActiveRecord::Schema.define(:version => 20100401110528) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -102,8 +102,8 @@ ActiveRecord::Schema.define(:version => 20100401090031) do
   create_table "users", :force => true do |t|
     t.string   "login",                               :null => false
     t.string   "email",                               :null => false
-    t.string   "crypted_password",                    :null => false
-    t.string   "password_salt",                       :null => false
+    t.string   "crypted_password"
+    t.string   "password_salt"
     t.string   "persistence_token",                   :null => false
     t.string   "perishable_token",                    :null => false
     t.boolean  "active",            :default => true, :null => false

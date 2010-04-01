@@ -12,6 +12,8 @@ module NavigationHelpers
       brands_path
     when /the brand edit page for "([^\"]*)"/
       edit_brand_path(Brand.find_by_name($1))
+    when /the user edit page for "([^\"]*)"/
+      edit_user_path(User.find_by_login($1))
     when /the team page/
       team_path
 

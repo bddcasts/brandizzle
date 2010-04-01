@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account, :except => [:new]
   map.signup '/signup/:invitation_token', :controller => "accounts", :action => "new"
   map.resources :password_resets, :only => [:new, :create, :edit, :update]
+  map.resources :user_signups, :only => [:edit, :update]
   map.resources :invitations, :only => [:new, :create]
 
   map.with_options(:controller => 'pages', :action => 'show') do |pages|

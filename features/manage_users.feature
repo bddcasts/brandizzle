@@ -9,12 +9,22 @@ Feature: Account management
      When I follow "Add a new member"
       And I fill in "Login" with "stan"
       And I fill in "Email" with "stan@example.com"
-      And I fill in "Password" with "secret"
-      And I fill in "Password confirmation" with "secret"
       And I press "Create user"
      Then I should be on the team page
       And I should see "The user has been created."
       And I should see "stan@example.com"
+      And a user should exist with login: "stan", email: "stan@example.com"
+      And I follow "Sign out"
+      
+     Then "stan@example.com" should receive an email
+     When I open the email
+     Then I should see "[Brandizzle.com] cartman has invited you to join Brandizzle" in the email subject
+     When I click the first link in the email
+      And I fill in "Password" with "secret"
+      And I fill in "Password confirmation" with "secret"
+      And I press "Set up my account and log me in"
+     Then I should be on the user edit page for "stan"
+      And I should see "Your account has been created!"
   
   Scenario: Updating a user from my team
     Given I am logged in as account holder "cartman"
