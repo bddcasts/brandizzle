@@ -933,10 +933,7 @@ body.bp #sidebar {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   overflow: hidden;
-  display: inline-block;
-  -moz-box-shadow: inset 0 0 10px #cccccc;
-  -webkit-box-shadow: inset 0 0 10px #cccccc;
-  box-shadow: inset 0 0 10px #cccccc; }
+  display: inline-block; }
   /* line 101, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.8.17/frameworks/blueprint/stylesheets/blueprint/modules/_grid.sass */
   * html body.bp #sidebar {
     overflow-x: hidden; }
@@ -956,10 +953,7 @@ body.bp #content {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   overflow: hidden;
-  display: inline-block;
-  -moz-box-shadow: inset 0 0 10px #cccccc;
-  -webkit-box-shadow: inset 0 0 10px #cccccc;
-  box-shadow: inset 0 0 10px #cccccc; }
+  display: inline-block; }
   /* line 101, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.8.17/frameworks/blueprint/stylesheets/blueprint/modules/_grid.sass */
   * html body.bp #content {
     overflow-x: hidden; }
@@ -975,10 +969,7 @@ body.bp .inner {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   overflow: hidden;
-  display: inline-block;
-  -moz-box-shadow: inset 0 0 10px #cccccc;
-  -webkit-box-shadow: inset 0 0 10px #cccccc;
-  box-shadow: inset 0 0 10px #cccccc; }
+  display: inline-block; }
   /* line 5, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/compass-0.8.17/frameworks/compass/stylesheets/compass/utilities/general/_hacks.sass */
   body.bp .inner {
     display: block; }
@@ -1015,7 +1006,7 @@ body.bp .no-wrap {
 body.bp table.index tr td {
   vertical-align: top;
   padding: 10px 4px 4px 4px;
-  border-bottom: 1px dashed #999; }
+  border-bottom: 1px solid #BBB; }
 /* line 51, ../../../app/stylesheets/partials/_general.sass */
 body.bp table.index tr:last-child td {
   border: none; }
@@ -1168,6 +1159,10 @@ body.bp #nav {
       /* line 49, ../../../app/stylesheets/partials/_header.sass */
       body.bp #nav ul li.selected a {
         background-color: #97BAFF; }
+      /* line 51, ../../../app/stylesheets/partials/_header.sass */
+      body.bp #nav ul li.right {
+        float: right;
+        margin-right: 9px; }
 
 /* line 2, ../../../app/stylesheets/partials/_footer.sass */
 body.bp #ft {

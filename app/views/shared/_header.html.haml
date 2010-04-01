@@ -25,7 +25,7 @@
         = link_to "Brands", brands_path
       %li{:class => active("team") ? "selected" : nil}
         = link_to "Team", team_path
-      - if current_user.account_holder?
-        %li{:class => active("account") ? "selected" : nil}
-          = link_to "My account", edit_account_path
       %li= link_to "Search", "#"
+      - if current_user.account_holder?
+        %li.right{:class => active("account") ? "selected" : nil}
+          = link_to "My account", edit_account_path
