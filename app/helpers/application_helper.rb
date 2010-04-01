@@ -3,9 +3,9 @@ module ApplicationHelper
   def active(s)
     case s
     when s = "results"
-      controller.controller_name == "brand_results" && (params[:search].blank? || params[:search].try(:[], :follow_up_is) != "true")
+      controller.controller_name == "brand_results" && (params[:search].blank? || params[:search][:follow_up_is] != "true")
     when s = "follow_up"
-      controller.controller_name == 'brand_results' && params[:search] && params[:search].try(:[], :follow_up_is) == "true"
+      controller.controller_name == 'brand_results' && params[:search] && params[:search][:follow_up_is] == "true"
     when s = "brands"
       controller.controller_name == "brands"
     when s = "account"
@@ -18,19 +18,19 @@ module ApplicationHelper
   def brand_filter(label, brand_id=nil)
     url_options = {:search => (params[:search] || {}).merge({:brand_id_is => brand_id})}
     
-    link_to label, brand_results_path(url_options), :class => params[:search] && params[:search].try(:[], :brand_id_is) == brand_id.to_s && "selected" || nil
+    link_to label, brand_results_path(url_options), :class => params[:search] && params[:search][:brand_id_is] == brand_id.to_s && "selected" || nil
   end
 
   def time_filter(search, options={}, html_options={})
-    options[:before_scope] ||= "#{options[:by]}_before"
-    options[:after_scope] ||= "#{options[:by]}_after"
+    before_scope ||= "#{options[:by]}_before"
+    after_scope ||= "#{options[:by]}_after"
     
     after = options[:between].blank? ? Time.utc(1970, 1, 1).to_s(:db) : options[:between].first.to_time.to_s(:db)
     before = options[:between].blank? ? Time.now.end_of_day.to_s(:db) : options[:between].last.to_time.to_s(:db)
     
-    scope = { options[:before_scope] => before, options[:after_scope] => after }
+    scope = { before_scope => before, after_scope => after }
     
-    time_conditions = search.conditions.values.map{ |v| v.is_a?(Time) && v.to_s(:db)}
+    time_conditions = search.conditions.values.map{ |v| v.acts_like?(:time) && v.to_s(:db)}
     selected = time_conditions.include?(before) && time_conditions.include?(after)
         
     if selected

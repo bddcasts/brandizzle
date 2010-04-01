@@ -9,10 +9,10 @@
   %ul
     %li= time_filter(@search, :as => "Today", :by => :result_created_at, :between => [Time.now.beginning_of_day, Time.now.end_of_day])
     %li= time_filter(@search, :as => "Yesterday", :by => :result_created_at, :between => [1.days.ago.beginning_of_day, 1.days.ago.end_of_day])
-    %li= time_filter(@search, :as => "This week", :by => :result_created_at, :between => [Time.now.beginning_of_week.beginning_of_day, Time.now.end_of_day ])
-    %li= time_filter(@search, :as => "Last week", :by => :result_created_at, :between => [7.days.ago.beginning_of_week.beginning_of_day, 7.days.ago.end_of_week.end_of_day ])
-    %li= time_filter(@search, :as => "This month", :by => :result_created_at, :between => [Time.now.beginning_of_month.beginning_of_day, Time.now.end_of_day ])
-    %li= time_filter(@search, :as => "Last month", :by => :result_created_at, :between => [Time.now.last_month.beginning_of_month.beginning_of_day, Time.now.last_month.end_of_month.end_of_day ])
+    %li= time_filter(@search, :as => "This week", :by => :result_created_at, :between => [Time.now.beginning_of_week, Time.now.end_of_day ])
+    %li= time_filter(@search, :as => "Last week", :by => :result_created_at, :between => [7.days.ago.beginning_of_week, 7.days.ago.end_of_week.end_of_day ])
+    %li= time_filter(@search, :as => "This month", :by => :result_created_at, :between => [Time.now.beginning_of_month, Time.now.end_of_day ])
+    %li= time_filter(@search, :as => "Last month", :by => :result_created_at, :between => [Time.now.last_month.beginning_of_month, Time.now.last_month.end_of_month.end_of_day ])
     %li= time_filter(@search, :as => "Any time", :by => :result_created_at)
     
 #content
