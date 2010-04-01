@@ -15,17 +15,18 @@
     - else
       %li= link_to "Login", new_user_session_path
 
-  #nav
-    %ul
-      %li{:class => active("results") ? "selected" : nil}
-        = link_to "Results", brand_results_path
-      %li{:class => active("follow_up") ? "selected" : nil}
-        = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true } )
-      %li{:class => active("brands") ? "selected" : nil}
-        = link_to "Brands", brands_path
-      %li{:class => active("team") ? "selected" : nil}
-        = link_to "Team", team_path
-      %li= link_to "Search", "#"
-      - if current_user.account_holder?
-        %li.right{:class => active("account") ? "selected" : nil}
-          = link_to "My account", edit_account_path
+  - if current_user
+    #nav
+      %ul
+        %li{:class => active("results") ? "selected" : nil}
+          = link_to "Results", brand_results_path
+        %li{:class => active("follow_up") ? "selected" : nil}
+          = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true } )
+        %li{:class => active("brands") ? "selected" : nil}
+          = link_to "Brands", brands_path
+        %li{:class => active("team") ? "selected" : nil}
+          = link_to "Team", team_path
+        %li= link_to "Search", "#"
+        - if current_user.account_holder?
+          %li.right{:class => active("account") ? "selected" : nil}
+            = link_to "My account", edit_account_path

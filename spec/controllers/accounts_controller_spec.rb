@@ -49,7 +49,7 @@ describe AccountsController do
     
     it "renders the new template with the 'login' template" do
       do_get
-      response.should render_template(:new, :layout => "login")
+      response.should render_template(:new)
     end
     
     it "sets the flash message and redirects to login path if no invitation is present" do
