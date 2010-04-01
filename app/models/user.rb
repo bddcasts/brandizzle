@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   belongs_to :invitation
   has_one :account
-  belongs_to :team, :counter_cache => true
+  belongs_to :team
   
   before_create :set_invitation_limit
     

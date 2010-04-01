@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100331142247) do
+ActiveRecord::Schema.define(:version => 20100331095635) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -94,10 +94,8 @@ ActiveRecord::Schema.define(:version => 20100331142247) do
 
   create_table "teams", :force => true do |t|
     t.integer  "account_id"
-    t.integer  "users_count",  :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "brands_count", :default => 0
   end
 
   create_table "users", :force => true do |t|

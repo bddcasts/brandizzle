@@ -4,6 +4,11 @@ class CreateAccounts < ActiveRecord::Migration
       t.references :user
       t.timestamps
     end
+    
+    User.all.each do |user|
+      Account.create(:holder => user)
+    end
+    
   end
 
   def self.down
