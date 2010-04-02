@@ -2,6 +2,7 @@
   :font-weight bold
   :margin-bottom 10px
 #results
+  :width 100%
   td
     &.created_at
       :white-space nowrap
@@ -10,7 +11,10 @@
       :color #555
       a:visited
         &:hover        
-          :color #000  
+          :color #000
+      div
+        :max-width 580px
+        :overflow hidden
     
     &.source
       :border none
