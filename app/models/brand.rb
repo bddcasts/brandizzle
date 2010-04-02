@@ -1,5 +1,16 @@
+# == Schema Information
+#
+# Table name: brands
+#
+#  id         :integer(4)      not null, primary key
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  team_id    :integer(4)
+#
+
 class Brand < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :team
   
   has_many :brand_queries
   has_many :queries, :through => :brand_queries
@@ -20,5 +31,9 @@ class Brand < ActiveRecord::Base
     if queries.include?(query)
       queries.delete(query)
     end
+  end
+  
+  def to_s
+    name
   end
 end

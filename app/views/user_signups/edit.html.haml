@@ -1,0 +1,9 @@
+.inner
+  %h3= "Setup your account"
+
+  - semantic_form_for @user, :url => user_signup_path(:id => @user.perishable_token) do |f|
+    - f.inputs do
+      = f.input :password
+      = f.input :password_confirmation
+    - f.buttons do
+      = f.commit_button "Set up my account and log me in"

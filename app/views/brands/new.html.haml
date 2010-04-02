@@ -1,19 +1,17 @@
-.grid_6
-  %h2 Add brand
+.inner
+  .span-16.last
+    %h3 Add brand
+  .span-9.last.right
+    = link_to "Go back", brands_path
+  .clear
 
-.grid_6.right
-  #actions
-    = link_to "Go back", brand_results_path
-.clear
-
-.grid_6
-  - form_for @brand do |f|
-    %fieldset
-      %legend Brand
-      = render :partial => 'fields', :locals => { :f => f }
-
-      %p
-        = f.submit 'Create'
+  .box
+    %h4 Settings
+    - semantic_form_for @brand do |f|
+      - f.inputs do
+        = f.input :name
+      - f.buttons do
+        = f.commit_button 'Create'
 
 - content_for :head do
   :javascript

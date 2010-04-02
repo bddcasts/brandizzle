@@ -6,6 +6,3 @@ Feature: About Brandizzle
   Scenario: About page
     When I go to the about page
     Then I should see "About Brandizzle"
-  
-  
-  

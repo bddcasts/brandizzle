@@ -1,46 +1,47 @@
 class UsersController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user,    :only => [:edit, :update]
-  before_filter :require_invitation, :only => [:new]
+  before_filter :require_user, :current_team
   
   def new
-    @user = User.new(:invitation_token => params[:invitation_token])
-    @user.email = @user.invitation.recipient_email if @user.invitation
+    @user = current_team.members.build
   end
   
   def create
-    @user = User.new(params[:user])
-    if @user.save      
-      flash[:notice] = "Your account has been created."
-      redirect_to brand_results_path
+    @user = current_team.members.build(params[:user])
+    if @user.save
+      @user.deliver_user_invitation!
+      flash[:notice] = "The user has been created."
+      redirect_to team_path
     else
-      flash.now[:error] = "Acount registration failed!"
+      flash.now[:error] = "User registration failed!"
       render :new
     end
   end
   
   def edit
-    @user = current_user
+    @user = current_team.members.find(params[:id])
   end
   
   def update
-    @user = current_user
-    @user.attributes = params[:user]
-    if @user.save
+    @user = current_team.members.find(params[:id])
+    if @user.update_attributes(params[:user])
       flash[:notice] = "Account information updated!"
-      redirect_to edit_account_path
+      redirect_to team_path
     else
       render :edit
     end
   end
   
-  private
-    def require_invitation
-      @invitation = Invitation.find_by_token(params[:invitation_token])
-      unless @invitation
-        flash[:notice] = "We're sorry, but we could not locate your invitation. " +  
-        "If you are having issues try copying and pasting the URL from your email into your browser."
-        redirect_to new_user_session_path
-      end
-    end
+  def destroy
+    @user = current_team.members.find(params[:id])
+    @user.destroy
+    flash[:success] = "Successfully removed!"
+    redirect_to team_path
+  end
+  
+  def alter_status
+    @user = current_team.members.find(params[:id])
+    @user.toggle_active
+    flash[:success] = @user.active? ? "User enabled!" : "User disabled!"
+    redirect_to team_path
+  end
 end

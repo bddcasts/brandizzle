@@ -2,7 +2,7 @@ class QueriesController < ApplicationController
   before_filter :find_brand
   
   def create
-    @query = @brand.add_query(params[:query][:term]) if params[:query]
+    @query = @brand.add_query(params[:query][:term]) unless params[:query][:term].blank?
     if @query && !@query.new_record?
       flash[:notice] = "Added query term."
     else

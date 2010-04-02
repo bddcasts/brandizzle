@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: brands
+#
+#  id         :integer(4)      not null, primary key
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  team_id    :integer(4)
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Brand do
@@ -9,7 +20,7 @@ describe Brand do
   should_have_many :queries, :through => :brand_queries
   should_have_many :brand_results, :dependent => :destroy
   should_have_many :results, :through => :brand_results
-  should_belong_to :user
+  should_belong_to :team
   
   #validations
   should_validate_presence_of :name
@@ -40,7 +51,7 @@ describe Brand do
     end
   end
   
-  describe "#remove_search" do
+  describe "#remove_query" do
     before(:each) do
       @brand = Factory.create(:brand)
       @bar_query = @brand.add_query('bar')

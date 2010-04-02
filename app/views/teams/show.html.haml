@@ -1,0 +1,13 @@
+.inner
+  %h3 Team members
+  - if current_user.account_holder?
+    = link_to "Add a new member", new_user_path, :class => "add"
+  %table#members.index
+    %thead
+      %tr
+        %th User
+        %th Email
+        %th &nbsp;
+    %tbody
+      - @team.members.each do |member|
+        = render "member", :object => present_user(member)

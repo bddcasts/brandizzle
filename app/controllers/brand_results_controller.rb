@@ -3,9 +3,8 @@ class BrandResultsController < ApplicationController
   before_filter :find_result
   
   def index
-    @brands = current_user.brands
-
-    @search = BrandResult.search((params[:search] || {}).merge(:brand_user_id_is => current_user.id))
+    @brands = current_team.brands
+    @search = current_team.brand_results.search(params[:search] || {})
     
     @brand_results = @search.paginate(
       :page => params[:page],
@@ -14,7 +13,7 @@ class BrandResultsController < ApplicationController
   end
   
   def follow_up
-    @brand_result.toggle_follow_up    
+    @brand_result.toggle_follow_up
     redirect_to request.referer || brands_path
   end
 

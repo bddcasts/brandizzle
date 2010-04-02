@@ -3,16 +3,17 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BrandResultsController do
   before(:each) do
     login_user
+    @current_team = current_user.team
   end
   
   describe "handling GET index" do
     before(:each) do
       @brands = (1..3).map{ |i| mock_model(Brand) }
-      current_user.stub!(:brands).and_return(@brands)
+      @current_team.stub!(:brands).and_return(@brands)
       
       @brand_results = (1..3).map { mock_model(BrandResult) }
       @search = mock(Searchlogic::Search, :paginate => @brand_results)
-      BrandResult.stub(:search).and_return(@search)
+      @current_team.stub_chain(:brand_results, :search).and_return(@search)
     end
     
     def do_get(options={})
@@ -20,13 +21,13 @@ describe BrandResultsController do
     end
     
     it "finds the users brands and assigns them for the view" do
-      current_user.should_receive(:brands).and_return(@brands)
+      @current_team.should_receive(:brands).and_return(@brands)
       do_get
       assigns[:brands].should == @brands
     end
     
     it "creates a new search for the brand results and assigns it for the view" do
-      BrandResult.should_receive(:search).
+      @current_team.brand_results.should_receive(:search).
         with(hash_including("follow_up" => "test")).
         and_return(@search)
        

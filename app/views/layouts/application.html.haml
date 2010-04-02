@@ -1,20 +1,21 @@
+!!!
 %html
   %head
-    %title Brandizzle
-    = stylesheet_link_tag '960', 'reset', 'text', 'master', 'formtastic', 'formtastic_changes', :media => 'screen'
+    %title Brandizzle    
+    = stylesheet_link_tag 'compiled/screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'compiled/print.css', :media => 'print'
+    /[if lte IE 8]
+      = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
+    
     = javascript_include_tag 'jquery-1.4.1', 'application'
     = yield :head
-  %body
-    .container_12
-      = render "shared/header"
-      .grid_12
-        #flash
-          - flash.each do |key, message|
-            %div.flash(id=key)
-              =h message
-      .clear
-      #page
+  %body.bp
+    = render "shared/header"
+    #bd
+      #flash
+        - flash.each do |key, message|
+          %div.flash(id=key)
+            =h message
+      #main-content
         = yield
-        .clear
-
-      = render "shared/footer"
+    = render "shared/footer"

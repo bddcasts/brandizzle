@@ -1,38 +1,42 @@
-.grid_6
-  %h2=h @brand.name
+#sidebar
+  %h3 Monitored brands
+  %ul
+    - @brands.each do |brand|
+      %li= link_to h(brand.name), edit_brand_path(brand)
 
-.grid_6.right
-  #actions
-    = link_to "Go back", brand_results_path
-    = button_to "Delete brand", brand_path(@brand), :method => :delete, :class => "delete", :confirm => "Are you sure you want to delete '#{@brand.name}' brand?"
-
-.clear
-
-.grid_6
-  - form_for [@brand, @query] do |f|
-    %fieldset
-      %legend Queries
-    
-      = f.text_field :term
-      = f.submit 'Add term'
-      
-      %hr
-      
-      %ul#queries
-        - @brand.queries.each do |query|
-          %li
-            = h query.term
-            = link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete', :confirm => "Are you sure you want to delete '#{query.term}' term?"
+#content
+  .span-12
+    %h3="Edit #{@brand.name} brand"
+  .span-6.last.right
+    = link_to "Go back", brands_path, :class => "back_link"
+  .clear
   
-.grid_6
-  - form_for @brand do |f|
-    %fieldset
-      %legend Settings
-    
-      = render :partial => 'fields', :locals => { :f => f }
+  .box
+    %h4 Settings
+    .span-17
+      - semantic_form_for @brand do |f|
+        - f.inputs do
+          = f.input :name
+        - f.buttons do
+          = f.commit_button 'Update'
+      
+  .box
+    .span-11
+      %h4 Queries
+      - semantic_form_for [@brand, @query] do |f|
+        - f.inputs do
+          = f.input :term
+          %li
+            = f.submit 'Add term'
+  
+    .span-6.last
+      %h4 Terms
+      %table.terms.index
+        - @brand.queries.each do |query|
+          %tr{:id => dom_id(query)}
+            %td= h query.term
+            %td= link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'remove', :confirm => "Are you sure you want to delete '#{query.term}' term?"
 
-      %p
-        = f.submit 'Update'
 
 - content_for :head do
   :javascript
