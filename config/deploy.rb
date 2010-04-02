@@ -47,7 +47,7 @@ namespace :bundler do
  
   task :bundle_new_release do
     bundler.symlink_vendor
-    run("cd #{release_path} && bundle install vendor/bundler_gems && bundle lock")
+    run("cd #{release_path} && bundle install --relock")
   end
 end
 after 'deploy:update_code', 'bundler:bundle_new_release'

@@ -2,6 +2,8 @@ class AddUserToTeam < ActiveRecord::Migration
   def self.up
     add_column :users, :team_id, :integer
     
+    User.reset_column_information
+    
     User.all.each do |user|
       user.team = user.account.team
       user.save(false)
