@@ -1,41 +1,32 @@
-#sidebar
-  %h3 Monitored brands
-  %ul
-    - @brands.each do |brand|
-      %li= link_to h(brand.name), edit_brand_path(brand)
+- title "Edit #{@brand.name} brand"
 
-#content
-  .span-12
-    %h3="Edit #{@brand.name} brand"
-  .span-6.last.right
-    = link_to "Go back", brands_path, :class => "back_link"
-  .clear
+.buttons
+  = link_to "Go back", brands_path, :class => "back"
+
+.box
+  %h3 Settings
+  - semantic_form_for @brand do |f|
+    - f.inputs do
+      = f.input :name
+    - f.buttons do
+      = f.commit_button 'Update'
+    
+.box
+  .left
+    %h3 Queries
+    - semantic_form_for [@brand, @query] do |f|
+      - f.inputs do
+        = f.input :term
+        %li
+          = f.submit 'Add term'
   
-  .box
-    %h4 Settings
-    .span-17
-      - semantic_form_for @brand do |f|
-        - f.inputs do
-          = f.input :name
-        - f.buttons do
-          = f.commit_button 'Update'
-      
-  .box
-    .span-11
-      %h4 Queries
-      - semantic_form_for [@brand, @query] do |f|
-        - f.inputs do
-          = f.input :term
-          %li
-            = f.submit 'Add term'
-  
-    .span-6.last
-      %h4 Terms
-      %table.terms.index
-        - @brand.queries.each do |query|
-          %tr{:id => dom_id(query)}
-            %td= h query.term
-            %td= link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'remove', :confirm => "Are you sure you want to delete '#{query.term}' term?"
+  .right
+    %h3 Terms
+    %table.terms.index
+      - @brand.queries.each do |query|
+        %tr{:id => dom_id(query)}
+          %td= h query.term
+          %td= link_to "Remove", brand_query_path(@brand, query), :method => :delete, :id => dom_id(query, :delete), :class => 'delete', :confirm => "Are you sure you want to delete '#{query.term}' term?"
 
 
 - content_for :head do

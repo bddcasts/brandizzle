@@ -1,13 +1,9 @@
-.inner
-  %h3 Monitored brands
-  - if current_user.account_holder?
-    = link_to "Add a new brand", new_brand_path, :class => "add"
-  %table#brands.index
-    %thead
-      %tr
-        %th Brand
-        %th Terms
-        %th &nbsp;
-    %tbody
-      - @brands.each do |brand|
-        = render "brand", :object => present_brand(brand)
+- title "Monitored brands"
+
+- if current_user.account_holder?
+  .buttons
+    = link_to "Add a new brand", new_brand_path, :class => "add new_brand"
+
+.brands
+  - @brands.each do |brand|
+    = render "brand", :object => present_brand(brand)

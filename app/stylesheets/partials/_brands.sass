@@ -1,24 +1,11 @@
 div
-  &.users
+  &.brands
     h3
       font-size: 14px
       padding: 0px
 
-      img
-        vertical-align: middle
-
-      span
-        font-size: 11px
-        color: rgb(255,255,255)
-        font-weight: normal
-        padding: 1px 5px
-        &.pending
-          background: rgb(100,155,100)
-        &.disabled
-          background: rgb(255,0,0)
-
     div
-      &.user
+      &.brand
         padding: 5px 10px
         padding-left: 5px
         border-bottom: solid 1px rgb(230,230,230)
@@ -38,8 +25,23 @@ div
 
           &.delete:hover
             background: rgb(255,0,0)
+  &.box
+    :margin-bottom 10px
+    :padding 10px
+    +clearfix
+    h3
+      font-size: 15px
+      margin: 0
+      padding: 0 0 10px 0
+    .left
+      :float left
+      :width 45%
+    .right
+      :float right
+      :width 45%
+  
   &.buttons
-    .add.new_user
-      background: url('/images/new_user_button.jpg')
+    .add.new_brand
+      background: url('/images/new_brand_button.jpg')
       &:hover
-        background: url('/images/new_user_button_hover.jpg')
+        background: url('/images/new_brand_button_hover.jpg')

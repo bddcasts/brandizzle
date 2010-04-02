@@ -1,4 +1,5 @@
-%tr{:id => brand.dom_id}
-  %td= brand.name
-  %td.terms= brand.queries.join(", ")
-  %td.no-wrap= brand.action_links.join(" | ")
+%div.brand{ :class => cycle(:odd, :even) }
+  .actions= brand.action_links.join(" ")
+  %h3
+    = link_to brand.name, edit_brand_path(brand.id)
+  = brand.queries.join(", ")

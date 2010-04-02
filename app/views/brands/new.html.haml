@@ -1,17 +1,14 @@
-.inner
-  .span-16.last
-    %h3 Add brand
-  .span-9.last.right
-    = link_to "Go back", brands_path
-  .clear
+- title "Add brand"
 
-  .box
-    %h4 Settings
-    - semantic_form_for @brand do |f|
-      - f.inputs do
-        = f.input :name
-      - f.buttons do
-        = f.commit_button 'Create'
+.buttons
+  = link_to "Go back", brands_path, :class => "back"
+
+.content
+  - semantic_form_for @brand do |f|
+    - f.inputs do
+      = f.input :name
+    - f.buttons do
+      = f.commit_button 'Create'
 
 - content_for :head do
   :javascript

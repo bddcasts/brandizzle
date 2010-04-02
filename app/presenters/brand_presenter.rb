@@ -15,7 +15,7 @@ class BrandPresenter < Viewtastic::Base
     returning([]) do |links|
       if current_user.account_holder?
         links << link_to("Manage", edit_brand_path(brand))
-        links << link_to("Remove", brand_path(brand), :method => :delete, :class => "remove", :confirm => "Are you sure you want to remove #{brand}?")
+        links << link_to("Remove", brand_path(brand), :method => :delete, :class => "delete", :confirm => "Are you sure you want to remove #{brand}?")
       end
     end
   end
