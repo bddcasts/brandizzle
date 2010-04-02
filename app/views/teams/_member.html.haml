@@ -1,4 +1,6 @@
-%tr{ :id => member.dom_id }
-  %td= member.login
-  %td= member.email
-  %td.no-wrap= member.action_links.join(" | ")
+%div.user{ :class => cycle(:odd, :even)}
+  .actions= member.action_links.join(" ")
+  %h3
+    %img{:src => "#{gravatar_url(member.email)}", :alt => ""}
+    = link_to member.email, edit_user_path(member.id)
+    %span{:class => member.status}= member.status

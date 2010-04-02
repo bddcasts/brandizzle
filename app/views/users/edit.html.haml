@@ -1,6 +1,6 @@
-.inner
-  %h3= "Edit #{@user}'s information"
+- title "Edit #{@user}'s information"
 
+.content
   - semantic_form_for @user do |f|
     - f.inputs do
       = f.input :password

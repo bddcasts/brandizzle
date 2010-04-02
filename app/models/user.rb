@@ -54,13 +54,13 @@ class User < ActiveRecord::Base
     Notifier.deliver_user_invitation(self)
   end
 
+  def has_no_credentials?
+    self.crypted_password.blank?
+  end
+  
   private
     def set_invitation_limit
       self.invitation_limit = Settings.invitations.limit
-    end
-    
-    def has_no_credentials?
-      self.crypted_password.blank?
     end
 end
 

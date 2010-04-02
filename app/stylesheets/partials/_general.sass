@@ -104,9 +104,26 @@ div
       +hover-link
     
   &.content
-    float: right
-    width: 760px
+    &.results
+      float: right
+      width: 760px
+  
+  &.buttons
+    padding: 10px
+    +clearfix
     
+    .add
+      display: block
+      float: right
+      width: 100px
+      height: 24px
+      text-indent: -9999px
+      outline: none
+      &.new_user
+        background: url('/images/new_user_button.jpg')
+        &:hover
+          background: url('/images/new_user_button_hover.jpg')
+
 table.index
   :width 100%
   :font normal 12px  Arial, Tahoma, Verdana,  sans-serif

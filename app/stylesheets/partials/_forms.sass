@@ -1,0 +1,19 @@
+form.formtastic
+  +reset-form
+  +stack-form("935px", "auto", "0", "right")
+  fieldset
+    :margin 0
+    :padding 0
+    :border none
+    ol
+      li
+        :margin-bottom 10px
+        label
+          font-size: 12px
+          display: block
+        &.string, &.password
+          input
+            font-size: 28px
+            border: solid 1px rgb(160,160,160)
+        &.error
+          +error
