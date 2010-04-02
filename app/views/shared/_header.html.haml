@@ -1,32 +1,29 @@
-#hd
+.header
   %h1
-    = link_to 'Brandizzle', brand_results_path
-
-  %ul#account-links
-    - if current_user
-      %li= "Welcome #{current_user}"
-      - if current_user.invitation_limit > 0
-        %li
-          = link_to "Invite your friends", new_invitation_path
-          = "(#{current_user.invitation_limit} left)"
-      %li
-        = link_to "My info", edit_user_path(current_user)
-      %li= link_to "Sign out", user_session_path, :method => 'delete'
-    - else
-      %li= link_to "Login", new_user_session_path
-
-  - if current_user
-    #nav
-      %ul
-        %li{:class => active("results") ? "selected" : nil}
+    %span
+      = link_to 'Brandizzle', brand_results_path
+.navigation_wrap
+  .navigation
+    %ul
+      - if current_user
+        %li{:class => active("results") ? "active" : nil}
           = link_to "Results", brand_results_path
-        %li{:class => active("follow_up") ? "selected" : nil}
+        %li{:class => active("follow_up") ? "active" : nil}
           = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true } )
-        %li{:class => active("brands") ? "selected" : nil}
+        %li{:class => active("brands") ? "active" : nil}
           = link_to "Brands", brands_path
-        %li{:class => active("team") ? "selected" : nil}
+        %li{:class => active("team") ? "active" : nil}
           = link_to "Team", team_path
         %li= link_to "Search", "#"
+        %li.right_side
+          = link_to "Sign out", user_session_path, :method => 'delete'
+        - if current_user.invitation_limit > 0
+          %li.right_side
+            = link_to "Invite friends (#{current_user.invitation_limit} left)", new_invitation_path
+        %li.right_side
+          = link_to "My info", edit_user_path(current_user)
         - if current_user.account_holder?
-          %li.right{:class => active("account") ? "selected" : nil}
+          %li.right_side{:class => active("account") ? "active" : nil}
             = link_to "My account", edit_account_path
+      - else
+        %li= link_to "Login", new_user_session_path

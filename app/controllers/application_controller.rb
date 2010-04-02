@@ -45,6 +45,6 @@ class ApplicationController < ActionController::Base
     end
     
     def current_team
-      @current_team ||= @current_user && @current_user.team
+      @current_team ||= current_user && current_user.team
     end
 end

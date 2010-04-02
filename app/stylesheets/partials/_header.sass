@@ -1,55 +1,74 @@
-body.bp
-  #hd
-    :background-color #1B5790
-    +rounded-top
-    +container
-    h1
-      :margin 10px
-      :float left
-      :font
-        :size 175%
-        :weight bold
-      a, a:visited
-        :text-decoration none
-        :color white
-        
-    ul#account-links
-      +horizontal-list
-      :margin 10px 10px 0 0
-      :float right
-      li
-        :color #ffffff
-        :margin-left 15px
-      a
-        :color #ffffff
-        :text-decoration none
-        &:hover
-          :text-decoration underline
+div
+  &.header
+    background: rgb(30,30,30)
+    border-bottom: solid 1px rgb(0,0,0)
+    margin: 0px
+    padding: 10px 20px
 
-  #nav    
-    +column(25)
-    :margin-top 5px
+    h1
+      display: block
+      font-size: 17px
+      font-weight: normal
+      color: rgb(225,225,225)
+      width: 980px
+      margin: 0px auto
+      padding: 0px
+      a
+        color: rgb(225,225,225)
+        text-decoration: none
+        &:hover
+          color: rgb(225,225,225)
+          background: transparent
+          
+
+  &.navigation_wrap
+    border-top: solid 1px rgb(200,200,200)
+
+  &.navigation
+    width: 980px
+    height: 30px
+    margin: 0px auto
+    margin-top: 5px
+    padding: 0px
+
     ul
-      +horizontal-list
-      li
-        :margin-left 10px
-        :padding 0 5px 0 0
+      margin: 0px
+      padding: 0px
+
+    li
+      display: block
+      float: left
+      background: url('/images/navigation_li_bg.jpg') no-repeat right top
+      list-style: none
+      margin: 0px
+      margin-right: 4px
+      padding: 0px
+
+    a
+      display: block
+      float: left
+      font-size: 11px
+      background: url('/images/navigation_a_bg.jpg') no-repeat left top
+      color: rgb(255,255,255)
+      height: 16px
+      text-decoration: none
+      margin: 0px
+      padding: 4px 12px
+
+      &:hover
+        color: rgb(255,255,0)
+
+    li
+      &.active
+        background: url('/images/navigation_li_active_bg.jpg') no-repeat right top
 
         a
-          :background-color #466BB1
-          :color #FFFFFF
-          :text-decoration none
-          :display block
-          :padding 4px 8px 5px
-          :text-align center
-          +rounded-top
-          &:hover
-            :background-color #97BAFF
-        &.selected
-          a
-            :background-color #97BAFF
-        &.right
-          :float right
-          :margin-right 9px
-            
-            
+          background: url('/images/navigation_a_active_bg.jpg') no-repeat left top
+
+      &.right_side
+        float: right
+        margin-right: 0px
+        margin-left: 4px
+
+    a.user_start
+      margin-left: 10px
