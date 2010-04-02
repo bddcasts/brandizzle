@@ -1,7 +1,7 @@
-.inner
-  %h3 Login
+- title "Login"
 
-  - semantic_form_for @user_session, :url => user_session_path do |f|
+.content
+  - semantic_form_for @user_session, :url => user_session_path, :html => { :class => "account" } do |f|
     - f.inputs do
       %li.inline-error= f.errors_on(:base)
       = f.input :login

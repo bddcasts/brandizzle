@@ -1,6 +1,6 @@
-.inner
-  %h3 Invite your friends
-  
+- title "Invite your friends"
+
+.content
   - semantic_form_for @invitation do |f|
     - f.inputs  do
       = f.input :recipient_email, :label => "Friend's email address"

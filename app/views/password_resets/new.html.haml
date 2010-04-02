@@ -1,7 +1,7 @@
-.inner
-  %h3 Recover password
-  
-  - form_tag password_resets_path, :class => "formtastic" do
+- title "Recover password"
+
+.content
+  - form_tag password_resets_path, :class => "formtastic account" do
     %fieldset.inputs
       %ol
         %li.string.required

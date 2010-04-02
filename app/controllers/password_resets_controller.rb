@@ -2,6 +2,8 @@ class PasswordResetsController < ApplicationController
   before_filter :find_user_by_perishable_token, :only => [:edit, :update]
   before_filter :require_no_user
 
+  layout "login"
+
   def new
     render
   end

@@ -17,3 +17,16 @@ form.formtastic
             border: solid 1px rgb(160,160,160)
         &.error
           +error
+  &.account
+    +stack-form("455px", "auto", "0", "right")
+    fieldset ol li
+      &.string, &.password
+        input
+          :width 480px
+      &.error
+        input
+          :width 455px
+      &.inline-error
+        :width 482px
+        p
+          +error

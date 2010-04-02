@@ -26,6 +26,8 @@ module ApplicationHelper
       controller.controller_name == "accounts"
     when s = "team"
       controller.controller_name == "teams" || controller.controller_name == "users"
+    when s = "invitation"
+      controller.controller_name == "invitations"
     end
   end
   
