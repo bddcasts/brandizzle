@@ -1,4 +1,6 @@
-#sidebar
+- title "Results"
+
+.sidebar
   %h3 Brands
   %ul
     %li= brand_filter("All")
@@ -15,7 +17,7 @@
     %li= time_filter(@search, :as => "Last month", :by => :result_created_at, :between => [Time.now.last_month.beginning_of_month, Time.now.last_month.end_of_month.end_of_day ])
     %li= time_filter(@search, :as => "Any time", :by => :result_created_at)
     
-#content
+.content.results
   #entries
     = page_entries_info @brand_results, :entry_name => "result"
   - if @brand_results && !@brand_results.empty?

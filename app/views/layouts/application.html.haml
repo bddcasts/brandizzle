@@ -14,6 +14,11 @@
       = render "shared/header"
       .wrapper
         .content_wrap
-
+          - if show_title?
+            .heading
+              %h2= h yield(:title)
+          = render :partial => "shared/flash", :object => flash
+          .main-content
+            = yield
         .footer
           = render "shared/footer"

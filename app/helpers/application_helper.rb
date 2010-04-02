@@ -1,5 +1,19 @@
 module ApplicationHelper
   include Formtastic::SemanticFormHelper
+  def title(page_title, show_title = true)
+    @content_for_title = page_title.to_s
+    @show_title = show_title
+  end
+  
+  def title_tag
+    common_title = 'TalentRockr'
+    content_tag(:title, @content_for_title.blank? && "Untitled | #{common_title}" || "#{@content_for_title} | #{common_title}")
+  end
+  
+  def show_title?
+    @show_title
+  end
+  
   def active(s)
     case s
     when s = "results"
@@ -18,7 +32,7 @@ module ApplicationHelper
   def brand_filter(label, brand_id=nil)
     url_options = {:search => (params[:search] || {}).merge({:brand_id_is => brand_id})}
     
-    link_to label, brand_results_path(url_options), :class => params[:search] && params[:search][:brand_id_is] == brand_id.to_s && "selected" || nil
+    link_to label, brand_results_path(url_options), :class => params[:search] && params[:search][:brand_id_is] == brand_id.to_s && "active" || nil
   end
 
   def time_filter(search, options={}, html_options={})
@@ -34,7 +48,7 @@ module ApplicationHelper
     selected = time_conditions.include?(before) && time_conditions.include?(after)
         
     if selected
-      html_options[:class] = "selected"
+      html_options[:class] = "active"
     end
     
     url_options = {

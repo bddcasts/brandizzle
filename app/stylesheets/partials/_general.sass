@@ -1,0 +1,120 @@
+html
+  margin: 0px
+  padding: 0px
+
+body
+  margin: 0px
+  padding: 0px
+  font-family: Verdana, Arial, sans-serif
+  background: rgb(146,146,146)
+
+h1, h2, h3, h4
+  font-family: 'Lucida Grande', Verdana, Arial, sans-serif
+  color: rgb(0,0,0)
+  margin: 0px
+
+h2
+  font:
+    size: 14px
+    weight: bold
+  margin: 0px
+  margin-top: 10px
+  padding-bottom: 4px
+  
+
+h3
+  font-size: 13px
+  padding: 10px
+  margin: 0px
+
+p
+  font: normal 12px  Arial, Tahoma, Verdana,  sans-serif
+  margin: 0px
+  line-height: 1.4em
+
+a
+  color: rgb(0,0,255)
+
+  &:hover
+    color: rgb(255,255,255)
+    background: rgb(0,0,255)
+    text-decoration: none
+
+img
+  margin: 0px
+  border: 0px
+
+br
+  clear: both
+
+div
+  &.content_wrap
+    width: 980px
+    margin: 0px auto
+    background: rgb(255,255,255)
+
+    div.heading
+      background: rgb(228,241,246)
+      color: rgb(160,160,160)
+      border-bottom: solid 1px rgb(170,184,190)
+      margin: 0px
+      padding: 10px
+      padding-bottom: 5px
+
+      h2
+        font-size: 14px
+        margin: 0px
+
+      div.actions
+        float: right
+        font-size: 12px
+
+        a
+          font-size: 11px
+          padding: 2px 4px
+
+          &.active
+            color: rgb(255,255,255)
+            background: rgb(0,0,255)
+            text-decoration: none
+  &.main-content
+    font-size: 14px
+    padding: 10px
+    clear: both
+    +clearfix
+    :min-height 500px
+    
+  &.sidebar
+    float: left
+    width: 190px
+    :padding-right 10px
+    h3
+      :border-bottom 1px solid #000
+      :padding 10px 0 0 10px
+    ul
+      :margin 10px 0 10px 10px
+      +no-bullets
+      li
+        a
+          :font-size 13px
+          &.active
+            color: rgb(255,255,255)
+            background: rgb(0,0,255)
+    a
+      +hover-link
+    
+  &.content
+    float: right
+    width: 760px
+    
+table.index
+  :width 100%
+  :font normal 12px  Arial, Tahoma, Verdana,  sans-serif
+  tr
+    td
+      :vertical-align top
+      :padding 10px 4px 4px 4px
+      :border-bottom 1px solid #BBB
+    &:last-child
+      td
+        :border none
