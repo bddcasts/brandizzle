@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(:version => 20100401110528) do
     t.boolean  "active",            :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "invitation_limit"
+    t.integer  "invitation_limit",  :default => 0
     t.integer  "team_id"
   end
 

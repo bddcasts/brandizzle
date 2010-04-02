@@ -2,6 +2,8 @@ class MoveInvitationIdToAccount < ActiveRecord::Migration
   def self.up
     add_column :accounts, :invitation_id, :string
     
+    Account.reset_column_information
+    
     User.all.each do |user|
       a = user.account
       a.invitation_id = user.invitation_id
