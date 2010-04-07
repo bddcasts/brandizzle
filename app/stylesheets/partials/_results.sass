@@ -1,29 +1,34 @@
 div
-  &.results
+  &.updates
     h3
       border-bottom: solid 1px rgb(170,184,190)
       font-weight: normal
       font-size: 11px
       padding: 4px 0px
       padding-bottom: 3px
-      margin: 5px 0px
+      margin: 10px 0px 5px 0
 
       span
         background: rgb(230,230,230)
         padding: 4px 10px
         padding-bottom: 3px
-
+    .result
+      :border-bottom 1px dotted #ccc
+      :padding-bottom 5px
+      :margin-bottom 10px
+      .leenks
+        :margin-top 3px
+        :font-size 11px
+      .status
+        :font-size 11px
+        span
+          &.follow_up
+            color: rgb(255,255,255)
+            background: rgb(255,100,100)
+            font-weight: normal
+            padding: 1px 5px
   #entries
     :font
       :weight bold
       :size 13px
     :margin-bottom 10px
-  #results
-    td
-      &.body
-        :color #555
-
-        div
-          :max-width 610px
-          :overflow hidden
-          :margin-bottom 5px
