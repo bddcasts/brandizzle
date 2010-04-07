@@ -26,4 +26,4 @@
         - @brand_results.each do |brand_result|
           = render "brand_result", :object => present_brand_result(brand_result)
 
-  = will_paginate @brand_results, :previous_label => '&laquo; Newer', :next_label => 'Older &raquo;'
+  = will_paginate @brand_results, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'

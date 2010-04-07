@@ -6,7 +6,7 @@ Feature: Account management
   Scenario: Creating a new user for my team
     Given I am logged in as account holder "cartman"
       And I am on the team page
-     When I follow "Add a new member"
+     When I follow "Create a new user"
       And I fill in "Login" with "stan"
       And I fill in "Email" with "stan@example.com"
       And I press "Create user"

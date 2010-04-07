@@ -7,7 +7,7 @@ Feature: Invite friends
     Given I am logged in as "cartman"
       And "cartman" has invitations to send
       And I am on the results page
-     When I follow "Invite your friends"
+     When I follow "Invite friends"
       And I fill in "Friend's email address" with "stan@example.com"
       And I press "Invite!"
      Then I should be on the results page
@@ -18,7 +18,7 @@ Feature: Invite friends
       And I am logged in as "cartman"
       And "cartman" has invitations to send
       And I am on the results page
-     When I follow "Invite your friends"
+     When I follow "Invite friends"
       And I fill in "Friend's email address" with "stan@example.com"
       And I press "Invite!"
      Then I should see "is already registered"

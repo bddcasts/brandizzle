@@ -46,7 +46,7 @@ Feature: Results
         | source  | body                                       | url                             | created_at        |
         | twitter | Isn't foo the awesomest variable name evar | http://twitter.com/statuses/789 | 09 Jul 2009 18:25 |
       And I am on the results page
-     When I follow "BDDCasts" within "#sidebar"
+     When I follow "BDDCasts" within ".sidebar"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "Isn't foo the awesomest variable name evar"
   
@@ -57,7 +57,7 @@ Feature: Results
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | Time.now |
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 1.days.from_now |
       And I am on the results page
-     When I follow "Today" within "#sidebar"
+     When I follow "Today" within ".sidebar"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
     
@@ -75,7 +75,7 @@ Feature: Results
         | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 | true      |
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |           |
       And I am on the results page
-     When I follow "Follow up" within "#nav"
+     When I follow "Follow up" within ".navigation"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
   

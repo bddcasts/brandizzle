@@ -1,4 +1,4 @@
-%div.user{ :class => cycle(:odd, :even)}
+%div.user{ :class => cycle(:odd, :even), :id => member.dom_id}
   .actions= member.action_links.join(" ")
   %h3
     %img{:src => "#{gravatar_url(member.email)}", :alt => ""}
