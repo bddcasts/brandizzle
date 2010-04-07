@@ -1,10 +1,9 @@
-%tr
-  %td
-    %a{:href => brand_result.result.url, :title => brand_result.result.source}
-      %img{:src => "/images/#{brand_result.result.source}.png", :alt => brand_result.result.source }
-      
-  %td.body
-    %div
-      = sanitize brand_result.result.body
+%div.result
+  %p.status
+    = brand_result.result.created_at.strftime("%I:%M%p")
+    = brand_result.status
+  %p
+    %img{:src => "/images/#{brand_result.result.source}.png", :alt => brand_result.result.source }
+    = sanitize brand_result.result.body
+  %p.leenks
     = brand_result.action_links.join(" | ")
-  %td.nowrap= brand_result.result.created_at.to_s(:short)

@@ -21,9 +21,11 @@
   #entries
     = page_entries_info @brand_results, :entry_name => "result"
   - if @brand_results && !@brand_results.empty?
-    %table#results.index
-      %tbody
-        - @brand_results.each do |brand_result|
-          = render "brand_result", :object => present_brand_result(brand_result)
+    .updates
+      - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|
+        %h3
+          %span= show_day(day)
+        - brand_result.each do |br|
+          = render "brand_result", :object => present_brand_result(br)
 
   = will_paginate @brand_results, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'
