@@ -1,4 +1,4 @@
-%div.brand{ :class => cycle(:odd, :even) }
+%div.brand{ :class => cycle(:odd, :even), :id => brand.dom_id }
   .actions= brand.action_links.join(" ")
   %h3
     = link_to brand.name, edit_brand_path(brand.id)

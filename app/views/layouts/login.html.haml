@@ -12,13 +12,13 @@
   %body
     .container.login
       .header
-        %h1
-          %span
-            = link_to 'Brandizzle', brand_results_path
-      .navigation_wrap
-        .navigation
-          %ul
-            %li.right_side= link_to "Login", new_user_session_path
+        .top
+          %h1
+            %span
+              = link_to 'Brandizzle', brand_results_path
+          .account-links
+            %ul
+              %li= link_to "Login", new_user_session_path
       .wrapper
         .content_wrap
           - if show_title?
