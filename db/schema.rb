@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100408062538) do
+ActiveRecord::Schema.define(:version => 20100408155341) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -112,9 +112,16 @@ ActiveRecord::Schema.define(:version => 20100408062538) do
     t.datetime "updated_at"
     t.integer  "invitation_limit",  :default => 0
     t.integer  "team_id"
+    t.string   "oauth_token"
+    t.string   "oauth_secret"
+    t.string   "twitter_uid"
+    t.string   "name"
+    t.string   "screen_name"
+    t.string   "location"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["oauth_token"], :name => "index_users_on_oauth_token"
   add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
 
 end

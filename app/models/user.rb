@@ -14,6 +14,12 @@
 #  updated_at        :datetime
 #  invitation_limit  :integer(4)      default(0)
 #  team_id           :integer(4)
+#  oauth_token       :string(255)     indexed
+#  oauth_secret      :string(255)
+#  twitter_uid       :string(255)
+#  name              :string(255)
+#  screen_name       :string(255)
+#  location          :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -29,6 +35,7 @@ class User < ActiveRecord::Base
   belongs_to :team
   
   before_create :set_invitation_limit
+  before_save :populate_oauth_user
     
   attr_accessible :login, :email, :password, :password_confirmation, :active
     
@@ -42,6 +49,10 @@ class User < ActiveRecord::Base
   
   def account_holder?
     !account.blank?
+  end
+  
+  def using_twitter?
+    !!oauth_token
   end
 
   def deliver_password_reset_instructions!
@@ -62,5 +73,22 @@ class User < ActiveRecord::Base
     def set_invitation_limit
       self.invitation_limit = Settings.invitations.limit
     end
+
+    def populate_oauth_user
+      return unless twitter_uid.blank?
+
+      if using_twitter?
+        @response = UserSession.oauth_consumer.request(:get, '/account/verify_credentials.json',
+        access_token, { :scheme => :query_string })
+        if @response.is_a?(Net::HTTPSuccess)
+          user_info = JSON.parse(@response.body)
+
+          self.name        = user_info['name']
+          self.twitter_uid = user_info['id']
+          self.screen_name = user_info['screen_name']
+          self.location    = user_info['location']
+        end
+      end
+    end    
 end
 

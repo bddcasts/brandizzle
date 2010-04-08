@@ -2,9 +2,16 @@
 
 .content
   - semantic_form_for @user do |f|
-    - f.inputs do
+    - f.inputs "Account Information" do
       = f.input :password
       = f.input :password_confirmation
+    - if @user.using_twitter?
+      - f.inputs "Twitter" do
+        = f.input :screen_name, :input_html => {:readonly => true}
+        = f.input :name
+        = f.input :location
+    - else
+      %li= oauth_register_button :value => "Authorize with Twitter"
     - f.buttons do
       = f.commit_button "Update information"
       or

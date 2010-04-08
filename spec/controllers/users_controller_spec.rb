@@ -95,15 +95,16 @@ describe UsersController do
     before(:each) do
       @user = mock_model(User)
       @current_team.stub_chain(:members, :find).and_return(@user)
+      @user.stub!(:attributes=)
     end
     
     def do_put_with_valid_attributes(options={})
-      @user.should_receive(:update_attributes).and_return(true)
+      @user.should_receive(:save).and_return(true)
       put :update, :id => 42, :user => options
     end
     
     def do_put_with_invalid_attributes(options={})
-      @user.should_receive(:update_attributes).and_return(false)
+      @user.should_receive(:save).and_return(false)
       put :update, :id => 42, :user => options
     end
     
@@ -112,11 +113,16 @@ describe UsersController do
       do_put_with_valid_attributes
       assigns[:user].should == @user
     end
-        
+    
+    it "assigns the updated attributes" do
+      @user.should_receive(:attributes=).with("password" => "secret")
+      do_put_with_valid_attributes(:password => "secret")
+    end
+    
     it "sets the flash message and redirects to the team page on success" do
       do_put_with_valid_attributes
       flash[:notice].should_not be_nil
-      response.should redirect_to(team_path)
+      response.should redirect_to(edit_user_path(@user))
     end
     
     it "renders the edit template on failure" do

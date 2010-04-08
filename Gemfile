@@ -4,20 +4,22 @@ source :gemcutter
 # gem "rake"
 
 group :default do
-  gem 'haml',          '2.2.19'
-  gem 'aasm',          '2.1.5'
-  gem 'will_paginate', '2.3.12'
-  gem 'whenever',      '0.4.1'
-  gem 'json',          '1.2.0'
-  gem 'searchlogic',   '2.4.10'
-  gem 'authlogic',     '2.1.3'
-  gem 'formtastic',    '0.9.7'
-  gem 'delayed_job',   '1.8.4'
-  gem 'settingslogic', '2.0.5'
-  gem 'twitter',       '0.8.6'
-  gem 'compass',       '0.8.17'
-  gem 'annotate',      '2.4.0'
-  gem 'viewtastic',    '0.1.2'
+  gem 'haml',             '2.2.19'
+  gem 'aasm',             '2.1.5'
+  gem 'will_paginate',    '2.3.12'
+  gem 'whenever',         '0.4.1'
+  gem 'json',             '1.2.0'
+  gem 'searchlogic',      '2.4.10'
+  gem 'authlogic',        '2.1.3'
+  gem 'formtastic',       '0.9.7'
+  gem 'delayed_job',      '1.8.4'
+  gem 'settingslogic',    '2.0.5'
+  gem 'twitter',          '0.8.6'
+  gem 'compass',          '0.8.17'
+  gem 'annotate',         '2.4.0'
+  gem 'viewtastic',       '0.1.2'
+  gem 'oauth',            '0.3.6'
+  gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth"
 end
 
 group :rails do

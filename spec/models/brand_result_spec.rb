@@ -7,7 +7,7 @@
 #  result_id  :integer(4)      indexed, indexed => [brand_id]
 #  created_at :datetime
 #  updated_at :datetime
-#  state      :string(255)
+#  state      :string(255)     indexed
 #
 
 require 'spec_helper'

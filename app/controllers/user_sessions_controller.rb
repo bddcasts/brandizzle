@@ -10,11 +10,18 @@ class UserSessionsController < ApplicationController
 
   def create
     @user_session = UserSession.new(params[:user_session])
-    if @user_session.save
-      flash[:notice] = "Welcome #{@user_session.record}!"
-      redirect_back_or_default brand_results_path
-    else
-      render :action => :new
+    @user_session.save do |result|
+      if result
+        flash[:notice] = "Welcome #{@user_session.record}!"
+        redirect_back_or_default brand_results_path
+      else
+        if params[:denied]
+          flash[:notice] = "You did not allow Brandizzle to use your Twitter account"
+          redirect_to new_user_session_path
+        else
+          render :new
+        end
+      end
     end
   end
 

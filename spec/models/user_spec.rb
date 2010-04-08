@@ -14,19 +14,24 @@
 #  updated_at        :datetime
 #  invitation_limit  :integer(4)      default(0)
 #  team_id           :integer(4)
+#  oauth_token       :string(255)     indexed
+#  oauth_secret      :string(255)
+#  twitter_uid       :string(255)
+#  name              :string(255)
+#  screen_name       :string(255)
+#  location          :string(255)
 #
 
 require 'spec_helper'
 
 describe User do
   #columns
-  should_have_column :login,
-                     :email,
-                     :crypted_password,
-                     :password_salt,
-                     :persistence_token,
-                     :perishable_token,
+  should_have_column :login, :email, :crypted_password, :password_salt, :persistence_token, :perishable_token,
+                     :oauth_token, :oauth_secret, :twitter_uid, :name, :screen_name, :location
                      :type => :string
+  
+  should_have_column :active, :type => :boolean
+  should_have_column :invitation_limit, :type => :integer
 
 
   #associations

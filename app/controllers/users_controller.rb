@@ -23,12 +23,17 @@ class UsersController < ApplicationController
   
   def update
     @user = current_team.members.find(params[:id])
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "Account information updated!"
-      redirect_to team_path
-    else
-      render :edit
+    @user.attributes = params[:user]
+    
+    @user.save do |result|
+      if result
+        flash[:notice] = "Account information updated!"
+        redirect_to edit_user_path(@user)
+      else 
+        render :edit
+      end
     end
+    
   end
   
   def destroy
