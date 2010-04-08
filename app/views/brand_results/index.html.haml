@@ -1,5 +1,13 @@
 - title "Results"
 
+- content_for :heading do
+  %div.actions
+    = state_filter("View all")
+    or
+    = state_filter("Follow up", "follow_up")
+    or
+    = state_filter("Done", "done")
+    
 .sidebar
   %h3 Brands
   %ul

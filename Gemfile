@@ -5,6 +5,7 @@ source :gemcutter
 
 group :default do
   gem 'haml',          '2.2.19'
+  gem 'aasm',          '2.1.5'
   gem 'will_paginate', '2.3.12'
   gem 'whenever',      '0.4.1'
   gem 'json',          '1.2.0'
@@ -22,7 +23,7 @@ end
 group :rails do
   gem 'rails',            '2.3.5'
   gem 'rack',             '1.0.1'
-  gem 'bundler',          '0.9.13'
+  gem 'bundler',          '0.9.16'
   gem 'rake',             '0.8.7'
   gem 'builder',          '~> 2.1.2'
   gem 'memcache-client',  '>= 1.7.4'

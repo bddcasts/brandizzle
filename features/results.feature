@@ -2,7 +2,7 @@ Feature: Results
   In order to get a quick snapshot view of what is going on with my brand
   I want to see results in a dashboard
   
-  Background: 
+  Background:
     Given I am logged in as account holder "cartman"
       And a brand: "BDDCasts" exists with name: "BDDCasts", team: team "cartman_team"
       And a query: "bdd screencast" exists with term: "bdd screencast"
@@ -50,6 +50,20 @@ Feature: Results
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "Isn't foo the awesomest variable name evar"
   
+  Scenario: Filter results results by state
+    Given query: "bdd screencast" has the following results for brand: "BDDCasts":
+        | source  | body                                  | url                             | created_at        | state     |
+        | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 | follow_up |
+        | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 | done      |
+      And I am on the results page
+     When I follow "Follow up" within ".heading"
+     Then I should see "Does anyone know any bdd screencasts?"
+      And I should not see "This blog is teh stuff"
+    
+     When I follow "Done" within ".heading"
+     Then I should not see "Does anyone know any bdd screencasts?"
+      And I should see "This blog is teh stuff"
+  
   @wip
   Scenario: Filter results by date range
     Given query: "bdd screencast" has the following results for brand: "BDDCasts":
@@ -58,24 +72,6 @@ Feature: Results
         | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 1.days.from_now |
       And I am on the results page
      When I follow "Today" within ".sidebar"
-     Then I should see "Does anyone know any bdd screencasts?"
-      And I should not see "This blog is teh stuff"
-    
-  Scenario: Mark a result for follow up
-    Given query "bdd screencast" has 1 results for brand: "BDDCasts"
-      And I am on the results page
-     When I follow "Follow up" within "#results"
-     Then I should be on the the results page
-     When I follow "Done" within "#results"
-     Then I should be on the results page
-  
-  Scenario: Filter results results by follow up
-    Given query: "bdd screencast" has the following results for brand: "BDDCasts":
-        | source  | body                                  | url                             | created_at        | follow_up |
-        | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 | true      |
-        | blog    | This blog is teh stuff                | http://twitter.com/statuses/456 | 09 Jul 2009 13:28 |           |
-      And I am on the results page
-     When I follow "Follow up" within ".navigation"
      Then I should see "Does anyone know any bdd screencasts?"
       And I should not see "This blog is teh stuff"
   

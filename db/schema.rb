@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100401110528) do
+ActiveRecord::Schema.define(:version => 20100408062538) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -32,12 +32,13 @@ ActiveRecord::Schema.define(:version => 20100401110528) do
     t.integer  "result_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "follow_up",  :default => false
+    t.string   "state"
   end
 
   add_index "brand_results", ["brand_id", "result_id"], :name => "index_brand_results_on_brand_id_and_result_id"
   add_index "brand_results", ["brand_id"], :name => "index_brand_results_on_brand_id"
   add_index "brand_results", ["result_id"], :name => "index_brand_results_on_result_id"
+  add_index "brand_results", ["state"], :name => "index_brand_results_on_state"
 
   create_table "brands", :force => true do |t|
     t.string   "name"
