@@ -1,7 +1,7 @@
 - title "Results"
 
 - content_for :heading do
-  %div.actions
+  .actions#state_filters
     = state_filter("View all")
     or
     = state_filter("Follow up", "follow_up")
@@ -10,7 +10,7 @@
     
 .sidebar
   %h3 Brands
-  %ul
+  %ul#brand_filters
     %li= brand_filter("All")
     - @brands.each do |brand|
       %li= brand_filter(brand, brand.id)

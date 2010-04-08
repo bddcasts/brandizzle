@@ -6,10 +6,6 @@ module NavigationHelpers
       '/'
     when /the about page/
       '/about'
-    when /the results page/
-      brand_results_path
-    when /the brands page/
-      brands_path
     when /the brand edit page for "([^\"]*)"/
       edit_brand_path(Brand.find_by_name($1))
     when /the user edit page for "([^\"]*)"/
@@ -25,6 +21,25 @@ module NavigationHelpers
       new_user_session_path
     when /my account page/
       edit_account_path
+
+    # added by script/generate pickle path
+
+    when /^#{capture_model}(?:'s)? page$/                           # eg. the forum's page
+      path_to_pickle $1
+
+    when /^#{capture_model}(?:'s)? #{capture_model}(?:'s)? page$/   # eg. the forum's post's page
+      path_to_pickle $1, $2
+
+    when /^#{capture_model}(?:'s)? #{capture_model}'s (.+?) page$/  # eg. the forum's post's comments page
+      path_to_pickle $1, $2, :extra => $3                           #  or the forum's post's edit page
+
+    when /^#{capture_model}(?:'s)? (.+?) page$/                     # eg. the forum's posts page
+      path_to_pickle $1, :extra => $2                               #  or the forum's edit page
+
+    when /^the (.+?) page$/                                         # translate to named route
+      send "#{$1.downcase.gsub(' ','_')}_path"
+  
+    # end added by pickle path
 
     else
       raise "Can't find mapping from \"#{page_name}\" to a path.\n" +

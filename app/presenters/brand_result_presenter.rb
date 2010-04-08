@@ -7,6 +7,10 @@ class BrandResultPresenter < Viewtastic::Base
   delegate :current_user, :current_team,
            :to => :controller
   
+  def dom_id
+   brand_result_dom_id
+  end
+  
   def action_links
     returning([]) do |links|
       links << link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
