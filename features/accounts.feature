@@ -10,7 +10,7 @@ Feature: User Accounts
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Create my account"
-     Then I should be on the results page
+     Then I should be on the brand_results page
       And I should see "Your account has been created."
   
   Scenario: Visiting the login page
@@ -25,7 +25,7 @@ Feature: User Accounts
       And I fill in "Login" with "Cartman"
       And I fill in "Password" with "secret"
       And I press "Login"
-     Then I should be on the results page
+     Then I should be on the brand_results page
       And I should see "Welcome Cartman"
   
   Scenario: Failing to log in
@@ -50,12 +50,12 @@ Feature: User Accounts
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Update my password and log me in"
-     Then I should be on the results page
+     Then I should be on the brand_results page
       And I should see "Password successfully updated!"
   
   Scenario: Logging out
     Given I am logged in as "cartman"
-      And I am on the results page
+      And I am on the brand_results page
      When I follow "Sign out"
      Then I should be on the login page
       And I should see "Logout successful!"
