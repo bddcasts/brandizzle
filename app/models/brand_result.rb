@@ -3,11 +3,11 @@
 # Table name: brand_results
 #
 #  id         :integer(4)      not null, primary key
-#  brand_id   :integer(4)      indexed => [result_id], indexed
-#  result_id  :integer(4)      indexed => [brand_id], indexed
+#  brand_id   :integer(4)      indexed, indexed => [result_id]
+#  result_id  :integer(4)      indexed, indexed => [brand_id]
 #  created_at :datetime
 #  updated_at :datetime
-#  follow_up  :boolean(1)      default(FALSE)
+#  state      :string(255)
 #
 
 class BrandResult < ActiveRecord::Base
@@ -17,9 +17,29 @@ class BrandResult < ActiveRecord::Base
   def self.per_page
     per_page = Settings.pagination.results_per_page
   end
+
+  [ 'normal', 'follow_up', 'done' ].each do |state|
+    named_scope state, :conditions => {:state => state}
+  end
   
-  def toggle_follow_up
-    toggle!(:follow_up)
+  include AASM
+  aasm_column :state
+  
+  aasm_initial_state :normal
+  aasm_state :normal
+  aasm_state :follow_up
+  aasm_state :done
+  
+  aasm_event :follow_up do
+    transitions :to => :follow_up, :from => [:normal]
+  end
+  
+  aasm_event :finish do
+    transitions :to => :done, :from => [:follow_up]
+  end
+  
+  aasm_event :reject do
+    transitions :to => :normal, :from => [:follow_up]
   end
 end
 

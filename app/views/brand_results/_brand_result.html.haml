@@ -2,7 +2,7 @@
   %p.status
     = brand_result.result.created_at.strftime("%I:%M%p")
     = brand_result.status
-  %p
+  %p.body
     %img{:src => "/images/#{brand_result.result.source}.png", :alt => brand_result.result.source }
     = sanitize brand_result.result.body
   %p.leenks

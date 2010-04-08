@@ -19,8 +19,6 @@
       - if current_user
         %li{:class => active("results") ? "active" : nil}
           = link_to "Results", brand_results_path
-        %li{:class => active("follow_up") ? "active" : nil}
-          = link_to "Follow up", brand_results_path(:search => { :follow_up_is => true } )
         %li{:class => active("brands") ? "active" : nil}
           = link_to "Brands", brands_path
         %li{:class => active("team") ? "active" : nil}

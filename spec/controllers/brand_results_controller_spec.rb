@@ -50,30 +50,72 @@ describe BrandResultsController do
     end
   end
   
-  describe "handling POST follow up" do
+  describe "handling PUT update" do
     before(:each) do
-      @brand_result = mock_model(BrandResult, :toggle_follow_up => nil)
-      BrandResult.stub!(:find).and_return(@brand_result)
+      @brand_result = mock_model(BrandResult)
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:follow_up!)
     end
     
-    def do_post
-      post :follow_up, :id => 42
+    def do_put(options={})
+      put :update, { :id => 42, :action_type => "follow_up" }.merge(options)
     end
     
-    it "should find the brand result by id and assign it for the view" do
-      BrandResult.should_receive(:find).with("42").and_return(@brand_result)
-      do_post
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
       assigns[:brand_result].should == @brand_result
     end
     
-    it "should tell the model to change follow up status for brand result" do
-      @brand_result.should_receive(:toggle_follow_up)
-      do_post
+    describe "follow_up" do
+      it "follows up the brand result (sets state on 'follow_up')" do
+        @brand_result.should_receive(:follow_up!)
+        do_put
+      end
+      
+      it "sets the flash message and redirects" do
+        do_put
+        flash[:notice].should_not be_blank
+        response.should be_redirect
+      end
     end
     
-    it "should redirect to the current page" do
-      do_post
-      response.should be_redirect      
+    describe "finish" do
+      before(:each) do
+        @brand_result.stub!(:finish!)
+      end
+      
+      it "finishes the brand result (sets the state on 'done')" do
+        @brand_result.should_receive(:finish!)
+        do_put(:action_type => "finish")
+      end
+      
+      it "sets the flash message and redirects" do
+        do_put(:action_type => "finish")
+        flash[:notice].should_not be_blank
+        response.should be_redirect
+      end
+    end
+    
+    describe "reject" do
+      before(:each) do
+        @brand_result.stub!(:reject!)
+      end
+      
+      it "rejects the brand result (sets the state on 'normal')" do
+        @brand_result.should_receive(:reject!)
+        do_put(:action_type => "reject")
+      end
+      
+      it "sets the flash message and redirects" do
+        do_put(:action_type => "reject")
+        flash[:notice].should_not be_blank
+        response.should be_redirect
+      end
     end
   end
 end

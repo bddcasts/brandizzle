@@ -10,15 +10,24 @@ class BrandResultPresenter < Viewtastic::Base
   def action_links
     returning([]) do |links|
       links << link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
-      links << link_to(brand_result.follow_up? ? 'Done' : 'Follow up', [:follow_up, brand_result], :method => :post)
+      case brand_result.state
+      when "normal"
+        links << link_to('Follow up', brand_result_path(brand_result, :action_type => "follow_up"), :method => :put)
+      when "follow_up"
+        links << link_to('Done', brand_result_path(brand_result, :action_type => "finish"), :method => :put)
+        links << link_to('Reject', brand_result_path(brand_result, :action_type => "reject"), :method => :put)
+      end
     end
   end
   
   def status
-    if brand_result.follow_up?
-      content_tag("span", "follow up", :class => "follow_up")
-    else
+    case brand_result.state
+    when "normal"
       ""
+    when "follow_up"
+      content_tag("span", "follow up", :class => "follow_up")
+    when "done"
+      content_tag("span", "done", :class => "done")
     end
   end
   

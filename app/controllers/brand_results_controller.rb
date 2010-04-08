@@ -1,6 +1,5 @@
 class BrandResultsController < ApplicationController
   before_filter :require_user
-  before_filter :find_result
   
   def index
     @brands = current_team.brands
@@ -11,14 +10,36 @@ class BrandResultsController < ApplicationController
       :include => [:result],
       :order => "results.created_at DESC")
   end
-  
-  def follow_up
-    @brand_result.toggle_follow_up
-    redirect_to request.referer || brands_path
+
+  def update
+    @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
+    send(action_type)
   end
 
-  private
-    def find_result
-      @brand_result = BrandResult.find(params[:id]) if params[:id]
+  private    
+    def action_type
+      @action_type ||= case params[:action_type]
+        when /follow_up/i then "follow_up"
+        when /finish/i then "finish"
+        when /reject/i then "reject"
+      end
+    end
+    
+    def follow_up
+      @brand_result.follow_up!
+      flash[:notice] = "Result marked for follow up!"
+      redirect_to request.referer || brand_results_path
+    end
+    
+    def finish
+      @brand_result.finish!
+      flash[:notice] = "Result marked as done!"
+      redirect_to request.referer || brand_results_path
+    end
+    
+    def reject
+      @brand_result.reject!
+      flash[:notice] = "Result rejected!"
+      redirect_to request.referer || brand_results_path
     end
 end

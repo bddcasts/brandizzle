@@ -24,7 +24,13 @@ end
 Factory.define(:brand_result) do |f|
   f.association :brand
   f.association :result
-  f.follow_up false
+  f.state "normal"
+end
+
+['follow_up', 'done' ].each do |state|
+  Factory.define(:"#{state}_brand_result", :parent => :brand_result) do |f|
+    f.state state
+  end
 end
 
 Factory.define(:search_result) do |f|
