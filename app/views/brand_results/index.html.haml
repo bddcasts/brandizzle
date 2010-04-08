@@ -20,7 +20,10 @@
 .content.results
   #entries
     = page_entries_info @brand_results, :entry_name => "result"
-  - if @brand_results && !@brand_results.empty?
+  - if @brand_results.empty?
+    It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working,
+    please let us know.
+  - else
     %table#results.index
       %tbody
         - @brand_results.each do |brand_result|
