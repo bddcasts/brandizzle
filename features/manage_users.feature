@@ -36,7 +36,7 @@ Feature: Account management
      When I fill in "Password" with "bigger_secret"
       And I fill in "Password confirmation" with "bigger_secret"
       And I press "Update information"
-     Then I should be on the team page
+     Then I should be on the user edit page for "stan"
       And I should see "Account information updated!"
     
   Scenario: Updating my password
@@ -46,7 +46,7 @@ Feature: Account management
       And I fill in "Password" with "better_secret"
       And I fill in "Password confirmation" with "better_secret"
       And I press "Update information"
-     Then I should be on the team page
+     Then I should be on the user edit page for "cartman"
       And I should see "Account information updated!"
   
   Scenario: Removing a user from my team

@@ -27,7 +27,7 @@ require 'spec_helper'
 describe User do
   #columns
   should_have_column :login, :email, :crypted_password, :password_salt, :persistence_token, :perishable_token,
-                     :oauth_token, :oauth_secret, :twitter_uid, :name, :screen_name, :location
+                     :oauth_token, :oauth_secret, :twitter_uid, :name, :screen_name, :location,
                      :type => :string
   
   should_have_column :active, :type => :boolean
@@ -69,6 +69,18 @@ describe User do
     it "returns false if the specified user is not account holder" do
       user = Factory.build(:user)
       user.should_not be_account_holder
+    end
+  end
+
+  describe "#using_twitter" do
+    it "returns true if the user has authorized twitter (oauth_token is set)" do
+      user = Factory.build(:twitter_user)
+      user.should be_using_twitter
+    end
+    
+    it "returns true if the user has not authorized twitter (oauth_token is not set)" do
+      user = Factory.build(:user)
+      user.should_not be_using_twitter
     end
   end
 end

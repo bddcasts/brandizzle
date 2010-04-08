@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
     !!oauth_token
   end
 
+  def has_no_credentials?
+    self.crypted_password.blank?
+  end
+
   def deliver_password_reset_instructions!
     reset_perishable_token!
     Notifier.deliver_password_reset_instructions(self)
@@ -63,10 +67,6 @@ class User < ActiveRecord::Base
   def deliver_user_invitation!
     reset_perishable_token!
     Notifier.deliver_user_invitation(self)
-  end
-
-  def has_no_credentials?
-    self.crypted_password.blank?
   end
   
   private

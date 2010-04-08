@@ -57,6 +57,13 @@ Factory.define(:user) do |f|
   f.account nil
 end
 
+Factory.define(:twitter_user, :parent => :user) do |f|
+  f.sequence(:name) {|i| "twitter_user_#{i}"}
+  f.sequence(:twitter_uid) {|i| i}
+  f.oauth_token {|tu| "#{tu.name}_token"}
+  f.oauth_secret {|tu| "#{tu.name}_secret"}
+end
+
 Factory.define(:inactive_user, :parent => :user) do |f|
   f.active false
 end

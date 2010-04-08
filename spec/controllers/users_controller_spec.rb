@@ -93,18 +93,17 @@ describe UsersController do
   
   describe "handling PUT update" do
     before(:each) do
-      @user = mock_model(User)
+      @user = stub_model(User, :create_or_update => :true)
       @current_team.stub_chain(:members, :find).and_return(@user)
-      @user.stub!(:attributes=)
     end
     
     def do_put_with_valid_attributes(options={})
-      @user.should_receive(:save).and_return(true)
+      @user.should_receive(:valid?).and_return(true)
       put :update, :id => 42, :user => options
     end
     
     def do_put_with_invalid_attributes(options={})
-      @user.should_receive(:save).and_return(false)
+      @user.should_receive(:valid?).and_return(false)
       put :update, :id => 42, :user => options
     end
     
