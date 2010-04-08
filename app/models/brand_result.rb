@@ -18,6 +18,14 @@ class BrandResult < ActiveRecord::Base
     per_page = Settings.pagination.results_per_page
   end
 
+  named_scope :between_date, lambda { |date_range|
+    from = date_range.split(" to ").first.to_time.beginning_of_day
+    to = date_range.split(" to ").last.to_time.end_of_day
+    
+    {:joins => :result,
+    :conditions => ["#{Result.table_name}.created_at >= ? AND #{Result.table_name}.created_at <= ?", from, to]}
+  }
+    
   [ 'normal', 'follow_up', 'done' ].each do |state|
     named_scope state, :conditions => {:state => state}
   end

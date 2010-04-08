@@ -2,11 +2,11 @@
 %html
   %head
     %title Brandizzle    
-    = stylesheet_link_tag 'compiled/screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag 'compiled/screen.css', 'jquery-ui-1.8.custom', 'date-picker', :media => 'screen, projection'
     /[if lte IE 8]
       = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
     
-    = javascript_include_tag 'jquery-1.4.1', 'application'
+    = javascript_include_tag 'jquery-1.4.2.min', 'jquery-ui-1.8.custom.min', 'date-picker', 'application'
     = yield :head
   %body
     .container

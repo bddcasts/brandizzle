@@ -24,6 +24,19 @@
     %li= time_filter(@search, :as => "This month", :by => :result_created_at, :between => [Time.now.beginning_of_month, Time.now.end_of_day ])
     %li= time_filter(@search, :as => "Last month", :by => :result_created_at, :between => [Time.now.last_month.beginning_of_month, Time.now.last_month.end_of_month.end_of_day ])
     %li= time_filter(@search, :as => "Any time", :by => :result_created_at)
+  
+  %h3 Date picker
+  %form#dp{:action => brand_results_path}
+    - unless params[:search].blank?
+      - unless params[:search][:brand_id_is].blank?
+        %input{ :type => :hidden, :name => "search[brand_id_is]", :value => params[:search][:brand_id_is].to_s }
+      - unless params[:search][:state_is].blank?
+        %input{ :type => :hidden, :name => "search[state_is]", :value => params[:search][:state_is].to_s }
+      
+    %input{ :type => "text", :name => "search[between_date]", :value => params[:search] && params[:search][:between_date], :class => 'txt', :autocomplete => "off"}
+
+    %input{ :type => "submit", :value => "Filter" }
+  
     
 .content.results
   #entries
