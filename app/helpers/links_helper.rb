@@ -1,4 +1,6 @@
 module LinksHelper
+  include AutoLinkHelper
+  
   def active(s)
     case s
     when s = "results"
@@ -12,5 +14,5 @@ module LinksHelper
     when s = "invitation"
       controller.controller_name == "invitations"
     end
-  end
+  end  
 end
