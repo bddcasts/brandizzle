@@ -25,7 +25,7 @@ class BrandResult < ActiveRecord::Base
     {:joins => :result,
     :conditions => ["#{Result.table_name}.created_at >= ? AND #{Result.table_name}.created_at <= ?", from, to]}
   }
-    
+
   [ 'normal', 'follow_up', 'done' ].each do |state|
     named_scope state, :conditions => {:state => state}
   end

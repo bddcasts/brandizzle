@@ -35,14 +35,6 @@ class BrandResultPresenter < Viewtastic::Base
     end
   end
   
-  def status
-    if brand_result.follow_up?
-      content_tag("span", "follow up", :class => "follow_up")
-    else
-      ""
-    end
-  end
-  
   private
     def truncate_url(result)
       if result.source == "twitter"

@@ -109,10 +109,3 @@ Feature: Results
           | radiant screencasts anyone? | 09 Jul 2009 15:16 |
        And I should not see "Does anyone know any bdd screencasts?"
        
-       
-       
-       
-       
-       
-       
-       
