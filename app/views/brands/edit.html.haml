@@ -16,7 +16,7 @@
     %h3 Queries
     - semantic_form_for [@brand, @query] do |f|
       - f.inputs do
-        = f.input :term
+        = f.input :term, :hint => "What you actually want to search on, maybe your Brand Name."
         %li
           = f.submit 'Add term'
   
