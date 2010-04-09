@@ -55,4 +55,5 @@ group :cucumber do
   gem 'email_spec',         '0.4.0'
   gem 'mongrel',            '1.1.5'
   gem 'launchy',            '0.3.5'
+  gem 'fakeweb',            '1.2.8'
 end

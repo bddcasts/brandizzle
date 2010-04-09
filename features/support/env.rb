@@ -17,6 +17,12 @@ Capybara.javascript_driver = :selenium
 ActionController::Base.allow_rescue = false
 Cucumber::Rails::World.use_transactional_fixtures = true
 
+World(Authlogic::TestCase)
+
+Before do
+  activate_authlogic
+end
+
 After do |scenario|
   if(scenario.failed?)
     # save_and_open_page
@@ -34,3 +40,6 @@ require 'factory_girl'
 require 'pickle'
 require File.dirname(__FILE__) + '/../../spec/factories'
 World(ActionView::Helpers::RecordIdentificationHelper)
+
+require 'fakeweb'
+FakeWeb.allow_net_connect = false
