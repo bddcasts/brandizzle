@@ -1,0 +1,102 @@
+.ui-daterangepickercontain
+  position: absolute
+  z-index: 999
+  font-size: 11px
+
+  .ui-daterangepicker
+    float: left
+    padding: 5px !important
+    width: auto
+    display: inline
+    background-image: none !important
+    clear: left
+
+
+.ui-daterangepicker
+  ul, .ranges, .range-start, .range-end
+    float: left
+    padding: 0
+    margin: 0
+
+  .ranges
+    width: auto
+    position: relative
+    padding: 5px 5px 40px 0
+    margin-left: 10px
+
+  .range-start, .range-end
+    margin-left: 5px
+
+  button.btnDone
+    margin: 0 5px 5px 0
+    position: absolute
+    bottom: 0
+    right: 0
+    clear: both
+    cursor: pointer
+    font-size: 11px
+
+  ul
+    width: 17.6em
+    background: none
+    border: 0
+
+  li
+    list-style: none
+    padding: 1px
+    cursor: pointer
+    margin: 1px 0
+
+    &.ui-state-hover, &.ui-state-active
+      padding: 0
+
+    &.preset_0
+      margin-top: 1.5em !important
+
+  .ui-widget-content a
+    text-decoration: none !important
+
+  li
+    a
+      font-weight: normal
+      margin: .3em .5em
+      display: block
+
+    span
+      float: right
+      margin: .3em .2em
+
+  .title-start, .title-end
+    display: block
+    margin: 0 0 .2em
+    font-size: 11px
+    padding: 0 4px 2px
+
+  .ui-datepicker-inline
+    font-size: 11px
+
+
+.ui-daterangepicker-arrows
+  padding: 2px
+  width: 204px
+  position: relative
+
+  input.ui-rangepicker-input
+    width: 158px
+    margin: 0 2px 0 20px
+    padding: 2px
+    height: 1.1em
+
+  .ui-daterangepicker-prev, .ui-daterangepicker-next
+    position: absolute
+    top: 2px
+    padding: 1px
+
+  .ui-daterangepicker-prev
+    left: 2px
+
+  .ui-daterangepicker-next
+    right: 2px
+
+  .ui-daterangepicker-prev:hover, .ui-daterangepicker-next:hover, .ui-daterangepicker-prev:focus, .ui-daterangepicker-next:focus
+    padding: 0

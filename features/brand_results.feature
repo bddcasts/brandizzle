@@ -92,3 +92,27 @@ Feature: Results
         | radiant screencasts anyone? | 09 Jul 2009 15:16 |
       And I should not see "Does anyone know any bdd screencasts?"
   
+  Scenario: Filtering results by date range
+      Given the following results exist:
+          | result | source  | body                                  | url                             | created_at        |
+          | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 08 Jul 2010 13:28 |
+          | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2010 15:16 |
+        And the following brand results exist:
+          | brand            | result         |
+          | brand "BDDCasts" | result "one"   |
+          | brand "BDDCasts" | result "two"   |
+       And I am on the brand_results page          
+      When I fill in "between_date" with "Jul 9, 2010" within ".sidebar"
+       And I press "GO" within ".sidebar"
+      Then I should see the following results:
+          | content                     | created_at        |
+          | radiant screencasts anyone? | 09 Jul 2009 15:16 |
+       And I should not see "Does anyone know any bdd screencasts?"
+       
+       
+       
+       
+       
+       
+       
+       

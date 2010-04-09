@@ -21,6 +21,14 @@ describe BrandResult do
   should_belong_to :result
   
   describe "named scopes" do
+    describe "between_date" do      
+      it "fetches only brand results between specified dates" do
+        expected = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 9, 2010'))
+        other = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 2, 2010'))
+        
+        BrandResult.between_date("Apr 8, 2010 to Apr 10, 2010").should == [expected]
+      end
+    end
     describe "assm named scopes" do
       before(:each) do
         @normal_results = (1..2).map{ Factory.create(:brand_result) }

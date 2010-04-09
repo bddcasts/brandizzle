@@ -18,7 +18,7 @@ $(document).ready(function() {
 		rangeSplitter: "to",
 		
     onClose: function() {
-/*      $('form#dp').submit();*/
+      // $('form#dp').submit();
     }
   });
 });

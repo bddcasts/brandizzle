@@ -16,16 +16,6 @@
       %li= brand_filter(brand, brand.id)
   
   %h3 Timeframe
-  %ul
-    %li= time_filter(@search, :as => "Today", :by => :result_created_at, :between => [Time.now.beginning_of_day, Time.now.end_of_day])
-    %li= time_filter(@search, :as => "Yesterday", :by => :result_created_at, :between => [1.days.ago.beginning_of_day, 1.days.ago.end_of_day])
-    %li= time_filter(@search, :as => "This week", :by => :result_created_at, :between => [Time.now.beginning_of_week, Time.now.end_of_day ])
-    %li= time_filter(@search, :as => "Last week", :by => :result_created_at, :between => [7.days.ago.beginning_of_week, 7.days.ago.end_of_week.end_of_day ])
-    %li= time_filter(@search, :as => "This month", :by => :result_created_at, :between => [Time.now.beginning_of_month, Time.now.end_of_day ])
-    %li= time_filter(@search, :as => "Last month", :by => :result_created_at, :between => [Time.now.last_month.beginning_of_month, Time.now.last_month.end_of_month.end_of_day ])
-    %li= time_filter(@search, :as => "Any time", :by => :result_created_at)
-  
-  %h3 Date picker
   %form#dp{:action => brand_results_path}
     - unless params[:search].blank?
       - unless params[:search][:brand_id_is].blank?
@@ -33,22 +23,24 @@
       - unless params[:search][:state_is].blank?
         %input{ :type => :hidden, :name => "search[state_is]", :value => params[:search][:state_is].to_s }
       
-    %input{ :type => "text", :name => "search[between_date]", :value => params[:search] && params[:search][:between_date], :class => 'txt', :autocomplete => "off"}
+    %input{ :type => "text", :id => "between_date", :name => "search[between_date]", :value => params[:search] && params[:search][:between_date], :class => 'txt', :autocomplete => "off"}
 
-    %input{ :type => "submit", :value => "Filter" }
+    %input{ :type => "submit", :value => "GO" }
   
     
 .content.results
   #entries
     = page_entries_info @brand_results, :entry_name => "result"
   - if @brand_results && !@brand_results.empty?
-    It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working,
-    please let us know.
     .updates
       - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|
         %h3
           %span= show_day(day)
         - brand_result.each do |br|
           = render "brand_result", :object => present_brand_result(br)
-
+  
+  - else
+    - if params[:search].blank?
+      It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working, please let us know.
+  
   = will_paginate @brand_results, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'
