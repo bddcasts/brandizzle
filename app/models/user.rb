@@ -37,10 +37,10 @@ class User < ActiveRecord::Base
   before_create :set_invitation_limit
   before_save :populate_oauth_user
     
-  attr_accessible :login, :email, :password, :password_confirmation, :active
+  attr_accessible :name, :login, :email, :password, :password_confirmation, :active
     
   def to_s
-    login
+    name.blank? && login || name
   end
   
   def toggle_active

@@ -1,7 +1,7 @@
 - title "Setup your account"
 
 .content
-  - semantic_form_for @user, :url => user_signup_path(:id => @user.perishable_token), :html => { :class => "account" } do |f|
+  - semantic_form_for @user, :url => user_signup_path(:id => @user.perishable_token), :html => { :class => "account large" } do |f|
     - f.inputs do
       = f.input :password
       = f.input :password_confirmation

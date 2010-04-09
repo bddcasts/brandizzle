@@ -4,7 +4,7 @@
   = link_to "Go back", brands_path, :class => "back"
 
 .content
-  - semantic_form_for @brand do |f|
+  - semantic_form_for @brand, :html => { :class => "large" } do |f|
     - f.inputs do
       = f.input :name
     - f.buttons do

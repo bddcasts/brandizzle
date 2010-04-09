@@ -6,8 +6,11 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :brand_results, :only => [:index, :update]
   
-  map.resource :team, :only => [:show]
-  map.resources :users, :member => { :alter_status => :post }
+  #user and account related routes
+  map.resource :team, :only => [:show] do |team|
+    team.resources :users, :only => [:new, :create, :destroy], :member => { :alter_status => :post }
+  end
+  map.resource :user_info, :controller => "users", :only => [:edit, :update]
   map.resource :user_session
   map.resource :account, :except => [:new]
   map.signup '/signup/:invitation_token', :controller => "accounts", :action => "new"

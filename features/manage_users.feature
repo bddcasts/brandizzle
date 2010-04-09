@@ -23,32 +23,9 @@ Feature: Account management
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Set up my account and log me in"
-     Then I should be on the user edit page for "stan"
+     Then I should be on my info page
       And I should see "Your account has been created!"
-  
-  Scenario: Updating a user from my team
-    Given I am logged in as account holder "cartman"
-      And I am on the team page
-      And a user "stan" exists with login: "stan", email: "stan@example.com", team: team "cartman_team"
-      And I am on the team page
-     When I follow "Edit" for user "stan"
-     Then I should see "Edit stan's information"
-     When I fill in "Password" with "bigger_secret"
-      And I fill in "Password confirmation" with "bigger_secret"
-      And I press "Update information"
-     Then I should be on the user edit page for "stan"
-      And I should see "Account information updated!"
     
-  Scenario: Updating my password
-    Given I am logged in as "cartman"
-      And I am on the homepage
-     When I follow "My info"
-      And I fill in "Password" with "better_secret"
-      And I fill in "Password confirmation" with "better_secret"
-      And I press "Update information"
-     Then I should be on the user edit page for "cartman"
-      And I should see "Account information updated!"
-  
   Scenario: Removing a user from my team
     Given I am logged in as account holder "cartman"
       And a user "stan" exists with login: "stan", email: "stan@example.com", team: team "cartman_team"

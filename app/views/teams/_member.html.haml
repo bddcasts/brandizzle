@@ -2,5 +2,5 @@
   .actions= member.action_links.join(" ")
   %h3
     %img{:src => "#{gravatar_url(member.email)}", :alt => ""}
-    = link_to member.email, edit_user_path(member.id)
+    = link_to member.email
     %span{:class => member.status}= member.status

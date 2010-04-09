@@ -59,3 +59,13 @@ Feature: User Accounts
      When I follow "Sign out"
      Then I should be on the login page
       And I should see "Logout successful!"
+
+  Scenario: Updating my password
+    Given I am logged in as "cartman"
+      And I am on the homepage
+     When I follow "My info"
+      And I fill in "Password" with "better_secret"
+      And I fill in "Password confirmation" with "better_secret"
+      And I press "Update information"
+     Then I should be on my info page
+      And I should see "Account information updated!"

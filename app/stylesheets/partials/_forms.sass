@@ -13,10 +13,14 @@ form.formtastic
           display: block
         &.string, &.password
           input
-            font-size: 28px
             border: solid 1px rgb(160,160,160)
         &.error
           +error
+  &.large
+    fieldset ol li
+      &.string, &.password
+        input
+          font-size: 28px
   &.account
     +stack-form("455px", "auto", "0", "right")
     fieldset ol li

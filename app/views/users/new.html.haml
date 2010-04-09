@@ -1,7 +1,7 @@
 - title "Create a new user"
 
 .content
-  - semantic_form_for @user do |f|
+  - semantic_form_for [:team, @user], :html => { :class => "large" } do |f|
     - f.inputs do
       = f.input :login
       = f.input :email

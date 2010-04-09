@@ -10,7 +10,7 @@ module LinksHelper
     when s = "account"
       controller.controller_name == "accounts"
     when s = "team"
-      controller.controller_name == "teams" || controller.controller_name == "users"
+      request.path =~ /^\/team/
     when s = "invitation"
       controller.controller_name == "invitations"
     end

@@ -6,18 +6,19 @@
 
 .brands
   - if @brands.blank?
-    %p You haven't added any brands yet so I thought I'd give you some help.
-    %p We're going to ask you to create two things, **brands** and **search terms**.
-    %h3 Brands
-    %p Brands are for you, and they're just a name to help you organize your search terms.
-    %p Some ideas:
-    %ul
-      %li A personal brand, like Gary Vaynerchuk or Seth Godin, would just be your name.
-      %li Your company.
-      %li Your product or suite of products if they make sense grouped together.
+    .static
+      %p You haven't added any brands yet so I thought I'd give you some help.
+      %p We're going to ask you to create two things, **brands** and **search terms**.
+      %h3 Brands
+      %p Brands are for you, and they're just a name to help you organize your search terms.
+      %p Some ideas:
+      %ul
+        %li A personal brand, like Gary Vaynerchuk or Seth Godin, would just be your name.
+        %li Your company.
+        %li Your product or suite of products if they make sense grouped together.
       
-    %h3 Queries
-    %p You'll set these up later, but they're what you actually want to search.
+      %h3 Queries
+      %p You'll set these up later, but they're what you actually want to search.
     
   - else
     - @brands.each do |brand|

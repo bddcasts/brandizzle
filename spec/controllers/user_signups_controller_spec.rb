@@ -66,7 +66,7 @@ describe UserSignupsController do
     it "sets the flash message and redirects to the homepage on success" do
       do_put_with_valid_attributes
       flash[:notice].should_not be_nil
-      response.should redirect_to(edit_user_path(@user))
+      response.should redirect_to(edit_user_info_path)
     end
     
     it "renders the edit template on failure" do

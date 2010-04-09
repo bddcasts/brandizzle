@@ -5,7 +5,7 @@
 
 .box
   %h3 Settings
-  - semantic_form_for @brand do |f|
+  - semantic_form_for @brand, :html => { :class => "large" } do |f|
     - f.inputs do
       = f.input :name
     - f.buttons do
@@ -14,7 +14,7 @@
 .box
   .left
     %h3 Queries
-    - semantic_form_for [@brand, @query] do |f|
+    - semantic_form_for [@brand, @query], :html => { :class => "large" } do |f|
       - f.inputs do
         = f.input :term, :hint => "What you actually want to search on, maybe your Brand Name."
         %li

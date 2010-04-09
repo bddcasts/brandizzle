@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   
   def create
     @user = current_team.members.build(params[:user])
-    if @user.save
+    if @user.save_without_session_maintenance
       @user.deliver_user_invitation!
       flash[:notice] = "The user has been created."
       redirect_to team_path
@@ -18,17 +18,17 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = current_team.members.find(params[:id])
+    @user = current_user
   end
   
   def update
-    @user = current_team.members.find(params[:id])
+    @user = current_user
     @user.attributes = params[:user]
     
     @user.save do |result|
       if result
         flash[:notice] = "Account information updated!"
-        redirect_to edit_user_path(@user)
+        redirect_to edit_user_info_path
       else 
         render :edit
       end

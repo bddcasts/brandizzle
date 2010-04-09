@@ -14,7 +14,7 @@ class UserSignupsController < ApplicationController
     
     if @user.save
       flash[:notice] = "Your account has been created!"
-      redirect_to edit_user_path(@user)
+      redirect_to edit_user_info_path
     else
       render :edit
     end

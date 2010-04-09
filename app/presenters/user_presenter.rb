@@ -14,9 +14,8 @@ class UserPresenter < Viewtastic::Base
   def action_links
     returning([]) do |links|
       if current_user.account_holder?
-        links << link_to("Edit", edit_user_path(user))
-        links << link_to("Remove", user_path(user), :method => :delete, :class => "delete", :confirm => "Are you sure you want to remove #{user}?")
-        links << link_to(user.active? ? 'Disable' : 'Enable', [:alter_status, user], :method => :post, :class => user.active? && "delete")
+        links << link_to("Remove", team_user_path(user), :method => :delete, :class => "delete", :confirm => "Are you sure you want to remove #{user}?")
+        links << link_to(user.active? ? 'Disable' : 'Enable', [:alter_status, :team, user], :method => :post, :class => user.active? && "delete")
       end
     end    
   end

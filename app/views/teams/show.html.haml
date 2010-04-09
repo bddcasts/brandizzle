@@ -2,7 +2,7 @@
 
 - if current_user.account_holder?
   .buttons
-    = link_to "Create a new user", new_user_path, :class => "add new_user"
+    = link_to "Create a new user", new_team_user_path, :class => "add new_user"
 
 .users
   - @team.members.each do |member|
