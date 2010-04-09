@@ -3,7 +3,6 @@
 .content
   - semantic_form_for @user, :url => user_info_path, :html => { :method => :put } do |f|
     - f.inputs "Account Information" do
-      = f.input :login
       = f.input :password
       = f.input :password_confirmation
     - if @user.using_twitter?

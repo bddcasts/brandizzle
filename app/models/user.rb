@@ -23,12 +23,12 @@
 #
 
 class User < ActiveRecord::Base
-  # acts_as_authentic
-  
   acts_as_authentic do |c|
     c.validates_length_of_password_field_options = { :on => :update, :minimum => 4, :if => :has_no_credentials? }
     c.validates_length_of_password_confirmation_field_options = { :on => :update, :minimum => 4, :if => :has_no_credentials? }
   end
+  
+  validates_presence_of :email, :unless => :using_twitter?
   
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   has_one :account
@@ -57,6 +57,11 @@ class User < ActiveRecord::Base
 
   def has_no_credentials?
     self.crypted_password.blank?
+    !using_twitter?
+  end
+  
+  def validate_password_with_oauth?
+    require_password?
   end
 
   def deliver_password_reset_instructions!

@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       if result
         flash[:notice] = "Account information updated!"
         redirect_to edit_user_info_path
-      else 
+      else
         render :edit
       end
     end
