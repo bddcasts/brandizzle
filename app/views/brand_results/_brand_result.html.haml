@@ -1,9 +1,8 @@
 %div.result{ :id => brand_result.dom_id}
-  %p.status
+  %p.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
     = brand_result.result.created_at.strftime("%I:%M%p")
     = brand_result.status
   %p.body
-    %img{:src => "/images/#{brand_result.result.source}.png", :alt => brand_result.result.source }
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
   %p.leenks
     = brand_result.action_links.join(" | ")
