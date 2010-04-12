@@ -28,8 +28,6 @@ class User < ActiveRecord::Base
     c.validates_length_of_password_confirmation_field_options = { :on => :update, :minimum => 4, :if => :has_no_credentials? }
   end
   
-  validates_presence_of :email, :unless => :using_twitter?
-  
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   has_one :account
   belongs_to :team
@@ -38,6 +36,9 @@ class User < ActiveRecord::Base
   before_save :populate_oauth_user
     
   attr_accessible :name, :login, :email, :password, :password_confirmation, :active
+  
+  validates_presence_of :email, :on => :create
+  validates_format_of :email, :with => Authlogic::Regex.email
     
   def to_s
     name.blank? && login || name
@@ -56,12 +57,7 @@ class User < ActiveRecord::Base
   end
 
   def has_no_credentials?
-    self.crypted_password.blank?
-    !using_twitter?
-  end
-  
-  def validate_password_with_oauth?
-    require_password?
+    self.crypted_password.blank? && !using_twitter?
   end
 
   def deliver_password_reset_instructions!
