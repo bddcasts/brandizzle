@@ -26,16 +26,18 @@ Given /^a Twitter user "([^\"]*)" that is not registered with Brandizzle$/ do |t
       self.errors.add_to_base("Could not find user in our database")
     end
   end
-  
+end
+
+Given /^user "([^\"]*)" has not authorized Brandizzle to user Twitter account$/ do |twitter_name|
   User.class_eval do
     define_method("user_twitter_name") do
       twitter_name
     end
     
     def redirect_to_oauth
-      oauth_controller.session[:oauth_callback_method] = "POST"
+      oauth_controller.session[:oauth_callback_method] = "PUT"
       oauth_controller.session[:oauth_request_class] = self.class.name
-      oauth_controller.redirect_to "/account?oauth_token=foo&oauth_verifier=bar"
+      oauth_controller.redirect_to "/user_info?oauth_token=foo&oauth_verifier=bar"
     end
 
     def authenticate_with_oauth
@@ -46,7 +48,6 @@ Given /^a Twitter user "([^\"]*)" that is not registered with Brandizzle$/ do |t
     end
   end
 end
-
 
 Given /^a Twitter user that denies access to Brandizzle$/ do
   UserSession.class_eval do
@@ -59,30 +60,9 @@ Given /^a Twitter user that denies access to Brandizzle$/ do
   
   User.class_eval do
     def redirect_to_oauth
-      oauth_controller.session[:oauth_callback_method] = "POST"
+      oauth_controller.session[:oauth_callback_method] = "PUT"
       oauth_controller.session[:oauth_request_class] = self.class.name
-      oauth_controller.redirect_to "/account?denied=foo"
+      oauth_controller.redirect_to "/user_info?denied=foo"
     end
  end
-end
-
-Given /^user "([^\"]*)" has not authorized Brandizzle to user Twitter account$/ do |twitter_name|
-  User.class_eval do
-    define_method("user_twitter_name") do
-      twitter_name
-    end
-    
-    def redirect_to_oauth
-      oauth_controller.session[:oauth_callback_method] = "POST"
-      oauth_controller.session[:oauth_request_class] = self.class.name
-      oauth_controller.redirect_to "/account?oauth_token=foo&oauth_verifier=bar"
-    end
-
-    def authenticate_with_oauth
-      self.twitter_uid = "12355434"
-      self.name = user_twitter_name
-      self.oauth_token = "foo"
-      self.oauth_secret = "bar"
-    end
-  end
 end

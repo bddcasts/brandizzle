@@ -3,8 +3,8 @@
 # Table name: brand_results
 #
 #  id         :integer(4)      not null, primary key
-#  brand_id   :integer(4)      indexed, indexed => [result_id]
-#  result_id  :integer(4)      indexed, indexed => [brand_id]
+#  brand_id   :integer(4)      indexed => [result_id], indexed
+#  result_id  :integer(4)      indexed => [brand_id], indexed
 #  created_at :datetime
 #  updated_at :datetime
 #  state      :string(255)     indexed

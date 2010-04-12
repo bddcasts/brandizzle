@@ -20,6 +20,7 @@
 #  name              :string(255)
 #  screen_name       :string(255)
 #  location          :string(255)
+#  avatar_url        :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -88,6 +89,7 @@ class User < ActiveRecord::Base
           self.twitter_uid = user_info['id']
           self.screen_name = user_info['screen_name']
           self.location    = user_info['location']
+          self.avatar_url  = user_info['profile_image_url']
         end
       end
     end    

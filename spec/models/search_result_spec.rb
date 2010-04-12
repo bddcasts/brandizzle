@@ -3,8 +3,8 @@
 # Table name: search_results
 #
 #  id        :integer(4)      not null, primary key
-#  query_id  :integer(4)      indexed, indexed => [result_id]
-#  result_id :integer(4)      indexed, indexed => [query_id]
+#  query_id  :integer(4)      indexed => [result_id], indexed
+#  result_id :integer(4)      indexed => [query_id], indexed
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')

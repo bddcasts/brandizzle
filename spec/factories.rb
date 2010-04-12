@@ -60,6 +60,7 @@ end
 Factory.define(:twitter_user, :parent => :user) do |f|
   f.sequence(:name) {|i| "twitter_user_#{i}"}
   f.sequence(:twitter_uid) {|i| i}
+  f.avatar_url {|tu| "http://a3.twimg.com/profile_images/#{tu.twitter_uid}/images-2_normal.jpeg"}
   f.oauth_token {|tu| "#{tu.name}_token"}
   f.oauth_secret {|tu| "#{tu.name}_secret"}
 end

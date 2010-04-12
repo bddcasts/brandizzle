@@ -15,7 +15,7 @@ Feature: Twitter oauth
     When I press "Login with Twitter"
     Then I should see "Could not find user in our database"
     
-  Scenario: Denying Brandizzle access to Twitter
+  Scenario: Denying Brandizzle login access to Twitter
     Given a Twitter user that denies access to Brandizzle
      When I am on the login page
       And I press "Login with Twitter"
@@ -27,3 +27,10 @@ Feature: Twitter oauth
       And I am on my info page
      When I press "Authorize with Twitter"
      Then I should see "Account information updated!"
+
+  Scenario: Denying Brandizzle authorize access to Twitter
+   Given I am logged in as "cartman"
+     And a Twitter user that denies access to Brandizzle
+     And I am on my info page
+    When I press "Authorize with Twitter"
+    Then I should see "Account Information"

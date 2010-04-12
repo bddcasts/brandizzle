@@ -1,7 +1,7 @@
 class UserPresenter < Viewtastic::Base
   presents :user
   
-  delegate :id, :login, :email, :active?, :has_no_credentials,
+  delegate :id, :login, :email, :avatar_url, :active?, :has_no_credentials?, :using_twitter?,
            :to => :user
            
   delegate :current_user, :current_team,
@@ -20,6 +20,14 @@ class UserPresenter < Viewtastic::Base
     end    
   end
   
+  def avatar
+    if using_twitter?
+      avatar_url
+    else    
+      gravatar_url(email)
+    end
+  end
+  
   def status
     if user.has_no_credentials?
       "pending"
@@ -29,4 +37,9 @@ class UserPresenter < Viewtastic::Base
       "disabled"
     end
   end
+  
+  private
+    def gravatar_url(email)
+      "http://www.gravatar.com/avatar.php?gravatar_id=#{Digest::MD5.hexdigest(email)}&size=48"
+    end
 end

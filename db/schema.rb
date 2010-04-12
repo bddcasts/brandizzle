@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100409120825) do
+ActiveRecord::Schema.define(:version => 20100412121751) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20100409120825) do
     t.string   "name"
     t.string   "screen_name"
     t.string   "location"
+    t.string   "avatar_url"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

@@ -20,6 +20,7 @@
 #  name              :string(255)
 #  screen_name       :string(255)
 #  location          :string(255)
+#  avatar_url        :string(255)
 #
 
 require 'spec_helper'
@@ -27,7 +28,7 @@ require 'spec_helper'
 describe User do
   #columns
   should_have_column :login, :email, :crypted_password, :password_salt, :persistence_token, :perishable_token,
-                     :oauth_token, :oauth_secret, :twitter_uid, :name, :screen_name, :location,
+                     :oauth_token, :oauth_secret, :twitter_uid, :name, :screen_name, :location, :avatar_url,
                      :type => :string
   
   should_have_column :active, :type => :boolean
@@ -186,14 +187,16 @@ describe User do
           :name => "name",
           :id => "twitter_uid",
           :screen_name => "screen_name",
-          :location => "location"
+          :location => "location",
+          :profile_image_url => "avatar_url"
         }
         
         fetched_attributes = {
           :name => "Twitter Guy",
           :screen_name => "twitter_guy",
           :id => "123456",
-          :location => "NY"
+          :location => "NY",
+          :profile_image_url => "http://twitter.com/123456/avatar.png"
         }
         
         @twitter_response.should_receive(:is_a?).and_return(true)

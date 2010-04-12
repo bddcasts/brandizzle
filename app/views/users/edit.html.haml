@@ -1,14 +1,20 @@
 - title "Edit your information"
 
-.content
+.content.account
   - semantic_form_for @user, :url => user_info_path, :html => { :method => :put } do |f|
     - if @user.using_twitter?
-      - f.inputs "Twitter" do
+      %h2 Twitter Information
+      - f.inputs do
         = f.input :name
-        = f.input :screen_name, :input_html => {:readonly => true}
-        = f.input :location
+        %li
+          %label Screen name:
+          %p= h @user.screen_name
+        %li
+          %label Location:
+          %p= h @user.location
     - else
-      - f.inputs "Account Information" do
+      %h2 Account Information
+      - f.inputs do
         = f.input :password
         = f.input :password_confirmation
         %li= oauth_register_button :value => "Authorize with Twitter"
