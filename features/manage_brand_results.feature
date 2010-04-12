@@ -33,5 +33,6 @@ Feature: Manage brand results
       And I am on the brand_results page
      When I follow "Reject" for brand result "br_bdd"
      Then I should be on the brand_results page
+      And I should not see "follow up" for brand_result "br_bdd"
       And brand result "br_bdd" should be normal
       
