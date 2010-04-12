@@ -16,10 +16,10 @@ class BrandResultPresenter < Viewtastic::Base
       links << link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
       case brand_result.state
       when "normal"
-        links << link_to('Follow up', brand_result_path(brand_result, :action_type => "follow_up"), :method => :put)
+        links << link_to('Follow up', brand_result_path(brand_result, :action_type => "follow_up"), :"data-method" => :put, :"data-remote" => true)
       when "follow_up"
-        links << link_to('Done', brand_result_path(brand_result, :action_type => "finish"), :method => :put)
-        links << link_to('Reject', brand_result_path(brand_result, :action_type => "reject"), :method => :put)
+        links << link_to('Done', brand_result_path(brand_result, :action_type => "finish"), :"data-method" => :put, :"data-remote" => true)
+        links << link_to('Reject', brand_result_path(brand_result, :action_type => "reject"), :"data-method" => :put, :"data-remote" => true)
       end
     end
   end

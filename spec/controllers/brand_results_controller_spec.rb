@@ -71,20 +71,29 @@ describe BrandResultsController do
       assigns[:brand_result].should == @brand_result
     end
     
-    describe "follow_up" do
+    context "follow_up" do
       it "follows up the brand result (sets state on 'follow_up')" do
         @brand_result.should_receive(:follow_up!)
         do_put
       end
       
-      it "sets the flash message and redirects" do
-        do_put
-        flash[:notice].should_not be_blank
-        response.should be_redirect
+      context "using HTTP request" do
+        it "sets the flash message and redirects" do
+          do_put
+          flash[:notice].should_not be_blank
+          response.should be_redirect
+        end
+      end
+      
+      context "using XHR request" do
+        it "renders the update template" do
+          xhr :put, :update, { :id => 42, :action_type => "follow_up" }
+          response.should render_template(:update)
+        end
       end
     end
     
-    describe "finish" do
+    context "finish" do
       before(:each) do
         @brand_result.stub!(:finish!)
       end
@@ -94,14 +103,23 @@ describe BrandResultsController do
         do_put(:action_type => "finish")
       end
       
-      it "sets the flash message and redirects" do
-        do_put(:action_type => "finish")
-        flash[:notice].should_not be_blank
-        response.should be_redirect
+      context "using HTTP request" do
+        it "sets the flash message and redirects" do
+          do_put(:action_type => "finish")
+          flash[:notice].should_not be_blank
+          response.should be_redirect
+        end
+      end
+      
+      context "using XHR request" do
+        it "renders the update template" do
+          xhr :put, :update, { :id => 42, :action_type => "finish" }
+          response.should render_template(:update)
+        end
       end
     end
     
-    describe "reject" do
+    context "reject" do
       before(:each) do
         @brand_result.stub!(:reject!)
       end
@@ -111,10 +129,19 @@ describe BrandResultsController do
         do_put(:action_type => "reject")
       end
       
-      it "sets the flash message and redirects" do
-        do_put(:action_type => "reject")
-        flash[:notice].should_not be_blank
-        response.should be_redirect
+      context "using HTTP request" do
+        it "sets the flash message and redirects" do
+          do_put(:action_type => "reject")
+          flash[:notice].should_not be_blank
+          response.should be_redirect
+        end
+      end
+      
+      context "using XHR request" do
+        it "renders the update template" do
+          xhr :put, :update, { :id => 42, :action_type => "reject" }
+          response.should render_template(:update)
+        end
       end
     end
   end

@@ -1,0 +1,3 @@
+$("##{dom_id(@brand_result)}").
+replaceWith("#{escape_javascript(render('brand_result', :object => present_brand_result(@brand_result)))}");
+$("##{dom_id(@brand_result)}").effect("highlight", {}, 2000);

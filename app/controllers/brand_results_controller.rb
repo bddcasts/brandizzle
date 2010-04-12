@@ -27,19 +27,35 @@ class BrandResultsController < ApplicationController
     
     def follow_up
       @brand_result.follow_up!
-      flash[:notice] = "Result marked for follow up!"
-      redirect_to request.referer || brand_results_path
+      respond_to do |format|
+        format.html {
+          flash[:notice] = "Result marked for follow up!"
+          redirect_to request.referer || brand_results_path
+        }
+        format.js { render }
+      end
+      
     end
     
     def finish
       @brand_result.finish!
-      flash[:notice] = "Result marked as done!"
-      redirect_to request.referer || brand_results_path
+      respond_to do |format|
+        format.html {
+          flash[:notice] = "Result marked as done!"
+          redirect_to request.referer || brand_results_path
+        }
+        format.js { render }
+      end
     end
     
     def reject
       @brand_result.reject!
-      flash[:notice] = "Result rejected!"
-      redirect_to request.referer || brand_results_path
+      respond_to do |format|
+        format.html {
+          flash[:notice] = "Result rejected!"
+          redirect_to request.referer || brand_results_path
+        }
+        format.js { render }
+      end
     end
 end
