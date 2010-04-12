@@ -53,7 +53,7 @@ group :cucumber do
   gem 'factory_girl',       '1.2.3'
   gem 'pickle',             '0.2.8'
   gem 'email_spec',         '0.4.0'
-  gem 'mongrel',            '1.1.5'
+  gem 'thin',               '1.2.7'
   gem 'launchy',            '0.3.5'
   gem 'fakeweb',            '1.2.8'
 end

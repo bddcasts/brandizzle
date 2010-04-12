@@ -25,7 +25,7 @@ end
 
 After do |scenario|
   if(scenario.failed?)
-    save_and_open_page
+    # save_and_open_page
   end
 end
 
@@ -40,6 +40,3 @@ require 'factory_girl'
 require 'pickle'
 require File.dirname(__FILE__) + '/../../spec/factories'
 World(ActionView::Helpers::RecordIdentificationHelper)
-
-require 'fakeweb'
-FakeWeb.allow_net_connect = false
