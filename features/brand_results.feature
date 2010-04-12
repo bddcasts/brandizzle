@@ -31,13 +31,11 @@ Feature: Results
       | Awesome bdd screencast: blah blah     | 09 Jul 2009 18:25 |
 
   Scenario: Paginating the results
-    Given 30 brand results exist with brand: brand "BDDCasts"
+    Given 20 brand results exist with brand: brand "BDDCasts"
      When I am on the brand_results page
-     Then I should see "Result #10"
-      And I should not see "Result #20"
+     Then current page for ".results" should be 1
      When I follow "2" within ".pagination"
-     Then I should see "Result #20"
-      And I should not see "Result #10"
+     Then current page for ".results" should be 2
   
   Scenario: Filter results by brand
     Given a brand: "RadiantCasts" exists with name: "RadiantCasts", team: team "cartman_team"

@@ -68,17 +68,6 @@ ActiveRecord::Schema.define(:version => 20100412121751) do
     t.datetime "updated_at"
   end
 
-  create_table "logs", :force => true do |t|
-    t.integer  "loggable_id"
-    t.string   "loggable_type"
-    t.integer  "user_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "logs", ["loggable_id", "loggable_type"], :name => "index_logs_on_loggable_id_and_loggable_type"
-
   create_table "queries", :force => true do |t|
     t.string   "term"
     t.string   "latest_id"
