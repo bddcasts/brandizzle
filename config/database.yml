@@ -1,0 +1,26 @@
+development:
+  adapter: mysql
+  database: brandizzle_development
+  username: root
+  password: 
+  encoding: utf8
+  host: localhost
+
+test: &TEST
+  adapter: mysql
+  database: brandizzle_test
+  username: root
+  password: 
+  encoding: utf8
+  host: localhost
+
+production:
+  adapter: mysql
+  database: brandizzle
+  username: root
+  password: 
+  encoding: utf8
+  host: localhost
+
+cucumber:
+  <<: *TEST
