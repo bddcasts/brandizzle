@@ -31,6 +31,7 @@ group :rails do
   gem 'tmail',            '~> 1.2.3'
   gem 'text-format',      '>= 0.6.3', :require => 'text/format'
   gem 'mysql',            '2.8.1'
+  gem 'typus'
 end
 
 group :test do

@@ -1,0 +1,155 @@
+# Typus Models Configuration File
+#
+# Use the README file on the same folder as this file as a reference to
+# customize this file to your needs.
+
+Account:
+  fields:
+    list: user_id, holder, invitation
+    form: user_id, holder, invitation
+    show: id, user_id, created_at, updated_at, holder, invitation
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: holder, invitation, team
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+Brand:
+  fields:
+    list: name, team
+    form: name, team
+    show: id, name, created_at, updated_at, team
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: brand_queries, brand_results, queries, results, team
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+BrandQuery:
+  fields:
+    list: query, brand
+    form: query, brand
+    show: id, query, brand
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: brand, query
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+BrandResult:
+  fields:
+    list: follow_up, result, brand
+    form: follow_up, result, brand
+    show: id, created_at, updated_at, follow_up, result, brand
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: brand, result
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+Invitation:
+  fields:
+    list: recipient_email, token, sender
+    form: recipient_email, token, sender
+    show: id, recipient_email, token, created_at, updated_at, sender
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: recipient, sender
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+Query:
+  fields:
+    list: term, latest_id
+    form: term, latest_id
+    show: id, term, latest_id, created_at, updated_at
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: brand_queries, brands, results, search_results
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+Result:
+  fields:
+    list: source, url
+    form: body, source, url
+    show: id, body, source, url, created_at, updated_at
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: brand_results, brands, queries, search_results
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+SearchResult:
+  fields:
+    list: query, result
+    form: query, result
+    show: id, query, result
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: query, result
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+Team:
+  fields:
+    list: account
+    form: account
+    show: id, created_at, updated_at, account
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: account, brand_results, brands, members
+  filters:
+  search:
+  application: brandizzle
+  description:
+
+User:
+  fields:
+    list: login, email, crypted_password, password_salt, persistence_token, perishable_token, active, invitation_limit, team
+    form: login, email, crypted_password, password_salt, persistence_token, perishable_token, active, invitation_limit, team
+    show: id, login, email, crypted_password, password_salt, persistence_token, perishable_token, active, created_at, updated_at, invitation_limit, team
+  actions:
+    index:
+    edit:
+  order_by:
+  relationships: account, sent_invitations, team
+  filters:
+  search:
+  application: brandizzle
+  description:
+
