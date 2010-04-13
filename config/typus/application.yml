@@ -140,9 +140,9 @@ Team:
 
 User:
   fields:
-    list: login, email, crypted_password, password_salt, persistence_token, perishable_token, active, invitation_limit, team
-    form: login, email, crypted_password, password_salt, persistence_token, perishable_token, active, invitation_limit, team
-    show: id, login, email, crypted_password, password_salt, persistence_token, perishable_token, active, created_at, updated_at, invitation_limit, team
+    list: login, email, active, invitation_limit, team
+    form: login, email, active, invitation_limit, team
+    show: id, login, email, active, created_at, updated_at, invitation_limit, team
   actions:
     index:
     edit:
