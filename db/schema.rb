@@ -10,6 +10,7 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20100413124205) do
+
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at"
@@ -66,6 +67,17 @@ ActiveRecord::Schema.define(:version => 20100413124205) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "logs", :force => true do |t|
+    t.integer  "loggable_id"
+    t.string   "loggable_type"
+    t.integer  "user_id"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "logs", ["loggable_id", "loggable_type"], :name => "index_logs_on_loggable_id_and_loggable_type"
 
   create_table "queries", :force => true do |t|
     t.string   "term"
