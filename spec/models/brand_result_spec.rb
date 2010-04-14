@@ -19,6 +19,7 @@ describe BrandResult do
   #associations
   should_belong_to :brand
   should_belong_to :result
+  should_have_many :comments
   
   describe "named scopes" do
     describe "between_date" do      

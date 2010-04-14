@@ -13,6 +13,7 @@
 class BrandResult < ActiveRecord::Base
   belongs_to :brand
   belongs_to :result
+  has_many :comments
   
   def self.per_page
     per_page = Settings.pagination.results_per_page

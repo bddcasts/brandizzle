@@ -7,7 +7,7 @@ describe BrandResultPresenter do
       @presenter = BrandResultPresenter.new(:brand_result => @brand_result)
     end
     
-    [:id, :brand, :result, :follow_up?].each do |message|
+    [:id, :brand, :result, :follow_up?, :comments].each do |message|
       it "delegates ##{message} to brand_result" do
         @brand_result.should_receive(message)
         @presenter.send(message)

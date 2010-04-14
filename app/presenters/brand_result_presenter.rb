@@ -3,7 +3,7 @@ class BrandResultPresenter < Viewtastic::Base
   
   presents :brand_result
   
-  delegate :id, :brand, :result, :follow_up?,
+  delegate :id, :brand, :result, :follow_up?, :comments,
            :to => :brand_result
 
   delegate :current_user, :current_team,

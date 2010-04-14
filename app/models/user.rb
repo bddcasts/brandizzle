@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   has_one :account
   belongs_to :team
   has_many :logs
+  has_many :comments
   
   before_create :set_invitation_limit
   before_save :populate_oauth_user

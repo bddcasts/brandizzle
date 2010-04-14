@@ -39,6 +39,7 @@ describe User do
   should_have_one :account
   should_belong_to :team
   should_have_many :logs
+  should_have_many :comments
   
   #validations
   should_validate_presence_of :email, :on => :create
