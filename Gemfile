@@ -20,6 +20,7 @@ group :default do
   gem 'viewtastic',       '0.1.2'
   gem 'oauth',            '0.3.6'
   gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth"
+  gem 'typus'
 end
 
 group :rails do
