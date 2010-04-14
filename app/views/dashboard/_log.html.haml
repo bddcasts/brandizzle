@@ -1,5 +1,6 @@
-%tr{:id => log.dom_id}
-  %td.type= log.log_type
-  %td.target= link_to "Target", polymorphic_path(log.loggable)
-  %td.body= log.body
-  %td= log.user
+%div.log{:id => log.dom_id}
+  %p.status
+    = format_time(log.created_at)
+    = log.log_type
+  %p.description= log.description
+  

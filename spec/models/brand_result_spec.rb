@@ -75,4 +75,11 @@ describe BrandResult do
       end
     end
   end
+
+  describe "attributes_to_serialize" do
+    it "sets the attributes to save in the log" do
+      brand_result = Factory.create(:brand_result, :state => "done")
+      brand_result.attributes_to_serialize.should include({"state" => "done"})
+    end
+  end
 end

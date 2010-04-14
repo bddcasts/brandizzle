@@ -1,11 +1,11 @@
 - title "Dashboard"
 
-.content
+.content.logs
   - if @logs && !@logs.empty?
-    %table.logs.index
+    .updates
       - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
-        %tr
-          %th= show_day(day)
+        %h3
+          %span= show_day(day)
         - present_logs(logs) do |log|
           = render "log", :object => log
   - else

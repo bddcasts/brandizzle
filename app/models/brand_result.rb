@@ -13,7 +13,6 @@
 class BrandResult < ActiveRecord::Base
   belongs_to :brand
   belongs_to :result
-  has_many :logs, :as => :loggable
   
   def self.per_page
     per_page = Settings.pagination.results_per_page
@@ -50,5 +49,8 @@ class BrandResult < ActiveRecord::Base
   aasm_event :reject do
     transitions :to => :normal, :from => [:follow_up]
   end
+  
+  def attributes_to_serialize
+    attributes.reject { |k, v| ['id', 'brand_id', 'result_id', 'updated_at', 'created_at'].include?(k) }
+  end
 end
-

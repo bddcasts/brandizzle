@@ -19,8 +19,6 @@ class BrandResultsController < ApplicationController
   def update
     @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
     send(action_type)
-
-    @service.update_brand_result(@brand_result, current_user)
   end
 
   private    
@@ -34,6 +32,7 @@ class BrandResultsController < ApplicationController
     
     def follow_up
       @brand_result.follow_up!
+      @service.update_brand_result(@brand_result, current_user)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result marked for follow up!"
@@ -46,6 +45,7 @@ class BrandResultsController < ApplicationController
     
     def finish
       @brand_result.finish!
+      @service.update_brand_result(@brand_result, current_user)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result marked as done!"
@@ -57,6 +57,7 @@ class BrandResultsController < ApplicationController
     
     def reject
       @brand_result.reject!
+      @service.update_brand_result(@brand_result, current_user)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result rejected!"

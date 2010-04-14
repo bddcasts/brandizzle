@@ -32,9 +32,9 @@ class BrandResultPresenter < Viewtastic::Base
     when "normal"
       ""
     when "follow_up"
-      content_tag("span", "follow up", :class => "follow_up")
+      content_tag("span", "follow up", :class => "tag follow_up")
     when "done"
-      content_tag("span", "done", :class => "done")
+      content_tag("span", "done", :class => "tag done")
     end
   end
   

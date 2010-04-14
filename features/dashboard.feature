@@ -11,10 +11,15 @@ Feature: Dashboard
      Then I should see "There are no logs"
   
   Scenario: Viewing the dashboard with logs
-    Given a brand_result "br" exists
-    Given a log "log" exists with user: user "cartman", loggable: brand_result "br"
+    Given a brand_result "br" exists with state: "follow_up"
+      And a log "log" exists with user: user "cartman", loggable: brand_result "br"
      When I am on the dashboard page
      Then I should see "cartman" for log "log"
+      And I should see "follow up" for log "log"
   
-  
-  
+  Scenario: Paginating the logs
+    Given 20 brand_result_logs exist with user: user "cartman"
+      And I am on the dashboard page
+     Then current page for ".logs" should be 1
+     When I follow "2" within ".pagination"
+     Then current page for ".logs" should be 2

@@ -3,11 +3,11 @@ require 'spec_helper'
 describe LogPresenter do
   describe "#delegates" do
     before(:each) do
-      @log = Factory.create(:log)
+      @log = Factory.create(:log, :loggable => Factory.create(:brand_result))
       @presenter = LogPresenter.new(:log => @log)
     end
     
-    [:id, :loggable, :user, :loggable_type, :body].each do |message|
+    [:id, :loggable, :user, :loggable_type, :loggable_attributes, :created_at].each do |message|
       it "delegates ##{message} to log" do
         @log.should_receive(message)
         @presenter.send(message)
@@ -22,4 +22,11 @@ describe LogPresenter do
     end
   end
   
+  describe "#log_type" do
+    it "returns 'Result' when loggable type is BrandResult" do
+      log = Factory.create(:log, :loggable => Factory.create(:brand_result))
+      presenter = LogPresenter.new(:log => log)
+      presenter.log_type.should match(/Result/)
+    end
+  end
 end

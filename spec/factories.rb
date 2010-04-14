@@ -74,7 +74,7 @@ Factory.define(:invitation) do |f|
 end
 
 Factory.define(:log) do |f|
-  f.body "Lorem ipsum.."
+  f.loggable_attributes {}
   f.association :user
 end
 

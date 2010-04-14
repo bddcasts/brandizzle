@@ -23,7 +23,7 @@ Before do
   activate_authlogic
 end
 
-After do |scenario|
+After('@sop') do |scenario|
   if(scenario.failed?)
     save_and_open_page
   end
