@@ -1,3 +1,11 @@
 - title "Result"
 
-= render "brand_result", :object => present_brand_result(@brand_result)
+- brand_result_with_presenter @brand_result do |brand_result|
+  %div.result{ :id => brand_result.dom_id}
+    %p.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
+      = format_date_time brand_result.result.created_at
+      = brand_result.status
+    %p.body
+      = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
+    %p.leenks
+      = brand_result.action_links.join(" | ")

@@ -13,7 +13,7 @@ class BrandResultsController < ApplicationController
   end
 
   def show
-    @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
+    @brand_result = current_team.brand_results.find(params[:id], :include => :result) if params[:id]
   end
 
   def update

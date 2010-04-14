@@ -16,6 +16,7 @@ class BrandResultPresenter < Viewtastic::Base
   def action_links
     returning([]) do |links|
       links << link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
+      links << link_to("View", brand_result_path(brand_result))
       case brand_result.state
       when "normal"
         links << link_to_remote_update('Follow up', brand_result_path(brand_result, :action_type => "follow_up"))

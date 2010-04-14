@@ -3,13 +3,7 @@ module BrandResultsHelper
     BrandResultPresenter.new(:brand_result => brand_result)
   end
   
-  def show_day(day)
-    if day.today?
-      "Today"
-    elsif day.year == Time.now.year
-      day.strftime('%B %d')
-    else
-      day.strftime('%B %d, %Y')
-    end
+  def brand_result_with_presenter(brand_result, &block)
+    yield BrandResultPresenter.new(:brand_result => brand_result)
   end
 end
