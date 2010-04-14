@@ -38,4 +38,13 @@ Feature: Manage brand results
       And I should not see "follow up" for brand_result "br_bdd"
       And brand result "br_bdd" should be normal
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
-      
+  
+  Scenario: Commenting on a result
+    Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+      And I am on the brand_result "br_bdd" page
+     When I fill in "Content" with "OMG they killed Kenny"
+      And I press "Post comment"
+     Then I should be on the brand_result "br_bdd" page
+      And I should see "Comment posted"
+      And I should see "OMG they killed Kenny" within ".comments"
+      And I should see "cartman" within ".comments"

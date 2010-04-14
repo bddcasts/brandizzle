@@ -50,6 +50,40 @@ describe BrandResultsController do
     end
   end
   
+  describe "handling GET show" do
+    before(:each) do
+      @brand_result = mock_model(BrandResult)
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @comment = mock_model(Comment)
+      Comment.stub(:new).and_return(@comment)
+    end
+    
+    def do_get(options={})
+      get :show, { :id => 42 }.merge(options)
+    end
+    
+    it "finds the brand_result and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42", hash_including({:include => [:result, :comments]})).
+        and_return(@brand_result)
+      do_get
+      assigns[:brand_result].should == @brand_result
+    end
+    
+    it "created a new comment and assigns it for the view" do
+      Comment.should_receive(:new)
+      do_get
+      assigns[:comment].should == @comment
+    end
+    
+    it "renders the show template" do
+      do_get
+      response.should render_template(:show)
+    end
+  end
+  
   describe "handling PUT update" do
     before(:each) do
       @service = LogActionService.new

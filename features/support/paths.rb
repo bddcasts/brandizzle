@@ -12,7 +12,7 @@ module NavigationHelpers
       edit_user_info_path
     when /the team page/
       team_path
-
+      
     #account related paths
     when /the registration page/
       invitation = Invitation.first
