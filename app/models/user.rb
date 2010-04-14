@@ -73,6 +73,18 @@ class User < ActiveRecord::Base
     Notifier.deliver_user_invitation(self)
   end
   
+  def avatar
+    if using_twitter?
+      avatar_url
+    else    
+      gravatar_url
+    end
+  end
+  
+  def gravatar_url
+    "http://www.gravatar.com/avatar.php?gravatar_id=#{Digest::MD5.hexdigest(email)}&size=48"
+  end
+  
   private
     def set_invitation_limit
       self.invitation_limit = Settings.invitations.limit

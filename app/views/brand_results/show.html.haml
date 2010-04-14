@@ -11,11 +11,11 @@
       = brand_result.action_links.join(" | ")
   
   %div.comments
-    - brand_result.comments.each do |comment|
+    - @comments.each do |comment|
       = render "comments/comment", :object => comment
     
     - semantic_form_for [@brand_result, @comment] do |f|
       - f.inputs do
-        = f.input :content
+        = f.input :content, :label => "Leave a comment"
       - f.buttons do
         = f.commit_button "Post comment"

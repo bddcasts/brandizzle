@@ -21,6 +21,7 @@ group :default do
   gem 'oauth',            '0.3.6'
   gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth"
   gem 'typus'
+  gem 'RedCloth',         '4.2.3'
 end
 
 group :rails do

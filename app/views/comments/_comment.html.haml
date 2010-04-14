@@ -1,3 +1,7 @@
 .comment{:id => dom_id(comment)}
-  = comment.user
-  = comment.content
+  %img{ :src => comment.user.avatar}
+  %p
+    %strong= h comment.user
+    = "#{distance_of_time_in_words_to_now(comment.created_at)} ago"
+  %p
+    = textilize comment.content

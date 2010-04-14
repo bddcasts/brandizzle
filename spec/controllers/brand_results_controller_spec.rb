@@ -55,6 +55,9 @@ describe BrandResultsController do
       @brand_result = mock_model(BrandResult)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
+      @comments = (1..3).map{ mock_model(Comment) }
+      @brand_result.stub_chain(:comments, :find).and_return(@comments)
+      
       @comment = mock_model(Comment)
       Comment.stub(:new).and_return(@comment)
     end
@@ -66,10 +69,18 @@ describe BrandResultsController do
     it "finds the brand_result and assigns it for the view" do
       @current_team.brand_results.
         should_receive(:find).
-        with("42", hash_including({:include => [:result, :comments]})).
+        with("42", hash_including({:include => :result})).
         and_return(@brand_result)
       do_get
       assigns[:brand_result].should == @brand_result
+    end
+    
+    it "finds the brand_result's comments and assigns them for the view" do
+      @brand_result.comments.
+        should_receive(:find).
+        and_return(@comments)
+      do_get
+      assigns[:comments].should == @comments
     end
     
     it "created a new comment and assigns it for the view" do

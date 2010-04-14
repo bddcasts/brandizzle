@@ -42,7 +42,7 @@ Feature: Manage brand results
   Scenario: Commenting on a result (should also create a log entry to be shown on the dashboard)
     Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_result "br_bdd" page
-     When I fill in "Content" with "OMG they killed Kenny"
+     When I fill in "Leave a comment" with "OMG they killed Kenny"
       And I press "Post comment"
      Then I should be on the brand_result "br_bdd" page
       And I should see "Comment posted"

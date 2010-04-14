@@ -151,6 +151,19 @@ describe User do
     user = Factory.create(:user)
     user.invitation_limit.should == Settings.invitations.limit
   end
+
+  describe "#avatar" do
+    it "returns the twitter avatar (avatar_url) if user is using Twitter" do
+      user = Factory.create(:twitter_user)
+      user.avatar.should == user.avatar_url
+    end
+    
+    it "returns the gravatar is user is not using Twitter" do
+      user = Factory.create(:user)
+      user.avatar.should match(/www.gravatar.com/)
+    end
+  end
+  
   
   describe "populate user data from Twitter profile" do
     describe "on save" do

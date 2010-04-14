@@ -6,7 +6,7 @@ module LinksHelper
     when s = "dashboard"
       controller.controller_name == "dashboard"
     when s = "results"
-      controller.controller_name == "brand_results"
+      request.path =~ /^\/brand_results/
     when s = "brands"
       controller.controller_name == "brands"
     when s = "account"

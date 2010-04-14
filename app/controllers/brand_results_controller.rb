@@ -13,7 +13,8 @@ class BrandResultsController < ApplicationController
   end
 
   def show
-    @brand_result = current_team.brand_results.find(params[:id], :include => [:result, :comments]) if params[:id]
+    @brand_result = current_team.brand_results.find(params[:id], :include => :result) if params[:id]
+    @comments = @brand_result.comments.find(:all, :order => "created_at DESC")
     @comment = Comment.new
   end
 

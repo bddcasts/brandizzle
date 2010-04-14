@@ -8,6 +8,7 @@ class CommentsController < ApplicationController
       flash[:notice] = "Comment posted"
       redirect_to brand_result_path(@brand_result)
     else
+      @comments = Comment.find(:all, :conditions => { :brand_result_id => @brand_result }, :order => "created_at DESC")
       render :template => 'brand_results/show'
     end
   end
