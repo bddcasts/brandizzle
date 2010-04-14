@@ -28,3 +28,6 @@ cucumber:
 aissac:
   <<: *defaults
   host: brandizzle.aissac.ro
+  twitter:
+    consumer_key: DOaquy8EyO07RXzqDbKFA
+    consumer_secret: Z4aO0rrOFaNOXWgs9zRIhZvP5BCJK7nEVkfXGPHOo
