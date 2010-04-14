@@ -3,6 +3,7 @@ defaults: &defaults
   host: "brandizzle.com"
   pagination:
     results_per_page: 15
+    logs_per_page: 15
   invitations:
     limit: 0
   twitter:

@@ -52,6 +52,11 @@ describe BrandResultsController do
   
   describe "handling PUT update" do
     before(:each) do
+      @service = LogActionService.new
+      LogActionService.stub!(:new).and_return(@service)
+      @service.stub!(:update_brand_result)
+      Log.stub!(:create)
+      
       @brand_result = mock_model(BrandResult)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
@@ -143,6 +148,11 @@ describe BrandResultsController do
           response.should render_template(:update)
         end
       end
+    end
+  
+    it "send a message to the log action service to create a log for the action" do
+      @service.should_receive(:update_brand_result).with(@brand_result, current_user)
+      do_put
     end
   end
 end

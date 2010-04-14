@@ -2,7 +2,13 @@
 
 .content
   - if @logs && !@logs.empty?
-    - @logs.each do |log|
-      = render "log", :object => present_log(log)
+    %table.logs.index
+      - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
+        %tr
+          %th= show_day(day)
+        - present_logs(logs) do |log|
+          = render "log", :object => log
   - else
-    %p there are no logs
+    %p There are no logs
+
+  = will_paginate @logs, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'

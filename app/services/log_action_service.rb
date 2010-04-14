@@ -3,7 +3,7 @@ class LogActionService
     @log_klass = log_klass
   end
   
-  def update_brand_result(brand_result, action, user)
+  def update_brand_result(brand_result, user)
     @log_klass.create(
       :loggable => brand_result,
       :user => user)

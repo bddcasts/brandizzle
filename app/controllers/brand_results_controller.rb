@@ -20,7 +20,7 @@ class BrandResultsController < ApplicationController
     @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
     send(action_type)
 
-    @service.update_brand_result(@brand_result, action_type, current_user)
+    @service.update_brand_result(@brand_result, current_user)
   end
 
   private    

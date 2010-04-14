@@ -72,3 +72,12 @@ end
 Factory.define(:invitation) do |f|
   f.sequence(:recipient_email) { |i| "invited-user-#{i}@example.com" }
 end
+
+Factory.define(:log) do |f|
+  f.body "Lorem ipsum.."
+  f.association :user
+end
+
+Factory.define(:brand_result_log, :parent => :log) do |f|
+  f.association :loggable, :factory => :brand_result
+end
