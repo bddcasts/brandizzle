@@ -10,13 +10,21 @@ Feature: Dashboard
     Given I am on the dashboard page
      Then I should see "There are no logs"
   
-  Scenario: Viewing the dashboard with logs
+  Scenario: Viewing a brand_result log on the dashboard
     Given a brand_result "br" exists with state: "follow_up"
       And a log "log" exists with user: user "cartman", loggable: brand_result "br"
      When I am on the dashboard page
-     Then I should see "cartman" for log "log"
+     Then I should see "Result" for log "log"
+      And I should see "cartman" for log "log"
       And I should see "follow up" for log "log"
   
+  Scenario: Viewing a comment log on the dashboard
+    Given a comment "comm" exists with user: user "cartman"
+      And a log "log" exists with user: user "cartman", loggable: comment "comm"
+     When I am on the dashboard page
+     Then I should see "Comment" for log "log"
+      And I should see "cartman" for log "log"
+      
   Scenario: Paginating the logs
     Given 20 brand_result_logs exist with user: user "cartman"
       And I am on the dashboard page

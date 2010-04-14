@@ -8,4 +8,10 @@ class LogActionService
       :loggable => brand_result,
       :user => user)
   end
+  
+  def create_comment(comment, user)
+    @log_klass.create(
+      :loggable => comment,
+      :user => user)
+  end
 end

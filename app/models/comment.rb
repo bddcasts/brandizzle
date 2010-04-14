@@ -15,4 +15,8 @@ class Comment < ActiveRecord::Base
   belongs_to :brand_result
   
   validates_presence_of :content
+  
+  def attributes_to_serialize
+    {}
+  end
 end

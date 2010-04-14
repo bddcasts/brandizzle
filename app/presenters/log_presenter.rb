@@ -15,6 +15,8 @@ class LogPresenter < Viewtastic::Base
     case loggable_type
     when "BrandResult"
       content_tag("span", "Result", :class => "tag #{loggable_attributes['state']}")
+    when "Comment"
+      content_tag("span", "Comment", :class => "tag comment")
     end
   end
   
@@ -22,6 +24,8 @@ class LogPresenter < Viewtastic::Base
     case loggable_type
     when "BrandResult"
       brand_result_log_description(loggable, loggable_attributes["state"])
+    when "Comment"
+      comment_log_description(loggable)
     end
   end
   
@@ -32,6 +36,16 @@ class LogPresenter < Viewtastic::Base
       s << link_to("a result", polymorphic_path(brand_result))
       s << " as "
       s << state.gsub("_", " ")
+    end
+  end
+  
+  def comment_log_description(comment)
+    returning("") do |s|
+      s << user.to_s
+      s << " "
+      s << link_to("commented", brand_result_path(comment.brand_result, :anchor => "comment_#{comment.id}"))
+      s << " on "
+      s << link_to("a result", brand_result_path(comment.brand_result))
     end
   end
 end

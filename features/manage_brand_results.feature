@@ -39,7 +39,7 @@ Feature: Manage brand results
       And brand result "br_bdd" should be normal
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
   
-  Scenario: Commenting on a result
+  Scenario: Commenting on a result (should also create a log entry to be shown on the dashboard)
     Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_result "br_bdd" page
      When I fill in "Content" with "OMG they killed Kenny"
@@ -48,3 +48,5 @@ Feature: Manage brand results
       And I should see "Comment posted"
       And I should see "OMG they killed Kenny" within ".comments"
       And I should see "cartman" within ".comments"
+      And a comment "comm" should exist with user: user "cartman", brand_result: brand_result "br_bdd", content: "OMG they killed Kenny"
+      And a log should exist with loggable: comment "comm", user: user "cartman"

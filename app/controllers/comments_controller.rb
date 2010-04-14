@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
-  before_filter :require_user, :find_brand_result
+  before_filter :require_user, :find_brand_result, :init_log_action
   
   def create
     @comment = @brand_result.comments.build((params[:comment] || {}).merge(:user => current_user))
     if @comment.save
+      @service.create_comment(@comment, current_user)
       flash[:notice] = "Comment posted"
       redirect_to brand_result_path(@brand_result)
     else
