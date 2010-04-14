@@ -38,6 +38,7 @@ describe User do
   should_have_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   should_have_one :account
   should_belong_to :team
+  should_have_many :logs
   
   #validations
   should_validate_presence_of :email, :on => :create

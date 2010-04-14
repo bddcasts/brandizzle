@@ -16,4 +16,5 @@ describe Team do
   should_have_many :brands
   should_have_many :brand_results, :through => :brands
   should_belong_to :account
+  should_have_many :logs, :through => :members
 end

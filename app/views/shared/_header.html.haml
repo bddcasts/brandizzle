@@ -17,6 +17,8 @@
   .navigation
     %ul
       - if current_user
+        %li{:class => active("dashboard") ? "active" : nil}
+          = link_to "Dashboard", dashboard_path
         %li{:class => active("results") ? "active" : nil}
           = link_to "Results", brand_results_path
         %li{:class => active("brands") ? "active" : nil}

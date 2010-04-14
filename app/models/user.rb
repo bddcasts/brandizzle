@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   has_one :account
   belongs_to :team
+  has_many :logs
   
   before_create :set_invitation_limit
   before_save :populate_oauth_user

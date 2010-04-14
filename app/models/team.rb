@@ -13,4 +13,5 @@ class Team < ActiveRecord::Base
   has_many :brands
   has_many :brand_results, :through => :brands
   belongs_to :account
+  has_many :logs, :through => :members
 end

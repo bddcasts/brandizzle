@@ -1,5 +1,6 @@
 class BrandResultsController < ApplicationController
   before_filter :require_user
+  before_filter :init_log_action, :only => [:update]
   
   def index
     @brands = current_team.brands
@@ -11,9 +12,15 @@ class BrandResultsController < ApplicationController
       :order => "results.created_at DESC")
   end
 
+  def show
+    @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
+  end
+
   def update
     @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
     send(action_type)
+
+    @service.update_brand_result(@brand_result, action_type, current_user)
   end
 
   private    

@@ -1,10 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => "brand_results"
+
+  map.dashboard 'dashboard', :controller => 'dashboard'
   
   map.resources :brands do |brand|
     brand.resources :queries, :only => [:create, :update, :destroy]
   end
-  map.resources :brand_results, :only => [:index, :update]
+  map.resources :brand_results, :only => [:index, :show, :update]
   
   #user and account related routes
   map.resource :team, :only => [:show] do |team|

@@ -3,6 +3,8 @@ module LinksHelper
   
   def active(s)
     case s
+    when s = "dashboard"
+      controller.controller_name == "dashboard"
     when s = "results"
       controller.controller_name == "brand_results"
     when s = "brands"

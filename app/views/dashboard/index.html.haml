@@ -1,0 +1,8 @@
+- title "Dashboard"
+
+.content
+  - if @logs && !@logs.empty?
+    - @logs.each do |log|
+      = render "log", :object => present_log(log)
+  - else
+    %p there are no logs
