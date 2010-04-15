@@ -1,4 +1,4 @@
-Given /^a Twitter user "([^\"]*)" registered with Brandizzle$/ do |name|
+Given /^a Twitter user "([^\"]*)" registered with BrandPulse$/ do |name|
   Given %Q{a twitter user "#{name}" exists with oauth_token: "foo", oauth_secret: "secret", screen_name: "#{name}", name: "#{name}"}
   
   UserSession.class_eval do
@@ -14,7 +14,7 @@ Given /^a Twitter user "([^\"]*)" registered with Brandizzle$/ do |name|
   end
 end
 
-Given /^a Twitter user "([^\"]*)" that is not registered with Brandizzle$/ do |twitter_name|
+Given /^a Twitter user "([^\"]*)" that is not registered with BrandPulse$/ do |twitter_name|
   UserSession.class_eval do
     def redirect_to_oauth
       oauth_controller.session[:oauth_callback_method] = "POST"
@@ -28,7 +28,7 @@ Given /^a Twitter user "([^\"]*)" that is not registered with Brandizzle$/ do |t
   end
 end
 
-Given /^user "([^\"]*)" has not authorized Brandizzle to user Twitter account$/ do |twitter_name|
+Given /^user "([^\"]*)" has not authorized BrandPulse to user Twitter account$/ do |twitter_name|
   User.class_eval do
     define_method("user_twitter_name") do
       twitter_name
@@ -49,7 +49,7 @@ Given /^user "([^\"]*)" has not authorized Brandizzle to user Twitter account$/ 
   end
 end
 
-Given /^a Twitter user that denies access to Brandizzle$/ do
+Given /^a Twitter user that denies access to BrandPulse$/ do
   UserSession.class_eval do
     def redirect_to_oauth
       oauth_controller.session[:oauth_callback_method] = "POST"

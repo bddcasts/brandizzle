@@ -1,6 +1,6 @@
 class Notifier < ActionMailer::Base  
   def password_reset_instructions(user)
-    subject       "[Brandizzle.com] Password Reset Instructions"
+    subject       "[BrandPulse] Password Reset Instructions"
     from          sender
     recipients    user.email
     sent_on       Time.now
@@ -8,7 +8,7 @@ class Notifier < ActionMailer::Base
   end
 
   def invitation(invitation)
-    subject       "[Brandizzle.com] Invitation to our private beta"
+    subject       "[BrandPulse] Invitation to our private beta"
     from          sender
     recipients    invitation.recipient_email
     sent_on       Time.now
@@ -16,7 +16,7 @@ class Notifier < ActionMailer::Base
   end
   
   def user_invitation(user)
-    subject       "[Brandizzle.com] #{user.team.account.holder} has invited you to join Brandizzle"
+    subject       "[BrandPulse] #{user.team.account.holder} has invited you to join BrandPulse"
     from          user.team.account.holder
     recipients    user.email
     sent_on       Time.now
@@ -25,6 +25,6 @@ class Notifier < ActionMailer::Base
   
   private
     def sender
-      "noreply@brandizzle.com"
+      "noreply@brandpulseapp.com"
     end
 end

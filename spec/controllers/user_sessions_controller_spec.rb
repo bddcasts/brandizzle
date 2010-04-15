@@ -66,7 +66,7 @@ describe UserSessionsController do
     
     it "sets the notice flash and redirects to the login page if denied OAuth authentication" do
       post_with_invalid_attributes(:denied => "foo")
-      flash[:notice].should == "You did not allow Brandizzle to use your Twitter account"
+      flash[:notice].should == "You did not allow BrandPulse to use your Twitter account"
       response.should redirect_to(new_user_session_path)
     end
   end

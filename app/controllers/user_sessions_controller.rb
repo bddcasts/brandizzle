@@ -16,7 +16,7 @@ class UserSessionsController < ApplicationController
         redirect_back_or_default brand_results_path
       else
         if params[:denied]
-          flash[:notice] = "You did not allow Brandizzle to use your Twitter account"
+          flash[:notice] = "You did not allow BrandPulse to use your Twitter account"
           redirect_to new_user_session_path
         else
           render :new

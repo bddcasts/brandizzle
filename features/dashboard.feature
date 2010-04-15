@@ -14,7 +14,7 @@ Feature: Dashboard
     Given a brand_result "br" exists with state: "follow_up"
       And a log "log" exists with user: user "cartman", loggable: brand_result "br"
      When I am on the dashboard page
-     Then I should see "Result" for log "log"
+     Then I should see "Follow up" for log "log"
       And I should see "cartman" for log "log"
       And I should see "follow up" for log "log"
   

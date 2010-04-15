@@ -21,12 +21,4 @@ describe LogPresenter do
       end
     end
   end
-  
-  describe "#log_type" do
-    it "returns 'Result' when loggable type is BrandResult" do
-      log = Factory.create(:log, :loggable => Factory.create(:brand_result))
-      presenter = LogPresenter.new(:log => log)
-      presenter.log_type.should match(/Result/)
-    end
-  end
 end

@@ -45,7 +45,7 @@ Feature: User Accounts
       And I should see "We have sent password reset instructions to cartman@example.com. Please check your email."
       And "cartman@example.com" should receive an email
      When I open the email
-     Then I should see "[Brandizzle.com] Password Reset Instructions" in the email subject
+     Then I should see "[BrandPulse] Password Reset Instructions" in the email subject
      When I click the first link in the email
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"

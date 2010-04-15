@@ -18,7 +18,7 @@ Feature: Account management
       
      Then "stan@example.com" should receive an email
      When I open the email
-     Then I should see "[Brandizzle.com] cartman has invited you to join Brandizzle" in the email subject
+     Then I should see "[BrandPulse] cartman has invited you to join BrandPulse" in the email subject
      When I click the first link in the email
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
