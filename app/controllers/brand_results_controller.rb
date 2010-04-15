@@ -1,6 +1,5 @@
 class BrandResultsController < ApplicationController
   before_filter :require_user
-  before_filter :init_log_action, :only => [:update]
   
   def index
     @brands = current_team.brands
@@ -34,7 +33,7 @@ class BrandResultsController < ApplicationController
     
     def follow_up
       @brand_result.follow_up!
-      @service.update_brand_result(@brand_result, current_user)
+      log.updated_brand_result(@brand_result, current_user)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result marked for follow up!"
@@ -47,7 +46,7 @@ class BrandResultsController < ApplicationController
     
     def finish
       @brand_result.finish!
-      @service.update_brand_result(@brand_result, current_user)
+      log.updated_brand_result(@brand_result, current_user)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result marked as done!"
@@ -59,7 +58,7 @@ class BrandResultsController < ApplicationController
     
     def reject
       @brand_result.reject!
-      @service.update_brand_result(@brand_result, current_user)
+      log.updated_brand_result(@brand_result, current_user)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result rejected!"

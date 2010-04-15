@@ -8,9 +8,9 @@ describe CommentsController do
   
   describe "handling POST create" do
     before(:each) do
-      @service = LogActionService.new
-      LogActionService.stub!(:new).and_return(@service)
-      @service.stub!(:create_comment)
+      @log = LogService.new
+      LogService.stub!(:new).and_return(@log)
+      @log.stub!(:created_comment)
       Log.stub!(:create)
       
       @brand_result = Factory.create(:brand_result)
@@ -50,7 +50,7 @@ describe CommentsController do
     end
     
     it "sends a message to the log action service to create a log for the comment on success" do
-      @service.should_receive(:create_comment).with(@comment, current_user)
+      @log.should_receive(:created_comment).with(@comment, current_user)
       do_post_with_valid_attributes
     end
     

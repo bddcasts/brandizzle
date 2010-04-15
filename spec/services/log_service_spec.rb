@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe LogActionService do
+describe LogService do
   before do
     @user = mock_model(User)
-    @service = LogActionService.new
+    @log = LogService.new
   end
 
   describe "#update_brand_result" do
@@ -13,7 +13,7 @@ describe LogActionService do
     
     it "logs the update of the brand result" do
       Log.should_receive(:create).with(hash_including(:loggable => @brand_result, :user => @user))
-      @service.update_brand_result(@brand_result, @user)
+      @log.updated_brand_result(@brand_result, @user)
     end
   end
   
@@ -24,7 +24,7 @@ describe LogActionService do
     
     it "logs the creation of a new comment" do
       Log.should_receive(:create).with(hash_including(:loggable => @comment, :user => @user))
-      @service.create_comment(@comment, @user)
+      @log.created_comment(@comment, @user)
     end
   end
 end

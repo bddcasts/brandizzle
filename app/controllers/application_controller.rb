@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
       @current_team ||= current_user && current_user.team
     end
     
-    def init_log_action
-      @service ||= LogActionService.new
+    def log
+      @log ||= LogService.new
     end
 end
