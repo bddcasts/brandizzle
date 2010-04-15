@@ -37,7 +37,7 @@ class Query < ActiveRecord::Base
       options = {
         :source => 'twitter',
         :created_at => result["created_at"],
-        :body => result["text"],
+        :body => highlight_term_in_twitter_result(result["text"]),
         :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"      
       }
       
@@ -109,5 +109,9 @@ class Query < ActiveRecord::Base
   
   def to_s
     term
+  end
+  
+  def highlight_term_in_twitter_result(result)
+    result.gsub(/#{term}/i){ |s|  "<b>"+ s +"</b>" }
   end
 end

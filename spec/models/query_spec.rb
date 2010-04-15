@@ -99,7 +99,7 @@ describe Query do
           should_receive(:find_or_create_by_url).
           with(hash_including({
             :created_at => result["created_at"],
-            :body => result["text"],
+            :body => @query.highlight_term_in_twitter_result(result["text"]),
             :source => "twitter",
             :url => "http://twitter.com/#{result['from_user']}/statuses/#{result['id']}"
           })).
@@ -218,6 +218,13 @@ describe Query do
       query.link_brand_results(returned_results.map(&:id))
       
       brand.results.should == returned_results
+    end
+  end
+  
+  describe "#highlight_term_in_twitter_result" do
+    it "highlights the query term in a twitter result" do
+      query = Factory.create(:query, :term => "test")
+      query.highlight_term_in_twitter_result("this is a test").should == "this is a <b>test</b>"
     end
   end
 end
