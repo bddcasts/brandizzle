@@ -1,12 +1,9 @@
 class BrandPresenter < Viewtastic::Base
-  presents :brand
+  presents :brand => [:id, :name, :queries]
   
-  delegate :id, :name, :queries,
-           :to => :brand
-      
   delegate :current_user, :current_team,
            :to => :controller
-           
+
   def dom_id
     brand_dom_id
   end
