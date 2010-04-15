@@ -2,12 +2,13 @@
 #
 # Table name: brand_results
 #
-#  id         :integer(4)      not null, primary key
-#  brand_id   :integer(4)      indexed, indexed => [result_id]
-#  result_id  :integer(4)      indexed, indexed => [brand_id]
-#  created_at :datetime
-#  updated_at :datetime
-#  state      :string(255)     indexed
+#  id             :integer(4)      not null, primary key
+#  brand_id       :integer(4)      indexed, indexed => [result_id]
+#  result_id      :integer(4)      indexed, indexed => [brand_id]
+#  created_at     :datetime
+#  updated_at     :datetime
+#  state          :string(255)     indexed
+#  comments_count :integer(4)      default(0)
 #
 
 require 'spec_helper'
@@ -15,6 +16,7 @@ require 'spec_helper'
 describe BrandResult do
   #columns
   should_have_column :state, :type => :string
+  should_have_column :comments_count, :type => :integer
   
   #associations
   should_belong_to :brand

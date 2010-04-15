@@ -1,10 +1,7 @@
 class BrandResultPresenter < Viewtastic::Base
   include LinksHelper
   
-  presents :brand_result
-  
-  delegate :id, :brand, :result, :follow_up?, :comments,
-           :to => :brand_result
+  presents :brand_result => [:id, :brand, :result, :follow_up?, :comments, :comments_count]
 
   delegate :current_user, :current_team,
            :to => :controller

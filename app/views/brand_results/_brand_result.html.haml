@@ -2,6 +2,7 @@
   %p.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
     = brand_result.result.created_at.strftime("%I:%M%p")
     = brand_result.status
+    = pluralize(brand_result.comments_count, "comment")
   %p.body
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
   %p.leenks

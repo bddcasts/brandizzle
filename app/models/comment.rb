@@ -12,7 +12,7 @@
 
 class Comment < ActiveRecord::Base
   belongs_to :user
-  belongs_to :brand_result
+  belongs_to :brand_result, :counter_cache => true
   
   validates_presence_of :content
   
