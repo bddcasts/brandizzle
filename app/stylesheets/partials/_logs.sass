@@ -16,8 +16,15 @@ div
     :border-bottom 1px dotted #ccc
     :padding-bottom 5px
     :margin-bottom 10px
-    .leenks
-      :margin-top 3px
-      :font-size 11px
-    .status
-      :font-size 11px
+    +clearfix
+    span
+      :display block
+      :float left
+      &.status
+        .tag
+          :font-size 11px
+          :width 65px
+          :text-align right
+          :margin-right 10px
+      &.time
+        :float right

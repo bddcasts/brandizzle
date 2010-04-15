@@ -1,9 +1,6 @@
 class LogPresenter < Viewtastic::Base
-  presents :log
+  presents :log => [:id, :loggable, :user, :loggable_type, :loggable_attributes, :created_at]
   
-  delegate :id, :loggable, :user, :loggable_type, :loggable_attributes, :created_at,
-           :to => :log
-           
   delegate :current_user, :current_team,
           :to => :controller
   
@@ -14,7 +11,7 @@ class LogPresenter < Viewtastic::Base
   def log_type
     case loggable_type
     when "BrandResult"
-      content_tag("span", "Result", :class => "tag #{loggable_attributes['state']}")
+      content_tag("span", get_brand_result_label_state(loggable_attributes['state']).capitalize, :class => "tag #{loggable_attributes['state']}")
     when "Comment"
       content_tag("span", "Comment", :class => "tag comment")
     end
@@ -35,7 +32,7 @@ class LogPresenter < Viewtastic::Base
       s << " marked "
       s << link_to("a result", polymorphic_path(brand_result))
       s << " as "
-      s << state.gsub("_", " ")
+      s << get_brand_result_label_state(state)
     end
   end
   
@@ -46,6 +43,14 @@ class LogPresenter < Viewtastic::Base
       s << link_to("commented", brand_result_path(comment.brand_result, :anchor => "comment_#{comment.id}"))
       s << " on "
       s << link_to("a result", brand_result_path(comment.brand_result))
+    end
+  end
+  
+  def get_brand_result_label_state(state)
+    case state
+    when "follow_up" then "follow up"
+    when "normal" then "rejected"
+    when "done" then "done"
     end
   end
 end

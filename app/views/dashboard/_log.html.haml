@@ -1,6 +1,7 @@
 %div.log{:id => log.dom_id}
-  %p.status
-    = format_time(log.created_at)
-    = log.log_type
-  %p.description= log.description
-  
+  %p
+    %span.status
+      = log.log_type
+    %span.description= log.description
+    %span.time
+      = format_time(log.created_at)

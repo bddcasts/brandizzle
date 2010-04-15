@@ -7,8 +7,6 @@
       - if current_user
         %ul
           %li= "Welcome #{current_user}"
-          - if current_user.account_holder?
-            %li= link_to "My account", edit_account_path
           %li= link_to "My info", edit_user_info_path
           - if current_user.invitation_limit > 0
             %li= link_to "Invite friends (#{current_user.invitation_limit} left)", new_invitation_path
@@ -26,3 +24,6 @@
         %li{:class => active("team") ? "active" : nil}
           = link_to "Team", team_path
         %li= link_to "Search", "#"
+        - if current_user.account_holder?
+          %li.right_side{:class => active("account") ? "active" : nil}
+            = link_to "My account", edit_account_path
