@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100415120810) do
+ActiveRecord::Schema.define(:version => 20100416061925) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -34,10 +34,12 @@ ActiveRecord::Schema.define(:version => 20100415120810) do
     t.datetime "updated_at"
     t.string   "state"
     t.integer  "comments_count", :default => 0
+    t.integer  "connotation",    :default => 0
   end
 
   add_index "brand_results", ["brand_id", "result_id"], :name => "index_brand_results_on_brand_id_and_result_id"
   add_index "brand_results", ["brand_id"], :name => "index_brand_results_on_brand_id"
+  add_index "brand_results", ["connotation"], :name => "index_brand_results_on_connotation"
   add_index "brand_results", ["result_id"], :name => "index_brand_results_on_result_id"
   add_index "brand_results", ["state"], :name => "index_brand_results_on_state"
 

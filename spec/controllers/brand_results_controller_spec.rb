@@ -194,6 +194,58 @@ describe BrandResultsController do
         end
       end
     end
+    
+    context "positive" do
+      before(:each) do
+        @brand_result.stub!(:make_positive!)
+      end
+      
+      it "sets the brand result on positive" do
+        @brand_result.should_receive(:make_positive!)
+        do_put(:action_type => "positive")
+      end
+      
+      context "using HTTP request" do
+        it "sets the flash and redirects" do
+          do_put(:action_type => "positive")
+          flash[:notice].should_not be_nil
+          response.should be_redirect
+        end
+      end
+      
+      context "using XHR request" do
+        it "renders the update template" do
+          xhr :put, :update, { :id => 42, :action_type => "positive" }
+          response.should render_template(:update)
+        end
+      end
+    end
+    
+    context "negative" do
+      before(:each) do
+        @brand_result.stub!(:make_negative!)
+      end
+      
+      it "sets the brand result on negative" do
+        @brand_result.should_receive(:make_negative!)
+        do_put(:action_type => "negative")
+      end
+      
+      context "using HTTP request" do
+        it "sets the flash and redirects" do
+          do_put(:action_type => "negative")
+          flash[:notice].should_not be_nil
+          response.should be_redirect
+        end
+      end
+      
+      context "using XHR request" do
+        it "renders the update template" do
+          xhr :put, :update, { :id => 42, :action_type => "negative" }
+          response.should render_template(:update)
+        end
+      end
+    end
   
     it "send a message to the log action service to create a log for the action" do
       @log.should_receive(:updated_brand_result).with(@brand_result, current_user)

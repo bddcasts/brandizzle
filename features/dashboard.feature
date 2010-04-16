@@ -10,13 +10,30 @@ Feature: Dashboard
     Given I am on the dashboard page
      Then I should see "There are no logs"
   
-  Scenario: Viewing a brand_result log on the dashboard
-    Given a brand_result "br" exists with state: "follow_up"
-      And a log "log" exists with user: user "cartman", loggable: brand_result "br"
+  Scenario Outline: Viewing a follow_up/rejected/done brand_result log on the dashboard
+    Given a <state>_brand_result "br" exists with state: "<state>"
+      And a log "log" exists with user: user "cartman", loggable: <state>_brand_result "br"
      When I am on the dashboard page
-     Then I should see "Follow up" for log "log"
-      And I should see "cartman" for log "log"
-      And I should see "follow up" for log "log"
+     Then I should see "<status>" for log "log"
+      And I should see "cartman marked a result as <content>" for log "log"
+      
+    Examples:
+      | state     | status    | content   |
+      | normal    | Rejected  | rejected  |
+      | follow_up | Follow up | follow up |
+      | done      | Done      | done      |
+  
+  Scenario Outline: Viewing a positive/negative brand_result log on the dashboard
+    Given a <connotation>_brand_result "br" exists with connotation: <value>
+      And a log "log" exists with user: user "cartman", loggable: <connotation>_brand_result "br"
+     When I am on the dashboard page
+     Then I should see "<status>" for log "log"
+      And I should see "cartman marked a result as <content>" for log "log"
+    
+    Examples:
+      | connotation | value | status   | content  |
+      | positive    | 1     | Positive | positive |
+      | negative    | -1    | Negative | negative |
   
   Scenario: Viewing a comment log on the dashboard
     Given a comment "comm" exists with user: user "cartman"

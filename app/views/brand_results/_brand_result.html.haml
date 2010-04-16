@@ -1,9 +1,11 @@
 %div.result{ :id => brand_result.dom_id}
-  %p.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
+  %div.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
     = brand_result.result.created_at.strftime("%I:%M%p")
     = brand_result.status
     = pluralize(brand_result.comments_count, "comment")
-  %p.body
+    %p.connotation_links
+      = brand_result.connotation_links.join()
+  %div.body
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
-  %p.leenks
+  %div.leenks
     = brand_result.action_links.join(" | ")

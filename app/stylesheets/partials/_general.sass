@@ -1,3 +1,6 @@
+= general_font
+  font: normal 12px  Arial, Tahoma, Verdana,  sans-serif
+
 html
   margin: 0px
   padding: 0px
@@ -28,7 +31,7 @@ h3
   margin: 0px
 
 p
-  font: normal 12px  Arial, Tahoma, Verdana,  sans-serif
+  +general_font
   margin: 0px
   line-height: 1.4em
 
@@ -142,3 +145,10 @@ table.index
     &.normal
       :color #FFFFFF
       :background #FF0000
+    &.negative
+      :color #FFFFFF
+      :background #FF0000
+    &.positive
+      :color #FFFFFF
+      :background #0000FF
+      

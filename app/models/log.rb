@@ -24,6 +24,6 @@ class Log < ActiveRecord::Base
   end
   
   def set_loggable_attributes
-    self.loggable_attributes = loggable.attributes_to_serialize
+    self.loggable_attributes = loggable.respond_to?(:attributes_for_log) ? loggable.attributes_for_log : {}
   end
 end

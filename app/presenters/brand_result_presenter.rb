@@ -1,7 +1,7 @@
 class BrandResultPresenter < Viewtastic::Base
   include LinksHelper
   
-  presents :brand_result => [:id, :brand, :result, :follow_up?, :comments, :comments_count]
+  presents :brand_result => [:id, :brand, :result, :follow_up?, :comments, :comments_count, :connotation]
 
   delegate :current_user, :current_team,
            :to => :controller
@@ -35,6 +35,17 @@ class BrandResultPresenter < Viewtastic::Base
     end
   end
   
+  def connotation_links
+    returning([]) do |links|
+      if connotation == 0
+        links << link_to_remote_update("+", brand_result_path(brand_result, :action_type => "positive"), :class => "positive")
+        links << link_to_remote_update("-", brand_result_path(brand_result, :action_type => "negative"), :class => "negative")
+      else
+        links << content_tag("span", connotation_in_words, :class => "tag #{connotation_in_words.downcase}")
+      end
+    end
+  end
+  
   private
     def truncate_url(result)
       if result.source == "twitter"
@@ -49,6 +60,14 @@ class BrandResultPresenter < Viewtastic::Base
         middle = u.length > 0 ? "/.../" : "/"
       
         "http://#{domain}#{middle}#{last}"
+      end
+    end
+    
+    def connotation_in_words
+      case connotation
+      when -1 then "Negative"
+      when 1 then "Positive"
+      else "Neutral"
       end
     end
 end

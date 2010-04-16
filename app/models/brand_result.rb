@@ -9,6 +9,7 @@
 #  updated_at     :datetime
 #  state          :string(255)     indexed
 #  comments_count :integer(4)      default(0)
+#  connotation    :integer(4)      indexed
 #
 
 class BrandResult < ActiveRecord::Base
@@ -52,7 +53,25 @@ class BrandResult < ActiveRecord::Base
     transitions :to => :normal, :from => [:follow_up]
   end
   
-  def attributes_to_serialize
-    attributes.reject { |k, v| ['id', 'brand_id', 'result_id', 'updated_at', 'created_at'].include?(k) }
+  def attributes_for_log
+    attributes.reject { |k, v| ['id', 'brand_id', 'result_id', 'updated_at', 'created_at', 'comments_count'].include?(k) }
+  end
+  
+  def make_positive!
+    increment(:connotation)
+    save!
+  end
+  
+  def make_negative!
+    decrement(:connotation)
+    save!
+  end
+  
+  def positive?
+    connotation == 1
+  end
+  
+  def negative?
+    connotation == -1
   end
 end

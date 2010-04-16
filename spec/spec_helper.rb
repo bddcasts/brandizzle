@@ -9,6 +9,7 @@ require 'factory_girl'
 require 'factories'
 require 'authlogic/test_case'
 require 'fakeweb'
+require "database_cleaner"
 
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
@@ -27,6 +28,7 @@ Spec::Runner.configure do |config|
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
   
   FakeWeb.allow_net_connect = false
+  DatabaseCleaner.clean_with(:truncation)
   
   config.before(:each) do
     activate_authlogic

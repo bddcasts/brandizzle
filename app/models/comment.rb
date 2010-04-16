@@ -15,8 +15,4 @@ class Comment < ActiveRecord::Base
   belongs_to :brand_result, :counter_cache => true
   
   validates_presence_of :content
-  
-  def attributes_to_serialize
-    {}
-  end
 end

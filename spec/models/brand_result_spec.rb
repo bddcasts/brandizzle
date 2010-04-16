@@ -9,6 +9,7 @@
 #  updated_at     :datetime
 #  state          :string(255)     indexed
 #  comments_count :integer(4)      default(0)
+#  connotation    :integer(4)      indexed
 #
 
 require 'spec_helper'
@@ -16,7 +17,7 @@ require 'spec_helper'
 describe BrandResult do
   #columns
   should_have_column :state, :type => :string
-  should_have_column :comments_count, :type => :integer
+  should_have_column :connotation, :comments_count, :type => :integer
   
   #associations
   should_belong_to :brand
@@ -32,6 +33,7 @@ describe BrandResult do
         BrandResult.between_date("Apr 8, 2010 to Apr 10, 2010").should == [expected]
       end
     end
+    
     describe "assm named scopes" do
       before(:each) do
         @normal_results = (1..2).map{ Factory.create(:brand_result) }
@@ -78,11 +80,63 @@ describe BrandResult do
       end
     end
   end
-
-  describe "attributes_to_serialize" do
-    it "sets the attributes to save in the log" do
+  
+  describe "attributes_for_log" do
+    it "includes the brand_results state in attributes to save in the log" do
       brand_result = Factory.create(:brand_result, :state => "done")
-      brand_result.attributes_to_serialize.should include({"state" => "done"})
+      brand_result.attributes_for_log.should include({"state" => "done"})
+    end
+    
+    it "includes the brand_results connotation in attributes to save in the log" do
+      brand_result = Factory.create(:brand_result, :connotation => 1)
+      brand_result.attributes_for_log.should include({"connotation" => 1})
+    end
+    
+    ['id', 'brand_id', 'result_id', 'updated_at', 'created_at', 'comments_count'].each do |att|
+      it "does not include #{att} on the attributes to save in the log" do
+        brand_result = Factory.create(:brand_result)
+        brand_result.attributes_for_log.should_not include({att => brand_result.send(att)})
+      end
+    end
+  end
+  
+  describe "#make_positive!" do
+    it "increments the brand result connotation" do
+      brand_result = Factory.create(:brand_result)
+      brand_result.make_positive!
+      brand_result.connotation.should == 1
+    end
+  end
+  
+  describe "#make_negative!" do
+    it "decrements the brand result connotation" do
+      brand_result = Factory.create(:brand_result)
+      brand_result.make_negative!
+      brand_result.connotation.should == -1
+    end
+  end
+
+  describe "#positive?" do
+    it "returns true if connotation is set to 1" do
+      brand_result = Factory.build(:positive_brand_result)
+      brand_result.should be_positive
+    end
+    
+    it "returns false if connotation is not set to 1" do
+      brand_result = Factory.build(:brand_result)
+      brand_result.should_not be_positive
+    end
+  end
+
+  describe "#negative?" do
+    it "returns true if connotation is set to -1" do
+      brand_result = Factory.build(:negative_brand_result)
+      brand_result.should be_negative
+    end
+    
+    it "returns false if connotation is not set to -1" do
+      brand_result = Factory.build(:brand_result)
+      brand_result.should_not be_negative
     end
   end
 end

@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.root :controller => "brand_results"
-
   map.dashboard 'dashboard', :controller => 'dashboard'
   
   map.resources :brands do |brand|
@@ -26,4 +24,6 @@ ActionController::Routing::Routes.draw do |map|
     pages.connect '/about', :id => 'about'
     pages.connect '/pages/:id'
   end
+  
+  map.root :controller => "dashboard"
 end

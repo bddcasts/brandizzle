@@ -21,13 +21,15 @@ class BrandResultsController < ApplicationController
     @brand_result = current_team.brand_results.find(params[:id]) if params[:id]
     send(action_type)
   end
-
+    
   private    
     def action_type
       @action_type ||= case params[:action_type]
         when /follow_up/i then "follow_up"
-        when /finish/i then "finish"
-        when /reject/i then "reject"
+        when /finish/i    then "finish"
+        when /reject/i    then "reject"
+        when /positive/i  then "positive"
+        when /negative/i  then "negative"
       end
     end
     
@@ -67,4 +69,28 @@ class BrandResultsController < ApplicationController
         format.js { render }
       end
     end
+    
+    def positive
+      @brand_result.make_positive!
+      log.updated_brand_result(@brand_result, current_user)
+      respond_to do |format|
+        format.html {
+          flash[:notice] = "Result marked for as positive!"
+          redirect_to request.referer || brand_results_path
+        }
+        format.js { render }
+      end
+    end
+    
+    def negative
+      @brand_result.make_negative!
+      log.updated_brand_result(@brand_result, current_user)
+      respond_to do |format|
+        format.html {
+          flash[:notice] = "Result marked for as negative!"
+          redirect_to request.referer || brand_results_path
+        }
+        format.js { render }
+      end
+    end 
 end

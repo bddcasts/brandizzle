@@ -25,12 +25,21 @@ Factory.define(:brand_result) do |f|
   f.association :brand
   f.association :result
   f.state "normal"
+  f.connotation 0
 end
 
-['follow_up', 'done' ].each do |state|
+['follow_up', 'done', 'normal' ].each do |state|
   Factory.define(:"#{state}_brand_result", :parent => :brand_result) do |f|
     f.state state
   end
+end
+
+Factory.define(:positive_brand_result, :parent => :brand_result) do |f|
+  f.connotation 1
+end
+
+Factory.define(:negative_brand_result, :parent => :brand_result) do |f|
+  f.connotation -1
 end
 
 Factory.define(:search_result) do |f|
