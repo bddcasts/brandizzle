@@ -22,6 +22,26 @@ describe UserPresenter do
     end
   end
   
+  describe "#status" do
+    it "returns 'pending' if user has_no_credentials (was created but not updated his password)" do
+      user = Factory.create(:user, :password => nil)
+      presenter = UserPresenter.new(:user => user)
+      presenter.status.should == 'pending'
+    end
+    
+    it "returns empty string if user has credentials and is active" do
+      user = Factory.create(:user)
+      presenter = UserPresenter.new(:user => user)
+      presenter.status.should == ''
+    end
+    
+    it "returns disabled if user has been deactivated" do
+      user = Factory.create(:inactive_user)
+      presenter = UserPresenter.new(:user => user)
+      presenter.status.should == 'disabled'
+    end
+  end
+  
   # describe "#action_links" do
   #   before(:each) do
   #     login_user

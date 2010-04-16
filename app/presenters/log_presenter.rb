@@ -21,7 +21,7 @@ class LogPresenter < Viewtastic::Base
     end
   end
   
-  def description    
+  def description
     case loggable_type
     when "BrandResult"
       if connotation && connotation.to_i != 0
