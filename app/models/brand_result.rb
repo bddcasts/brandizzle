@@ -10,6 +10,7 @@
 #  state          :string(255)     indexed
 #  comments_count :integer(4)      default(0)
 #  temperature    :integer(4)      indexed
+#  read           :boolean(1)      default(FALSE), indexed
 #
 
 class BrandResult < ActiveRecord::Base
@@ -32,6 +33,11 @@ class BrandResult < ActiveRecord::Base
   [ 'normal', 'follow_up', 'done' ].each do |state|
     named_scope state, :conditions => {:state => state}
   end
+  
+  named_scope :unread_before, lambda { |before| 
+    {:joins => :result,
+    :conditions => ["#{BrandResult.table_name}.read = ? AND #{Result.table_name}.created_at <= ?", false, before.to_time]}
+  }
   
   include AASM
   aasm_column :state
@@ -78,5 +84,10 @@ class BrandResult < ActiveRecord::Base
   
   def negative?
     temperature == -1
+  end
+  
+  def mark_as_read!
+    self.read = true
+    save!
   end
 end

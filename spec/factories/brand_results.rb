@@ -20,3 +20,7 @@ end
     f.temperature v
   end
 end
+
+Factory.define(:read_brand_result, :parent => :brand_result) do |f|
+  f.read true
+end

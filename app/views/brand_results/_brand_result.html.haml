@@ -1,4 +1,4 @@
-%div.result{ :id => brand_result.dom_id}
+%div.result{ :id => brand_result.dom_id, :class => brand_result.read? && "read"}
   %div.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
     = brand_result.result.created_at.strftime("%I:%M%p")
     = brand_result.status

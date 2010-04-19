@@ -30,7 +30,7 @@ Feature: Manage brand results
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
     
   @javascript
-  Scenario: Marking a result as done (should also create a log entry to be shown on the dashboard)
+  Scenario: Marking a result as rejected (should also create a log entry to be shown on the dashboard)
     Given a follow_up_brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_results page
      When I follow "Reject" for brand result "br_bdd"
@@ -54,7 +54,16 @@ Feature: Manage brand results
       | +      | positive    |
       | =      | neutral     |
       | -      | negative    |
-      
+  
+  @javascript
+  Scenario: Marking a result as read  
+    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+      And I am on the brand_results page
+     When I follow "Mark as read" for brand result "br_bdd"
+     Then I should be on the brand_results page
+      And I should not see "Mark as read" for brand_result "br_bdd"
+      And brand result "br_bdd" should be read
+  
   Scenario: Commenting on a result (should also create a log entry to be shown on the dashboard)
     Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_result "br_bdd" page

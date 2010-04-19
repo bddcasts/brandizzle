@@ -406,4 +406,89 @@ describe BrandResultsController do
       do_put
     end
   end
+
+  describe "handling PUT mark_as_read" do
+    before(:each) do
+      @brand_result = mock_model(BrandResult)
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:mark_as_read!)
+    end
+    
+    def do_put(options={})
+      put :mark_as_read, { :id => 42 }.merge(options)
+    end
+    
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
+      assigns[:brand_result].should == @brand_result
+    end
+    
+    it "sets the brand result as read" do
+      @brand_result.should_receive(:mark_as_read!)
+      do_put
+    end
+      
+    context "using HTTP request" do
+      it "sets the flash and redirects" do
+        do_put
+        flash[:notice].should_not be_nil
+        response.should be_redirect
+      end
+    end
+    
+    context "using XHR request" do
+      it "renders the update.js template" do
+        xhr :put, :mark_as_read, { :id => 42 }
+        response.should render_template("update.js.haml")
+      end
+    end
+  end
+
+  describe "handling POST mark_all_as_read" do
+    before(:each) do
+      @brand_results = (1..3).map { mock_model(BrandResult) }
+      @search = mock(Searchlogic::Search, :all => @brand_results)
+      @current_team.stub_chain(:brand_results, :unread_before, :search).and_return(@search)
+    end
+    
+    def do_post(options={})
+      post :mark_all_as_read, options
+    end
+    
+    it "creates a new search for the brand results and assigns it for the view" do
+      @current_team.brand_results.unread_before.
+        should_receive(:search).
+        with(hash_including("follow_up" => "test")).
+        and_return(@search)
+       
+      do_post(:search => {:follow_up => "test"}) 
+      assigns[:search].should == @search
+    end
+    
+    it "fetches all brand results and assigns them for the view" do
+      @search.should_receive(:all).
+        and_return(@brand_results)
+      do_post
+      
+      assigns[:brand_results].should == @brand_results
+    end
+    
+    it "updates all found brand_results" do
+      BrandResult.
+        should_receive(:update_all).
+        with({:read => true}, {:id => @brand_results})
+      
+      do_post
+    end
+    
+    it "redirects to brand results index" do
+      do_post
+      response.should redirect_to(brand_results_path)
+    end
+  end
 end

@@ -10,6 +10,7 @@
 #  state          :string(255)     indexed
 #  comments_count :integer(4)      default(0)
 #  temperature    :integer(4)      indexed
+#  read           :boolean(1)      default(FALSE), indexed
 #
 
 require 'spec_helper'
@@ -18,6 +19,7 @@ describe BrandResult do
   #columns
   should_have_column :state, :type => :string
   should_have_column :temperature, :comments_count, :type => :integer
+  should_have_column :read, :type => :boolean
     
   #associations
   should_belong_to :brand
@@ -51,6 +53,16 @@ describe BrandResult do
       
       it "'done' fetches only brand results with 'done' state" do
         BrandResult.done.should == @done_results
+      end
+    end
+    
+    describe "#unread_before" do
+      it "fetches unread brand_result whose result was created before the specified date" do
+        expected = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 19, 2010'))
+        read = Factory.create(:read_brand_result, :result => Factory.create(:result, :created_at => 'Apr 2, 2010'))
+        other = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 25, 2010', :body => "test"))
+        
+        BrandResult.unread_before("Apr 21, 2010").should == [expected]
       end
     end
   end
@@ -128,6 +140,14 @@ describe BrandResult do
     it "returns false if temperature is not set to -1" do
       brand_result = Factory.build(:brand_result)
       brand_result.should_not be_negative
+    end
+  end
+
+  describe "#mark_as_read!" do
+    it "sets read to true" do
+      brand_result = Factory.create(:brand_result)
+      brand_result.mark_as_read!
+      brand_result.should be_read
     end
   end
 end

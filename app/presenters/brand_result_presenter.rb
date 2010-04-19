@@ -1,7 +1,7 @@
 class BrandResultPresenter < Viewtastic::Base
   include LinksHelper
   
-  presents :brand_result => [:id, :brand, :result, :comments, :comments_count, :temperature, :positive?, :negative?, :neutral?, :follow_up?]
+  presents :brand_result => [:id, :brand, :result, :comments, :comments_count, :temperature, :read, :positive?, :negative?, :neutral?, :follow_up?, :read?]
 
   delegate :current_user, :current_team,
            :to => :controller
@@ -14,6 +14,7 @@ class BrandResultPresenter < Viewtastic::Base
     returning([]) do |links|
       links << link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
       links << link_to("View", brand_result_path(brand_result))
+      links << link_to_remote_update("Mark as read", mark_as_read_brand_result_path(brand_result)) unless brand_result.read?
       case brand_result.state
       when "normal"
         links << link_to_remote_update('Follow up', follow_up_brand_result_path(brand_result))

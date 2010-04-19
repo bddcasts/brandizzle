@@ -31,10 +31,16 @@ div
         :float right          
         a
           :text-decoration none
-
-
-  #entries
-    :font
-      :weight bold
-      :size 13px
-    :margin-bottom 10px
+  &.read
+    :color = !general_font_color + #666666
+  .top
+    +clearfix
+    #entries
+      :font
+        :weight bold
+        :size 13px
+      :margin-bottom 10px
+      :float left
+    .mark
+      :float right
+      :font-size 11px

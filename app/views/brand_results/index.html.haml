@@ -28,8 +28,11 @@
     %input{ :type => "submit", :value => "GO" }
   
 .content.results
-  #entries
-    = page_entries_info @brand_results, :entry_name => "result"
+  .top
+    #entries
+      = page_entries_info @brand_results, :entry_name => "result"
+    .mark
+      = link_to "Mark all as read", mark_all_as_read_brand_results_path(:search => (params[:search] || {}), :before => Time.now), :method => :post
   - if @brand_results && !@brand_results.empty?
     .updates
       - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|

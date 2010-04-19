@@ -1,11 +1,11 @@
 class BrandResultsController < ApplicationController
   before_filter :require_user
-  before_filter :find_brand_result, :except => [:index]
+  before_filter :find_brand_result, :except => [:index, :mark_all_as_read]
   
   def index
     @brands = current_team.brands
     @search = current_team.brand_results.search(params[:search] || {})
-    
+        
     @brand_results = @search.paginate(
       :page => params[:page],
       :include => [:result],
@@ -93,6 +93,27 @@ class BrandResultsController < ApplicationController
       }
       format.js { render "update.js.haml" }
     end
+  end
+  
+  def mark_as_read
+    @brand_result.mark_as_read!
+    
+    respond_to do |format|
+      format.html {
+        flash[:notice] = "Result marked as read!"
+        redirect_to request.referer || brand_results_path
+      }
+      format.js { render "update.js.haml" }
+    end
+  end
+  
+  def mark_all_as_read
+    @search = current_team.brand_results.unread_before(params[:before]).search(params[:search])
+    @brand_results = @search.all
+    
+    BrandResult.update_all({:read => true}, {:id => @brand_results}) unless @brand_results.empty?
+
+    redirect_to brand_results_path(:search => params[:search])
   end
   
   private    

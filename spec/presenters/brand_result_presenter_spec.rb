@@ -52,7 +52,8 @@ describe BrandResultPresenter do
   #       :brand_result_path => "/brand_results/#{@brand_result.id}",
   #       :follow_up_brand_result_path => "/brand_results/#{@brand_result.id}/follow_up",
   #       :finish_brand_result_path => "/brand_results/#{@brand_result.id}/finish",
-  #       :reject_brand_result_path => "/brand_results/#{@brand_result.id}/reject"
+  #       :reject_brand_result_path => "/brand_results/#{@brand_result.id}/reject",
+  #       :mark_as_read_brand_result_path => "/brand_results/#{@brand_result.id}/mark_as_read"
   #     )  
   #   end
   #   
@@ -64,18 +65,22 @@ describe BrandResultPresenter do
   #     @presenter.action_links[1].should == "<a href=\"/brand_results/#{@brand_result.id}\">View</a>"
   #   end
   #   
+  #   it "returns a link to mark the brand results as read" do
+  #     @presenter.action_links[2].should match(/<a.*>Mark as read<\/a>/)
+  #   end
+  #   
   #   it "returns a 'follow_up' link for the brand_result if state is normal" do
-  #     @presenter.action_links[2].should match(/Follow up/)
+  #     @presenter.action_links[3].should match(/<a.*>Follow up<\/a>/)
   #   end
   #   
   #   it "returns a 'done' link for the brand_result if state is follow_up" do
   #     @brand_result.follow_up!
-  #     @presenter.action_links[2].should match(/Done/)
+  #     @presenter.action_links[3].should match(/<a.*>Done<\/a>/)
   #   end
   #   
   #   it "returns a 'reject' link for the brand_result if state is follow_up" do
   #     @brand_result.follow_up!
-  #     @presenter.action_links[3].should match(/Reject/)
+  #     @presenter.action_links[4].should match(/<a.*>Reject<\/a>/)
   #   end
   # end
   # 
