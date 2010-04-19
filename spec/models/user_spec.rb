@@ -21,6 +21,8 @@
 #  screen_name       :string(255)
 #  location          :string(255)
 #  avatar_url        :string(255)
+#  login_count       :integer(4)      default(0), not null
+#  last_request_at   :datetime
 #
 
 require 'spec_helper'
@@ -32,7 +34,8 @@ describe User do
                      :type => :string
   
   should_have_column :active, :type => :boolean
-  should_have_column :invitation_limit, :type => :integer
+  should_have_column :invitation_limit, :login_count, :type => :integer
+  should_have_column :last_request_at, :type => :datetime
 
   #associations
   should_have_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'

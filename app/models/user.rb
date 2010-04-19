@@ -21,6 +21,8 @@
 #  screen_name       :string(255)
 #  location          :string(255)
 #  avatar_url        :string(255)
+#  login_count       :integer(4)      default(0), not null
+#  last_request_at   :datetime
 #
 
 class User < ActiveRecord::Base
