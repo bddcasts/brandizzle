@@ -95,7 +95,7 @@ describe BrandResultsController do
     end
   end
   
-  describe "handling PUT update" do
+  describe "handling PUT follow_up" do
     before(:each) do
       @log = LogService.new
       LogService.stub!(:new).and_return(@log)
@@ -109,7 +109,7 @@ describe BrandResultsController do
     end
     
     def do_put(options={})
-      put :update, { :id => 42, :action_type => "follow_up" }.merge(options)
+      put :follow_up, { :id => 42 }.merge(options)
     end
     
     it "finds the brand_results and assigns it for the view" do
@@ -121,86 +121,136 @@ describe BrandResultsController do
       assigns[:brand_result].should == @brand_result
     end
     
-    context "follow_up" do
-      it "follows up the brand result (sets state on 'follow_up')" do
-        @brand_result.should_receive(:follow_up!)
+    it "follows up the brand result (sets state on 'follow_up')" do
+      @brand_result.should_receive(:follow_up!)
+      do_put
+    end
+    
+    context "using HTTP request" do
+      it "sets the flash message and redirects" do
         do_put
-      end
-      
-      context "using HTTP request" do
-        it "sets the flash message and redirects" do
-          do_put
-          flash[:notice].should_not be_blank
-          response.should be_redirect
-        end
-      end
-      
-      context "using XHR request" do
-        it "renders the update template" do
-          xhr :put, :update, { :id => 42, :action_type => "follow_up" }
-          response.should render_template(:update)
-        end
+        flash[:notice].should_not be_blank
+        response.should be_redirect
       end
     end
     
-    context "finish" do
-      before(:each) do
-        @brand_result.stub!(:finish!)
-      end
-      
-      it "finishes the brand result (sets the state on 'done')" do
-        @brand_result.should_receive(:finish!)
-        do_put(:action_type => "finish")
-      end
-      
-      context "using HTTP request" do
-        it "sets the flash message and redirects" do
-          do_put(:action_type => "finish")
-          flash[:notice].should_not be_blank
-          response.should be_redirect
-        end
-      end
-      
-      context "using XHR request" do
-        it "renders the update template" do
-          xhr :put, :update, { :id => 42, :action_type => "finish" }
-          response.should render_template(:update)
-        end
+    context "using XHR request" do
+      it "renders the update template" do
+        xhr :put, :follow_up, { :id => 42 }
+        response.should render_template("update.js.haml")
       end
     end
     
-    context "reject" do
-      before(:each) do
-        @brand_result.stub!(:reject!)
-      end
-      
-      it "rejects the brand result (sets the state on 'normal')" do
-        @brand_result.should_receive(:reject!)
-        do_put(:action_type => "reject")
-      end
-      
-      context "using HTTP request" do
-        it "sets the flash message and redirects" do
-          do_put(:action_type => "reject")
-          flash[:notice].should_not be_blank
-          response.should be_redirect
-        end
-      end
-      
-      context "using XHR request" do
-        it "renders the update template" do
-          xhr :put, :update, { :id => 42, :action_type => "reject" }
-          response.should render_template(:update)
-        end
-      end
-    end
-      
     it "send a message to the log action service to create a log for the action" do
       @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("state" => "follow_up"))
       do_put
     end
   end
-
+  
+  describe "handling PUT finish" do
+    before(:each) do
+      @log = LogService.new
+      LogService.stub!(:new).and_return(@log)
+      @log.stub!(:updated_brand_result)
+      Log.stub!(:create)
+      
+      @brand_result = mock_model(BrandResult, :state => 'done')
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:finish!)
+    end
+    
+    def do_put(options={})
+      put :finish, { :id => 42 }.merge(options)
+    end
+    
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
+      assigns[:brand_result].should == @brand_result
+    end
+    
+    it "finishes the brand result (sets state on 'done')" do
+      @brand_result.should_receive(:finish!)
+      do_put
+    end
+    
+    context "using HTTP request" do
+      it "sets the flash message and redirects" do
+        do_put
+        flash[:notice].should_not be_blank
+        response.should be_redirect
+      end
+    end
+    
+    context "using XHR request" do
+      it "renders the update template" do
+        xhr :put, :finish, { :id => 42 }
+        response.should render_template("update.js.haml")
+      end
+    end
+    
+    it "send a message to the log action service to create a log for the action" do
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("state" => "done"))
+      do_put
+    end
+  end
+  
+  describe "handling PUT reject" do
+    before(:each) do
+      @log = LogService.new
+      LogService.stub!(:new).and_return(@log)
+      @log.stub!(:updated_brand_result)
+      Log.stub!(:create)
+      
+      @brand_result = mock_model(BrandResult, :state => 'normal')
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:reject!)
+    end
+    
+    def do_put(options={})
+      put :reject, { :id => 42 }.merge(options)
+    end
+    
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
+      assigns[:brand_result].should == @brand_result
+    end
+    
+    it "finishes the brand result (sets state on 'normal')" do
+      @brand_result.should_receive(:reject!)
+      do_put
+    end
+    
+    context "using HTTP request" do
+      it "sets the flash message and redirects" do
+        do_put
+        flash[:notice].should_not be_blank
+        response.should be_redirect
+      end
+    end
+    
+    context "using XHR request" do
+      it "renders the update template" do
+        xhr :put, :reject, { :id => 42 }
+        response.should render_template("update.js.haml")
+      end
+    end
+    
+    it "send a message to the log action service to create a log for the action" do
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("state" => "normal"))
+      do_put
+    end
+  end
+  
   describe "handling PUT positive" do
     before(:each) do
       @log = LogService.new
@@ -218,6 +268,15 @@ describe BrandResultsController do
       put :positive, { :id => 42 }.merge(options)
     end
       
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
+      assigns[:brand_result].should == @brand_result
+    end
+    
     it "sets the brand result on positive" do
       @brand_result.should_receive(:warm_up!)
       do_put
@@ -260,7 +319,16 @@ describe BrandResultsController do
     def do_put(options={})
       put :neutral, { :id => 42 }.merge(options)
     end
-      
+    
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
+      assigns[:brand_result].should == @brand_result
+    end
+    
     it "sets the brand result on neutral" do
       @brand_result.should_receive(:temperate!)
       do_put
@@ -303,7 +371,16 @@ describe BrandResultsController do
     def do_put(options={})
       put :negative, { :id => 42 }.merge(options)
     end
-      
+    
+    it "finds the brand_results and assigns it for the view" do
+      @current_team.brand_results.
+        should_receive(:find).
+        with("42").
+        and_return(@brand_result)
+      do_put
+      assigns[:brand_result].should == @brand_result
+    end
+    
     it "sets the brand result on neutral" do
       @brand_result.should_receive(:chill!)
       do_put

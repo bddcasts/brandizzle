@@ -49,7 +49,10 @@ describe BrandResultPresenter do
   #     @presenter = BrandResultPresenter.new(:brand_result => @brand_result)
   #     @presenter.controller = mock("MockController", 
   #       :current_user => current_user,
-  #       :brand_result_path => "/brand_results/#{@brand_result.id}"
+  #       :brand_result_path => "/brand_results/#{@brand_result.id}",
+  #       :follow_up_brand_result_path => "/brand_results/#{@brand_result.id}/follow_up",
+  #       :finish_brand_result_path => "/brand_results/#{@brand_result.id}/finish",
+  #       :reject_brand_result_path => "/brand_results/#{@brand_result.id}/reject"
   #     )  
   #   end
   #   

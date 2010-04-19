@@ -16,10 +16,10 @@ class BrandResultPresenter < Viewtastic::Base
       links << link_to("View", brand_result_path(brand_result))
       case brand_result.state
       when "normal"
-        links << link_to_remote_update('Follow up', brand_result_path(brand_result, :action_type => "follow_up"))
+        links << link_to_remote_update('Follow up', follow_up_brand_result_path(brand_result))
       when "follow_up"
-        links << link_to_remote_update('Done', brand_result_path(brand_result, :action_type => "finish"))
-        links << link_to_remote_update('Reject', brand_result_path(brand_result, :action_type => "reject"))
+        links << link_to_remote_update('Done', finish_brand_result_path(brand_result))
+        links << link_to_remote_update('Reject', reject_brand_result_path(brand_result))
       end
     end
   end
