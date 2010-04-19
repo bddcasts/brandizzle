@@ -6,11 +6,11 @@ require 'spec/autorun'
 require 'spec/rails'
 require 'remarkable_rails'
 require 'factory_girl'
-require 'factories'
 require 'authlogic/test_case'
 require 'fakeweb'
 require "database_cleaner"
 
+Dir[File.expand_path(File.join(File.dirname(__FILE__), '/factories', '*.rb'))].each {|f| require f}
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
 
