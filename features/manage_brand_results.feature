@@ -40,25 +40,21 @@ Feature: Manage brand results
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
   
   @javascript
-  Scenario: Marking a result as positive (should also create a log entry to be shown on the dashoard)
+  Scenario Outline: Marking a result as positive/neutral/negative (should also create a log entry to be shown on the dashoard)
     Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_results page
-     When I follow "+" for brand result "br_bdd"
+     When I follow "<action>" for brand result "br_bdd"
      Then I should be on the brand_results page
-      And I should see "Positive" for brand_result "br_bdd"
-      And brand result "br_bdd" should be positive
+      And I should see "<action>" for brand_result "br_bdd"
+      And brand result "br_bdd" should be <temperature>
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
   
-  @javascript
-  Scenario: Marking a result as negative (should also create a log entry to be shown on the dashoard)
-    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
-      And I am on the brand_results page
-     When I follow "-" for brand result "br_bdd"
-     Then I should be on the brand_results page
-      And I should see "Negative" for brand_result "br_bdd"
-      And brand result "br_bdd" should be negative
-      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
-  
+    Examples:
+      | action | temperature |
+      | +      | positive    |
+      | =      | neutral     |
+      | -      | negative    |
+      
   Scenario: Commenting on a result (should also create a log entry to be shown on the dashboard)
     Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_result "br_bdd" page

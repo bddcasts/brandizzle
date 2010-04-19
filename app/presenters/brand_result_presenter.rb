@@ -26,9 +26,9 @@ class BrandResultPresenter < Viewtastic::Base
   
   def temperature_links
     returning([]) do |links|      
-      brand_result.positive? ? links << content_tag("span", "+", :class => "strong") : links << link_to_remote_update("+", positive_brand_result_path(brand_result))
-      brand_result.neutral? ? links << content_tag("span", "=", :class => "strong") : links << link_to_remote_update("=", neutral_brand_result_path(brand_result))
-      brand_result.negative? ? links << content_tag("span", "-", :class => "strong") : links << link_to_remote_update("-", negative_brand_result_path(brand_result))
+      brand_result.positive? ? links << content_tag("span", "+", :class => "strong positive") : links << link_to_remote_update("+", positive_brand_result_path(brand_result))
+      brand_result.neutral? ? links << content_tag("span", "=", :class => "strong neutral") : links << link_to_remote_update("=", neutral_brand_result_path(brand_result))
+      brand_result.negative? ? links << content_tag("span", "-", :class => "strong negative") : links << link_to_remote_update("-", negative_brand_result_path(brand_result))
     end
   end
   
