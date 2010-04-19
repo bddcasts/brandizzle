@@ -69,7 +69,7 @@ describe BrandResultsController do
     it "finds the brand_result and assigns it for the view" do
       @current_team.brand_results.
         should_receive(:find).
-        with("42", hash_including({:include => :result})).
+        with("42").
         and_return(@brand_result)
       do_get
       assigns[:brand_result].should == @brand_result
@@ -194,59 +194,136 @@ describe BrandResultsController do
         end
       end
     end
+      
+    it "send a message to the log action service to create a log for the action" do
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      do_put
+    end
+  end
+
+  describe "handling PUT positive" do
+    before(:each) do
+      @log = LogService.new
+      LogService.stub!(:new).and_return(@log)
+      @log.stub!(:updated_brand_result)
+      Log.stub!(:create)
+      
+      @brand_result = mock_model(BrandResult)
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:warm_up!)
+    end
     
-    context "positive" do
-      before(:each) do
-        @brand_result.stub!(:make_positive!)
-      end
+    def do_put(options={})
+      put :positive, { :id => 42 }.merge(options)
+    end
       
-      it "sets the brand result on positive" do
-        @brand_result.should_receive(:make_positive!)
-        do_put(:action_type => "positive")
-      end
+    it "sets the brand result on positive" do
+      @brand_result.should_receive(:warm_up!)
+      do_put
+    end
       
-      context "using HTTP request" do
-        it "sets the flash and redirects" do
-          do_put(:action_type => "positive")
-          flash[:notice].should_not be_nil
-          response.should be_redirect
-        end
-      end
-      
-      context "using XHR request" do
-        it "renders the update template" do
-          xhr :put, :update, { :id => 42, :action_type => "positive" }
-          response.should render_template(:update)
-        end
+    context "using HTTP request" do
+      it "sets the flash and redirects" do
+        do_put
+        flash[:notice].should_not be_nil
+        response.should be_redirect
       end
     end
     
-    context "negative" do
-      before(:each) do
-        @brand_result.stub!(:make_negative!)
-      end
-      
-      it "sets the brand result on negative" do
-        @brand_result.should_receive(:make_negative!)
-        do_put(:action_type => "negative")
-      end
-      
-      context "using HTTP request" do
-        it "sets the flash and redirects" do
-          do_put(:action_type => "negative")
-          flash[:notice].should_not be_nil
-          response.should be_redirect
-        end
-      end
-      
-      context "using XHR request" do
-        it "renders the update template" do
-          xhr :put, :update, { :id => 42, :action_type => "negative" }
-          response.should render_template(:update)
-        end
+    context "using XHR request" do
+      it "renders the update.js template" do
+        xhr :put, :positive, { :id => 42 }
+        response.should render_template("update.js.haml")
       end
     end
-  
+    
+    it "send a message to the log action service to create a log for the action" do
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      do_put
+    end
+  end
+
+  describe "handling PUT neutral" do
+    before(:each) do
+      @log = LogService.new
+      LogService.stub!(:new).and_return(@log)
+      @log.stub!(:updated_brand_result)
+      Log.stub!(:create)
+      
+      @brand_result = mock_model(BrandResult)
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:temperate!)
+    end
+    
+    def do_put(options={})
+      put :neutral, { :id => 42 }.merge(options)
+    end
+      
+    it "sets the brand result on neutral" do
+      @brand_result.should_receive(:temperate!)
+      do_put
+    end
+      
+    context "using HTTP request" do
+      it "sets the flash and redirects" do
+        do_put
+        flash[:notice].should_not be_nil
+        response.should be_redirect
+      end
+    end
+    
+    context "using XHR request" do
+      it "renders the update.js template" do
+        xhr :put, :neutral, { :id => 42 }
+        response.should render_template("update.js.haml")
+      end
+    end
+    
+    it "send a message to the log action service to create a log for the action" do
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      do_put
+    end
+  end
+
+  describe "handling PUT negative" do
+    before(:each) do
+      @log = LogService.new
+      LogService.stub!(:new).and_return(@log)
+      @log.stub!(:updated_brand_result)
+      Log.stub!(:create)
+      
+      @brand_result = mock_model(BrandResult)
+      @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      
+      @brand_result.stub!(:chill!)
+    end
+    
+    def do_put(options={})
+      put :negative, { :id => 42 }.merge(options)
+    end
+      
+    it "sets the brand result on neutral" do
+      @brand_result.should_receive(:chill!)
+      do_put
+    end
+      
+    context "using HTTP request" do
+      it "sets the flash and redirects" do
+        do_put
+        flash[:notice].should_not be_nil
+        response.should be_redirect
+      end
+    end
+    
+    context "using XHR request" do
+      it "renders the update.js template" do
+        xhr :put, :negative, { :id => 42 }
+        response.should render_template("update.js.haml")
+      end
+    end
+    
     it "send a message to the log action service to create a log for the action" do
       @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
       do_put

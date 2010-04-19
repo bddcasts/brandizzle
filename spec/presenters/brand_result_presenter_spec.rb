@@ -76,33 +76,44 @@ describe BrandResultPresenter do
   #   end
   # end
   # 
-  # describe "#connotation_links" do
+  # describe "#temperature_links" do
   #   before(:each) do
   #     login_user
   #     @brand_result = Factory.create(:brand_result)
   #     @presenter = BrandResultPresenter.new(:brand_result => @brand_result)
   #     @presenter.controller = mock("MockController", 
   #       :current_user => current_user,
-  #       :brand_result_path => "/brand_results/#{@brand_result.id}"
+  #       :positive_brand_result_path => "/brand_results/#{@brand_result.id}/positive",
+  #       :neutral_brand_result_path => "/brand_results/#{@brand_result.id}/neutral",
+  #       :negative_brand_result_path => "/brand_results/#{@brand_result.id}/negative"
   #     )  
   #   end
   #   
-  #   it "returns a 'make_positive' link for the brand_result if connotation is neutral" do
-  #     @presenter.connotation_links[0].should match(/\+/)
+  #   it "returns a 'warm_up' link for the brand_result if brand_result is not positive" do
+  #     @presenter.temperature_links[0].should match(/<a.*>(\+)<\/a>/)
   #   end
   #   
-  #   it "returns a 'make_negative' link for the brand_result if connotation is neutral" do
-  #     @presenter.connotation_links[1].should match(/\-/)
+  #   it "returns a 'positive' flag for the brand_result if brand_result is positive" do
+  #     @brand_result.warm_up!
+  #     @presenter.temperature_links[0].should match(/<span.*>(\+)<\/span>/)
   #   end
   #   
-  #   it "returns 'Positive' if brand_result connotation is 1" do
-  #     @brand_result.make_positive!
-  #     @presenter.connotation_links[0].should match(/Positive/)
+  #   it "returns a 'temperate' link for the brand_result if brand_result is not neutral" do
+  #     @presenter.temperature_links[1].should match(/<a.*>(\=)<\/a>/)
   #   end
   #   
-  #   it "returns 'Negative' if brand_result connotation is -1" do
-  #     @brand_result.make_negative!
-  #     @presenter.connotation_links[0].should match(/Negative/)
+  #   it "returns a 'neutral' flag for the brand_result if brand_result is neutral" do
+  #     @brand_result.temperate!
+  #     @presenter.temperature_links[1].should match(/<span.*>(\=)<\/span>/)
+  #   end
+  #   
+  #   it "returns a 'chill' link for the brand_result if brand_result is not negative" do
+  #     @presenter.temperature_links[2].should match(/<a.*>(\-)<\/a>/)
+  #   end
+  #   
+  #   it "returns a 'negative' flag for the brand_result if brand_result is negative" do
+  #     @brand_result.chill!
+  #     @presenter.temperature_links[2].should match(/<span.*>(\-)<\/span>/)
   #   end
   # end
 end

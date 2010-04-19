@@ -3,8 +3,8 @@
     = brand_result.result.created_at.strftime("%I:%M%p")
     = brand_result.status
     = pluralize(brand_result.comments_count, "comment")
-    %p.connotation_links
-      = brand_result.connotation_links.join()
+    %p.temperature_links
+      = "[ #{brand_result.temperature_links.join(" | ")} ]"
   %div.body
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
   %div.leenks

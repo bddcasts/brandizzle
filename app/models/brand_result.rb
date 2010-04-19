@@ -9,14 +9,14 @@
 #  updated_at     :datetime
 #  state          :string(255)     indexed
 #  comments_count :integer(4)      default(0)
-#  connotation    :integer(4)      indexed
+#  temperature    :integer(4)      indexed
 #
 
 class BrandResult < ActiveRecord::Base
   belongs_to :brand
   belongs_to :result
   has_many :comments
-  
+    
   def self.per_page
     per_page = Settings.pagination.results_per_page
   end
@@ -57,21 +57,30 @@ class BrandResult < ActiveRecord::Base
     attributes.reject { |k, v| ['id', 'brand_id', 'result_id', 'updated_at', 'created_at', 'comments_count'].include?(k) }
   end
   
-  def make_positive!
-    increment(:connotation)
+  def warm_up!
+    self.temperature = 1
     save!
   end
   
-  def make_negative!
-    decrement(:connotation)
+  def temperate!
+    self.temperature = 0
+    save!
+  end
+  
+  def chill!
+    self.temperature = -1
     save!
   end
   
   def positive?
-    connotation == 1
+    temperature == 1
+  end
+  
+  def neutral?
+    temperature == 0
   end
   
   def negative?
-    connotation == -1
+    temperature == -1
   end
 end

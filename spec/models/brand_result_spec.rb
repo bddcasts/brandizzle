@@ -9,7 +9,7 @@
 #  updated_at     :datetime
 #  state          :string(255)     indexed
 #  comments_count :integer(4)      default(0)
-#  connotation    :integer(4)      indexed
+#  temperature    :integer(4)      indexed
 #
 
 require 'spec_helper'
@@ -17,8 +17,8 @@ require 'spec_helper'
 describe BrandResult do
   #columns
   should_have_column :state, :type => :string
-  should_have_column :connotation, :comments_count, :type => :integer
-  
+  should_have_column :temperature, :comments_count, :type => :integer
+    
   #associations
   should_belong_to :brand
   should_belong_to :result
@@ -87,9 +87,9 @@ describe BrandResult do
       brand_result.attributes_for_log.should include({"state" => "done"})
     end
     
-    it "includes the brand_results connotation in attributes to save in the log" do
-      brand_result = Factory.create(:brand_result, :connotation => 1)
-      brand_result.attributes_for_log.should include({"connotation" => 1})
+    it "includes the brand_results temperature in attributes to save in the log" do
+      brand_result = Factory.create(:brand_result, :temperature => 1)
+      brand_result.attributes_for_log.should include({"temperature" => 1})
     end
     
     ['id', 'brand_id', 'result_id', 'updated_at', 'created_at', 'comments_count'].each do |att|
@@ -100,41 +100,51 @@ describe BrandResult do
     end
   end
   
-  describe "#make_positive!" do
-    it "increments the brand result connotation" do
-      brand_result = Factory.create(:brand_result)
-      brand_result.make_positive!
-      brand_result.connotation.should == 1
+  describe "temperature" do
+    let(:brand_result) { Factory.create(:brand_result) }  
+    
+    context "#warm_up!" do
+      it "sets the brand_result temperature on 1" do
+        brand_result.warm_up!
+        brand_result.temperature.should == 1
+      end
+    end
+    
+    context "#temperate!" do
+      it "sets the brand result temperature on 0" do
+        brand_result.temperate!
+        brand_result.temperature.should == 0
+      end
+    end
+    
+    context "#chill!" do
+      it "sets the brand result temperature to -1" do
+        brand_result = Factory.create(:brand_result)
+        brand_result.chill!
+        brand_result.temperature.should == -1
+      end
+    end
+  end
+    
+  describe "#neutral?" do
+    it "returns true if temperature is set to 0" do
+      brand_result = Factory.build(:neutral_brand_result)
+      brand_result.should be_neutral
+    end
+    
+    it "returns false if temperature is not set to 0" do
+      brand_result = Factory.build(:brand_result)
+      brand_result.should_not be_neutral
     end
   end
   
-  describe "#make_negative!" do
-    it "decrements the brand result connotation" do
-      brand_result = Factory.create(:brand_result)
-      brand_result.make_negative!
-      brand_result.connotation.should == -1
-    end
-  end
-
-  describe "#positive?" do
-    it "returns true if connotation is set to 1" do
-      brand_result = Factory.build(:positive_brand_result)
-      brand_result.should be_positive
-    end
-    
-    it "returns false if connotation is not set to 1" do
-      brand_result = Factory.build(:brand_result)
-      brand_result.should_not be_positive
-    end
-  end
-
   describe "#negative?" do
-    it "returns true if connotation is set to -1" do
+    it "returns true if temperature is set to -1" do
       brand_result = Factory.build(:negative_brand_result)
       brand_result.should be_negative
     end
     
-    it "returns false if connotation is not set to -1" do
+    it "returns false if temperature is not set to -1" do
       brand_result = Factory.build(:brand_result)
       brand_result.should_not be_negative
     end

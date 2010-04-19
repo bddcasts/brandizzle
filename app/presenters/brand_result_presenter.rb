@@ -1,7 +1,7 @@
 class BrandResultPresenter < Viewtastic::Base
   include LinksHelper
   
-  presents :brand_result => [:id, :brand, :result, :follow_up?, :comments, :comments_count, :connotation]
+  presents :brand_result => [:id, :brand, :result, :comments, :comments_count, :temperature, :positive?, :negative?, :neutral?, :follow_up?]
 
   delegate :current_user, :current_team,
            :to => :controller
@@ -24,6 +24,14 @@ class BrandResultPresenter < Viewtastic::Base
     end
   end
   
+  def temperature_links
+    returning([]) do |links|      
+      brand_result.positive? ? links << content_tag("span", "+", :class => "strong") : links << link_to_remote_update("+", positive_brand_result_path(brand_result))
+      brand_result.neutral? ? links << content_tag("span", "=", :class => "strong") : links << link_to_remote_update("=", neutral_brand_result_path(brand_result))
+      brand_result.negative? ? links << content_tag("span", "-", :class => "strong") : links << link_to_remote_update("-", negative_brand_result_path(brand_result))
+    end
+  end
+  
   def status
     case brand_result.state
     when "normal"
@@ -34,18 +42,7 @@ class BrandResultPresenter < Viewtastic::Base
       content_tag("span", "done", :class => "tag done")
     end
   end
-  
-  def connotation_links
-    returning([]) do |links|
-      if connotation == 0
-        links << link_to_remote_update("+", brand_result_path(brand_result, :action_type => "positive"), :class => "positive")
-        links << link_to_remote_update("-", brand_result_path(brand_result, :action_type => "negative"), :class => "negative")
-      else
-        links << content_tag("span", connotation_in_words, :class => "tag #{connotation_in_words.downcase}")
-      end
-    end
-  end
-  
+    
   private
     def truncate_url(result)
       if result.source == "twitter"
@@ -60,14 +57,6 @@ class BrandResultPresenter < Viewtastic::Base
         middle = u.length > 0 ? "/.../" : "/"
       
         "http://#{domain}#{middle}#{last}"
-      end
-    end
-    
-    def connotation_in_words
-      case connotation
-      when -1 then "Negative"
-      when 1 then "Positive"
-      else "Neutral"
       end
     end
 end

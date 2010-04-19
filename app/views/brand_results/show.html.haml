@@ -5,8 +5,8 @@
     %div.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
       = format_date_time brand_result.result.created_at
       = brand_result.status
-      %p.connotation_links
-        = brand_result.connotation_links.join()
+      %p.temperature_links
+        = "[ #{brand_result.temperature_links.join(" | ")} ]"
     %div.body
       = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
     %div.leenks

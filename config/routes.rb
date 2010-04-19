@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :brands do |brand|
     brand.resources :queries, :only => [:create, :update, :destroy]
   end
-  map.resources :brand_results, :only => [:index, :show, :update] do |brand_result|
+  map.resources :brand_results, :only => [:index, :show, :update], :member => { :positive => :put, :neutral => :put, :negative => :put } do |brand_result|
     brand_result.resources :comments, :only => [:create]
   end
   
