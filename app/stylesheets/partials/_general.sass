@@ -1,3 +1,11 @@
+!follow_up_color = #C87800
+!done_color = #0000FF
+!rejected_color = #FF0000
+!comment_color = #6492AC
+!negative_color = #FF0000
+!positive_color = #009966
+!neutral_color = #333
+
 = general_font
   font: normal 12px  Arial, Tahoma, Verdana,  sans-serif
 
@@ -136,22 +144,18 @@ table.index
   span.tag
     :font-weight normal
     :padding 1px 5px
+    :color #FFFFFF
     &.follow_up
-      :color #FFFFFF
-      :background #C87800
+      :background = !follow_up_color
     &.done
-      :color #FFFFFF
-      :background #0000FF
+      :background = !done_color
     &.comment
-      :color #FFFFFF
-      :background #6492AC
+      :background = !comment_color
     &.normal
-      :color #FFFFFF
-      :background #FF0000
+      :background = !rejected_color
     &.negative
-      :color #FFFFFF
-      :background #FF0000
+      :background = !negative_color
     &.positive
-      :color #FFFFFF
-      :background #0000FF
-      
+      :background = !positive_color
+    &.neutral
+      :background = !neutral_color
