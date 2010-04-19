@@ -53,10 +53,6 @@ class BrandResult < ActiveRecord::Base
     transitions :to => :normal, :from => [:follow_up]
   end
   
-  def attributes_for_log    
-    attributes.reject { |k, v| ['id', 'brand_id', 'result_id', 'updated_at', 'created_at', 'comments_count'].include?(k) }
-  end
-  
   def warm_up!
     self.temperature = 1
     save!

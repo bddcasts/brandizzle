@@ -102,7 +102,7 @@ describe BrandResultsController do
       @log.stub!(:updated_brand_result)
       Log.stub!(:create)
       
-      @brand_result = mock_model(BrandResult)
+      @brand_result = mock_model(BrandResult, :state => 'follow_up')
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
       @brand_result.stub!(:follow_up!)
@@ -196,7 +196,7 @@ describe BrandResultsController do
     end
       
     it "send a message to the log action service to create a log for the action" do
-      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("state" => "follow_up"))
       do_put
     end
   end
@@ -208,7 +208,7 @@ describe BrandResultsController do
       @log.stub!(:updated_brand_result)
       Log.stub!(:create)
       
-      @brand_result = mock_model(BrandResult)
+      @brand_result = mock_model(BrandResult, :temperature => 1)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
       @brand_result.stub!(:warm_up!)
@@ -239,7 +239,7 @@ describe BrandResultsController do
     end
     
     it "send a message to the log action service to create a log for the action" do
-      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("temperature" => 1))
       do_put
     end
   end
@@ -251,7 +251,7 @@ describe BrandResultsController do
       @log.stub!(:updated_brand_result)
       Log.stub!(:create)
       
-      @brand_result = mock_model(BrandResult)
+      @brand_result = mock_model(BrandResult, :temperature => 0)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
       @brand_result.stub!(:temperate!)
@@ -282,7 +282,7 @@ describe BrandResultsController do
     end
     
     it "send a message to the log action service to create a log for the action" do
-      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("temperature" => 0))
       do_put
     end
   end
@@ -294,7 +294,7 @@ describe BrandResultsController do
       @log.stub!(:updated_brand_result)
       Log.stub!(:create)
       
-      @brand_result = mock_model(BrandResult)
+      @brand_result = mock_model(BrandResult, :temperature => -1)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
       @brand_result.stub!(:chill!)
@@ -325,7 +325,7 @@ describe BrandResultsController do
     end
     
     it "send a message to the log action service to create a log for the action" do
-      @log.should_receive(:updated_brand_result).with(@brand_result, current_user)
+      @log.should_receive(:updated_brand_result).with(@brand_result, current_user, hash_including("temperature" => -1))
       do_put
     end
   end

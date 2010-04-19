@@ -21,12 +21,4 @@ describe Log do
   #associations
   should_belong_to :user
   should_belong_to :loggable, :polymorphic => true
-  
-  describe "#set_loggable_attributes on before_create" do
-    it "sets the brand_results attributes" do
-      brand_result = Factory.create(:brand_result, :state => "follow_up")
-      log = Log.create(:loggable => brand_result)
-      log.loggable_attributes.should include({ "state" => "follow_up" })
-    end
-  end
 end

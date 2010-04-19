@@ -25,7 +25,7 @@ class BrandResultsController < ApplicationController
     @brand_result = current_team.brand_results.find(params[:id])
     @brand_result.warm_up!
     
-    log.updated_brand_result(@brand_result, current_user)
+    log.updated_brand_result(@brand_result, current_user, "temperature" => @brand_result.temperature)
     respond_to do |format|
       format.html {
         flash[:notice] = "Result marked as positive!"
@@ -39,7 +39,7 @@ class BrandResultsController < ApplicationController
     @brand_result = current_team.brand_results.find(params[:id])
     @brand_result.temperate!
     
-    log.updated_brand_result(@brand_result, current_user)
+    log.updated_brand_result(@brand_result, current_user, "temperature" => @brand_result.temperature)
     respond_to do |format|
       format.html {
         flash[:notice] = "Result marked as neutral!"
@@ -53,7 +53,7 @@ class BrandResultsController < ApplicationController
     @brand_result = current_team.brand_results.find(params[:id])
     @brand_result.chill!
     
-    log.updated_brand_result(@brand_result, current_user)
+    log.updated_brand_result(@brand_result, current_user, "temperature" => @brand_result.temperature)
     respond_to do |format|
       format.html {
         flash[:notice] = "Result marked as negative!"
@@ -78,7 +78,7 @@ class BrandResultsController < ApplicationController
     
     def follow_up
       @brand_result.follow_up!
-      log.updated_brand_result(@brand_result, current_user)
+      log.updated_brand_result(@brand_result, current_user, "state" => @brand_result.state)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result marked for follow up!"
@@ -91,7 +91,7 @@ class BrandResultsController < ApplicationController
     
     def finish
       @brand_result.finish!
-      log.updated_brand_result(@brand_result, current_user)
+      log.updated_brand_result(@brand_result, current_user, "state" => @brand_result.state)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result marked as done!"
@@ -103,7 +103,7 @@ class BrandResultsController < ApplicationController
     
     def reject
       @brand_result.reject!
-      log.updated_brand_result(@brand_result, current_user)
+      log.updated_brand_result(@brand_result, current_user, "state" => @brand_result.state)
       respond_to do |format|
         format.html {
           flash[:notice] = "Result rejected!"

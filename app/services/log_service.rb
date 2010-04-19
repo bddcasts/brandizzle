@@ -3,10 +3,11 @@ class LogService
     @log_klass = log_klass
   end
   
-  def updated_brand_result(brand_result, user)
+  def updated_brand_result(brand_result, user, options={})
     @log_klass.create(
       :loggable => brand_result,
-      :user => user)
+      :user => user,
+      :loggable_attributes => options)
   end
   
   def created_comment(comment, user)

@@ -12,8 +12,8 @@ describe LogService do
     end
     
     it "logs the update of the brand result" do
-      Log.should_receive(:create).with(hash_including(:loggable => @brand_result, :user => @user))
-      @log.updated_brand_result(@brand_result, @user)
+      Log.should_receive(:create).with(hash_including(:loggable => @brand_result, :user => @user, :loggable_attributes => {"state" => "follow_up" }))
+      @log.updated_brand_result(@brand_result, @user, {"state" => "follow_up" })
     end
   end
   

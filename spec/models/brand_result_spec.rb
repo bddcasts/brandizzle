@@ -81,25 +81,6 @@ describe BrandResult do
     end
   end
   
-  describe "attributes_for_log" do
-    it "includes the brand_results state in attributes to save in the log" do
-      brand_result = Factory.create(:brand_result, :state => "done")
-      brand_result.attributes_for_log.should include({"state" => "done"})
-    end
-    
-    it "includes the brand_results temperature in attributes to save in the log" do
-      brand_result = Factory.create(:brand_result, :temperature => 1)
-      brand_result.attributes_for_log.should include({"temperature" => 1})
-    end
-    
-    ['id', 'brand_id', 'result_id', 'updated_at', 'created_at', 'comments_count'].each do |att|
-      it "does not include #{att} on the attributes to save in the log" do
-        brand_result = Factory.create(:brand_result)
-        brand_result.attributes_for_log.should_not include({att => brand_result.send(att)})
-      end
-    end
-  end
-  
   describe "temperature" do
     let(:brand_result) { Factory.create(:brand_result) }  
     

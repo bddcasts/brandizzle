@@ -81,7 +81,7 @@ class LogPresenter < Viewtastic::Base
   end
   
   def state
-   loggable_attributes['state'] 
+    loggable_attributes['state']
   end
   
   def temperature

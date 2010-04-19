@@ -12,7 +12,7 @@ Feature: Dashboard
   
   Scenario Outline: Viewing a follow_up/rejected/done brand_result log on the dashboard
     Given a <state>_brand_result "br" exists with state: "<state>"
-      And a log "log" exists with user: user "cartman", loggable: <state>_brand_result "br"
+      And a <state>_brand_result_log "log" exists with user: user "cartman", loggable: <state>_brand_result "br"
      When I am on the dashboard page
      Then I should see "<status>" for log "log"
       And I should see "cartman marked a result as <content>" for log "log"
@@ -23,16 +23,17 @@ Feature: Dashboard
       | follow_up | Follow up | follow up |
       | done      | Done      | done      |
   
-  Scenario Outline: Viewing a positive/negative brand_result log on the dashboard
-    Given a <connotation>_brand_result "br" exists with connotation: <value>
-      And a log "log" exists with user: user "cartman", loggable: <connotation>_brand_result "br"
+  Scenario Outline: Viewing a positive/neutral/negative brand_result log on the dashboard
+    Given a <temperature>_brand_result "br" exists with temperature: <value>
+      And a <temperature>_brand_result_log "log" exists with user: user "cartman", loggable: <temperature>_brand_result "br"
      When I am on the dashboard page
      Then I should see "<status>" for log "log"
       And I should see "cartman marked a result as <content>" for log "log"
     
     Examples:
-      | connotation | value | status   | content  |
+      | temperature | value | status   | content  |
       | positive    | 1     | Positive | positive |
+      | neutral     | 0     | Neutral  | neutral  |
       | negative    | -1    | Negative | negative |
   
   Scenario: Viewing a comment log on the dashboard
@@ -43,7 +44,7 @@ Feature: Dashboard
       And I should see "cartman" for log "log"
       
   Scenario: Paginating the logs
-    Given 20 brand_result_logs exist with user: user "cartman"
+    Given 20 follow_up_brand_result_logs exist with user: user "cartman"
       And I am on the dashboard page
      Then current page for ".logs" should be 1
      When I follow "2" within ".pagination"

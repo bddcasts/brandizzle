@@ -22,28 +22,44 @@ describe LogPresenter do
     end
   end
   
-  # describe "#log_type" do
-  #   it "returns 'Positive' if loggable is brand_result and connotation is not 0" do
-  #     brand_result = Factory.create(:brand_result, :connotation => 1)
-  #     log = Factory.create(:log, :loggable => brand_result)
-  #     presenter = LogPresenter.new(:log => log)
-  #     presenter.log_type.should match(/Positive/)
-  #   end
-  #   
-  #   it "returns 'Follow up' if loggable is brand_result and connotation is 0" do
-  #     brand_result = Factory.create(:follow_up_brand_result)
-  #     log = Factory.create(:log, :loggable => brand_result)
-  #     presenter = LogPresenter.new(:log => log)
-  #     presenter.log_type.should match(/Follow up/)
-  #   end
-  #   
-  #   it "returns 'Comment' if loggable is comment" do
-  #     log = Factory.create(:comment_log)
-  #     presenter = LogPresenter.new(:log => log)
-  #     presenter.log_type.should match(/Comment/)
-  #   end
-  # end
-  # 
+  describe "#log_type" do
+    ['positive', 'neutral', 'negative'].each do |temp|
+      it "returns '#{temp}' if loggable is brand_result and temperature is set" do
+        brand_result = Factory.create(:"#{temp}_brand_result")
+        log = Factory.create(:log, :loggable => brand_result, :loggable_attributes => { "temperature" => brand_result.temperature })
+        presenter = LogPresenter.new(:log => log)
+        presenter.log_type.should match(/<span.*>#{temp.capitalize}<\/span>/)
+      end
+    end
+    
+    it "returns 'Follow up' if loggable is brand_result and state is set to follow_up" do
+      brand_result = Factory.create(:follow_up_brand_result)
+      log = Factory.create(:log, :loggable => brand_result, :loggable_attributes => { "state" => 'follow_up' })
+      presenter = LogPresenter.new(:log => log)
+      presenter.log_type.should match(/<span.*>Follow up<\/span>/)
+    end
+        
+    it "returns 'Done' if loggable is brand_result and state is set to done" do
+      brand_result = Factory.create(:done_brand_result)
+      log = Factory.create(:log, :loggable => brand_result, :loggable_attributes => { "state" => 'done' })
+      presenter = LogPresenter.new(:log => log)
+      presenter.log_type.should match(/<span.*>Done<\/span>/)
+    end
+        
+    it "returns 'Rejected' if loggable is brand_result and state is set to normal" do
+      brand_result = Factory.create(:normal_brand_result)
+      log = Factory.create(:log, :loggable => brand_result, :loggable_attributes => { "state" => 'normal' })
+      presenter = LogPresenter.new(:log => log)
+      presenter.log_type.should match(/<span.*>Rejected<\/span>/)
+    end
+        
+    it "returns 'Comment' if loggable is comment" do
+      log = Factory.create(:comment_log)
+      presenter = LogPresenter.new(:log => log)
+      presenter.log_type.should match(/<span.*>Comment<\/span>/)
+    end
+  end
+  
   # describe "#comment_log_description" do
   #   before(:each) do
   #     login_user({}, {:login => "stan"})
@@ -87,10 +103,10 @@ describe LogPresenter do
   #   end
   # end
   # 
-  # describe "#brand_result_connotation_log_description" do
+  # describe "#brand_result_temperature_log_description" do
   #   before(:each) do
   #     login_user({}, {:login => "stan"})
-  #     @brand_result = Factory.create(:brand_result, :connotation => 1)
+  #     @brand_result = Factory.create(:brand_result, :temperature => 1)
   #     
   #     log = Factory.create(:log, :loggable => @brand_result, :user => current_user)
   # 
@@ -102,9 +118,9 @@ describe LogPresenter do
   #   end
   #   
   #   it "returns the brand_result connotation log description" do
-  #     @presenter.brand_result_connotation_log_description(@brand_result, 1).should match(/stan/)
-  #     @presenter.brand_result_connotation_log_description(@brand_result, 1).should match(/a result/)
-  #     @presenter.brand_result_connotation_log_description(@brand_result, 1).should match(/as positive/)
+  #     @presenter.brand_result_temperature_log_description(@brand_result, 1).should match(/stan/)
+  #     @presenter.brand_result_temperature_log_description(@brand_result, 1).should match(/a result/)
+  #     @presenter.brand_result_temperature_log_description(@brand_result, 1).should match(/as positive/)
   #   end
   # end
 end

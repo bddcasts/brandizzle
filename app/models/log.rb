@@ -16,14 +16,8 @@ class Log < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :loggable, :polymorphic => true
-  
-  before_create :set_loggable_attributes
     
   def self.per_page
     per_page = Settings.pagination.results_per_page
-  end
-  
-  def set_loggable_attributes
-    self.loggable_attributes = loggable.respond_to?(:attributes_for_log) ? loggable.attributes_for_log : {}
   end
 end
