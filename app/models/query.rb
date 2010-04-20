@@ -53,6 +53,8 @@ class Query < ActiveRecord::Base
       self.latest_id = max_id 
       save
     end
+  rescue StandardError => e
+    logger.warn("Query '#{term}' failed in run_against_twitter: #{e.message}")
   end
   
   def run_against_blog_search
@@ -65,6 +67,8 @@ class Query < ActiveRecord::Base
       
       break if pages.empty?      
     end
+  rescue StandardError => e
+    logger.warn("Query '#{term}' failed in run_against_blog_search: #{e.message}")
   end
   
   def parse_response(response, start)
