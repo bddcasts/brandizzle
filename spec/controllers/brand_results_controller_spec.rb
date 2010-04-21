@@ -52,8 +52,9 @@ describe BrandResultsController do
   
   describe "handling GET show" do
     before(:each) do
-      @brand_result = mock_model(BrandResult)
+      @brand_result = mock_model(BrandResult, :read? => false)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
+      @brand_result.stub!(:mark_as_read!)
       
       @comments = (1..3).map{ mock_model(Comment) }
       @brand_result.stub!(:comments).and_return(@comments)
@@ -73,6 +74,17 @@ describe BrandResultsController do
         and_return(@brand_result)
       do_get
       assigns[:brand_result].should == @brand_result
+    end
+    
+    it "marks the result as read if not already marked" do
+      @brand_result.should_receive(:mark_as_read!)
+      do_get
+    end
+    
+    it "does not mark the result as if already marked" do
+      @brand_result.should_receive(:read?).and_return(true)
+      @brand_result.should_not_receive(:mark_as_read!)
+      do_get
     end
     
     it "finds the brand_result's comments and assigns them for the view" do
@@ -102,10 +114,11 @@ describe BrandResultsController do
       @log.stub!(:updated_brand_result)
       Log.stub!(:create)
       
-      @brand_result = mock_model(BrandResult, :state => 'follow_up')
+      @brand_result = mock_model(BrandResult, :state => 'follow_up', :read? => false)
       @current_team.stub_chain(:brand_results, :find).and_return(@brand_result)
       
       @brand_result.stub!(:follow_up!)
+      @brand_result.stub!(:mark_as_read!)
     end
     
     def do_put(options={})
@@ -123,6 +136,17 @@ describe BrandResultsController do
     
     it "follows up the brand result (sets state on 'follow_up')" do
       @brand_result.should_receive(:follow_up!)
+      do_put
+    end
+    
+    it "marks the result as read if not already read" do
+      @brand_result.should_receive(:mark_as_read!)
+      do_put
+    end
+    
+    it "does not mark the result as read if already marked" do
+      @brand_result.should_receive(:read?).and_return(true)
+      @brand_result.should_not_receive(:mark_as_read!)
       do_put
     end
     

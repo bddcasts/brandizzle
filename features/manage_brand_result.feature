@@ -9,14 +9,23 @@ Feature: Manage brand results
       And a brand query exists with brand: brand "BDDCasts", query: query "bdd screencast"
       And a result "bdd" exists with source: "twitter", body: "Does anyone know any bdd screencasts?", url: "http://twitter.com/statuses/123"
   
+  Scenario: Viewing a result (also marks the result as read)
+    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+      And I am on the brand_results page
+     When I follow "View" for brand result "br_bdd"
+     Then I should be on the brand_result "br_bdd" page
+      And I should see "Does anyone know any bdd screencasts?"
+      And brand_result "br_bdd" should be read
+  
   @javascript
-  Scenario: Marking a result as follow up (should also create a log entry to be shown on the dashboard)
+  Scenario: Marking a result as follow up (also creates a log entry to be shown on the dashboard and marks the result as read)
     Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
       And I am on the brand_results page
      When I follow "Follow up" for brand result "br_bdd"
      Then I should be on the brand_results page
       And I should see "follow up" for brand_result "br_bdd"
       And brand result "br_bdd" should be follow_up
+      And brand result "br_bdd" should be read
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
   
   @javascript
