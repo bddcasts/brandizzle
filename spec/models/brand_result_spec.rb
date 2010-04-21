@@ -36,7 +36,7 @@ describe BrandResult do
       end
     end
     
-    describe "assm named scopes" do
+    context "assm named scopes" do
       before(:each) do
         @normal_results = (1..2).map{ Factory.create(:brand_result) }
         @follow_up_results = (1..2).map { Factory.create(:follow_up_brand_result) }
@@ -63,6 +63,21 @@ describe BrandResult do
         other = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 25, 2010', :body => "test"))
         
         BrandResult.unread_before("Apr 21, 2010").should == [expected]
+      end
+    end
+    
+    context "read/unread named scopes" do
+      before(:each) do
+        @read_brand_result = Factory.create(:read_brand_result)
+        @unread_brand_result = Factory.create(:brand_result)
+      end
+      
+      it "#read fetches only read brand results" do
+        BrandResult.read.should == [@read_brand_result]
+      end
+      
+      it "#unread fetches only unread brand results" do
+        BrandResult.unread.should == [@unread_brand_result]
       end
     end
   end

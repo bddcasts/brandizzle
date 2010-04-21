@@ -25,10 +25,28 @@ Feature: Results
         | brand "BDDCasts" | result "three" |
      When I am on the brand_results page
      Then I should see the following results:
-      | content                               | created_at        |
-      | Does anyone know any bdd screencasts? | 09 Jul 2009 13:28 |
-      | bdd screencasts anyone?               | 09 Jul 2009 15:16 |
-      | Awesome bdd screencast: blah blah     | 09 Jul 2009 18:25 |
+        | content                               | created_at        |
+        | Does anyone know any bdd screencasts? | 09 Jul 2009 13:28 |
+        | bdd screencasts anyone?               | 09 Jul 2009 15:16 |
+        | Awesome bdd screencast: blah blah     | 09 Jul 2009 18:25 |
+  
+  Scenario: Looking at the results page, I should not see read results
+    Given the following results exist:
+        | result | source  | body                                  | url                             | created_at        |
+        | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
+        | two    | twitter | bdd screencasts anyone?               | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
+        | three  | twitter | Awesome bdd screencast: blah blah     | http://twitter.com/statuses/789 | 09 Jul 2009 18:25 |
+      And the following brand results exist:
+        | brand            | result         | read  |
+        | brand "BDDCasts" | result "one"   | false |
+        | brand "BDDCasts" | result "two"   | false |
+        | brand "BDDCasts" | result "three" | true  |
+     When I am on the brand_results page
+     Then I should see the following results:
+        | content                               | created_at        |
+        | Does anyone know any bdd screencasts? | 09 Jul 2009 13:28 |
+        | bdd screencasts anyone?               | 09 Jul 2009 15:16 |
+      And I should not see "Awesome bdd screencast: blah blah"
 
   Scenario: Paginating the results
     Given 20 brand results exist with brand: brand "BDDCasts"
@@ -119,8 +137,7 @@ Feature: Results
       And I am on the brand_results page
      
      When I follow "Mark all as read" within ".top"
-     Then I should not see "Mark as read" for brand_result "first"
-      And I should not see "Mark as read" for brand_result "second"
+     Then I should see "No results found"
       And brand_result "first" should be read
       And brand_result "second" should be read
      
@@ -140,6 +157,5 @@ Feature: Results
       And I follow "BDDCasts" within "#brand_filters"
      
      When I follow "Mark all as read" within ".top"
-     Then I should not see "Mark as read" for brand_result "first"
-      And brand_result "first" should be read
+     Then brand_result "first" should be read
       And brand_result "second" should not be read

@@ -13,7 +13,7 @@ describe BrandResultsController do
       
       @brand_results = (1..3).map { mock_model(BrandResult) }
       @search = mock(Searchlogic::Search, :paginate => @brand_results)
-      @current_team.stub_chain(:brand_results, :search).and_return(@search)
+      @current_team.stub_chain(:brand_results, :unread, :search).and_return(@search)
     end
     
     def do_get(options={})
@@ -27,7 +27,7 @@ describe BrandResultsController do
     end
     
     it "creates a new search for the brand results and assigns it for the view" do
-      @current_team.brand_results.should_receive(:search).
+      @current_team.brand_results.unread.should_receive(:search).
         with(hash_including("follow_up" => "test")).
         and_return(@search)
        

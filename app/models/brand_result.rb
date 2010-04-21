@@ -39,6 +39,9 @@ class BrandResult < ActiveRecord::Base
     :conditions => ["#{BrandResult.table_name}.read = ? AND #{Result.table_name}.created_at <= ?", false, before.to_time]}
   }
   
+  named_scope :read, :conditions => { :read => true }
+  named_scope :unread, :conditions => { :read => false }
+  
   include AASM
   aasm_column :state
   
