@@ -24,5 +24,17 @@ describe Result do
   should_have_many :queries, :through => :search_results
   should_have_many :brand_results
   should_have_many :brands, :through => :brand_results  
+  
+  describe "#twitter?" do
+    it "returns true if result's source is 'twitter'" do
+      result = Factory.build(:twitter_result)
+      result.should be_twitter
+    end
+
+    it "returns false if result's source is not 'twitter'" do
+      result = Factory.build(:result)
+      result.should_not be_twitter
+    end
+  end
 end
 

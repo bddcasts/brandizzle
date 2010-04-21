@@ -82,6 +82,23 @@ describe BrandResultPresenter do
   #     @brand_result.follow_up!
   #     @presenter.action_links[4].should match(/<a.*>Reject<\/a>/)
   #   end
+  #   
+  #   it "returns a 'reply to twitter' link for the brand_result if current_user is using twitter and brand_result is from twitter" do
+  #     @brand_result.result.should_receive(:twitter?).and_return(true)
+  #     current_user.should_receive(:using_twitter?).and_return(true)
+  #     @presenter.action_links[4].should match(/<a.*>Reply<\/a>/)
+  #   end
+  #   
+  #   it "does not return a 'reply to twitter' link for the brand_result if current_user is not using twitter" do
+  #     current_user.should_receive(:using_twitter?).and_return(false)
+  #     @presenter.action_links[4].should be_nil
+  #   end
+  #   
+  #   it "does not return a 'reply to twitter' link for the brand_result if current_user is using twitter and brand_result is not from twitter" do
+  #     @brand_result.result.should_receive(:twitter?).and_return(false)
+  #     current_user.should_receive(:using_twitter?).and_return(true)
+  #     @presenter.action_links[4].should be_nil
+  #   end
   # end
   # 
   # describe "#temperature_links" do
@@ -124,4 +141,12 @@ describe BrandResultPresenter do
   #     @presenter.temperature_links[2].should match(/<span.*>(\-)<\/span>/)
   #   end
   # end
+
+  describe "twitter_reply_url" do
+    it "returns a url to twitter with in_reply_to attributes set" do
+      brand_result = Factory.create(:brand_result, :result => Factory.create(:result, :url => "http://twitter.com/someone/statuses/123456"))
+      presenter = BrandResultPresenter.new(:brand_result => brand_result)
+      presenter.twitter_reply_url.should == "http://twitter.com/?status=@someone&in_reply_to_status_id=123456&in_reply_to=someone"
+    end
+  end
 end

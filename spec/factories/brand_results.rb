@@ -3,6 +3,12 @@ Factory.define(:result) do |f|
   f.sequence(:url) { |i| "http://twitter.com/someone/statuses/123456#{i}" }
 end
 
+['twitter', 'blog'].each do |source|
+  Factory.define(:"#{source}_result", :parent => :result) do |f|
+    f.source source
+  end
+end
+
 Factory.define(:brand_result) do |f|
   f.association :brand
   f.association :result

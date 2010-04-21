@@ -22,6 +22,7 @@ class BrandResultPresenter < Viewtastic::Base
         links << link_to_remote_update('Done', finish_brand_result_path(brand_result))
         links << link_to_remote_update('Reject', reject_brand_result_path(brand_result))
       end
+      links << link_to("Reply", twitter_reply_url, :target => "_blank") if current_user.using_twitter? && result.twitter?
     end
   end
   
@@ -43,7 +44,19 @@ class BrandResultPresenter < Viewtastic::Base
       content_tag("span", "done", :class => "tag done")
     end
   end
-    
+  
+  def twitter_reply_url
+    returning("") do |s|
+      s << "http://twitter.com/"
+      s << "?status=@"
+      s << result.url.split("/")[3]
+      s << "&in_reply_to_status_id="
+      s << result.url.split("/").last
+      s << "&in_reply_to="
+      s << result.url.split("/")[3]
+    end
+  end
+  
   private
     def truncate_url(result)
       if result.source == "twitter"
