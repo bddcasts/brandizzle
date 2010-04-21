@@ -50,6 +50,16 @@ module FiltersHelper
       :class => params[:search] && params[:search][:read_state] == state.to_s && params[:search][:state_is].blank? && "active" || nil
   end
   
+  def all_filter
+    url_options = {}
+    url_options[:brand_id_is] = params[:search][:brand_id_is] if params[:search] && !params[:search][:brand_id_is].blank?
+    url_options[:between_date] = params[:search][:between_date] if params[:search] && !params[:search][:between_date].blank?
+    
+    link_to "All", 
+      brand_results_path(:search => url_options),
+      :class => params[:search] && params[:search][:read_state].blank? && params[:search][:state_is].blank? && "active" || nil
+  end
+  
   def merge_search_params(options={})
     {:search => (params[:search] || {}).merge(options)}
   end
