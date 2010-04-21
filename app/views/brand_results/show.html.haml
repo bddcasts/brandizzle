@@ -1,7 +1,7 @@
 - title "Result"
 
 - brand_result_with_presenter @brand_result do |brand_result|
-  %div.result{ :id => brand_result.dom_id, :class => brand_result.read? && "read"}
+  %div.result{ :id => brand_result.dom_id}
     %div.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
       = format_date_time brand_result.result.created_at
       = brand_result.status
