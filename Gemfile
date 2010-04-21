@@ -12,7 +12,7 @@ group :default do
   gem 'searchlogic',      '2.4.10'
   gem 'authlogic',        '2.1.3'
   gem 'formtastic',       '0.9.7'
-  gem 'delayed_job',      '1.8.4'
+  gem 'delayed_job',      '2.0.3'
   gem 'settingslogic',    '2.0.5'
   gem 'twitter',          '0.8.6'
   gem 'compass',          '0.8.17'
