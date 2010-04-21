@@ -13,7 +13,7 @@ class BrandResultsController < ApplicationController
   end
 
   def show
-    @comments = @brand_result.comments.find(:all, :order => "created_at DESC")
+    @comments = @brand_result.comments
     @comment = Comment.new
   end
   
