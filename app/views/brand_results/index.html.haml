@@ -2,11 +2,15 @@
 
 - content_for :heading do
   .actions#state_filters
-    = state_filter("View all")
+    = read_state_filter("Unread", 0)
     or
     = state_filter("Follow up", "follow_up")
     or
     = state_filter("Done", "done")
+    or
+    = read_state_filter("Read", 1)
+    or
+    = link_to "All", brand_results_path
     
 .sidebar
   %h3 Brands
@@ -22,6 +26,8 @@
         %input{ :type => :hidden, :name => "search[brand_id_is]", :value => params[:search][:brand_id_is].to_s }
       - unless params[:search][:state_is].blank?
         %input{ :type => :hidden, :name => "search[state_is]", :value => params[:search][:state_is].to_s }
+      - unless params[:search][:read_state].blank?
+        %input{ :type => :hidden, :name => "search[read_state]", :value => params[:search][:read_state].to_s }
       
     %input{ :type => "text", :id => "between_date", :name => "search[between_date]", :value => params[:search] && params[:search][:between_date], :class => 'txt', :autocomplete => "off"}
 
@@ -29,10 +35,9 @@
   
 .content.results
   .top
-    #entries
-      = page_entries_info @brand_results, :entry_name => "result"
-    .mark
-      = link_to "Mark all as read", mark_all_as_read_brand_results_path(:search => (params[:search] || {}), :before => Time.now), :method => :post
+    = applied_filters(@search.conditions)
+  .entries
+    = page_entries_info @brand_results, :entry_name => "result"
   - if @brand_results && !@brand_results.empty?
     .updates
       - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|

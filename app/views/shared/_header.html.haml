@@ -2,7 +2,7 @@
   .top
     %h1
       %span
-        = link_to 'BrandPulse', brand_results_path
+        = link_to 'BrandPulse', root_path
     .account-links
       - if current_user
         %ul
@@ -18,7 +18,7 @@
         %li{:class => active("dashboard") ? "active" : nil}
           = link_to "Dashboard", dashboard_path
         %li{:class => active("results") ? "active" : nil}
-          = link_to "Results", brand_results_path
+          = link_to "Results", brand_results_path(:search => {:read_state => 0})
         %li{:class => active("brands") ? "active" : nil}
           = link_to "Brands", brands_path
         %li{:class => active("team") ? "active" : nil}

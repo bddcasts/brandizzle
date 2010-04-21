@@ -42,6 +42,10 @@ class BrandResult < ActiveRecord::Base
   named_scope :read, :conditions => { :read => true }
   named_scope :unread, :conditions => { :read => false }
   
+  named_scope :read_state, lambda { |state|
+    {:conditions => ["#{BrandResult.table_name}.read = ?", state ]}
+  }
+  
   include AASM
   aasm_column :state
   

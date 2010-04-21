@@ -4,7 +4,7 @@ class BrandResultsController < ApplicationController
   
   def index
     @brands = current_team.brands
-    @search = current_team.brand_results.unread.search(params[:search] || {})
+    @search = current_team.brand_results.search(params[:search] || {})
         
     @brand_results = @search.paginate(
       :page => params[:page],

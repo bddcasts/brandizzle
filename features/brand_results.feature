@@ -41,7 +41,7 @@ Feature: Results
         | brand "BDDCasts" | result "one"   | false |
         | brand "BDDCasts" | result "two"   | false |
         | brand "BDDCasts" | result "three" | true  |
-     When I am on the brand_results page
+     When I follow "Results" within ".navigation"
      Then I should see the following results:
         | content                               | created_at        |
         | Does anyone know any bdd screencasts? | 09 Jul 2009 13:28 |
@@ -89,9 +89,9 @@ Feature: Results
         | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
         | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
       And the following brand results exist:
-        | brand            | result       | state     |
-        | brand "BDDCasts" | result "one" | follow_up |
-        | brand "BDDCasts" | result "two" | done      |
+        | brand            | result       | state     | read |
+        | brand "BDDCasts" | result "one" | follow_up | true |
+        | brand "BDDCasts" | result "two" | done      | true |
       And I am on the brand_results page
      Then I should see the following results:
         | content                               | created_at        |
@@ -124,7 +124,29 @@ Feature: Results
           | content                     | created_at        |
           | radiant screencasts anyone? | 09 Jul 2009 15:16 |
        And I should not see "Does anyone know any bdd screencasts?"
-    
+  
+  Scenario: Filtering results by read state
+    Given the following results exist:
+          | result | source  | body                                  | url                             | created_at        |
+          | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 08 Jul 2010 13:28 |
+          | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2010 15:16 |
+      And the following brand results exist:
+          | brand            | result       | read  |
+          | brand "BDDCasts" | result "one" | true  |
+          | brand "BDDCasts" | result "two" | false |
+      And I am on the brand_results page
+     Then I should see the following results:
+          | content                               | created_at        |
+          | Does anyone know any bdd screencasts? | 09 Jul 2009 13:28 |
+          | radiant screencasts anyone?           | 09 Jul 2009 15:16 |
+     When I follow "Unread" within "#state_filters"
+     Then I should see "radiant screencasts anyone?"
+      And I should not see "Does anyone know any bdd screencasts?"
+
+     When I follow "Read" within "#state_filters"
+     Then I should see "Does anyone know any bdd screencasts?"
+      And I should not see "radiant screencasts anyone?"
+
   Scenario: Marking all results as read
     Given the following results exist:
         | result | source  | body                                  | url                             | created_at        |
@@ -134,13 +156,13 @@ Feature: Results
         | brand_result | brand            | result       | state     |
         | first        | brand "BDDCasts" | result "one" | follow_up |
         | second       | brand "BDDCasts" | result "two" | done      |
-      And I am on the brand_results page
-     
-     When I follow "Mark all as read" within ".top"
+      And I follow "Results" within ".navigation"
+  
+     When I follow "Mark them as read" within ".top"
      Then I should see "No results found"
       And brand_result "first" should be read
       And brand_result "second" should be read
-     
+    
   Scenario: Marking results filtered by brand as read
     Given a brand: "RadiantCasts" exists with name: "RadiantCasts", team: team "cartman_team"
       And a query: "rs" exists with term: "radiant screencasts"
@@ -153,9 +175,9 @@ Feature: Results
         | brand_result | brand                | result       |
         | first        | brand "BDDCasts"     | result "one" |
         | second       | brand "RadiantCasts" | result "two" |
-      And I am on the brand_results page
+      And I follow "Results" within ".navigation"
       And I follow "BDDCasts" within "#brand_filters"
      
-     When I follow "Mark all as read" within ".top"
+     When I follow "Mark them as read" within ".top"
      Then brand_result "first" should be read
       And brand_result "second" should not be read
