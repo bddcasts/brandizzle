@@ -4,7 +4,7 @@ source :gemcutter
 # gem "rake"
 
 group :default do
-  gem 'haml',             '2.2.19'
+  gem 'haml-edge',        '2.3.209'
   gem 'aasm',             '2.1.5'
   gem 'will_paginate',    '2.3.12'
   gem 'whenever',         '0.4.1'

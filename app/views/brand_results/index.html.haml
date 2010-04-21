@@ -35,9 +35,10 @@
   
 .content.results
   .top
-    = applied_filters(@search.conditions)
-  .entries
-    = page_entries_info @brand_results, :entry_name => "result"
+    .applied_filters
+      = applied_filters(@search.conditions)
+    .entries
+      = page_entries_info @brand_results, :entry_name => "result" unless @brand_results.empty?
   - if @brand_results && !@brand_results.empty?
     .updates
       - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|
@@ -46,7 +47,8 @@
         - brand_result.each do |br|
           = render "brand_result", :object => present_brand_result(br)  
   - else
+    %p.center No results found.
     - if params[:search].blank?
-      It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working, please let us know.
+      %p.center It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working, please let us know.
   
   = will_paginate @brand_results, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'

@@ -1,31 +1,29 @@
 module FiltersHelper  
   def applied_filters(conditions={})
     conditions.delete_if {|k, v| v.blank? }
-    return "You are viewing all results" if conditions.empty?
+    return "Showing all results" if conditions.empty?
     
-    s = "You are viewing "
-    
-    conditions.has_key?(:between_date) ? s << date_in_words(conditions[:between_date]) : s << ""
-    s << " "
+    s = ["Showing"]
+    s << date_in_words(conditions[:between_date]) if conditions.has_key?(:between_date)
     
     if conditions.has_key?(:read_state) && !conditions.has_key?(:state_is)
       conditions[:read_state] == "0" ? s << "unread" : s << "read"
-    else
-      s << ""
     end
-    s << " "
+    
+    s << conditions[:state_is] if conditions.has_key?(:state_is)
+    s << "results for"
 
-    conditions.has_key?(:state_is) ? s << conditions[:state_is] : s << ""
-    s << " results "
-
-    conditions.has_key?(:brand_id_is) ? s << "for brand #{Brand.find(conditions[:brand_id_is])}" : s << ""
+    if conditions.has_key?(:brand_id_is)
+      s << "'#{Brand.find(conditions[:brand_id_is])}'."
+    else
+      s << "all brands."
+    end
     
     if conditions.has_key?(:read_state) && conditions[:read_state] == "0"
-      s << " "
       s << link_to("Mark them as read", mark_all_as_read_brand_results_path(:search => (params[:search] || {}), :before => Time.now), :method => :post)
     end
     
-    s
+    s.join(" ")
   end
   
   def brand_filter(label, brand_id=nil)

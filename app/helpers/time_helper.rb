@@ -24,15 +24,15 @@ module TimeHelper
   def date_in_words(date)
     before, after = date.split(" to ")
     if before.to_date.today?
-      "todays"
+      "today's"
     elsif before.to_date == Time.now.yesterday.to_date
-      "yesterdays"
+      "yesterday's"
     elsif before.to_date == 7.days.ago.to_date && after.to_date.today?
-      "last seven days"
+      "last seven days'"
     elsif before.to_date == Time.now.at_beginning_of_month.to_date && after.to_date.today?
-      "this months"
+      "this month's"
     elsif before.to_date == Time.now.last_month.at_beginning_of_month.to_date && after.to_date == Time.now.last_month.at_end_of_month.to_date
-      "last months"
+      "last month's"
     elsif after.blank?
       show_day(before.to_date)
     elsif !after.blank? && after.to_date == Time.now.to_date
