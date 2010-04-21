@@ -13,14 +13,12 @@ class BrandResultsController < ApplicationController
   end
 
   def show
-    @brand_result.mark_as_read! unless @brand_result.read?
     @comments = @brand_result.comments
     @comment = Comment.new
   end
   
   def follow_up
     @brand_result.follow_up!
-    @brand_result.mark_as_read! unless @brand_result.read?
     
     log.updated_brand_result(@brand_result, current_user, "state" => @brand_result.state)
     respond_to do |format|
