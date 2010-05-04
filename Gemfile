@@ -27,7 +27,7 @@ end
 group :rails do
   gem 'rails',            '2.3.5'
   gem 'rack',             '1.0.1'
-  gem 'bundler',          '0.9.19'
+  gem 'bundler',          '>= 0.9.24'
   gem 'rake',             '0.8.7'
   gem 'builder',          '~> 2.1.2'
   gem 'memcache-client',  '>= 1.7.4'
