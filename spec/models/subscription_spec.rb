@@ -7,6 +7,7 @@
 #  account_id      :integer(4)      indexed
 #  subscription_id :integer(4)
 #  card_token      :string(255)
+#  customer_id     :string(255)
 #  status          :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime

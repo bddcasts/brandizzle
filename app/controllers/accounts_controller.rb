@@ -28,6 +28,7 @@ class AccountsController < ApplicationController
   
   def edit
     @account = current_user.account
+    @subscription = @account.subscription
   end
   
   def update

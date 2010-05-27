@@ -17,7 +17,9 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resource :user_info, :controller => "users", :only => [:edit, :update]
   map.resource :user_session
-  map.resource :account, :except => [:new]
+  map.resource :account, :except => [:new] do |account|
+    account.resources :subscriptions, :only => [:update]
+  end
   map.signup '/signup/:invitation_token', :controller => "accounts", :action => "new"
   map.resources :password_resets, :only => [:new, :create, :edit, :update]
   map.resources :user_signups, :only => [:edit, :update]
