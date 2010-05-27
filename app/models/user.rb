@@ -12,7 +12,6 @@
 #  active            :boolean(1)      default(TRUE), not null
 #  created_at        :datetime
 #  updated_at        :datetime
-#  invitation_limit  :integer(4)      default(0)
 #  team_id           :integer(4)
 #  oauth_token       :string(255)     indexed
 #  oauth_secret      :string(255)
@@ -31,13 +30,11 @@ class User < ActiveRecord::Base
     c.validates_length_of_password_confirmation_field_options = { :on => :update, :minimum => 4, :if => :has_no_credentials? }
   end
   
-  has_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   has_one :account
   belongs_to :team
   has_many :logs
   has_many :comments
   
-  before_create :set_invitation_limit
   before_save :populate_oauth_user
     
   attr_accessible :name, :login, :email, :password, :password_confirmation, :active
@@ -88,10 +85,6 @@ class User < ActiveRecord::Base
   end
   
   private
-    def set_invitation_limit
-      self.invitation_limit = Settings.invitations.limit
-    end
-
     def populate_oauth_user
       return unless twitter_uid.blank?
 

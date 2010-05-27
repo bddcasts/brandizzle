@@ -1,14 +1,12 @@
 class AccountsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:edit, :update]
-  before_filter :require_invitation, :only => [:new]
   
   layout :detect_layout
   
   def new
-    @account = Account.new(:invitation => @invitation)
+    @account = Account.new
     @user = @account.build_holder
-    @user.email = @account.invitation.recipient_email if @invitation
   end
   
   def create
@@ -42,15 +40,6 @@ class AccountsController < ApplicationController
   end
   
   private
-    def require_invitation
-      @invitation = Invitation.find_by_token(params[:invitation_token])
-      unless @invitation
-        flash[:notice] = "We're sorry, but we could not locate your invitation. " +  
-        "If you are having issues try copying and pasting the URL from your email into your browser."
-        redirect_to new_user_session_path
-      end
-    end
-    
     def detect_layout
       case action_name
       when "new"

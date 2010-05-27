@@ -4,8 +4,6 @@ defaults: &defaults
   pagination:
     results_per_page: 15
     logs_per_page: 15
-  invitations:
-    limit: 0
   twitter:
     consumer_key: "foo_consumer_key"
     consumer_secret: "foo_consumer_secret"

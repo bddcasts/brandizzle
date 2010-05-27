@@ -3,10 +3,11 @@ Feature: User Accounts
   As a user
   I want to register for an account, login and logout
   
-  Scenario: Registering for a new account with invitation
-    Given an invitation: "inv" exists with recipient_email: "cartman@example.com"
-      And I am on the registration page
+  @wip
+  Scenario: Registering for a new account
+    Given I am on the registration page
      When I fill in "Login" with "cartman"
+      And I fill in "Email" with "cartman@example.com"
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Create my account"

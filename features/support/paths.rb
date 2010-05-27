@@ -15,8 +15,7 @@ module NavigationHelpers
       
     #account related paths
     when /the registration page/
-      invitation = Invitation.first
-      signup_path(invitation.token)
+      new_account_path
     when /the login page/
       new_user_session_path
     when /my account page/

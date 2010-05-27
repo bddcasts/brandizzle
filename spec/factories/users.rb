@@ -4,7 +4,6 @@ end
 
 Factory.define(:account) do |f|
   f.association :holder, :factory => :user
-  f.association :invitation  
 end
 
 Factory.define(:user) do |f|
@@ -27,10 +26,6 @@ end
 
 Factory.define(:inactive_user, :parent => :user) do |f|
   f.active false
-end
-
-Factory.define(:invitation) do |f|
-  f.sequence(:recipient_email) { |i| "invited-user-#{i}@example.com" }
 end
 
 Factory.define(:subscription) do |f|

@@ -12,7 +12,6 @@
 #  active            :boolean(1)      default(TRUE), not null
 #  created_at        :datetime
 #  updated_at        :datetime
-#  invitation_limit  :integer(4)      default(0)
 #  team_id           :integer(4)
 #  oauth_token       :string(255)     indexed
 #  oauth_secret      :string(255)
@@ -34,11 +33,10 @@ describe User do
                      :type => :string
   
   should_have_column :active, :type => :boolean
-  should_have_column :invitation_limit, :login_count, :type => :integer
+  should_have_column :login_count, :type => :integer
   should_have_column :last_request_at, :type => :datetime
 
   #associations
-  should_have_many :sent_invitations, :class_name => 'Invitation', :foreign_key => 'sender_id'
   should_have_one :account
   should_belong_to :team
   should_have_many :logs
@@ -148,11 +146,6 @@ describe User do
       Notifier.should_receive(:deliver_user_invitation).with(@user)
       @user.deliver_user_invitation!
     end
-  end
-
-  it "sets invitation limit on create" do
-    user = Factory.create(:user)
-    user.invitation_limit.should == Settings.invitations.limit
   end
 
   describe "#avatar" do

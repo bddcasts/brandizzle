@@ -18,9 +18,3 @@ Given /^I am logged in as account holder "([^\"]*)"$/ do |login|
    And %Q{I fill in "Password" with "secret"}
    And %Q{I press "Login"}
 end
-
-Given /^"([^\"]*)" has invitations to send$/ do |login|
-  user = User.find_by_login(login)
-  user.invitation_limit = 1
-  user.save
-end

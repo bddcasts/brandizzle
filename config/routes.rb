@@ -17,13 +17,11 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resource :user_info, :controller => "users", :only => [:edit, :update]
   map.resource :user_session
-  map.resource :account, :except => [:new] do |account|
+  map.resource :account do |account|
     account.resources :subscriptions, :only => [:update]
   end
-  map.signup '/signup/:invitation_token', :controller => "accounts", :action => "new"
   map.resources :password_resets, :only => [:new, :create, :edit, :update]
   map.resources :user_signups, :only => [:edit, :update]
-  map.resources :invitations, :only => [:new, :create]
 
   map.with_options(:controller => 'pages', :action => 'show') do |pages|
     pages.connect '/about', :id => 'about'

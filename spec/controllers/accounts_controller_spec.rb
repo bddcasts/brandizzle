@@ -16,18 +16,15 @@ describe AccountsController do
   
   describe "handling GET new" do
     before(:each) do
-      @invitation = mock_model(Invitation, :recipient_email => "test@example.com")
-      @account = mock_model(Account, :invitation => @invitation)
+      @account = mock_model(Account)
       @user = mock_model(User)
       
       Account.stub!(:new).and_return(@account)
       @account.stub(:build_holder).and_return(@user)
-      Invitation.stub!(:find_by_token).with("qwerty").and_return(@invitation)
-      @user.stub!(:email=)
     end
     
     def do_get(options={})
-      get :new, { :invitation_token => "qwerty" }.merge(options)
+      get :new, options
     end
     
     it "creates a new account and assigns it for the view" do
@@ -42,21 +39,9 @@ describe AccountsController do
       assigns[:user].should == @user
     end
     
-    it "assigns the invitation's recipient email to the user" do
-      @user.should_receive(:email=).with("test@example.com")
-      do_get
-    end
-    
     it "renders the new template with the 'login' template" do
       do_get
       response.should render_template(:new)
-    end
-    
-    it "sets the flash message and redirects to login path if no invitation is present" do
-      Invitation.should_receive(:find_by_token).and_return(nil)
-      do_get
-      flash[:notice].should_not be_nil
-      response.should redirect_to(new_user_session_path)
     end
   end
   

@@ -9,13 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100527082211) do
+ActiveRecord::Schema.define(:version => 20100527133155) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "invitation_id"
   end
 
   create_table "brand_queries", :force => true do |t|
@@ -77,14 +76,6 @@ ActiveRecord::Schema.define(:version => 20100527082211) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "invitations", :force => true do |t|
-    t.integer  "sender_id"
-    t.string   "recipient_email"
-    t.string   "token"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "logs", :force => true do |t|
     t.integer  "loggable_id"
@@ -166,7 +157,6 @@ ActiveRecord::Schema.define(:version => 20100527082211) do
     t.boolean  "active",            :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "invitation_limit",  :default => 0
     t.integer  "team_id"
     t.string   "oauth_token"
     t.string   "oauth_secret"
