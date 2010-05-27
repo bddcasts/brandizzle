@@ -2,7 +2,7 @@ Feature: User Accounts
   In order to manage my brands and search terms
   As a user
   I want to register for an account, login and logout
-    
+  
   Scenario: Registering for a new account with invitation
     Given an invitation: "inv" exists with recipient_email: "cartman@example.com"
       And I am on the registration page
@@ -12,6 +12,7 @@ Feature: User Accounts
       And I press "Create my account"
      Then I should be on the brand_results page
       And I should see "Your account has been created."
+      And a subscription should exist with plan_id: "standard"
   
   Scenario: Visiting the login page
     Given I am on the homepage

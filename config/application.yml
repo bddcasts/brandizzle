@@ -9,6 +9,11 @@ defaults: &defaults
   twitter:
     consumer_key: "foo_consumer_key"
     consumer_secret: "foo_consumer_secret"
+  braintree:
+    environment: :sandbox
+    merchant_id: h6h56phxnnyhhj56
+    public_key: 76wdmh6hhfpf3d5m
+    private_key: 92nsjcq8f9ynrj9q
 
 development:
   <<: *defaults

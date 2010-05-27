@@ -15,6 +15,7 @@ class AccountsController < ApplicationController
     @account = Account.new(params[:account])
     @team = @account.build_team
     @account.holder.team = @team
+    @account.build_subscription(:plan_id => Plan.standard.id)
     
     if @account.save
       flash[:notice] = "Your account has been created."

@@ -7,7 +7,6 @@ require 'spec/rails'
 require 'remarkable_rails'
 require 'factory_girl'
 require 'authlogic/test_case'
-require 'fakeweb'
 require "database_cleaner"
 
 Dir[File.expand_path(File.join(File.dirname(__FILE__), '/factories', '*.rb'))].each {|f| require f}
@@ -27,7 +26,6 @@ Spec::Runner.configure do |config|
   config.use_instantiated_fixtures  = false
   config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
   
-  FakeWeb.allow_net_connect = false
   DatabaseCleaner.clean_with(:truncation)
   
   config.before(:each) do

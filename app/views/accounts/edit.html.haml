@@ -1,1 +1,10 @@
 - title "Edit your account information"
+
+- semantic_form_for @account, :url => account_path, :html => { :class => "account large" } do |f|
+  - f.fields_for :subscription do |subscription_form|
+    - f.inputs do
+      = subscription_form.input :card_number
+      = subscription_form.input :expiration_date
+      = subscription_form.input :cvv, :label => "Card verification number"
+    - f.buttons do
+      = subscription_form.commit_button "Update information"

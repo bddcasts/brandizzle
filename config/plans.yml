@@ -1,0 +1,19 @@
+# app/config/application.yml
+defaults: &defaults
+  standard:
+    price: 15
+    trial: 30
+    description: Standard
+    id: standard
+
+development:
+  <<: *defaults
+    
+test:
+  <<: *defaults
+
+cucumber:
+  <<: *defaults
+
+aissac:
+  <<: *defaults
