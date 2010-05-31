@@ -11,6 +11,7 @@ After('@sop') do |scenario|
   end
 end
 
+require 'spec/stubs/cucumber'
 require 'email_spec'
 require 'email_spec/cucumber'
 require 'features/support/pickle'

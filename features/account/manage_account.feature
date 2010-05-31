@@ -3,6 +3,7 @@ Feature: User Accounts
   As a user
   I want to register for an account, login and logout
   
+  @wip
   Scenario: Registering for a new account
     Given I am on the registration page
      When I fill in "Login" with "cartman"

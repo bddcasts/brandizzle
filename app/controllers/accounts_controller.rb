@@ -31,7 +31,7 @@ class AccountsController < ApplicationController
     @account = current_user.account
     if @account.update_attributes(params[:account])
       flash[:notice] = "Account information updated!"
-      redirect_to edit_account_path
+      redirect_to account_path
     else
       flash.now[:error] = "Updating information failed!"
       render :edit

@@ -23,21 +23,23 @@ class Account < ActiveRecord::Base
   
   validates_presence_of :holder
   validates_associated :holder
-  # validate :save_card_to_braintree
+  validate :save_card_to_braintree, :if => :card_fields_present?
   
   after_create :create_braintree_customer
-  
-  before_save :save_card_to_braintree
-  before_save :save_subscription_to_braintree
+  after_save :create_braintree_subscription, :if => :subscription_needed?
   
   attr_accessor :card_number, :expiration_date, :cvv
   
-  def card_fields?
+  def card_fields_present?
     !@card_number.blank? && !@expiration_date.blank? && !@cvv.blank?
   end
   
   def trial_days_left
-    (30 - (Time.now - created_at)/86400).round
+    (30 - (Time.now - created_at)/1.day).round
+  end
+  
+  def subscription_needed?
+    card_token && !subscription_id
   end
   
   private
@@ -51,52 +53,45 @@ class Account < ActiveRecord::Base
     end
     
     def save_card_to_braintree
-      if card_fields?
-        if card_token
-          result = Braintree::CreditCard.update(card_token,
-            :number => @card_number,
-            :expiration_date => @expiration_date,
-            :cvv => @cvv,
-            :options => { :verify_card => true }
-          )
-        else
-          result = Braintree::CreditCard.create(
-            :customer_id => customer_id,
-            :number => @card_number,
-            :expiration_date => @expiration_date,
-            :cvv => @cvv,
-            :options => { :verify_card => true }
-          )
-        end
-        
-        if result.success?
-          self.card_token = result.credit_card.token
-          self.card_type = result.credit_card.card_type
-          self.card_number_last_4_digits = result.credit_card.last_4
-        else
-          errors.add_to_base("Card is invalid")
-        end
+      if card_token
+        result = Braintree::CreditCard.update(card_token,
+          :number => @card_number,
+          :expiration_date => @expiration_date,
+          :cvv => @cvv,
+          :options => { :verify_card => true }
+        )
+      else
+        result = Braintree::CreditCard.create(
+          :customer_id => customer_id,
+          :number => @card_number,
+          :expiration_date => @expiration_date,
+          :cvv => @cvv,
+          :options => { :verify_card => true }
+        )
+      end
+      
+      if result.success?
+        self.card_token = result.credit_card.token
+        self.card_type = result.credit_card.card_type
+        self.card_number_last_4_digits = result.credit_card.last_4
+      else
+        errors.add_to_base("Card is invalid")
       end
     end
     
-    def save_subscription_to_braintree
-      if card_token 
-        if subscription_id
-          Braintree::Subscription.update(subscription_id,
-            :payment_method_token => card_token
-          )
-        else
-          result = Braintree::Subscription.create(
-            :payment_method_token => card_token,
-            :plan_id => plan_id,
-            :trial_duration => trial_days_left,
-            :trial_duration_unit => Braintree::Subscription::TrialDurationUnit::Day
-          )
-        end
+    def create_braintree_subscription
+      result = Braintree::Subscription.create(
+        :payment_method_token => card_token,
+        :plan_id => plan_id,
+        :trial_period => true,
+        :trial_duration => trial_days_left,
+        :trial_duration_unit => Braintree::Subscription::TrialDurationUnit::Day
+      )
 
-        if result.success?
-          self.subscription_id = result.subscription.id
-        end
+      if result.success?
+        self.subscription_id = result.subscription.id
+        self.status = result.subscription.status
+        save!
       end
     end
 end
