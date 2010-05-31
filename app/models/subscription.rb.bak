@@ -18,17 +18,38 @@ class Subscription < ActiveRecord::Base
   
   validate :valid_card
   
-  before_save :save_subscription_to_braintree
+  before_save :save_card_to_braintree
   
   attr_accessor :card_number, :expiration_date, :cvv
   
+  def card?
+    @card_number.blank? || @expiration_date.blank? || @cvv.blank?
+  end
+  
   private
     def valid_card
-      true
+      if card?
+        result = Braintree::CreditCard.create(
+          :customer_id => customer_id,
+          :number => @card_number,
+          :expiration_date => @expiration_date,
+          :cvv => @cvv,
+          :options => { :verify_card => true }
+        )
+        unless result.success?
+          errors.add_to_base("Card is invalid")
+        end
+      end
     end
   
-    def save_subscription_to_braintree
-      if @card_number && @expiration_date && @cvv
+    def save_card_to_braintree
+      if card_token
+        result = Braintree::CreditCard.update(card_token,
+          :number => @card_number,
+          :expiration_date => @expiration_date,
+          :cvv => @cvv
+        )
+      else
         result = Braintree::CreditCard.create(
           :customer_id => customer_id,
           :number => @card_number,
@@ -40,7 +61,5 @@ class Subscription < ActiveRecord::Base
           self.card_token = result.credit_card.token
         end
       end
-      
-      logger.debug(">>>>>>>#{result.inspect}")
     end
 end

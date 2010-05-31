@@ -4,6 +4,11 @@ end
 
 Factory.define(:account) do |f|
   f.association :holder, :factory => :user
+  f.plan_id "standard"
+  f.sequence(:customer_id) { |i| "1234#{i}"}
+  f.sequence(:card_token) { |i| "token#{i}"}
+  f.sequence(:subscription_id) { |i| "subs-id-#{i}" }
+  f.status "active"
 end
 
 Factory.define(:user) do |f|
@@ -26,15 +31,4 @@ end
 
 Factory.define(:inactive_user, :parent => :user) do |f|
   f.active false
-end
-
-Factory.define(:subscription) do |f|
-  f.plan_id "standard"
-  f.sequence(:customer_id) { |i| "12345#{i}"}
-  f.sequence(:card_token) { |i| "token#{i}"}
-end
-
-Factory.define(:active_subscription, :parent => :subscription) do |f|
-  f.sequence(:subscription_id) { |i| "subs-id-#{i}" }
-  f.status "active"
 end

@@ -3,7 +3,6 @@ Feature: User Accounts
   As a user
   I want to register for an account, login and logout
   
-  @wip
   Scenario: Registering for a new account
     Given I am on the registration page
      When I fill in "Login" with "cartman"
@@ -13,7 +12,6 @@ Feature: User Accounts
       And I press "Create my account"
      Then I should be on the brand_results page
       And I should see "Your account has been created."
-      And a subscription should exist with plan_id: "standard"
   
   Scenario: Visiting the login page
     Given I am on the homepage
