@@ -18,8 +18,10 @@ ActiveRecord::Schema.define(:version => 20100531074943) do
     t.string   "plan_id"
     t.string   "customer_id"
     t.string   "card_token"
-    t.integer  "subscription_id"
+    t.string   "subscription_id"
     t.string   "status"
+    t.string   "card_type"
+    t.string   "card_number_last_4_digits"
   end
 
   create_table "brand_queries", :force => true do |t|

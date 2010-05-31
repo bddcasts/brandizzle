@@ -2,23 +2,24 @@
 #
 # Table name: accounts
 #
-#  id              :integer(4)      not null, primary key
-#  user_id         :integer(4)
-#  created_at      :datetime
-#  updated_at      :datetime
-#  plan_id         :string(255)
-#  customer_id     :string(255)
-#  card_token      :string(255)
-#  subscription_id :integer(4)
-#  status          :string(255)
+#  id                        :integer(4)      not null, primary key
+#  user_id                   :integer(4)
+#  created_at                :datetime
+#  updated_at                :datetime
+#  plan_id                   :string(255)
+#  customer_id               :string(255)
+#  card_token                :string(255)
+#  subscription_id           :string(255)
+#  status                    :string(255)
+#  card_type                 :string(255)
+#  card_number_last_4_digits :string(255)
 #
 
 require 'spec_helper'
 
 describe Account do
   #columns
-  should_have_column :plan_id, :customer_id, :card_token, :status, :type => :string
-  should_have_column :subscription_id, :type => :integer
+  should_have_column :plan_id, :customer_id, :card_token, :subscription_id, :card_type, :card_number_last_4_digits, :status, :type => :string
   
   #validations
   should_validate_presence_of :holder

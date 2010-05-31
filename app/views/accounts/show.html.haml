@@ -1,0 +1,11 @@
+- title "Your account information"
+
+%div
+  Your Card Type: 
+  = @account.card_type
+%div
+  Your Credit Card last 4 digits:
+  = @account.card_number_last_4_digits
+
+%div
+  = link_to "Edit", edit_account_path

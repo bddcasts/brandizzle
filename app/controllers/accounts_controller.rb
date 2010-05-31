@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
   end
   
   def create
-    @account = Account.new(params[:account])
+    @account = Account.new((params[:account] || {}).merge(:plan_id => Plan.standard.id))
     @team = @account.build_team
     @account.holder.team = @team
     
@@ -33,8 +33,14 @@ class AccountsController < ApplicationController
       flash[:notice] = "Account information updated!"
       redirect_to edit_account_path
     else
+      flash.now[:error] = "Updating information failed!"
       render :edit
     end
+  end
+  
+  def show
+    @account = current_user.account
+    redirect_to edit_account_path unless @account.card_token
   end
   
   private

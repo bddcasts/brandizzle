@@ -24,4 +24,4 @@
         %li= link_to "Search", "#"
         - if current_user.account_holder?
           %li.right_side{:class => active("account") ? "active" : nil}
-            = link_to "My account", edit_account_path
+            = link_to "My account", account_path

@@ -1,8 +1,8 @@
 - title "Edit your account information"
 
-= error_messages_for :subscription
+= error_messages_for :account
 
-- semantic_form_for @subscription, :url => account_subscription_path(@account), :html => { :class => "account large" } do |f|
+- semantic_form_for @account, :url => account_path, :html => { :class => "account large" } do |f|
   - f.inputs do
     = f.input :card_number
     = f.input :expiration_date
