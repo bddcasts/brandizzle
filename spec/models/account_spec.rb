@@ -6,6 +6,9 @@
 #  user_id                   :integer(4)
 #  created_at                :datetime
 #  updated_at                :datetime
+#  first_name                :string(255)
+#  last_name                 :string(255)
+#  postal_code               :string(255)
 #  plan_id                   :string(255)
 #  customer_id               :string(255)
 #  card_token                :string(255)
@@ -13,6 +16,7 @@
 #  status                    :string(255)
 #  card_type                 :string(255)
 #  card_number_last_4_digits :string(255)
+#  card_expiration_date      :string(255)
 #
 
 require 'spec_helper'

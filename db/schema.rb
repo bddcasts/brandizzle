@@ -15,6 +15,9 @@ ActiveRecord::Schema.define(:version => 20100531074943) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "postal_code"
     t.string   "plan_id"
     t.string   "customer_id"
     t.string   "card_token"
@@ -22,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20100531074943) do
     t.string   "status"
     t.string   "card_type"
     t.string   "card_number_last_4_digits"
+    t.string   "card_expiration_date"
   end
 
   create_table "brand_queries", :force => true do |t|
