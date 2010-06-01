@@ -6,14 +6,14 @@
 #  user_id                   :integer(4)
 #  created_at                :datetime
 #  updated_at                :datetime
-#  first_name                :string(255)
-#  last_name                 :string(255)
-#  postal_code               :string(255)
 #  plan_id                   :string(255)
 #  customer_id               :string(255)
 #  card_token                :string(255)
 #  subscription_id           :string(255)
 #  status                    :string(255)
+#  card_first_name           :string(255)
+#  card_last_name            :string(255)
+#  card_postal_code          :string(255)
 #  card_type                 :string(255)
 #  card_number_last_4_digits :string(255)
 #  card_expiration_date      :string(255)
@@ -28,14 +28,14 @@ class Account < ActiveRecord::Base
   validates_presence_of :holder
   validates_associated :holder
   validate :save_card_to_braintree, :if => :card_fields_present?
-  validates_presence_of :first_name, :if => :card_fields_present?
-  validates_presence_of :last_name, :if => :card_fields_present?
-  validates_presence_of :postal_code, :if => :card_fields_present?
+  # validates_presence_of :first_name, :if => :card_fields_present?
+  # validates_presence_of :last_name, :if => :card_fields_present?
+  # validates_presence_of :postal_code, :if => :card_fields_present?
   
   after_create :create_braintree_customer
   after_save :create_braintree_subscription, :if => :subscription_needed?
   
-  attr_accessor :card_number, :expiration_month, :expiration_year, :cvv
+  attr_accessor :card_number, :expiration_month, :expiration_year, :cvv, :first_name, :last_name, :postal_code
   
   def card_fields_present?
     !@card_number.blank? && !@expiration_month.blank? && !@expiration_year.blank? && !@cvv.blank?
@@ -62,15 +62,15 @@ class Account < ActiveRecord::Base
     def save_card_to_braintree
       if card_token
         result = Braintree::CreditCard.update(card_token,
-          :cardholder_name =>  [first_name, last_name].join(" "),
+          :cardholder_name =>  [@first_name, @last_name].join(" "),
           :number => @card_number,
           :expiration_month => @expiration_month,
           :expiration_year => @expiration_year,
           :cvv => @cvv,
           :billing_address => {
-            :first_name => first_name,
-            :last_name => last_name,
-            :postal_code => postal_code,
+            :first_name => @first_name,
+            :last_name => @last_name,
+            :postal_code => @postal_code,
             :options => { :update_existing => true }
             },
           :options => { :verify_card => true }
@@ -78,15 +78,15 @@ class Account < ActiveRecord::Base
       else
         result = Braintree::CreditCard.create(
           :customer_id => customer_id,
-          :cardholder_name =>  [first_name, last_name].join(" "),
+          :cardholder_name =>  [@first_name, @last_name].join(" "),
           :number => @card_number,
           :expiration_month => @expiration_month,
           :expiration_year => @expiration_year,
           :cvv => @cvv,
           :billing_address => {
-            :first_name => first_name,
-            :last_name => last_name,
-            :postal_code => postal_code
+            :first_name => @first_name,
+            :last_name => @last_name,
+            :postal_code => @postal_code
             },
           :options => { :verify_card => true }
         )
@@ -97,11 +97,17 @@ class Account < ActiveRecord::Base
         self.card_type = result.credit_card.card_type
         self.card_number_last_4_digits = result.credit_card.last_4
         self.card_expiration_date = [result.credit_card.expiration_month, result.credit_card.expiration_year].join("/")
+        self.card_first_name = result.credit_card.billing_address.first_name
+        self.card_last_name = result.credit_card.billing_address.last_name
+        self.card_postal_code = result.credit_card.billing_address.postal_code
         
         update_braintree_customer
         @card_number, @expiration_date, @cvv = nil
       else
-        errors.add_to_base("Card is invalid")
+        logger.debug(">>>>>>>>>>>>#{result.inspect}")
+        logger.debug(">>>>>>>>>>>>#{result.credit_card_verification.cvv_response_code.inspect}")
+        errors.add(:card_number, result.errors.for(:credit_card).on(:number)[0].message) if result.errors.for(:credit_card)
+        errors.add_to_base("Invalid Card!")
       end
     end
     

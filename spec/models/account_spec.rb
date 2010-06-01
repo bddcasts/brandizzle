@@ -6,14 +6,14 @@
 #  user_id                   :integer(4)
 #  created_at                :datetime
 #  updated_at                :datetime
-#  first_name                :string(255)
-#  last_name                 :string(255)
-#  postal_code               :string(255)
 #  plan_id                   :string(255)
 #  customer_id               :string(255)
 #  card_token                :string(255)
 #  subscription_id           :string(255)
 #  status                    :string(255)
+#  card_first_name           :string(255)
+#  card_last_name            :string(255)
+#  card_postal_code          :string(255)
 #  card_type                 :string(255)
 #  card_number_last_4_digits :string(255)
 #  card_expiration_date      :string(255)
@@ -23,7 +23,9 @@ require 'spec_helper'
 
 describe Account do
   #columns
-  should_have_column :plan_id, :customer_id, :card_token, :subscription_id, :card_type, :card_number_last_4_digits, :status, :type => :string
+  should_have_column :plan_id, :customer_id, :card_token, :subscription_id, :status, 
+    :card_type, :card_first_name, :card_last_name, :card_postal_code, :card_expiration_date, :card_number_last_4_digits,
+    :type => :string
   
   #validations
   should_validate_presence_of :holder
