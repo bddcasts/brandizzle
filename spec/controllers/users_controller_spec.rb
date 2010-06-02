@@ -45,7 +45,7 @@ describe UsersController do
     end
     
     it "creates a new user from params and assigns it for the view" do
-      @current_team.members.should_receive(:build).with("login" => "Cartman", "active" => true).and_return(@user)
+      @current_team.members.should_receive(:build).with("login" => "Cartman").and_return(@user)
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:user].should == @user
     end

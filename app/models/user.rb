@@ -76,11 +76,6 @@ class User < ActiveRecord::Base
     reset_perishable_token!
     Notifier.deliver_activation_instructions(self)
   end
-
-  def deliver_activation_confirmation!
-    reset_perishable_token!
-    Notifier.deliver_activation_confirmation(self)
-  end
   
   def avatar
     if using_twitter?

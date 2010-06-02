@@ -11,10 +11,11 @@ class UserSignupsController < ApplicationController
   def update
     @user.password = params[:user][:password]
     @user.password_confirmation = params[:user][:password_confirmation]
+    @user.active = true
     
     if @user.save
-      flash[:notice] = "Your account has been created!"
-      redirect_to edit_user_info_path
+      flash[:notice] = "Your account has been activated!"
+      redirect_to root_path
     else
       render :edit
     end

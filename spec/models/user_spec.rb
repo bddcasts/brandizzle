@@ -165,23 +165,6 @@ describe User do
     end
   end
   
-  describe "#deliver_activation_confirmation!" do
-    before(:each) do
-      @user = Factory.create(:user)
-      Notifier.stub(:deliver_activation_confirmation!)
-    end
-    
-    it "resets the perishable token" do
-      @user.should_receive(:reset_perishable_token!)
-      @user.deliver_activation_confirmation!
-    end
-
-    it "delivers the activation confirmation using the Notifier" do
-      Notifier.should_receive(:deliver_activation_confirmation).with(@user)
-      @user.deliver_activation_confirmation!
-    end
-  end
-
   describe "#avatar" do
     it "returns the twitter avatar (avatar_url) if user is using Twitter" do
       user = Factory.create(:twitter_user)

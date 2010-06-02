@@ -37,6 +37,7 @@ describe UserSignupsController do
       
       @user.stub(:password=)
       @user.stub(:password_confirmation=)
+      @user.stub(:active=)
     end
     
     def do_put_with_valid_attributes(options={})
@@ -63,10 +64,15 @@ describe UserSignupsController do
       do_put_with_valid_attributes(:password => "foo", :password_confirmation => "bar")
     end
     
+    it "sets the active flag to true" do
+      @user.should_receive(:active=).with(true)
+      do_put_with_valid_attributes
+    end
+    
     it "sets the flash message and redirects to the homepage on success" do
       do_put_with_valid_attributes
       flash[:notice].should_not be_nil
-      response.should redirect_to(edit_user_info_path)
+      response.should redirect_to(root_path)
     end
     
     it "renders the edit template on failure" do

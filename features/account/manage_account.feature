@@ -7,8 +7,6 @@ Feature: User Accounts
     Given I am on the registration page
      When I fill in "Login" with "cartman"
       And I fill in "Email" with "cartman@example.com"
-      And I fill in "Password" with "secret"
-      And I fill in "Password confirmation" with "secret"
       And I press "Create my account"
      Then I should be on the login page
       And I should see "Your account has been created. Please check your e-mail"
@@ -20,9 +18,12 @@ Feature: User Accounts
      When I open the email
      Then I should see "[BrandPulse] Activation Instructions" in the email subject
      When I click the first link in the email
+      And I fill in "Password" with "secret"
+      And I fill in "Password confirmation" with "secret"
       And I press "Activate my account and log me in"
      Then I should be on the homepage
       And I should see "Welcome cartman!"
+      And user: "cartman" should be active
   
   Scenario: Visiting the login page
     Given I am on the homepage

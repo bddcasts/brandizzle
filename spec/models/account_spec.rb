@@ -35,6 +35,18 @@ describe Account do
   should_belong_to :holder, :class_name => "User", :foreign_key => "user_id"
   should_have_one :team
   should_accept_nested_attributes_for :holder
+  
+  let(:valid_credit_card_fields) do
+    {
+      :card_number      => "4111111111111111",
+      :expiration_month => "05",
+      :expiration_year  => "2020",
+      :cvv              => "123",
+      :first_name       => "Randy",
+      :last_name        => "Marsh",
+      :postal_code      => "12345"
+    }
+  end
  
   it "creating a new account also creates a braintree account and sets customer_id" do
     create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
@@ -45,97 +57,68 @@ describe Account do
   end
   
   describe "updating account with credit card details" do
+    subject                    { Factory.create(:account, :customer_id => customer_id, :card_token => card_token) }
+    let(:customer_id)          { "customer-42" }
+    let(:billing_address)      { mock("billing_address", :first_name => "Randy", :last_name => "Marsh", :postal_code => "12345") }
+    let(:credit_card)          { mock("credit_card", :token => "asdf", :card_type => "Visa", :last_4 => "1111", :expiration_month => "05", :expiration_year => "2020", :billing_address => billing_address) }
+    let(:credit_card_response) { mock("result", :success? => true, :credit_card => credit_card) }
+    
     before(:each) do
-      create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
-      Braintree::Customer.stub!(:create).and_return(create_customer_result)
-      
-      @billing_address = mock("billing_address", 
-        :first_name => "Randy",
-        :last_name => "Marsh",
-        :postal_code => "12345")
-      @credit_card = mock("credit_card",
-        :token => "asdf",
-        :card_type => "Visa",
-        :last_4 => "1111",
-        :expiration_month => "05",
-        :expiration_year => "2020",
-        :billing_address => @billing_address)
-      @credit_card_response = mock("result", 
-        :success? => true, 
-        :credit_card => @credit_card)
+      create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => customer_id))
+      Braintree::Customer.stub(:create).and_return(create_customer_result)
+      Braintree::Customer.stub(:update).and_return(mock("result", :null_object => true))
+      Braintree::Subscription.stub(:create).and_return(mock("result", :null_object => true))
+      Braintree::CreditCard.stub(:create).and_return(mock("result", :null_object => true))
+      Braintree::CreditCard.stub(:update).and_return(mock("result", :null_object => true))
     end
     
-    context "card_token does not exist" do      
+    context "card_token does not exist" do
+      let(:card_token) { nil }     
+      
       it "creates a new credit card on braintree and populates account fields with braintree result attributes" do
-        Braintree::Customer.stub!(:update).and_return(mock("result", :null_object => true))
-        Braintree::Subscription.stub!(:create).and_return(mock("result", :null_object => true))
+        Braintree::CreditCard.should_receive(:create).and_return(credit_card_response)
 
-        Braintree::CreditCard.should_receive(:create).and_return(@credit_card_response)
+        subject.update_attributes(valid_credit_card_fields)
         
-        account = Factory.create(:account)
-        valid_credit_card_fields.each do |k,v|
-          account.send("#{k}=", v)
-        end
-        account.save
-        
-        account.card_token.should == "asdf"
-        account.card_type.should == "Visa"
-        account.card_number_last_4_digits.should == "1111"
-        account.card_expiration_date.should == "05/2020"
-        account.card_first_name.should == "Randy"
-        account.card_last_name.should == "Marsh"
-        account.card_postal_code.should == "12345"
+        subject.card_token.should == "asdf"
+        subject.card_type.should == "Visa"
+        subject.card_number_last_4_digits.should == "1111"
+        subject.card_expiration_date.should == "05/2020"
+        subject.card_first_name.should == "Randy"
+        subject.card_last_name.should == "Marsh"
+        subject.card_postal_code.should == "12345"
       end
       
       it "updates the customer on braintree with first_name and last_name" do
-        Braintree::Subscription.stub!(:create).and_return(mock("result", :null_object => true))
-        Braintree::CreditCard.stub!(:create).and_return(mock("result", :null_object => true))
-        
-        account = Factory.create(:account, :customer_id => "test")
-                
         Braintree::Customer.should_receive(:update).
-          with(account.customer_id, hash_including(:first_name => "Randy", :last_name => "Marsh"))
-      
-        valid_credit_card_fields.each do |k,v|
-          account.send("#{k}=", v)
-        end
-        account.save
+          with(customer_id, hash_including(:first_name => "Randy", :last_name => "Marsh"))
+        
+        subject.update_attributes(valid_credit_card_fields)
       end
     end
 
     context "card_token exists" do
+      let(:card_token) { "card-token" }
+      
       it "creates a new subscription on braintree and sets the subscription_id and status for account" do
-        Braintree::Customer.stub!(:update).and_return(mock("result", :null_object => true))
-        Braintree::CreditCard.stub!(:update).and_return(mock("result", :null_object => true))
-        
         subscription_response = mock("result",
           :success? => true,
           :subscription => mock("subscription", :id => "subs", :status => "Active"))
         
         Braintree::Subscription.should_receive(:create).and_return(subscription_response)
         
-        account = Factory.create(:account, :card_token => "test")
-        valid_credit_card_fields.each do |k,v|
-          account.send("#{k}=", v)
-        end
-        account.save
+        subject.update_attributes(valid_credit_card_fields)
         
-        account.subscription_id.should == "subs"
-        account.status.should == "Active"
+        subject.subscription_id.should == "subs"
+        subject.status.should == "Active"
       end
       
       it "updates the existing credit card on braintree and populates account fields with braintree result attributes" do
-        Braintree::Customer.stub!(:update).and_return(mock("result", :null_object => true))
-        Braintree::Subscription.stub!(:create).and_return(mock("result", :null_object => true))
+        Braintree::CreditCard.should_receive(:update).and_return(credit_card_response)
         
-        Braintree::CreditCard.should_receive(:update).and_return(@credit_card_response)
+        subject.update_attributes(valid_credit_card_fields)
         
-        account = Factory.create(:account, :card_token => "test", :card_first_name => "Stan")
-        valid_credit_card_fields.each do |k,v|
-          account.send("#{k}=", v)
-        end
-        account.save
-        account.first_name.should == "Randy"
+        subject.first_name.should == "Randy"
       end
     end
   end
@@ -193,16 +176,4 @@ describe Account do
     end
   end
   
-  private
-    def valid_credit_card_fields
-      {
-        :card_number => "4111111111111111",
-        :expiration_month => "05",
-        :expiration_year => "2020",
-        :cvv => "123",
-        :first_name => "Randy",
-        :last_name => "Marsh",
-        :postal_code => "12345"
-      }
-    end
 end

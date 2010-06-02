@@ -34,13 +34,15 @@ describe ActivationsController do
     before(:each) do
       @user = mock_model(User)
       User.stub!(:find).and_return(@user)
-      @user.stub!(:deliver_activation_confirmation!)
-      UserSession.stub!(:create)
+      
+      @user.stub(:password=)
+      @user.stub(:password_confirmation=)
+      @user.stub(:active=)
     end
     
-    def do_post_with_valid_attributes
-      @user.should_receive(:activate!).and_return(true)
-      post :create, :id => "42"
+    def do_post_with_valid_attributes(options={})
+      @user.should_receive(:save).and_return(true)
+      post :create, :id => "42", :user => options
     end
     
     it "finds the user by id and assigns it for the view" do
@@ -49,13 +51,14 @@ describe ActivationsController do
       assigns[:user].should == @user
     end
     
-    it "delivers the activation confirmation email" do
-      @user.should_receive(:deliver_activation_confirmation!)
-      do_post_with_valid_attributes
+    it "assigns the password and password confirmation to the user" do
+      @user.should_receive(:password=).with("foo")
+      @user.should_receive(:password_confirmation=).with("bar")
+      do_post_with_valid_attributes(:password => "foo", :password_confirmation => "bar")
     end
     
-    it "logs in the user" do
-      UserSession.should_receive(:create)
+    it "sets the active flag to true" do
+      @user.should_receive(:active=).with(true)
       do_post_with_valid_attributes
     end
     
@@ -66,8 +69,8 @@ describe ActivationsController do
     end
     
     it "sets the flash message and renders the new template on failure" do
-      @user.should_receive(:activate!).and_return(false)
-      post :create, :id => "42"
+      @user.should_receive(:save).and_return(false)
+      post :create, :id => "42", :user => {}
       flash[:error].should_not be_nil
       response.should render_template(:new)
     end

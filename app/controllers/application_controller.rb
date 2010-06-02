@@ -7,8 +7,18 @@ class ApplicationController < ActionController::Base
   
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user
+  
+  before_filter :require_valid_subscription
 
-  private    
+  private
+    def require_valid_subscription
+      !!current_account.try(:valid_subscription?)
+    end
+    
+    def current_account
+      current_user.try(:account)
+    end
+    
     def current_user_session
       @current_user_session ||= UserSession.find
     end

@@ -1,5 +1,8 @@
 - title "Activate your account"
 
-- semantic_form_for @user, :url => activate_path(@user.id) do |f|
+- semantic_form_for @user, :url => activate_path(@user.id), :html => { :class => "account large" } do |f|
+  - f.inputs do
+    = f.input :password
+    = f.input :password_confirmation
   - f.buttons do
     = f.commit_button "Activate my account and log me in"

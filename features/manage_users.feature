@@ -23,8 +23,8 @@ Feature: Account management
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Set up my account and log me in"
-     Then I should be on my info page
-      And I should see "Your account has been created!"
+     Then I should be on the homepage
+      And I should see "Your account has been activated!"
     
   Scenario: Removing a user from my team
     Given I am logged in as account holder "cartman"

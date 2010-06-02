@@ -42,6 +42,10 @@ class Account < ActiveRecord::Base
     (30 - (Time.now - created_at)/1.day).round
   end
   
+  def valid_subscription?
+    (subscription_id && status == 'Active') || trial_days_left > 0
+  end
+  
   def subscription_needed?
     card_token && !subscription_id
   end
@@ -49,10 +53,8 @@ class Account < ActiveRecord::Base
   private
     def create_braintree_customer
       result = Braintree::Customer.create(:email => holder.email)
-
       if result.success?
-        self.customer_id = result.customer.id
-        self.save
+        self.update_attribute(:customer_id, result.customer.id)
       end
     end
     

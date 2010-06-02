@@ -1,5 +1,7 @@
 class ActivationsController < ApplicationController
   before_filter :require_no_user
+  
+  layout "login"
 
   def new
     @user = User.find_using_perishable_token(params[:activation_code], 1.week)
@@ -14,10 +16,11 @@ class ActivationsController < ApplicationController
 
   def create
     @user = User.find(params[:id])
-
-    if @user.activate!
-      @user.deliver_activation_confirmation!
-      UserSession.create(@user)
+    @user.password = params[:user][:password]
+    @user.password_confirmation = params[:user][:password_confirmation]
+    @user.active = true
+    
+    if @user.save
       flash[:notice] = "Welcome #{@user}!"
       redirect_to root_path
     else
