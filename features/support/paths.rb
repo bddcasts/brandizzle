@@ -20,6 +20,8 @@ module NavigationHelpers
       new_user_session_path
     when /my account page/
       edit_account_path
+    when /the account page/
+      account_path
 
     # added by script/generate pickle path
 

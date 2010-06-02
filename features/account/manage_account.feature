@@ -3,7 +3,6 @@ Feature: User Accounts
   As a user
   I want to register for an account, login and logout
   
-  @wip
   Scenario: Registering for a new account
     Given I am on the registration page
      When I fill in "Login" with "cartman"
@@ -13,6 +12,7 @@ Feature: User Accounts
       And I press "Create my account"
      Then I should be on the brand_results page
       And I should see "Your account has been created."
+      And an account should exist with customer_id: "42"
   
   Scenario: Visiting the login page
     Given I am on the homepage

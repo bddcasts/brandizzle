@@ -6,7 +6,7 @@ Factory.define(:account) do |f|
   f.association :holder, :factory => :user
 end
 
-Factory.define(:subscription_account, :parent => :account) do |f|
+Factory.define(:subscribed_account, :parent => :account) do |f|
   f.plan_id "standard"
   f.sequence(:customer_id) { |i| "1234#{i}"}
   f.sequence(:card_token) { |i| "token#{i}"}

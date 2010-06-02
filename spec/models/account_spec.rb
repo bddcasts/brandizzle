@@ -69,7 +69,7 @@ describe Account do
       it "creates a new credit card on braintree and populates account fields with braintree result attributes" do
         Braintree::Customer.stub!(:update).and_return(mock("result", :null_object => true))
         Braintree::Subscription.stub!(:create).and_return(mock("result", :null_object => true))
-                  
+
         Braintree::CreditCard.should_receive(:create).and_return(@credit_card_response)
         
         account = Factory.create(:account)

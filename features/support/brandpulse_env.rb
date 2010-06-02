@@ -18,6 +18,6 @@ require 'features/support/pickle'
 require 'features/support/factory_girl'
 
 Before do
-  @result = mock("result", :success? => true, :null_object => true)
+  @result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
   Braintree::Customer.stub!(:create).and_return(@result)
 end
