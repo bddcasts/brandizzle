@@ -16,3 +16,8 @@ require 'email_spec'
 require 'email_spec/cucumber'
 require 'features/support/pickle'
 require 'features/support/factory_girl'
+
+Before do
+  @result = mock("result", :success? => true, :null_object => true)
+  Braintree::Customer.stub!(:create).and_return(@result)
+end

@@ -1,6 +1,12 @@
 - title "Your account information"
 
 %div
+  Full Name on card
+  = "#{h @account.card_first_name} #{h @account.card_last_name}"
+%div
+  Post Code
+  = h @account.card_postal_code
+%div
   Card Type: 
   = @account.card_type
 %div

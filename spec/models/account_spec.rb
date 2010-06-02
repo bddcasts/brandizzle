@@ -35,4 +35,16 @@ describe Account do
   should_belong_to :holder, :class_name => "User", :foreign_key => "user_id"
   should_have_one :team
   should_accept_nested_attributes_for :holder
+  
+  describe "#trial_days_left" do
+    before(:each) do
+      @result = mock("result", :success? => true, :null_object => true)
+      Braintree::Customer.stub!(:create).and_return(@result)
+    end
+    
+    it "fetches the number of trial days left" do
+      account = Factory.create(:account, :created_at => 3.days.ago)
+      account.trial_days_left.should == 27
+    end
+  end
 end

@@ -28,9 +28,6 @@ class Account < ActiveRecord::Base
   validates_presence_of :holder
   validates_associated :holder
   validate :save_card_to_braintree, :if => :card_fields_present?
-  # validates_presence_of :first_name, :if => :card_fields_present?
-  # validates_presence_of :last_name, :if => :card_fields_present?
-  # validates_presence_of :postal_code, :if => :card_fields_present?
   
   after_create :create_braintree_customer
   after_save :create_braintree_subscription, :if => :subscription_needed?
@@ -38,7 +35,7 @@ class Account < ActiveRecord::Base
   attr_accessor :card_number, :expiration_month, :expiration_year, :cvv, :first_name, :last_name, :postal_code
   
   def card_fields_present?
-    !@card_number.blank? && !@expiration_month.blank? && !@expiration_year.blank? && !@cvv.blank?
+    !@card_number.blank? && !@expiration_month.blank? && !@expiration_year.blank? && !@cvv.blank? && !@first_name.blank? && !@last_name.blank? && !@postal_code.blank?
   end
   
   def trial_days_left
@@ -61,34 +58,16 @@ class Account < ActiveRecord::Base
     
     def save_card_to_braintree
       if card_token
-        result = Braintree::CreditCard.update(card_token,
-          :cardholder_name =>  [@first_name, @last_name].join(" "),
-          :number => @card_number,
-          :expiration_month => @expiration_month,
-          :expiration_year => @expiration_year,
-          :cvv => @cvv,
-          :billing_address => {
-            :first_name => @first_name,
-            :last_name => @last_name,
-            :postal_code => @postal_code,
-            :options => { :update_existing => true }
-            },
-          :options => { :verify_card => true }
+        result = Braintree::CreditCard.update(
+          card_token,
+          braintree_credit_card_attr.merge(
+            :billing_address => braintree_billing_address_attr.merge(
+              :options => { :update_existing => true}))
         )
       else
         result = Braintree::CreditCard.create(
-          :customer_id => customer_id,
-          :cardholder_name =>  [@first_name, @last_name].join(" "),
-          :number => @card_number,
-          :expiration_month => @expiration_month,
-          :expiration_year => @expiration_year,
-          :cvv => @cvv,
-          :billing_address => {
-            :first_name => @first_name,
-            :last_name => @last_name,
-            :postal_code => @postal_code
-            },
-          :options => { :verify_card => true }
+          braintree_credit_card_attr.merge(
+            :customer_id => customer_id, :billing_address => braintree_billing_address_attr)
         )
       end
       
@@ -102,12 +81,10 @@ class Account < ActiveRecord::Base
         self.card_postal_code = result.credit_card.billing_address.postal_code
         
         update_braintree_customer
-        @card_number, @expiration_date, @cvv = nil
+        @card_number = nil #settings card_number to nil so when subscription is saved card does not get saved again
       else
-        logger.debug(">>>>>>>>>>>>#{result.inspect}")
-        logger.debug(">>>>>>>>>>>>#{result.credit_card_verification.cvv_response_code.inspect}")
-        errors.add(:card_number, result.errors.for(:credit_card).on(:number)[0].message) if result.errors.for(:credit_card)
-        errors.add_to_base("Invalid Card!")
+        errors.add_to_base("Invalid Credit Card!")
+        errors.add(:card_number, "is invalid") if result.errors.for(:credit_card)
       end
     end
     
@@ -132,5 +109,24 @@ class Account < ActiveRecord::Base
         :first_name => first_name,
         :last_name => last_name
       )
+    end
+    
+    def braintree_credit_card_attr
+      {
+        :cardholder_name =>  [@first_name, @last_name].join(" "),
+        :number => @card_number,
+        :expiration_month => @expiration_month,
+        :expiration_year => @expiration_year,
+        :cvv => @cvv,
+        :options => { :verify_card => true }
+      }
+    end
+    
+    def braintree_billing_address_attr
+      {
+        :first_name => @first_name,
+        :last_name => @last_name,
+        :postal_code => @postal_code
+      }
     end
 end
