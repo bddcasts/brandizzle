@@ -6,12 +6,18 @@ Factory.define(:account) do |f|
   f.association :holder, :factory => :user
 end
 
-Factory.define(:subscription_account) do |f|
+Factory.define(:subscription_account, :parent => :account) do |f|
   f.plan_id "standard"
   f.sequence(:customer_id) { |i| "1234#{i}"}
   f.sequence(:card_token) { |i| "token#{i}"}
   f.sequence(:subscription_id) { |i| "subs-id-#{i}" }
   f.status "active"
+  f.card_first_name "Randy"
+  f.card_last_name "Marsh"
+  f.card_postal_code "12345"
+  f.card_type "Visa"
+  f.card_number_last_4_digits "1111"
+  f.card_expiration_date "05/2020"
 end
 
 Factory.define(:user) do |f|

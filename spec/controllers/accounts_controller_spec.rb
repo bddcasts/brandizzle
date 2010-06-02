@@ -66,7 +66,7 @@ describe AccountsController do
     end
     
     it "creates a new account from params and assigns it for the view" do
-      Account.should_receive(:new).with("login" => "Cartman").and_return(@account)
+      Account.should_receive(:new).with(hash_including("login" => "Cartman")).and_return(@account)
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:account].should == @account
     end
@@ -92,6 +92,88 @@ describe AccountsController do
       do_post_with_invalid_attributes
       # flash[:error].should_not be_nil
       response.should render_template(:new)
+    end
+  end
+
+  describe "handling GET show" do
+    before(:each) do
+      login_user
+      @account = current_user.account
+      @account.stub!(:card_token).and_return(true)
+    end
+    
+    def do_get
+      get :show
+    end
+    
+    it "assigns the current_user account for the view" do
+      current_user.should_receive(:account).and_return(@account)
+      do_get
+      assigns[:account].should == @account
+    end
+    
+    it "renders the show template" do
+      do_get
+      response.should render_template(:show)
+    end
+    
+    it "redirects to edit action if account has no card_token set" do
+      @account.should_receive(:card_token).and_return(false)
+      do_get
+      response.should redirect_to(edit_account_path)
+    end
+  end
+  
+  describe "handling GET edit" do
+    before(:each) do
+      login_user
+      @account = current_user.account
+    end
+    
+    def do_get
+      get :edit
+    end
+    
+    it "assigns the current_user account for the view" do
+      current_user.should_receive(:account).and_return(@account)
+      do_get
+      assigns[:account].should == @account
+    end
+    
+    it "renders the edit template" do
+      do_get
+      response.should render_template(:edit)
+    end
+  end
+  
+  describe "handling PUT update" do
+    before(:each) do
+      login_user({}, {:account => mock_model(Account)})
+      @account = current_user.account
+    end
+    
+    def do_put_with_valid_attributes(options={})
+      @account.should_receive(:update_attributes).with("first_name" => "Randy").and_return(true)
+      put :update, :account => {:first_name => "Randy"}.merge(options)
+    end
+    
+    it "assigns the current_user account for the view" do
+      current_user.should_receive(:account).and_return(@account)
+      do_put_with_valid_attributes
+      assigns[:account].should == @account
+    end
+    
+    it "sets the flash and redirects to show page on success" do
+      do_put_with_valid_attributes
+      flash[:notice].should_not be_nil
+      response.should redirect_to(account_path)
+    end
+    
+    it "sets the flash and renders the edit template on failure" do
+      @account.should_receive(:update_attributes).and_return(false)
+      put :update
+      # flash.now[:error].should_not be_nil
+      response.should render_template(:edit)
     end
   end
 end
