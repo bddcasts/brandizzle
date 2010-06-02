@@ -72,6 +72,16 @@ class User < ActiveRecord::Base
     Notifier.deliver_user_invitation(self)
   end
   
+  def deliver_activation_instructions!
+    reset_perishable_token!
+    Notifier.deliver_activation_instructions(self)
+  end
+
+  def deliver_activation_confirmation!
+    reset_perishable_token!
+    Notifier.deliver_activation_confirmation(self)
+  end
+  
   def avatar
     if using_twitter?
       avatar_url
@@ -84,6 +94,11 @@ class User < ActiveRecord::Base
     "http://www.gravatar.com/avatar.php?gravatar_id=#{Digest::MD5.hexdigest(email)}&size=48"
   end
   
+  def activate!
+    self.active = true
+    save
+  end
+
   private
     def populate_oauth_user
       return unless twitter_uid.blank?

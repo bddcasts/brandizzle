@@ -147,6 +147,40 @@ describe User do
       @user.deliver_user_invitation!
     end
   end
+  
+  describe "#deliver_activation_instructions!" do
+    before(:each) do
+      @user = Factory.create(:user)
+      Notifier.stub(:deliver_activation_instructions!)
+    end
+    
+    it "resets the perishable token" do
+      @user.should_receive(:reset_perishable_token!)
+      @user.deliver_activation_instructions!
+    end
+
+    it "delivers the activation instructions using the Notifier" do
+      Notifier.should_receive(:deliver_activation_instructions).with(@user)
+      @user.deliver_activation_instructions!
+    end
+  end
+  
+  describe "#deliver_activation_confirmation!" do
+    before(:each) do
+      @user = Factory.create(:user)
+      Notifier.stub(:deliver_activation_confirmation!)
+    end
+    
+    it "resets the perishable token" do
+      @user.should_receive(:reset_perishable_token!)
+      @user.deliver_activation_confirmation!
+    end
+
+    it "delivers the activation confirmation using the Notifier" do
+      Notifier.should_receive(:deliver_activation_confirmation).with(@user)
+      @user.deliver_activation_confirmation!
+    end
+  end
 
   describe "#avatar" do
     it "returns the twitter avatar (avatar_url) if user is using Twitter" do
@@ -159,7 +193,6 @@ describe User do
       user.avatar.should match(/www.gravatar.com/)
     end
   end
-  
   
   describe "populate user data from Twitter profile" do
     describe "on save" do
@@ -219,6 +252,14 @@ describe User do
         
         @user.save
       end
+    end
+  end
+
+  describe "#activate!" do
+    it "activates the user" do
+      user = Factory.create(:inactive_user)
+      user.activate!
+      user.should be_active
     end
   end
 end

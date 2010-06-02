@@ -20,6 +20,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :account
   map.resources :password_resets, :only => [:new, :create, :edit, :update]
   map.resources :user_signups, :only => [:edit, :update]
+  map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
+  map.activate '/activate/:id', :controller => 'activations', :action => 'create'
 
   map.with_options(:controller => 'pages', :action => 'show') do |pages|
     pages.connect '/about', :id => 'about'

@@ -10,9 +10,19 @@ Feature: User Accounts
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
       And I press "Create my account"
-     Then I should be on the brand_results page
-      And I should see "Your account has been created."
-      And an account should exist with customer_id: "42"
+     Then I should be on the login page
+      And I should see "Your account has been created. Please check your e-mail"
+      And a user "cartman" should exist with login: "cartman", email: "cartman@example.com"
+      And an account "cartman_account" should exist with user: user "cartman", customer_id: "42"
+      And user: "cartman" should not be active
+    
+     Then "cartman@example.com" should receive an email
+     When I open the email
+     Then I should see "[BrandPulse] Activation Instructions" in the email subject
+     When I click the first link in the email
+      And I press "Activate my account and log me in"
+     Then I should be on the homepage
+      And I should see "Welcome cartman!"
   
   Scenario: Visiting the login page
     Given I am on the homepage

@@ -15,8 +15,9 @@ class AccountsController < ApplicationController
     @account.holder.team = @team
     
     if @account.save
-      flash[:notice] = "Your account has been created."
-      redirect_to brand_results_path
+      @account.holder.deliver_activation_instructions!
+      flash[:notice] = "Your account has been created. Please check your e-mail for your account activation instructions!"
+      redirect_to new_user_session_path
     else
       flash.now[:error] = "Acount registration failed!"
       render :new

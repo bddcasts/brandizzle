@@ -53,6 +53,7 @@ describe AccountsController do
       @team = mock_model(Team)
       @account.stub!(:build_team).and_return(@team)
       @account.stub_chain(:holder, :team=)
+      @account.stub_chain(:holder, :deliver_activation_instructions!)
     end
     
     def do_post_with_valid_attributes(options={})
@@ -82,10 +83,15 @@ describe AccountsController do
       do_post_with_valid_attributes
     end
     
-    it "sets the flash message and redirects to home page on success" do
+    it "delivers the activation instructions email" do
+      @account.holder.should_receive(:deliver_activation_instructions!)
+      do_post_with_valid_attributes
+    end
+    
+    it "sets the flash message and redirects to login page on success" do
       do_post_with_valid_attributes
       flash[:notice].should_not be_nil
-      response.should redirect_to(brand_results_path)
+      response.should redirect_to(new_user_session_path)
     end
     
     it "sets the flash message and renders the new template on failure" do
