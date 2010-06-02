@@ -1,5 +1,6 @@
 class ActivationsController < ApplicationController
   before_filter :require_no_user
+  skip_before_filter :require_valid_subscription
   
   layout "login"
 

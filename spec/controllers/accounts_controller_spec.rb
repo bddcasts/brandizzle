@@ -2,15 +2,13 @@ require 'spec_helper'
 
 describe AccountsController do
   
-  describe "access control" do
-    it "edit action requires login" do
-      get :edit
-      response.should redirect_to(new_user_session_path)
-    end
-    
-    it "update action requires login" do
-      put :update
-      response.should redirect_to(new_user_session_path)
+  describe "access control" do    
+    [:edit, :update, :show].each do |action|
+      it "requires user to be logged in for action #{action}" do
+        get action
+        flash[:notice].should  == "You must be logged in to access this page"
+        response.should redirect_to(new_user_session_path)
+      end
     end
   end
   

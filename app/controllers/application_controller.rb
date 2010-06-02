@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
 
   private
     def require_valid_subscription
-      !!current_account.try(:valid_subscription?)
-    end
-    
-    def current_account
-      current_user.try(:account)
+      unless !!current_account.try(:valid_subscription?)
+        flash[:notice] = "You must be subscribed in order to keep using our services!"
+        redirect_to account_path
+        return false
+      end
     end
     
     def current_user_session
@@ -56,6 +56,10 @@ class ApplicationController < ActionController::Base
     
     def current_team
       @current_team ||= current_user && current_user.team
+    end
+    
+    def current_account
+      current_user && current_user.team.account
     end
     
     def log

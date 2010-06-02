@@ -124,56 +124,117 @@ describe Account do
   end
   
   describe "#trial_days_left" do
+    subject { Factory.create(:account, :created_at => 3.days.ago) }
+    
     before(:each) do
       @result = mock("result", :success? => true, :null_object => true)
       Braintree::Customer.stub!(:create).and_return(@result)
     end
     
     it "fetches the number of trial days left" do
-      account = Factory.create(:account, :created_at => 3.days.ago)
-      account.trial_days_left.should == 27
+      subject.trial_days_left.should == 27
+    end
+  end
+  
+  describe "valid_subscription?" do
+    subject { Factory.create(:account, :subscription_id => subscription_id, :status => status, :created_at => created_at) }
+    let(:subscription_id) { "subs-id" }
+    let(:status) { "Active" }
+    let(:created_at) { 3.days.ago }
+    
+    before(:each) do
+      create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
+      Braintree::Customer.stub(:create).and_return(create_customer_result)
+    end
+    
+    context "subscription_id present, status active, trial days left" do
+      it "returns true" do
+        subject.valid_subscription?.should be_true
+      end
+    end
+    
+    context "subscription_id present, status active, no trial days left" do
+      let(:created_at) { 31.days.ago}
+      
+      it "returns true" do
+        subject.valid_subscription?.should be_true
+      end
+    end
+    
+    context "no subscription_id, trial days left" do
+      let(:subscription_id) { nil }
+      
+      it "returns true" do
+        subject.valid_subscription?.should be_true
+      end
+    end
+    
+    context "no subscription_id, no trial days left" do
+      let(:subscription_id) { nil }
+      let(:created_at) { 31.days.ago }
+      
+      it "returns false" do
+        subject.valid_subscription?.should be_false
+      end      
+    end
+    
+    context "subscription_id present, status not active, no trial days left" do
+      let(:status) { "PastDue" }
+      let(:created_at) { 31.days.ago }
+      
+      it "returns false" do
+        subject.valid_subscription?.should be_false
+      end
     end
   end
   
   describe "#card_fields_present?" do
-    before(:each) do
-      @account = Account.new(valid_credit_card_fields)
-    end
-    
+    subject { Account.new(valid_credit_card_fields) }
+
     it "returns true if all card fields are present" do
-      @account.card_fields_present?.should be_true
+      subject.card_fields_present?.should be_true
     end
     
     ["card_number", "expiration_month", "expiration_year", "cvv", "first_name", "last_name", "postal_code"].each do |att|
       it "returns false if #{att} is not present" do
-        @account.send("#{att}=", nil)
-        @account.card_fields_present?.should be_false
+        subject.send("#{att}=", nil)
+        subject.card_fields_present?.should be_false
       end
     end
   end
 
   describe "#subscription_needed?" do
+    subject { Account.new(:card_token => card_token, :subscription_id => subscription_id) }
+    let(:card_token) { "card-token" }
+    let(:subscription_id) { "subs-id"}
+    
     before(:each) do
-     @result = mock("result", :success? => true, :null_object => true)
-     Braintree::Customer.stub!(:create).and_return(@result)
-     Braintree::CreditCard.stub!(:create).and_return(@result)
-     Braintree::Subscription.stub!(:create).and_return(@result)
+     result = mock("result", :success? => true, :null_object => true)
+     Braintree::Customer.stub!(:create).and_return(result)
+     Braintree::CreditCard.stub!(:create).and_return(result)
+     Braintree::Subscription.stub!(:create).and_return(result)
     end
 
-    it "returns true if card_token present and subscription_id not present" do
-     account = Account.new(:card_token => "123", :subscription_id => nil)
-     account.subscription_needed?.should be_true
+    context "card_token present subscription_id not present" do
+      let(:subscription_id) { nil }
+      
+      it "returns true" do
+        subject.subscription_needed?.should be_true
+      end
     end
-
-    it "returns false if card_token is not present" do
-     account = Account.new(:card_token => nil)
-     account.subscription_needed?.should be_false
+    
+    context "card_token not present" do
+      let(:card_token) { nil }
+      
+      it "returns false" do
+       subject.subscription_needed?.should be_false
+      end
     end
-
-    it "returns false if card_token present and subscription_id present" do
-     account = Account.new(:card_token => "123", :subscription_id => "123")
-     account.subscription_needed?.should be_false
+    
+    context "card_token present and subscription_id present" do
+      it "returns false" do
+       subject.subscription_needed?.should be_false
+      end
     end
   end
-  
 end

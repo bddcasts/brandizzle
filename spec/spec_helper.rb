@@ -41,7 +41,13 @@ Spec::Runner.configure do |config|
   end
 
   def login_user(session_stubs = {}, user_stubs = {})
-    UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs))
+    team = mock_model(Team, :account => mock_model(Account, :valid_subscription? => true))
+    UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs.merge(:team => team)))
+  end
+
+  def login_unsubscribed_user(session_stubs = {}, user_stubs = {})
+    team = mock_model(Team, :account => mock_model(Account, :valid_subscription? => false))
+    UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs.merge(:team => team)))
   end
 
   def logout_user

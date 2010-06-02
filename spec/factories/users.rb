@@ -20,6 +20,10 @@ Factory.define(:subscribed_account, :parent => :account) do |f|
   f.card_expiration_date "05/2020"
 end
 
+Factory.define(:unsubscribed_account, :parent => :account) do |f|
+  f.created_at 31.days.ago
+end
+
 Factory.define(:user) do |f|
   f.sequence(:login) { |i| "user-#{i}"}
   f.email { |u| "#{u.login}@example.com"}
