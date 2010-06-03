@@ -4,9 +4,9 @@
 
 - semantic_form_for @account, :url => account_path, :html => { :class => "card" } do |f|
   - f.inputs do
-    = f.input :first_name, :label => "First name on card"
-    = f.input :last_name, :label => "Last name on card"
-    = f.input :postal_code
+    = f.input :first_name, :label => "First name on card", :input_html => { :value => @account.card_first_name }
+    = f.input :last_name, :label => "Last name on card", :input_html => { :value => @account.card_last_name }
+    = f.input :postal_code, :input_html => { :value => @account.card_postal_code }
     
     %li#accepted_card_types
       %label Accepted Card Types:
@@ -23,7 +23,7 @@
       = label_tag "Expiration Date*"
       = f.select :expiration_month,  ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
       \/
-      = f.select :expiration_year,  Time.now.year..Time.now.year+10
+      = f.select :expiration_year,  Time.now.year.to_i..(Time.now.year+10).to_i
     = f.input :cvv, :label => "Card verification number"
   - f.buttons do
     = f.commit_button "Update information"

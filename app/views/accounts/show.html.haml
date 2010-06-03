@@ -1,21 +1,22 @@
 - title "Your account information"
 
-%div
-  Full Name on card
-  = "#{h @account.card_first_name} #{h @account.card_last_name}"
-%div
-  Post Code
-  = h @account.card_postal_code
-%div
-  Card Type: 
-  = @account.card_type
-%div
-  Credit Card last 4 digits:
-  = @account.card_number_last_4_digits
+.buttons
+  = link_to "Edit", edit_account_path, :class => "edit"
+  
+.card-info
+  %div
+    Full Name on card:
+    = "#{h @account.card_first_name} #{h @account.card_last_name}"
+  %div
+    Postal Code:
+    = h @account.card_postal_code
+  %div
+    Card Type: 
+    = @account.card_type
+  %div
+    Credit Card last 4 digits:
+    = @account.card_number_last_4_digits
 
-%div
-  Credit Card expiration date:
-  = @account.card_expiration_date
-
-%div
-  = link_to "Edit", edit_account_path
+  %div
+    Credit Card expiration date:
+    = @account.card_expiration_date
