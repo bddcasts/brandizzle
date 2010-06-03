@@ -1,4 +1,5 @@
 class QueriesController < ApplicationController
+  before_filter :require_user
   before_filter :find_brand
   
   def create

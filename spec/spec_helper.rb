@@ -49,7 +49,19 @@ Spec::Runner.configure do |config|
     team = mock_model(Team, :account => mock_model(Account, :valid_subscription? => false))
     UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs.merge(:team => team)))
   end
-
+  
+  def login_account_holder(session_stubs = {}, user_stubs = {})
+    account = mock_model(Account, :valid_subscription? => true)
+    team = mock_model(Team, :account => account)
+    UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs.merge(:team => team, :account => account)))
+  end
+  
+  def login_unsubscribed_account_holder(session_stubs = {}, user_stubs = {})
+    account = mock_model(Account, :valid_subscription? => false)
+    team = mock_model(Team, :account => account)
+    UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs.merge(:team => team, :account => account)))
+  end
+  
   def logout_user
     @current_user_session = nil
   end

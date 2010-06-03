@@ -10,6 +10,15 @@ describe AccountsController do
         response.should redirect_to(new_user_session_path)
       end
     end
+    
+    [:edit, :update, :show].each do |action|
+      it "requires user to be account holder for action #{action}" do
+        login_user
+        get action
+        flash[:notice].should == "Access denied! Only the account holder can modify settings."
+        response.should redirect_to(team_path)
+      end
+    end
   end
   
   describe "handling GET new" do
@@ -101,7 +110,7 @@ describe AccountsController do
 
   describe "handling GET show" do
     before(:each) do
-      login_user
+      login_account_holder
       @account = current_user.account
       @account.stub!(:card_token).and_return(true)
     end
@@ -130,7 +139,7 @@ describe AccountsController do
   
   describe "handling GET edit" do
     before(:each) do
-      login_user
+      login_account_holder
       @account = current_user.account
     end
     
@@ -152,7 +161,7 @@ describe AccountsController do
   
   describe "handling PUT update" do
     before(:each) do
-      login_user({}, {:account => mock_model(Account)})
+      login_account_holder
       @account = current_user.account
     end
     

@@ -13,8 +13,13 @@ class ApplicationController < ActionController::Base
   private
     def require_valid_subscription
       unless !!current_account.try(:valid_subscription?)
-        flash[:notice] = "You must be subscribed in order to keep using our services!"
-        redirect_to account_path
+        if current_user.account_holder?
+          flash[:notice] = "You must be subscribed in order to keep using our services!"
+          redirect_to account_path
+        else
+          flash[:notice] = "You need a valid subscription to keep using our services. Please inform your account holder!"
+          redirect_to edit_user_info_path
+        end
         return false
       end
     end
@@ -55,11 +60,18 @@ class ApplicationController < ActionController::Base
     end
     
     def current_team
-      @current_team ||= current_user && current_user.team
+      current_user && current_user.team
     end
     
     def current_account
-      current_user && current_user.team.account
+      current_team && current_team.account
+    end
+    
+    def require_account_holder
+      unless current_user.account_holder?
+        flash[:notice] = "Access denied! Only the account holder can modify settings."
+        redirect_to team_path
+      end
     end
     
     def log

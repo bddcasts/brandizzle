@@ -1,6 +1,7 @@
 class UserSignupsController < ApplicationController
   before_filter :find_user_by_perishable_token, :only => [:edit, :update]
   before_filter :require_no_user
+  skip_before_filter :require_valid_subscription
 
   layout "login"
 

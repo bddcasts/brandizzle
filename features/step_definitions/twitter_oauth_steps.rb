@@ -1,5 +1,7 @@
 Given /^a Twitter user "([^\"]*)" registered with BrandPulse$/ do |name|
-  Given %Q{a twitter user "#{name}" exists with oauth_token: "foo", oauth_secret: "secret", screen_name: "#{name}", name: "#{name}"}
+  Given %Q{a team "t" exists}
+  Given %Q{a twitter user "#{name}" exists with oauth_token: "foo", oauth_secret: "secret", screen_name: "#{name}", name: "#{name}", team: team "t"}
+  Given %Q{an account exists with team: team "t"} 
   
   UserSession.class_eval do
     def redirect_to_oauth

@@ -1,6 +1,17 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UsersController do  
+  describe "access_control" do
+    [:new, :create, :destroy].each do |action|
+      it "#{action} requires a subscribed account" do
+        login_unsubscribed_account_holder
+        get action
+        flash[:notice].should == "You must be subscribed in order to keep using our services!"
+        response.should redirect_to(account_path)
+      end
+    end
+  end
+  
   describe "handling GET new" do
     before(:each) do
       login_user

@@ -1,6 +1,8 @@
 class AccountsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => [:edit, :update, :show]
+  before_filter :require_account_holder, :only => [:edit, :update, :show]
+  
   skip_before_filter :require_valid_subscription
   
   layout :detect_layout

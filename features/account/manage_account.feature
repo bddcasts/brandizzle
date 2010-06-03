@@ -24,15 +24,11 @@ Feature: User Accounts
      Then I should be on the homepage
       And I should see "Welcome cartman!"
       And user: "cartman" should be active
-  
-  Scenario: Visiting the login page
-    Given I am on the homepage
-     When I follow "Login"
-     Then I should be on the login page
-      And I should see "Login"
-  
-  Scenario: Logging in successfully
-    Given a user exists with login: "Cartman", password: "secret"
+    
+  Scenario: Logging in successfully as account holder
+    Given a team "t" exists
+      And a user "u" exists with login: "Cartman", password: "secret", team: team "t"
+      And an account "a" exists with holder: user "u", team: team "t"
       And I am on the login page
       And I fill in "Login" with "Cartman"
       And I fill in "Password" with "secret"
@@ -48,7 +44,9 @@ Feature: User Accounts
      Then I should see "is not valid"
   
   Scenario: Recovering and reseting password
-    Given a user exists with email: "cartman@example.com"
+    Given a team "t" exists
+      And a user "u" exists with email: "cartman@example.com", team: team "t"
+      And an account "a" exists with holder: user "u", team: team "t"
      When I am on the login page
       And I follow "Forgot your password?"
       And I fill in "Email" with "cartman@example.com"
