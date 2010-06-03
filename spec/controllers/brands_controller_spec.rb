@@ -3,11 +3,39 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe BrandsController do
   describe "access_control" do
     [:index, :new, :create, :edit, :update, :destroy].each do |action|
-      it "#{action} requires a subscribed account" do
-        login_unsubscribed_account_holder
+      it "requires user to be logged in for action #{action}" do
         get action
-        flash[:notice].should == "You must be subscribed in order to keep using our services!"
-        response.should redirect_to(account_path)
+        flash[:notice].should == "You must be logged in to access this page"
+        response.should redirect_to(new_user_session_path)
+      end
+    end
+    
+    context "account holder" do
+      before(:each) do
+        login_unsubscribed_account_holder
+      end
+      
+      [:index, :new, :create, :edit, :update, :destroy].each do |action|
+        it "requires a subscribed account for action #{action}" do
+          get action
+          flash[:notice].should == "You must be subscribed in order to keep using our services!"
+          response.should redirect_to(account_path)
+        end
+      end
+    end
+
+    context "team member" do
+      before(:each) do
+        login_unsubscribed_user
+        user_session.stub(:destroy)
+      end
+      
+      [:index, :new, :create, :edit, :update, :destroy].each do |action|
+        it "requires a subscribed account #{action}" do
+          get action
+          flash[:notice].should == "The subscription for this account has expired. Please inform your account holder."
+          response.should redirect_to(new_user_session_path)
+        end
       end
     end
   end

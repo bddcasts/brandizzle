@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
   before_filter :require_user, :only => [:edit, :update, :show]
   before_filter :require_account_holder, :only => [:edit, :update, :show]
   
-  skip_before_filter :require_valid_subscription
+  skip_before_filter :require_valid_subscription, :only => [:edit, :update, :show]
   
   layout :detect_layout
   

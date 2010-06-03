@@ -3,7 +3,6 @@ Feature: Twitter oauth
   As a Twitter user
   I want to register my Twitte account and login using it
   
-  @wip @sop
   Scenario: Logging in with Twitter
     Given a Twitter user "twitter_guy" registered with BrandPulse
       And I am on the login page

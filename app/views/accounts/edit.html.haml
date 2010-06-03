@@ -2,17 +2,24 @@
 
 = error_messages_for :account
 
-- semantic_form_for @account, :url => account_path, :html => { :class => "account large" } do |f|
+- semantic_form_for @account, :url => account_path, :html => { :class => "card" } do |f|
   - f.inputs do
     = f.input :first_name, :label => "First name on card"
     = f.input :last_name, :label => "Last name on card"
     = f.input :postal_code
-    %li
-      Accepted Card Types:
-      %br
-      %img{ :src => "/images/accepted_card_types.png", :alt => "Accepted Card Types"}
+    
+    %li#accepted_card_types
+      %label Accepted Card Types:
+      %ul#accepted_cards
+        %li.visa Visa
+        %li.mastercard MasterCard
+        %li.amex American Express
+        %li.discover Discover
+        %li.jcb JCB
+        %li.dinners Dinners
+        
     = f.input :card_number
-    %li
+    %li#account_expiration_date.string
       = label_tag "Expiration Date*"
       = f.select :expiration_month,  ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
       \/

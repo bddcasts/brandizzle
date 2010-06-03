@@ -38,3 +38,24 @@ form.formtastic
         :width 482px
         p
           +error
+  
+  &.card
+    fieldset ol 
+      li
+        &.string
+          :width 200px
+          :float left
+          :clear none
+          :margin-right 10px
+          input
+            :width 200px
+            :font-size 15px
+        &#account_postal_code_input, &#account_cvv_input
+          :clear both
+        &#account_cvv_input
+          input
+            :width 100px
+          
+      
+      
+      

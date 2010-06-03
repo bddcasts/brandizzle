@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_filter :require_user, :current_team
-  skip_before_filter :require_valid_subscription, :only => [:edit, :update]
   
   def new
     @user = current_team.members.build

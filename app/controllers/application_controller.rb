@@ -12,15 +12,19 @@ class ApplicationController < ActionController::Base
 
   private
     def require_valid_subscription
-      unless !!current_account.try(:valid_subscription?)
-        if current_user.account_holder?
-          flash[:notice] = "You must be subscribed in order to keep using our services!"
-          redirect_to account_path
-        else
-          flash[:notice] = "You need a valid subscription to keep using our services. Please inform your account holder!"
-          redirect_to edit_user_info_path
+      if current_account
+        unless current_account.valid_subscription?
+          forget_stored_location
+          
+          if current_user.account_holder?
+            flash[:notice] = "You must be subscribed in order to keep using our services!"
+            redirect_to account_path
+          else
+            flash[:notice] = "The subscription for this account has expired. Please inform your account holder."
+            current_user_session.destroy
+            redirect_to new_user_session_url
+          end
         end
-        return false
       end
     end
     
@@ -52,6 +56,10 @@ class ApplicationController < ActionController::Base
 
     def store_location
       session[:return_to] = request.request_uri
+    end
+    
+    def forget_stored_location
+      session.delete(:return_to)
     end
 
     def redirect_back_or_default(default)

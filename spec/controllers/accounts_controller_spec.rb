@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AccountsController do
   
-  describe "access control" do    
+  describe "access control" do        
     [:edit, :update, :show].each do |action|
       it "requires user to be logged in for action #{action}" do
         get action
