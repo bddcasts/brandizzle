@@ -8,8 +8,10 @@ class CreateBraintreeCustomers < ActiveRecord::Migration
       if result.success?
         account.update_attribute(:customer_id, result.customer.id)
         account.update_attribute(:plan_id, Plan.standard.id)
+        account.update_attribute(:created_at, Time.now)
       end
     end
+    
   end
 
   def self.down
