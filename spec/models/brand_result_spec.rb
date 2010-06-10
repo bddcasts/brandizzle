@@ -36,7 +36,7 @@ describe BrandResult do
       end
     end
     
-    context "assm named scopes" do
+    describe "assm named scopes" do
       before(:each) do
         @normal_results = (1..2).map{ Factory.create(:brand_result) }
         @follow_up_results = (1..2).map { Factory.create(:follow_up_brand_result) }
@@ -83,86 +83,109 @@ describe BrandResult do
   end
   
   describe "aasm_events" do
+    subject { Factory.create(:brand_result, :state => state) }
+
     describe "#follow_up!" do
+      let(:state) { "normal" }
+
       it "from 'normal': sets the brand_result on 'follow_up'" do
-        brand_result = Factory.create(:brand_result)
-        brand_result.follow_up!
-        brand_result.should be_follow_up
+        subject.follow_up!
+        should be_follow_up
       end
     end
     
     describe "#finish!" do
+      let(:state) { "follow_up" }
+
       it "from 'follow_up': sets the brand_result on 'done'" do
-        brand_result = Factory.create(:follow_up_brand_result)
-        brand_result.finish!
-        brand_result.should be_done
+        subject.finish!
+        should be_done
       end
     end
     
     describe "#reject!" do
+      let(:state) { "follow_up" }
       it "from 'follow_up': sets the brand_result on 'normal'" do
-        brand_result = Factory.create(:follow_up_brand_result)
-        brand_result.reject!
-        brand_result.should be_normal
+        subject.reject!
+        should be_normal
       end
     end
   end
   
   describe "temperature" do
-    let(:brand_result) { Factory.create(:brand_result) }  
+    subject { Factory.build(:brand_result, :temperature => temperature) }
+    let(:temperature) { 0 }
     
-    context "#warm_up!" do
-      it "sets the brand_result temperature on 1" do
-        brand_result.warm_up!
-        brand_result.temperature.should == 1
+    it "#warm_up! sets the brand_result temperature on 1" do
+      subject.warm_up!
+      subject.temperature.should == 1
+    end
+    
+    it "#temperate! sets the brand result temperature on 0" do
+      subject.temperate!
+      subject.temperature.should == 0
+    end
+    
+    it "#chill! sets the brand result temperature to -1" do
+      subject.chill!
+      subject.temperature.should == -1
+    end
+    
+    describe "#neutral?" do
+      context "temperature is set to 0" do
+        it "returns true" do
+          should be_neutral
+        end
+      end
+
+      context "temperature is not set to 0" do
+        let(:temperature) { 1 }
+
+        it "returns false" do
+          should_not be_neutral
+        end
       end
     end
-    
-    context "#temperate!" do
-      it "sets the brand result temperature on 0" do
-        brand_result.temperate!
-        brand_result.temperature.should == 0
+
+    describe "#negative?" do
+      context "temperature is set to -1" do
+        let(:temperature) { -1 }
+        
+        it "returns true" do
+          should be_negative
+        end
+      end
+
+      context "temperature is not set to -1" do
+        it "returns false" do
+          should_not be_negative
+        end
       end
     end
-    
-    context "#chill!" do
-      it "sets the brand result temperature to -1" do
-        brand_result = Factory.create(:brand_result)
-        brand_result.chill!
-        brand_result.temperature.should == -1
-      end
-    end
-  end
-    
-  describe "#neutral?" do
-    it "returns true if temperature is set to 0" do
-      brand_result = Factory.build(:neutral_brand_result)
-      brand_result.should be_neutral
-    end
-    
-    it "returns false if temperature is not set to 0" do
-      brand_result = Factory.build(:brand_result)
-      brand_result.should_not be_neutral
-    end
-  end
   
-  describe "#negative?" do
-    it "returns true if temperature is set to -1" do
-      brand_result = Factory.build(:negative_brand_result)
-      brand_result.should be_negative
-    end
-    
-    it "returns false if temperature is not set to -1" do
-      brand_result = Factory.build(:brand_result)
-      brand_result.should_not be_negative
+    describe "#positive?" do
+      context "temperature is set to 1" do
+        let(:temperature) { 1 }
+        
+        it "returns true" do
+          should be_positive
+        end
+      end
+      
+      context "temperature is not set to 1" do
+        it "returns false" do
+          should_not be_positive
+        end
+      end
     end
   end
 
   describe "#mark_as_read!" do
+    subject { Factory.create(:brand_result) }
+
     it "sets read to true" do
-      brand_result = Factory.create(:brand_result)
-      brand_result.mark_as_read!
-      brand_result.should be_read
+      subject.mark_as_read!
+      subject.should be_read
     end
   end
 end

@@ -48,44 +48,57 @@ describe User do
   should_not_allow_values_for :email, "foo", "", "..."
   
   describe "#to_s" do
-    it "returns the login for the user if name is not set" do
-      user = Factory.build(:user, :login => "Cartman")
-      user.to_s.should == "Cartman"
+    subject { Factory.build(:user, :login => "cartman", :name => name) }
+    let(:name) { "Eric Cartman" }
+    
+    context "name not set" do
+      let(:name) { nil }
+      it "returns the login for the user" do
+        subject.to_s.should == "cartman"
+      end
     end
     
-    it "returns the name of the user if set" do
-      user = Factory.build(:twitter_user, :name => "Cartman", :login => nil)
-      user.to_s.should == "Cartman"
+    context "name set" do
+      it "returns the name of the user" do
+        subject.to_s.should == "Eric Cartman"
+      end
     end
   end
   
   describe "#toggle_active" do
-    it "should set active to true if set to false" do
-      @user = Factory.create(:inactive_user)
-      @user.toggle_active
-      @user.should be_active
+    let(:inactive_user) { Factory.create(:inactive_user) }
+    let(:active_user) { Factory.create(:user) }
+    
+    it "sets active to true if set to false" do
+      inactive_user.toggle_active
+      inactive_user.should be_active
     end
     
-    it "should set active to false if set to true" do
-      @user = Factory.create(:user)
-      @user.toggle_active
-      @user.should_not be_active
+    it "sets active to false if set to true" do
+      active_user.toggle_active
+      active_user.should_not be_active
     end
   end
     
   describe "#account_holder?" do
-    it "returns true if the specified user is account holder" do
-      user = Factory.build(:user, :account => Factory.build(:account))
-      user.should be_account_holder
+    subject { Factory.build(:user, :account => account) }
+    let(:account) { Factory.build(:account) }
+    
+    context "specified user is account holder" do
+      it "returns true" do
+        should be_account_holder
+      end
     end
     
-    it "returns false if the specified user is not account holder" do
-      user = Factory.build(:user)
-      user.should_not be_account_holder
+    context "the specified user is not account holder" do
+      let(:account) { nil }
+      it "returns false" do
+        should_not be_account_holder
+      end
     end
   end
 
-  describe "#using_twitter" do
+  describe "#using_twitter?" do
     it "returns true if the user has authorized twitter (oauth_token is set)" do
       user = Factory.build(:twitter_user)
       user.should be_using_twitter
@@ -114,54 +127,55 @@ describe User do
     end
   end
 
-  describe "#deliver_password_reset_instructions!" do
-    before(:each) do
-      @user = Factory.create(:user)
-      Notifier.stub(:deliver_password_reset_instructions)
-    end
-
-    it "resets the perishable token" do
-      @user.should_receive(:reset_perishable_token!)
-      @user.deliver_password_reset_instructions!
-    end
-
-    it "delivers the password reset instructions using the Notifier" do
-      Notifier.should_receive(:deliver_password_reset_instructions).with(@user)
-      @user.deliver_password_reset_instructions!
-    end
-  end
-  
-  describe "#deliver_user_invitation!" do
-    before(:each) do
-      @user = Factory.create(:user)
-      Notifier.stub(:deliver_user_invitation)
-    end
-
-    it "resets the perishable token" do
-      @user.should_receive(:reset_perishable_token!)
-      @user.deliver_user_invitation!
-    end
-
-    it "delivers the invitation using the Notifier" do
-      Notifier.should_receive(:deliver_user_invitation).with(@user)
-      @user.deliver_user_invitation!
-    end
-  end
-  
-  describe "#deliver_activation_instructions!" do
-    before(:each) do
-      @user = Factory.create(:user)
-      Notifier.stub(:deliver_activation_instructions!)
-    end
+  describe "email deliveries" do
+    subject { Factory.create(:user) }
     
-    it "resets the perishable token" do
-      @user.should_receive(:reset_perishable_token!)
-      @user.deliver_activation_instructions!
+    describe "#deliver_password_reset_instructions!" do
+      before(:each) do
+        Notifier.stub(:deliver_password_reset_instructions)
+      end
+
+      it "resets the perishable token" do
+        subject.should_receive(:reset_perishable_token!)
+        subject.deliver_password_reset_instructions!
+      end
+
+      it "delivers the password reset instructions using the Notifier" do
+        Notifier.should_receive(:deliver_password_reset_instructions).with(subject)
+        subject.deliver_password_reset_instructions!
+      end
     end
 
-    it "delivers the activation instructions using the Notifier" do
-      Notifier.should_receive(:deliver_activation_instructions).with(@user)
-      @user.deliver_activation_instructions!
+    describe "#deliver_user_invitation!" do
+      before(:each) do
+        Notifier.stub(:deliver_user_invitation)
+      end
+
+      it "resets the perishable token" do
+        subject.should_receive(:reset_perishable_token!)
+        subject.deliver_user_invitation!
+      end
+
+      it "delivers the invitation using the Notifier" do
+        Notifier.should_receive(:deliver_user_invitation).with(subject)
+        subject.deliver_user_invitation!
+      end
+    end
+
+    describe "#deliver_activation_instructions!" do
+      before(:each) do
+        Notifier.stub(:deliver_activation_instructions!)
+      end
+
+      it "resets the perishable token" do
+        subject.should_receive(:reset_perishable_token!)
+        subject.deliver_activation_instructions!
+      end
+
+      it "delivers the activation instructions using the Notifier" do
+        Notifier.should_receive(:deliver_activation_instructions).with(subject)
+        subject.deliver_activation_instructions!
+      end
     end
   end
   
@@ -239,11 +253,10 @@ describe User do
   end
 
   describe "#activate!" do
+    let(:user) { Factory.create(:inactive_user) }
     it "activates the user" do
-      user = Factory.create(:inactive_user)
       user.activate!
       user.should be_active
     end
   end
 end
-

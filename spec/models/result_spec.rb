@@ -26,14 +26,30 @@ describe Result do
   should_have_many :brands, :through => :brand_results  
   
   describe "#twitter?" do
-    it "returns true if result's source is 'twitter'" do
-      result = Factory.build(:twitter_result)
-      result.should be_twitter
+    subject { Factory.build(:result, :source => source) }
+    
+    context "result's source is 'twitter'" do
+      let(:source) { "twitter"}
+      
+      it "returns true" do
+        should be_twitter
+      end
     end
 
-    it "returns false if result's source is not 'twitter'" do
-      result = Factory.build(:result)
-      result.should_not be_twitter
+    context "result's source is 'blog'" do
+      let(:source) { "twitter"}
+      
+      it "returns true" do
+        should be_twitter
+      end
+    end
+
+    context "result's source is nil" do
+      let(:source) { "blog" }
+      
+      it "returns false" do
+        should_not be_twitter
+      end
     end
   end
 end

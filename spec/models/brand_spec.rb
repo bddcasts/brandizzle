@@ -24,58 +24,66 @@ describe Brand do
   
   #validations
   should_validate_presence_of :name
+
+  subject { Factory.create(:brand) }
   
   describe "#add_query" do
-    before(:each) do
-      @brand = Factory.create(:brand)
-    end
-    
     it "creates a new query associated if it does not exist yet" do
-      lambda {
-        @brand.add_query('foo')
-      }.should change(Query, :count)
-      @brand.queries.map(&:term).should include('foo')
+      expect {
+        subject.add_query('foo')
+      }.to change(Query, :count)
+      
+      subject.queries.map(&:term).should include('foo')
     end
     
     it "for an existing query it associates it with the brand and does not create a new one" do
-      @query = Factory.create(:query, :term => 'foo')
-      lambda {
-        @brand.add_query('foo')
-      }.should_not change(Query, :count)
-      @brand.queries.map(&:term).should include('foo')
+      query = Factory.create(:query, :term => 'foo')
+      
+      expect {
+        subject.add_query('foo')
+      }.to_not change(Query, :count)
+      
+      subject.queries.map(&:term).should include('foo')
     end
     
     it "returns the query" do
-      @query = @brand.add_query('foo')
-      @query.term.should == 'foo'
+      query = subject.add_query('foo')
+      query.term.should == 'foo'
     end
   end
   
   describe "#remove_query" do
-    before(:each) do
-      @brand = Factory.create(:brand)
-      @bar_query = @brand.add_query('bar')
-    end
+    let(:bar_query) { subject.add_query('bar') }
     
     it "removes the query from the brand" do
-      @brand.remove_query(@bar_query)
-      @brand.queries.map(&:term).should_not include('bar')
+      subject.remove_query(bar_query)
+      subject.queries.map(&:term).should_not include('bar')
     end
     
     it "does not destroy the query if it is associated to any brand" do
       another_brand = Factory.create(:brand)
       another_brand.add_query('bar')
-      lambda {
-        @brand.remove_query(@bar_query)
-      }.should_not change(Query, :count)
+      
+      expect {
+        subject.remove_query(bar_query)
+      }.to_not change(Query, :count)
     end
     
     it "does nothing for a query not associated with the brand" do
       another_brand = Factory.create(:brand)
       foo_query = another_brand.add_query('foo')
-      lambda {
-        @brand.remove_query(foo_query)
-      }.should_not change(Query, :count)
+      
+      expect {
+        subject.remove_query(foo_query)
+      }.to_not change(Query, :count)
+    end
+  end
+
+  describe "#to_s" do
+    subject { Factory.create(:brand, :name => "foo")}
+    
+    it "returns the name of the brand" do
+      subject.to_s.should == "foo"
     end
   end
 end
