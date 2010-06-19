@@ -9,7 +9,7 @@ end
 def rails_env
   @rails_env ||= case rails_root
   when /aissac/ then "aissac"
-  else "development"
+  else "production"
   end
 end
 
@@ -18,11 +18,11 @@ end
     w.name = "dj-#{num}"
     w.group = "delayed_job"
     
-    w.uid = 'brandizzle'
-    w.gid = 'brandizzle'
+    w.uid = 'brandpulse'
+    w.gid = 'brandpulse'
     
     w.interval = 30.seconds
-    w.start = "/opt/ruby-enterprise-current/bin/rake -f #{rails_root}/Rakefile jobs:work RAILS_ENV=#{rails_env}"
+    w.start = "/opt/ruby-ee/bin/rake -f #{rails_root}/Rakefile jobs:work RAILS_ENV=#{rails_env}"
   
     # restart if memory gets too high
     w.transition(:up, :restart) do |on|
