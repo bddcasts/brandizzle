@@ -103,6 +103,8 @@ class Account < ActiveRecord::Base
         self.subscription_id = result.subscription.id
         self.status = result.subscription.status
         save!
+      else
+        logger.error("Count not create subscription. Details: #{result.inspect}")
       end
     end
     
