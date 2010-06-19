@@ -1,6 +1,6 @@
 # app/config/application.yml
 defaults: &defaults
-  host: "brandizzle.com"
+  host: "brandpulse.local"
   pagination:
     results_per_page: 15
     logs_per_page: 15
@@ -31,6 +31,13 @@ cucumber:
 aissac:
   <<: *defaults
   host: brandizzle.aissac.ro
+  twitter:
+    consumer_key: DOaquy8EyO07RXzqDbKFA
+    consumer_secret: Z4aO0rrOFaNOXWgs9zRIhZvP5BCJK7nEVkfXGPHOo
+
+production:
+  <<: *defaults
+  host: brandpulseapp.com
   twitter:
     consumer_key: DOaquy8EyO07RXzqDbKFA
     consumer_secret: Z4aO0rrOFaNOXWgs9zRIhZvP5BCJK7nEVkfXGPHOo
