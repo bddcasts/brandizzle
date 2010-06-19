@@ -1,5 +1,4 @@
-set :application, "brandizzle"
-set :host, "brandizzle.aissac.ro"
+set :application, "brandpulse"
 
 ssh_options[:forward_agent] = true
 set :repository,  "git@git.aissac.ro:/brandizzle"
@@ -39,15 +38,8 @@ namespace :deploy do
 end
 
 namespace :bundler do
-  task :symlink_vendor do
-    run %Q{ rm -fr #{release_path}/vendor/bundler_gems}
-    run %Q{ mkdir -p #{shared_path}/bundler_gems}
-    run %Q{ ln -nfs #{shared_path}/bundler_gems #{release_path}/vendor/bundler_gems}
-  end
- 
   task :bundle_new_release do
-    bundler.symlink_vendor
-    run("cd #{release_path} && bundle install --relock")
+    run "cd #{release_path} && bundle install --without development cucumber test"
   end
 end
 after 'deploy:update_code', 'bundler:bundle_new_release'

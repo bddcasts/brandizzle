@@ -1,5 +1,6 @@
+set :host, "brandizzle.aissac.ro"
 set :deploy_to, "/home/brandizzle/brandizzle.aissac.ro"
-set :branch, "production"
+set :branch, "staging"
 
 set :user, "brandizzle"
 set :use_sudo, false

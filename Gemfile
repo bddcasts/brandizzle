@@ -3,7 +3,7 @@ source :gemcutter
 # gem "rake"
 
 group :default do
-  gem 'haml-edge',        '2.3.209'
+  gem 'haml',             '~> 3.0'
   gem 'aasm',             '2.1.5'
   gem 'will_paginate',    '2.3.12'
   gem 'whenever',         '0.4.1'
@@ -25,9 +25,9 @@ group :default do
 end
 
 group :rails do
-  gem 'rails',            '2.3.5'
-  gem 'rack',             '1.0.1'
-  gem 'bundler',          '>= 0.9.24'
+  gem 'rails',            '2.3.8'
+  gem 'rack',             '1.1.0'
+  gem 'bundler',          '0.9.26'
   gem 'rake',             '0.8.7'
   gem 'builder',          '~> 2.1.2'
   gem 'memcache-client',  '>= 1.7.4'
