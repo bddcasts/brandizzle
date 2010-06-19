@@ -17,3 +17,10 @@ cucumber:
 
 aissac:
   <<: *defaults
+
+production:
+  standard:
+    price: 29
+    trial: 30
+    description: Standard
+    id: standard
