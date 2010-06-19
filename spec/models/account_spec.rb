@@ -47,6 +47,8 @@ describe Account do
       :postal_code      => "12345"
     }
   end
+  
+  it { should_not be_comp }
  
   it "creating a new account also creates a braintree account and sets customer_id" do
     create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
@@ -147,23 +149,38 @@ describe Account do
   end
   
   describe "valid_subscription?" do
-    subject { Factory.create(:account, :subscription_id => subscription_id, :status => status, :created_at => created_at) }
-    let(:subscription_id) { "subs-id" }
-    let(:status) { "Active" }
-    let(:created_at) { 3.days.ago }
+    subject { Factory.create(:account, :subscription_id => subscription_id, :status => status, :created_at => created_at, :comp => comp) }
+    let(:comp) { false }
     
     before(:each) do
       create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
       Braintree::Customer.stub(:create).and_return(create_customer_result)
     end
     
+    context "comped" do
+      let(:comp) { true }
+      let(:subscription_id) { nil }
+      let(:status) { "PastDue" }
+      let(:created_at) { 300.days.ago }
+      
+      it "returns true" do
+        subject.valid_subscription?.should be_true
+      end
+    end
+    
     context "subscription_id present, status active, trial days left" do
+      let(:subscription_id) { "subs-id" }
+      let(:status) { "Active" }
+      let(:created_at) { 3.days.ago }
+      
       it "returns true" do
         subject.valid_subscription?.should be_true
       end
     end
     
     context "subscription_id present, status active, no trial days left" do
+      let(:subscription_id) { "subs-id" }
+      let(:status) { "Active" }
       let(:created_at) { 31.days.ago}
       
       it "returns true" do
@@ -173,6 +190,8 @@ describe Account do
     
     context "no subscription_id, trial days left" do
       let(:subscription_id) { nil }
+      let(:status) { "Active" }
+      let(:created_at) { 3.days.ago }
       
       it "returns true" do
         subject.valid_subscription?.should be_true
@@ -181,6 +200,7 @@ describe Account do
     
     context "no subscription_id, no trial days left" do
       let(:subscription_id) { nil }
+      let(:status) { "Active" }
       let(:created_at) { 31.days.ago }
       
       it "returns false" do
@@ -189,6 +209,7 @@ describe Account do
     end
     
     context "subscription_id present, status not active, no trial days left" do
+      let(:subscription_id) { "subs-id" }
       let(:status) { "PastDue" }
       let(:created_at) { 31.days.ago }
       

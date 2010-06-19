@@ -43,7 +43,7 @@ class Account < ActiveRecord::Base
   end
   
   def valid_subscription?
-    (subscription_id && status == 'Active') || trial_days_left > 0
+    comp? || (subscription_id && status == 'Active') || trial_days_left > 0
   end
   
   def subscription_needed?
