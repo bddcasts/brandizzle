@@ -24,9 +24,4 @@ config.action_mailer.delivery_method = :test
 config.after_initialize do
   require 'webmock'
   WebMock.disable_net_connect!(:allow_localhost => true)
-  
-  Braintree::Configuration.environment = Settings.braintree.environment
-  Braintree::Configuration.merchant_id = Settings.braintree.merchant_id
-  Braintree::Configuration.public_key = Settings.braintree.public_key
-  Braintree::Configuration.private_key = Settings.braintree.private_key
 end

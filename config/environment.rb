@@ -11,6 +11,11 @@ Rails::Initializer.run do |config|
   
   config.after_initialize do
     ActionMailer::Base.default_url_options[:host] = Settings.host
+    
+    Braintree::Configuration.environment = Settings.braintree.environment
+    Braintree::Configuration.merchant_id = Settings.braintree.merchant_id
+    Braintree::Configuration.public_key  = Settings.braintree.public_key
+    Braintree::Configuration.private_key = Settings.braintree.private_key
   end
 end
 

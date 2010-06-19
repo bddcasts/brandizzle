@@ -15,10 +15,3 @@ config.action_controller.perform_caching             = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
-
-config.after_initialize do
-  Braintree::Configuration.environment = Settings.braintree.environment
-  Braintree::Configuration.merchant_id = Settings.braintree.merchant_id
-  Braintree::Configuration.public_key = Settings.braintree.public_key
-  Braintree::Configuration.private_key = Settings.braintree.private_key
-end
