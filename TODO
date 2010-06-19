@@ -1,0 +1,15 @@
+Comp account:
+- Account#comp!
+- if BT subscription exists, update it with :price => 0
+- set 'comp' flag to true
+
+Uncomp account:
+- Account#uncomp!
+- if BT subscription exists, update it with price corresponding to the plan
+- set 'comp' flag to false
+
+Check for past-due subscriptions:
+- Account.update_past_due_subscriptions!
+- query BT for subscriptions that are past-due
+- update accounts with PastDue status
+- schedule using Whenever to run every day.
