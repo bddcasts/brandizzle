@@ -124,15 +124,25 @@ describe Account do
   end
   
   describe "#trial_days_left" do
-    subject { Factory.create(:account, :created_at => 3.days.ago) }
-    
     before(:each) do
       @result = mock("result", :success? => true, :null_object => true)
       Braintree::Customer.stub!(:create).and_return(@result)
     end
     
-    it "fetches the number of trial days left" do
-      subject.trial_days_left.should == 27
+    context "within the trial period" do
+      subject { Factory.create(:account, :created_at => 3.days.ago) }
+      
+      it "fetches the number of trial days left" do
+        subject.trial_days_left.should == 27
+      end
+    end
+    
+    context "outside the trial period" do
+      subject { Factory.create(:account, :created_at => 420.days.ago) }
+      
+      it "fetches the number of trial days left" do
+        subject.trial_days_left.should == 0
+      end
     end
   end
   

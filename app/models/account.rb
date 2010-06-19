@@ -39,7 +39,7 @@ class Account < ActiveRecord::Base
   end
   
   def trial_days_left
-    (30 - (Time.now - created_at)/1.day).round
+    [(30 - (Time.now - created_at)/1.day).round, 0].max
   end
   
   def valid_subscription?
