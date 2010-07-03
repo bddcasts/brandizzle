@@ -20,3 +20,4 @@ Rails::Initializer.run do |config|
 end
 
 require 'open-uri'
+require 'duck_punches/string'

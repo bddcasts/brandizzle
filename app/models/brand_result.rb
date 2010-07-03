@@ -16,10 +16,18 @@
 class BrandResult < ActiveRecord::Base
   belongs_to :brand
   belongs_to :result
-  has_many :comments
+  has_many :comments, :dependent => :delete_all
     
-  def self.per_page
-    per_page = Settings.pagination.results_per_page
+  class << self
+    def per_page
+      per_page = Settings.pagination.results_per_page
+    end
+    
+    def cleanup_for_brand(brand_id)
+      find_in_batches(:batch_size => 200, :conditions => { :brand_id => brand_id }) do |batch|
+        batch.each(&:destroy)
+      end
+    end
   end
 
   named_scope :between_date, lambda { |date_range|
@@ -96,5 +104,12 @@ class BrandResult < ActiveRecord::Base
   def mark_as_read!
     self.read = true
     save!
+  end
+  
+  def logged_attributes(options = {})
+    options.merge({
+      "body" => result.body,
+      "url"  => result.url
+    })
   end
 end

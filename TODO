@@ -1,6 +1,6 @@
 Comp account:
 - Account#comp!
-- if BT subscription exists, update it with :price => 0
+- if BT subscription exists, update it with :price => 0 (or remove it)
 - set 'comp' flag to true
 
 Uncomp account:
@@ -13,6 +13,10 @@ Check for past-due subscriptions:
 - query BT for subscriptions that are past-due
 - update accounts with PastDue status
 - schedule using Whenever to run every day.
+- update next billing date
+
+Transactions:
+- show subscription charges history
 
 ssl_requirement:
 - login
@@ -21,5 +25,3 @@ ssl_requirement:
 
 results:
 - Jeff's notes
-
-plan limits

@@ -16,9 +16,9 @@ describe Brand do
   should_have_column :name, :type => :string
   
   #associations
-  should_have_many :brand_queries, :dependent => :destroy
+  should_have_many :brand_queries, :dependent => :delete_all
   should_have_many :queries, :through => :brand_queries
-  should_have_many :brand_results, :dependent => :destroy
+  should_have_many :brand_results
   should_have_many :results, :through => :brand_results
   should_belong_to :team
   
@@ -84,6 +84,13 @@ describe Brand do
     
     it "returns the name of the brand" do
       subject.to_s.should == "foo"
+    end
+  end
+
+  describe "cleaning up on destroy" do
+    it "calls cleanup its brand results" do
+      BrandResult.should_receive(:send_later).with(:cleanup_for_brand, subject.id)
+      subject.destroy
     end
   end
 end

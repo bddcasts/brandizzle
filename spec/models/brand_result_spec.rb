@@ -24,10 +24,10 @@ describe BrandResult do
   #associations
   should_belong_to :brand
   should_belong_to :result
-  should_have_many :comments
+  should_have_many :comments, :dependent => :delete_all
   
   describe "named scopes" do
-    describe "between_date" do      
+    describe "between_date" do
       it "fetches only brand results between specified dates" do
         expected = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 9, 2010'))
         other = Factory.create(:brand_result, :result => Factory.create(:result, :created_at => 'Apr 2, 2010'))
@@ -186,6 +186,32 @@ describe BrandResult do
     it "sets read to true" do
       subject.mark_as_read!
       subject.should be_read
+    end
+  end
+  
+  describe ".cleanup_for_brand" do
+    let(:brand_results) { (1..5).map { mock_model(BrandResult, :destroy => true) } }
+    
+    it "fetches all brand results in batches for the specified brand and destroys them" do
+      BrandResult.
+        should_receive(:find_in_batches).
+        with(hash_including(:conditions => { :brand_id => 42 })).
+        and_yield(brand_results)
+      brand_results.each { |br| br.should_receive(:destroy) }
+      BrandResult.cleanup_for_brand(42)
+    end
+  end
+  
+  describe "#logged_attributes" do
+    subject { Factory.build(:brand_result, :result => result) }
+    let(:result) { Factory.build(:result) }
+    
+    it "merges in 'body' and 'url' attributes of the associated result to the options argument" do
+      subject.logged_attributes("temperature" => "positive").should == {
+        "body"        => result.body,
+        "url"         => result.url,
+        "temperature" => "positive"
+      }
     end
   end
 end
