@@ -3,6 +3,8 @@ defaults: &defaults
   standard:
     price: 15
     trial: 30
+    members: 2
+    searches: 6
     description: Standard
     id: standard
 
@@ -21,6 +23,8 @@ aissac:
 production:
   standard:
     price: 29
+    members: 2
     trial: 30
+    searches: 6
     description: Standard
     id: standard

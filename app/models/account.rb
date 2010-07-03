@@ -50,6 +50,10 @@ class Account < ActiveRecord::Base
     card_token && !subscription_id
   end
   
+  def have_card_on_file?
+    !!card_token
+  end
+  
   private
     def create_braintree_customer
       result = Braintree::Customer.create(:email => holder.email)

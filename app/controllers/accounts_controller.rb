@@ -44,7 +44,7 @@ class AccountsController < ApplicationController
   
   def show
     @account = current_user.account
-    redirect_to edit_account_path unless @account.card_token
+    redirect_to edit_account_path unless @account.have_card_on_file?
   end
   
   private

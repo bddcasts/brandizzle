@@ -268,4 +268,20 @@ describe Account do
       end
     end
   end
+  
+  describe "#have_card_on_file?" do
+    subject { Account.new(:card_token => token).have_card_on_file? }
+    
+    context "when a BrainTree card token is present" do
+      let(:token) { "present" }
+      
+      it { should be_true }
+    end
+    
+    context "when the BrainTree card token is nil" do
+      let(:token) { nil }
+      
+      it { should be_false }
+    end
+  end
 end

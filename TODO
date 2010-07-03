@@ -13,3 +13,13 @@ Check for past-due subscriptions:
 - query BT for subscriptions that are past-due
 - update accounts with PastDue status
 - schedule using Whenever to run every day.
+
+ssl_requirement:
+- login
+- register
+- account update
+
+results:
+- Jeff's notes
+
+plan limits
