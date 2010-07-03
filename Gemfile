@@ -23,6 +23,7 @@ group :default do
   gem 'newrelic_rpm',     '2.12.3'
   gem 'hoptoad_notifier', '2.2.6'
   gem 'crack',            '0.1.7'
+  gem 'san_juan'
 end
 
 group :rails do

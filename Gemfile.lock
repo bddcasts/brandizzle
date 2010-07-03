@@ -26,26 +26,26 @@ dependencies:
     group: 
     - :rails
     version: = 2.8.1
-  typus: 
-    group: 
-    - :default
-    version: ">= 0"
-  authlogic: 
-    group: 
-    - :default
-    version: = 2.1.3
-  haml: 
-    group: 
-    - :default
-    version: ~> 3.0
-  searchlogic: 
-    group: 
-    - :default
-    version: = 2.4.10
   viewtastic: 
     group: 
     - :default
     version: = 0.1.2
+  searchlogic: 
+    group: 
+    - :default
+    version: = 2.4.10
+  haml: 
+    group: 
+    - :default
+    version: ~> 3.0
+  authlogic: 
+    group: 
+    - :default
+    version: = 2.1.3
+  typus: 
+    group: 
+    - :default
+    version: ">= 0"
   rake: 
     group: 
     - :rails
@@ -54,36 +54,40 @@ dependencies:
     group: 
     - :rails
     version: ">= 1.7.4"
-  oauth: 
-    group: 
-    - :default
-    version: = 0.3.6
   newrelic_rpm: 
     group: 
     - :default
     version: = 2.12.3
+  oauth: 
+    group: 
+    - :default
+    version: = 0.3.6
+  san_juan: 
+    group: 
+    - :default
+    version: ">= 0"
   tmail: 
     group: 
     - :rails
     version: ~> 1.2.3
-  delayed_job: 
+  crack: 
     group: 
     - :default
-    version: = 2.0.3
-  whenever: 
-    group: 
-    - :default
-    version: = 0.4.1
+    version: = 0.1.7
   authlogic-oauth: 
     group: 
     - :default
     version: = 1.0.8
     require: 
     - authlogic_oauth
-  crack: 
+  whenever: 
     group: 
     - :default
-    version: = 0.1.7
+    version: = 0.4.1
+  delayed_job: 
+    group: 
+    - :default
+    version: = 2.0.3
   rspec: 
     group: 
     - :cucumber
@@ -116,14 +120,14 @@ dependencies:
     group: 
     - :cucumber
     version: = 1.2.3
-  json: 
-    group: 
-    - :default
-    version: = 1.2.0
   will_paginate: 
     group: 
     - :default
     version: = 2.3.12
+  json: 
+    group: 
+    - :default
+    version: = 1.2.0
   bundler: 
     group: 
     - :rails
@@ -136,14 +140,14 @@ dependencies:
     group: 
     - :cucumber
     version: = 0.3.0
-  hoptoad_notifier: 
-    group: 
-    - :default
-    version: = 2.2.6
   aasm: 
     group: 
     - :default
     version: = 2.1.5
+  hoptoad_notifier: 
+    group: 
+    - :default
+    version: = 2.2.6
   i18n: 
     group: 
     - :rails
@@ -160,14 +164,14 @@ dependencies:
     group: 
     - :rails
     version: ~> 2.1.2
-  braintree: 
-    group: 
-    - :default
-    version: = 2.3.1
   RedCloth: 
     group: 
     - :default
     version: = 4.2.3
+  braintree: 
+    group: 
+    - :default
+    version: = 2.3.1
   capybara: 
     group: 
     - :cucumber
@@ -217,6 +221,18 @@ specs:
     version: 2.3.1
 - bundler: 
     version: 0.9.26
+- highline: 
+    version: 1.5.2
+- net-ssh: 
+    version: 2.0.23
+- net-scp: 
+    version: 1.0.2
+- net-sftp: 
+    version: 2.0.4
+- net-ssh-gateway: 
+    version: 1.0.1
+- capistrano: 
+    version: 2.5.19
 - culerity: 
     version: 0.2.10
 - mime-types: 
@@ -309,6 +325,8 @@ specs:
     version: 1.3.2
 - remarkable_rails: 
     version: 3.1.13
+- san_juan: 
+    version: 0.0.4
 - searchlogic: 
     version: 2.4.10
 - settingslogic: 
@@ -335,7 +353,7 @@ specs:
     version: 0.4.1
 - will_paginate: 
     version: 2.3.12
-hash: e9d7cd4f29f5033f8e023b05af49a7fcb098a51a
+hash: 63ee7dfba2dd730ef8e0be0c125cd221b142ad94
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
