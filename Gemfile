@@ -24,6 +24,7 @@ group :default do
   gem 'hoptoad_notifier', '2.2.6'
   gem 'crack',            '0.1.7'
   gem 'san_juan'
+  gem 'capistrano'
 end
 
 group :rails do
