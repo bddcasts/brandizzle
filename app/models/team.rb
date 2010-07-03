@@ -14,4 +14,12 @@ class Team < ActiveRecord::Base
   has_many :brand_results, :through => :brands
   belongs_to :account
   has_many :logs, :through => :members
+  
+  def total_search_terms
+    brands.to_a.sum(&:brand_queries_count)
+  end
+  
+  def members_count
+    members.size
+  end
 end

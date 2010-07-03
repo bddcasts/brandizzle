@@ -6,6 +6,7 @@ Feature: Viewing account information
   @wip
   Scenario: Account limits for a user in trial without CC on file
     Given I am logged in as account holder "cartman" registered "20 days ago"
+      And 4 brand queries exist for "cartman"'s team
      When I go to the edit account page
      Then I should see the following account details:
         | Label                 | Value                  |
@@ -18,6 +19,7 @@ Feature: Viewing account information
   @wip
   Scenario: Account limits for a subscribed user still in trial, but with CC on file
     Given I am logged in as subscribed account holder "cartman" registered "10 days ago"
+      And 4 brand queries exist for "cartman"'s team
      When I go to the account page
      Then I should see the following account details:
         | Label                 | Value                  |
@@ -31,6 +33,7 @@ Feature: Viewing account information
   @wip
   Scenario: Account limits for a subscribed user out of trial, with CC on file
     Given I am logged in as subscribed account holder "cartman" registered "60 days ago"
+      And 4 brand queries exist for "cartman"'s team
      When I go to the account page
      Then I should see the following account details:
         | Label             | Value         |

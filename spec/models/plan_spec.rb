@@ -18,7 +18,7 @@ describe Plan do
         its(:price)    { should == 29 }
         its(:members)  { should == 2 }
         its(:members)  { should == 2 }
-        its(:searches) { should == 6 }
+        its(:searches) { should == 10 }
         its(:id)       { should == 'standard' }
       end
     end

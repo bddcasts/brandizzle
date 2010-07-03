@@ -12,7 +12,7 @@
 class Brand < ActiveRecord::Base
   belongs_to :team
   
-  has_many :brand_queries
+  has_many :brand_queries, :dependent => :destroy
   has_many :queries, :through => :brand_queries
   
   has_many :brand_results, :dependent => :destroy
@@ -35,5 +35,9 @@ class Brand < ActiveRecord::Base
   
   def to_s
     name
+  end
+  
+  def brand_queries_count
+    brand_queries.size
   end
 end

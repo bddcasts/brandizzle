@@ -62,6 +62,14 @@ class Account < ActiveRecord::Base
     trial_days_left > 0
   end
   
+  def search_terms_left
+    [plan.searches - team.total_search_terms, 0].max
+  end
+  
+  def team_members_left
+    [plan.members - team.members_count, 0].max
+  end
+  
   private
     def create_braintree_customer
       result = Braintree::Customer.create(:email => holder.email)

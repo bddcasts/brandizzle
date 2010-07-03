@@ -10,6 +10,13 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  standard:
+    price: 29
+    trial: 30
+    members: 2
+    searches: 10
+    description: Standard
+    id: standard
     
 test:
   <<: *defaults
@@ -25,6 +32,6 @@ production:
     price: 29
     members: 2
     trial: 30
-    searches: 6
+    searches: 10
     description: Standard
     id: standard

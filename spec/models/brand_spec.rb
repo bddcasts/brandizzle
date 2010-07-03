@@ -16,7 +16,7 @@ describe Brand do
   should_have_column :name, :type => :string
   
   #associations
-  should_have_many :brand_queries
+  should_have_many :brand_queries, :dependent => :destroy
   should_have_many :queries, :through => :brand_queries
   should_have_many :brand_results, :dependent => :destroy
   should_have_many :results, :through => :brand_results

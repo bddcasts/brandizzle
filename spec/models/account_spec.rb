@@ -325,4 +325,54 @@ describe Account do
       it { should_not be_trial }
     end
   end
+  
+  describe "#search_terms_left" do
+    let(:plan) { mock("Account Plan", :searches => 6) }
+    
+    before(:each) do
+      subject.team.should_receive(:total_search_terms).and_return(total_search_terms)
+      subject.should_receive(:plan).and_return(plan)
+    end
+    
+    context "when total search terms are within limit" do
+      let(:total_search_terms) { 4 }
+      
+      it "returns the remaining search terms based on Plan limit and total search terms for the team" do
+        subject.search_terms_left.should == 2
+      end
+    end
+    
+    context "when total search terms are over limit" do
+      let(:total_search_terms) { 8 }
+      
+      it "returns 0" do
+        subject.search_terms_left.should == 0
+      end
+    end
+  end
+  
+  describe "#team_members_left" do
+    let(:plan) { mock("Account Plan", :members => 2) }
+    
+    before(:each) do
+      subject.team.should_receive(:members_count).and_return(members_count)
+      subject.should_receive(:plan).and_return(plan)
+    end
+    
+    context "when team members are within limit" do
+      let(:members_count) { 1 }
+      
+      it "returns the remaining numer of team members based on Plan limit and total team members for the team" do
+        subject.team_members_left.should == 1
+      end
+    end
+    
+    context "when team members are over limit" do
+      let(:members_count) { 5 }
+      
+      it "returns 0" do
+        subject.team_members_left.should == 0
+      end
+    end
+  end
 end
