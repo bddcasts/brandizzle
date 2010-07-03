@@ -18,6 +18,17 @@ Factory.define(:subscribed_account, :parent => :account) do |f|
   f.card_type "Visa"
   f.card_number_last_4_digits "1111"
   f.card_expiration_date "05/2020"
+  f.next_billing_date do |a|
+    if a.created_at.blank?
+      1.month.from_now
+    else
+      date = a.created_at
+      while date < Time.now
+        date += 1.month
+      end
+      date
+    end
+  end
 end
 
 Factory.define(:unsubscribed_account, :parent => :account) do |f|

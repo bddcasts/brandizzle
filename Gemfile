@@ -19,7 +19,7 @@ group :default do
   gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth"
   gem 'typus'
   gem 'RedCloth',         '4.2.3'
-  gem 'braintree',        '2.2.0'
+  gem 'braintree',        '2.3.1'
   gem 'newrelic_rpm',     '2.12.3'
   gem 'hoptoad_notifier', '2.2.6'
   gem 'crack',            '0.1.7'

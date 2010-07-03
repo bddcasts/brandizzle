@@ -163,7 +163,7 @@ dependencies:
   braintree: 
     group: 
     - :default
-    version: = 2.2.0
+    version: = 2.3.1
   RedCloth: 
     group: 
     - :default
@@ -213,10 +213,8 @@ specs:
     version: 1.0.8
 - builder: 
     version: 2.1.2
-- libxml-ruby: 
-    version: 1.1.4
 - braintree: 
-    version: 2.2.0
+    version: 2.3.1
 - bundler: 
     version: 0.9.26
 - culerity: 
@@ -337,7 +335,7 @@ specs:
     version: 0.4.1
 - will_paginate: 
     version: 2.3.12
-hash: c69c8cac2ba451ad3c01896e2803e048b56b92b3
+hash: e9d7cd4f29f5033f8e023b05af49a7fcb098a51a
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

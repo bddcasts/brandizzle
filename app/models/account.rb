@@ -17,6 +17,8 @@
 #  card_type                 :string(255)
 #  card_number_last_4_digits :string(255)
 #  card_expiration_date      :string(255)
+#  comp                      :boolean(1)      default(FALSE)
+#  next_billing_date         :date            indexed
 #
 
 class Account < ActiveRecord::Base
@@ -48,6 +50,10 @@ class Account < ActiveRecord::Base
   
   def subscription_needed?
     card_token && !subscription_id
+  end
+  
+  def have_subscription?
+    !!subscription_id
   end
   
   def have_card_on_file?
@@ -122,6 +128,7 @@ class Account < ActiveRecord::Base
       if result.success?
         self.subscription_id = result.subscription.id
         self.status = result.subscription.status
+        self.next_billing_date = result.subscription.next_billing_date
         save!
       else
         logger.error("Count not create subscription. Details: #{result.inspect}")

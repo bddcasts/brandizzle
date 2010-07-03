@@ -9,7 +9,7 @@
 #  password_salt     :string(255)
 #  persistence_token :string(255)     not null
 #  perishable_token  :string(255)     not null, indexed
-#  active            :boolean(1)      default(TRUE), not null
+#  active            :boolean(1)      default(FALSE), not null
 #  created_at        :datetime
 #  updated_at        :datetime
 #  team_id           :integer(4)

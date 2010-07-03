@@ -20,7 +20,7 @@ When /^I press "([^\"]*)" with braintree create$/ do |button|
   
   subscription_response = mock("result",
     :success? => true,
-    :subscription => mock("subscription", :id => "subs", :status => "Active"))
+    :subscription => mock("subscription", :id => "subs", :status => "Active", :next_billing_date => 1.month.from_now))
   
   Braintree::Subscription.should_receive(:create).and_return(subscription_response)
   
