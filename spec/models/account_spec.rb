@@ -284,4 +284,45 @@ describe Account do
       it { should be_false }
     end
   end
+  
+  describe "#plan" do
+    subject { Factory.build(:account, :plan_id => plan_id) }
+    
+    context "when plan_id is set" do
+      let(:plan_id) { "standard" }
+      let(:plan)    { mock("Plan") }
+      
+      before(:each) do
+        Plan.
+          should_receive(:standard).
+          at_least(1).times.
+          and_return(plan)
+      end
+      
+      its(:plan) { should == plan }
+    end
+    
+    context "when plan_id is not set" do
+      let(:plan_id) { nil }
+      its(:plan)    { should be_blank }
+    end
+  end
+  
+  describe "#trial?" do
+    context "when there are trial days left" do
+      before(:each) do
+        subject.should_receive(:trial_days_left).and_return(5)
+      end
+      
+      it { should be_trial }
+    end
+    
+    context "when there are no trial days left" do
+      before(:each) do
+        subject.should_receive(:trial_days_left).and_return(0)
+      end
+      
+      it { should_not be_trial }
+    end
+  end
 end

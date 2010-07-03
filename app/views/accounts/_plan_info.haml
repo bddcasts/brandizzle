@@ -1,1 +1,13 @@
-asdf
+#plan-info
+  %table
+    %tr
+      %th Plan
+      %td= @account.plan.description
+    %tr
+      %th Price
+      %td #{number_to_currency @account.plan.price}/mo
+    - if @account.trial?
+      %tr
+        %th Your trial expires on
+        %td #{@account.trial_days_left.days.from_now.to_date.to_s(:long)}
+      

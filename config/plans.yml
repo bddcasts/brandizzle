@@ -1,7 +1,7 @@
 # app/config/application.yml
 defaults: &defaults
   standard:
-    price: 15
+    price: 29
     trial: 30
     members: 2
     searches: 6

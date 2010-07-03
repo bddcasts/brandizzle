@@ -54,6 +54,14 @@ class Account < ActiveRecord::Base
     !!card_token
   end
   
+  def plan
+    !plan_id.blank? && Plan.send(plan_id)
+  end
+  
+  def trial?
+    trial_days_left > 0
+  end
+  
   private
     def create_braintree_customer
       result = Braintree::Customer.create(:email => holder.email)
