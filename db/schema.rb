@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100703125055) do
+ActiveRecord::Schema.define(:version => 20100704151952) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(:version => 20100703125055) do
     t.integer  "team_id"
   end
 
+  add_index "brands", ["team_id"], :name => "index_brands_on_team_id"
+
   create_table "comments", :force => true do |t|
     t.integer  "brand_result_id"
     t.integer  "user_id"
@@ -118,6 +120,7 @@ ActiveRecord::Schema.define(:version => 20100703125055) do
     t.datetime "updated_at"
   end
 
+  add_index "results", ["created_at"], :name => "index_results_on_created_at"
   add_index "results", ["url"], :name => "index_results_on_url", :unique => true
 
   create_table "search_results", :force => true do |t|
