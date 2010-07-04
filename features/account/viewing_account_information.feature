@@ -3,7 +3,6 @@ Feature: Viewing account information
   As a user
   I want to see my account limits
   
-  @wip
   Scenario: Account limits for a user in trial without CC on file
     Given I am logged in as account holder "cartman" registered "20 days ago"
       And 4 brand queries exist for "cartman"'s team
@@ -16,7 +15,6 @@ Feature: Viewing account information
         | Search terms left     | 2                      |
         | Team members left     | 1                      |
   
-  @wip
   Scenario: Account limits for a subscribed user still in trial, but with CC on file
     Given I am logged in as subscribed account holder "cartman" registered "10 days ago"
       And 4 brand queries exist for "cartman"'s team
@@ -30,7 +28,6 @@ Feature: Viewing account information
         | Search terms left     | 2                      |
         | Team members left     | 1                      |
 
-  @wip
   Scenario: Account limits for a subscribed user out of trial, with CC on file
     Given I am logged in as subscribed account holder "cartman" registered "50 days ago"
       And 4 brand queries exist for "cartman"'s team

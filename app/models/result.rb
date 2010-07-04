@@ -19,4 +19,8 @@ class Result < ActiveRecord::Base
   def twitter?
     source == "twitter"
   end
+  
+  def add_brand(brand)
+    brands << brand unless brands.include?(brand)
+  end
 end

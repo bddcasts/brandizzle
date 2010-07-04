@@ -52,5 +52,22 @@ describe Result do
       end
     end
   end
+  
+  describe "#add_brand" do
+    subject              { Factory.create(:result, :brands => [existing_brand]) }
+    let(:existing_brand) { Factory.create(:brand) }
+    let(:new_brand)      { Factory.create(:brand) }
+    
+    it "adds the brand to brands if it does not have it already" do
+      subject.add_brand(new_brand)
+      subject.brands.should include(new_brand)
+    end
+    
+    it "does not add the brand if it has it already" do
+      expect {
+        subject.add_brand(existing_brand)
+      }.to_not change(subject.brands, :count)
+    end
+  end
 end
 

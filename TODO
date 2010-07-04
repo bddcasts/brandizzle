@@ -32,6 +32,3 @@ Optimizations:
 - Querying brand results
   - add result_created_at field to BrandResult to hold the result's created_at timestap;
   - when linking brands with results, create the BrandResult explicitly and set the result_created_at timestamp 
-
-- Linking brand results
-  - When adding a term to a query, do not fetch all brand results and map them; add a delayed method and fetch in batches

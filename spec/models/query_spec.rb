@@ -208,16 +208,58 @@ describe Query do
   end
 
   describe "#link_brand_results" do
-    it "links the returned (found or newly created) result to the current query's brands" do
-      returned_results = (1..3).map { Factory.create(:result)}
+    let(:results) { (1..3).map { mock_model(Result) } }
+    let(:brands)  { (1..3).map { mock_model(Brand) } }
+    
+    before(:each) do
+      subject.stub(:link_results)
+      subject.stub(:brands => brands)
+      Result.stub(:find => results)
+    end
+    
+    def call_link
+      subject.link_brand_results([41, 42, 43])
+    end
+    
+    it "finds the results specified by the IDs" do
+      Result.should_receive(:find).with([41, 42, 43]).and_return(results)
+      call_link
+    end
+    
+    it "links the results found to every brand associated with self" do
+      brands.each do |brand|
+        subject.should_receive(:link_results).with(results, brand)
+      end
+      call_link
+    end
+  end
+  
+  describe "#link_results" do
+    let(:results) { (1..3).map { mock_model(Result) } }
+    let(:brand)   { mock_model(Brand) }
+    
+    it "links every result in the specified batch with every brand associated with self" do
+      results.each do |result|
+        result.should_receive(:add_brand).with(brand)
+      end
       
-      query = Factory.create(:query)
-      brand = Factory.create(:brand)
-      Factory.create(:brand_query, :brand => brand, :query => query)
-
-      query.link_brand_results(returned_results.map(&:id))
-      
-      brand.results.should == returned_results
+      subject.link_results(results, brand)
+    end
+  end
+  
+  describe "#link_all_results_to_brand" do
+    let(:brand)   { mock_model(Brand) }
+    let(:results) { mock("query results") }
+    let(:batch)   { (1..3).map { mock_model(Result) } }
+    
+    before(:each) do
+      subject.stub(:results => results)
+    end
+    
+    it "finds all the associated results in batches and links them to the brand" do
+      results.should_receive(:find_in_batches).and_yield(batch)
+      subject.should_receive(:link_results).with(batch, brand)
+      subject.link_all_results_to_brand(brand)
     end
   end
   

@@ -46,6 +46,13 @@ describe Brand do
       subject.queries.map(&:term).should include('foo')
     end
     
+    it "tells the query to link all its results to the brand" do
+      query = mock_model(Query)
+      Query.should_receive(:find_or_create_by_term).with("foo").and_return(query)
+      query.should_receive(:send_later).with(:link_all_results_to_brand, subject)
+      subject.add_query('foo')
+    end
+    
     it "returns the query" do
       query = subject.add_query('foo')
       query.term.should == 'foo'

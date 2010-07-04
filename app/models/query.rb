@@ -105,11 +105,20 @@ class Query < ActiveRecord::Base
   # This is a utility method. Only call it with a small amount of IDs
   def link_brand_results(returned_results_ids)
     returned_results = Result.find(returned_results_ids)
-    
-    returned_results.each do |returned_result|
-      brands.each do |brand|
-        returned_result.brands << brand unless returned_result.brands.include?(brand)
-      end
+    brands.each do |brand|
+      link_results(returned_results, brand)
+    end
+  end
+  
+  def link_results(batch, brand)
+    batch.each do |result|
+      result.add_brand(brand)
+    end
+  end
+  
+  def link_all_results_to_brand(brand)
+    results.find_in_batches do |batch|
+      link_results(batch, brand)
     end
   end
   
