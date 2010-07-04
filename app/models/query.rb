@@ -101,6 +101,8 @@ class Query < ActiveRecord::Base
     pages
   end
 
+  # Links results specified by returned_results_ids to the brands this query is associated with.
+  # This is a utility method. Only call it with a small amount of IDs
   def link_brand_results(returned_results_ids)
     returned_results = Result.find(returned_results_ids)
     
