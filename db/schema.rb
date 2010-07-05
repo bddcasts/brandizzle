@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100705074120) do
+ActiveRecord::Schema.define(:version => 20100705085415) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -47,15 +47,17 @@ ActiveRecord::Schema.define(:version => 20100705074120) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "state"
-    t.integer  "comments_count", :default => 0
+    t.integer  "comments_count",    :default => 0
     t.integer  "temperature"
-    t.boolean  "read",           :default => false
+    t.boolean  "read",              :default => false
     t.integer  "team_id"
+    t.datetime "result_created_at"
   end
 
   add_index "brand_results", ["brand_id", "result_id"], :name => "index_brand_results_on_brand_id_and_result_id"
   add_index "brand_results", ["brand_id"], :name => "index_brand_results_on_brand_id"
   add_index "brand_results", ["read"], :name => "index_brand_results_on_read"
+  add_index "brand_results", ["result_created_at"], :name => "index_brand_results_on_result_created_at"
   add_index "brand_results", ["result_id"], :name => "index_brand_results_on_result_id"
   add_index "brand_results", ["state"], :name => "index_brand_results_on_state"
   add_index "brand_results", ["team_id"], :name => "index_brand_results_on_team_id"

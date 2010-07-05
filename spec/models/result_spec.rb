@@ -63,6 +63,12 @@ describe Result do
       subject.reload.brands.should include(new_brand)
     end
     
+    it "creates a new brand_result if it does not have the brand already" do
+      subject.brand_results.should_receive(:create).
+        with(:brand => new_brand, :team => new_brand.team, :result_created_at => subject.created_at)
+      subject.add_brand(new_brand)
+    end
+    
     it "does not add the brand if it has it already" do
       expect {
         subject.add_brand(existing_brand)

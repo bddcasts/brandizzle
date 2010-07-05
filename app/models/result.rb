@@ -21,6 +21,6 @@ class Result < ActiveRecord::Base
   end
   
   def add_brand(brand)
-    self.brand_results.create(:brand => brand, :team => brand.team) unless brands.include?(brand)
+    brand_results.create(:brand => brand, :team => brand.team, :result_created_at => created_at) unless brands.include?(brand)
   end
 end

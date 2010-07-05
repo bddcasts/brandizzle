@@ -27,8 +27,8 @@ results:
 - Jeff's notes
 
 Optimizations:
-- add direct has many association between team and brand result (now it goes through brand)
++ add direct has many association between team and brand result (now it goes through brand)
 
-- Querying brand results
-  - add result_created_at field to BrandResult to hold the result's created_at timestap;
-  - when linking brands with results, create the BrandResult explicitly and set the result_created_at timestamp 
++ Querying brand results
+  + add result_created_at field to BrandResult to hold the result's created_at timestap;
+  + when linking brands with results, create the BrandResult explicitly and set the result_created_at timestamp 
