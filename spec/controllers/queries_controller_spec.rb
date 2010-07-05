@@ -38,7 +38,20 @@ describe QueriesController do
         end
       end
     end
-  end  
+  
+    context "create requires account not have reached the limit of search terms" do
+      before(:each) do
+        login_account_holder
+        current_user.account.stub(:search_terms_left).and_return(0)
+      end
+      
+      it "sets the flash message and redirects to the account path" do
+        get :create
+        flash[:notice].should == "You reached the limit of search terms. Query term not added."
+        response.should redirect_to(account_path)
+      end
+    end
+  end
   
   describe "actions" do
     before(:each) do
@@ -51,6 +64,7 @@ describe QueriesController do
     describe "handling POST create" do
       before(:each) do
         @brand.stub!(:add_query).and_return(@query)
+        current_user.team.account.stub(:search_terms_left).and_return(1)
       end
     
       def post_with_valid_params

@@ -1,5 +1,6 @@
 class QueriesController < ApplicationController
   before_filter :require_user
+  before_filter :check_search_terms_limit, :only => [:create]
   before_filter :find_brand
   
   def create

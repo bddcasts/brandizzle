@@ -59,3 +59,13 @@ Feature: Manage Brands
       And I follow "Remove" for query "jschoolcraft"
      Then I should see "Deleted query term."
       And I should not see "jschoolcraft"
+  
+  Scenario: Trying to add a query when account has reached search terms limit
+    Given I am on the brand edit page for "Kerfluegle"
+      And 10 brand_queries exist with brand: brand "Kerfluegle"
+     When I fill in "query_term" with "one two many terms"
+      And I press "Add term"
+     Then I should be on the edit account page
+      And I should see "You reached the limit of search terms. Query term not added."
+      And a query should not exist with term: "one two many terms"
+  

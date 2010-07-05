@@ -52,3 +52,16 @@ Feature: Account management
      Then I should be on the team page
       And I should see "User enabled!"
       And I should see "Disable" for user "stan"
+      
+  Scenario: Trying to create a new user when account has reached team members limit
+    Given I am logged in as subscribed account holder "cartman"
+      And a user "stan" exists with login: "stan", email: "stan@example.com", team: team "cartman_team"
+      And I am on the team page
+     When I follow "Create a new user"
+      And I fill in "Login" with "kenny"
+      And I fill in "Email" with "kenny@example.com"
+      And I press "Create user"
+     Then I should be on my account page
+      And I should see "You reached the limit of team member. User registration failed."
+      And a user should not exist with login: "kenny", email: "kenny@example.com", team: team "cartman_team"
+     
