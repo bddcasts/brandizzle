@@ -16,21 +16,25 @@ div
     :border-bottom 1px dotted #ccc
     :padding-bottom 5px
     :margin-bottom 10px
-    .leenks
-      :margin-top 3px
+    .links
       :font-size 11px
+      :padding-left 15px
+      +clearfix
+      :margin-bottom 5px
+      div
+        :float left
+        :margin-left 5px
+        &.temperature_links
+          +clearfix
+          :float right
+          a
+            :text-decoration none
     .body
       +general_font
-      :margin-top 5px
-    .status
+      :margin-bottom 5px
+    .status, .result_link
       :font-size 11px
-      :padding-left 20px
-      +clearfix
-      .temperature_links
-        +clearfix
-        :float right
-        a
-          :text-decoration none
+      :margin-bottom 5px
   &.read
     :color = !general_font_color + #666666
   .top

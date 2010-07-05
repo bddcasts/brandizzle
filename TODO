@@ -25,6 +25,9 @@ ssl_requirement:
 
 results:
 - Jeff's notes
+  + brand_results index and show pages
+  - dashboard
+  - brands index
 
 Optimizations:
 + add direct has many association between team and brand result (now it goes through brand)

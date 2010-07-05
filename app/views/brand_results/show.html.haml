@@ -2,15 +2,20 @@
 
 - brand_result_with_presenter @brand_result do |brand_result|
   %div.result{ :id => brand_result.dom_id}
-    %div.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
-      = format_date_time brand_result.result.created_at
-      = brand_result.status
-      %p.temperature_links
+    %div.links{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
+      %div
+        = brand_result.brand
+      %div.state_links
+        = brand_result.state_links.join(" | ")
+      %div.temperature_links
         = "[ #{brand_result.temperature_links.join(" | ")} ]"
     %div.body
       = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
-    %div.leenks
-      = brand_result.action_links.join(" | ")
+    %div.result_link
+      = brand_result.result_link
+    %div.status
+      = brand_result.result.created_at.strftime("%I:%M%p")
+      = brand_result.status
   
   %div.comments
     - @comments.each do |comment|
