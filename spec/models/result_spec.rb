@@ -6,7 +6,7 @@
 #  body       :text
 #  source     :string(255)
 #  url        :string(255)     indexed
-#  created_at :datetime
+#  created_at :datetime        indexed
 #  updated_at :datetime
 #
 
@@ -60,7 +60,7 @@ describe Result do
     
     it "adds the brand to brands if it does not have it already" do
       subject.add_brand(new_brand)
-      subject.brands.should include(new_brand)
+      subject.reload.brands.should include(new_brand)
     end
     
     it "does not add the brand if it has it already" do

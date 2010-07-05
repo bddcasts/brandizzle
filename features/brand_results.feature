@@ -19,10 +19,10 @@ Feature: Results
         | two    | twitter | bdd screencasts anyone?               | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
         | three  | twitter | Awesome bdd screencast: blah blah     | http://twitter.com/statuses/789 | 09 Jul 2009 18:25 |
       And the following brand results exist:
-        | brand            | result         |
-        | brand "BDDCasts" | result "one"   |
-        | brand "BDDCasts" | result "two"   |
-        | brand "BDDCasts" | result "three" |
+        | brand            | result         | team                |
+        | brand "BDDCasts" | result "one"   | team "cartman_team" |
+        | brand "BDDCasts" | result "two"   | team "cartman_team" |
+        | brand "BDDCasts" | result "three" | team "cartman_team" |
      When I am on the brand_results page
      Then I should see the following results:
         | content                               | created_at        |
@@ -37,10 +37,10 @@ Feature: Results
         | two    | twitter | bdd screencasts anyone?               | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
         | three  | twitter | Awesome bdd screencast: blah blah     | http://twitter.com/statuses/789 | 09 Jul 2009 18:25 |
       And the following brand results exist:
-        | brand            | result         | read  |
-        | brand "BDDCasts" | result "one"   | false |
-        | brand "BDDCasts" | result "two"   | false |
-        | brand "BDDCasts" | result "three" | true  |
+        | brand            | result         | read  | team                |
+        | brand "BDDCasts" | result "one"   | false | team "cartman_team" |
+        | brand "BDDCasts" | result "two"   | false | team "cartman_team" |
+        | brand "BDDCasts" | result "three" | true  | team "cartman_team" |
      When I follow "Results" within ".navigation"
      Then I should see the following results:
         | content                               | created_at        |
@@ -49,7 +49,7 @@ Feature: Results
       And I should not see "Awesome bdd screencast: blah blah"
 
   Scenario: Paginating the results
-    Given 20 brand results exist with brand: brand "BDDCasts"
+    Given 20 brand results exist with brand: brand "BDDCasts", team: team "cartman_team"
      When I am on the brand_results page
      Then current page for ".results" should be 1
      When I follow "2" within ".pagination"
@@ -64,9 +64,9 @@ Feature: Results
         | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
         | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
       And the following brand results exist:
-        | brand                | result       |
-        | brand "BDDCasts"     | result "one" |
-        | brand "RadiantCasts" | result "two" |
+        | brand                | result       | team                |
+        | brand "BDDCasts"     | result "one" | team "cartman_team" |
+        | brand "RadiantCasts" | result "two" | team "cartman_team" |
       And I am on the brand_results page
      Then I should see the following results:
         | content                               | created_at        |
@@ -89,9 +89,9 @@ Feature: Results
         | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
         | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
       And the following brand results exist:
-        | brand            | result       | state     | read |
-        | brand "BDDCasts" | result "one" | follow_up | true |
-        | brand "BDDCasts" | result "two" | done      | true |
+        | brand            | result       | state     | read | team                |
+        | brand "BDDCasts" | result "one" | follow_up | true | team "cartman_team" |
+        | brand "BDDCasts" | result "two" | done      | true | team "cartman_team" |
       And I am on the brand_results page
      Then I should see the following results:
         | content                               | created_at        |
@@ -114,9 +114,9 @@ Feature: Results
           | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 08 Jul 2010 13:28 |
           | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2010 15:16 |
         And the following brand results exist:
-          | brand            | result         |
-          | brand "BDDCasts" | result "one"   |
-          | brand "BDDCasts" | result "two"   |
+          | brand            | result       | team                |
+          | brand "BDDCasts" | result "one" | team "cartman_team" |
+          | brand "BDDCasts" | result "two" | team "cartman_team" |
        And I am on the brand_results page          
       When I fill in "between_date" with "Jul 9, 2010" within ".sidebar"
        And I press "GO" within ".sidebar"
@@ -131,9 +131,9 @@ Feature: Results
           | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 08 Jul 2010 13:28 |
           | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2010 15:16 |
       And the following brand results exist:
-          | brand            | result       | read  |
-          | brand "BDDCasts" | result "one" | true  |
-          | brand "BDDCasts" | result "two" | false |
+          | brand            | result       | read  | team                |
+          | brand "BDDCasts" | result "one" | true  | team "cartman_team" |
+          | brand "BDDCasts" | result "two" | false | team "cartman_team" |
       And I am on the brand_results page
      Then I should see the following results:
           | content                               | created_at        |
@@ -153,9 +153,9 @@ Feature: Results
         | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
         | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
       And the following brand_results exist:
-        | brand_result | brand            | result       | state     |
-        | first        | brand "BDDCasts" | result "one" | follow_up |
-        | second       | brand "BDDCasts" | result "two" | done      |
+        | brand_result | brand            | result       | state     | team                |
+        | first        | brand "BDDCasts" | result "one" | follow_up | team "cartman_team" |
+        | second       | brand "BDDCasts" | result "two" | done      | team "cartman_team" |
       And I follow "Results" within ".navigation"
   
      When I follow "Mark them as read" within ".top"
@@ -172,9 +172,9 @@ Feature: Results
         | one    | twitter | Does anyone know any bdd screencasts? | http://twitter.com/statuses/123 | 09 Jul 2009 13:28 |
         | two    | twitter | radiant screencasts anyone?           | http://twitter.com/statuses/456 | 09 Jul 2009 15:16 |
       And the following brand_results exist:
-        | brand_result | brand                | result       |
-        | first        | brand "BDDCasts"     | result "one" |
-        | second       | brand "RadiantCasts" | result "two" |
+        | brand_result | brand                | result       | team                |
+        | first        | brand "BDDCasts"     | result "one" | team "cartman_team" |
+        | second       | brand "RadiantCasts" | result "two" | team "cartman_team" |
       And I follow "Results" within ".navigation"
       And I follow "BDDCasts" within "#brand_filters"
      

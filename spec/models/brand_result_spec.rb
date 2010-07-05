@@ -11,6 +11,7 @@
 #  comments_count :integer(4)      default(0)
 #  temperature    :integer(4)      indexed
 #  read           :boolean(1)      default(FALSE), indexed
+#  team_id        :integer(4)      indexed
 #
 
 require 'spec_helper'
@@ -24,6 +25,7 @@ describe BrandResult do
   #associations
   should_belong_to :brand
   should_belong_to :result
+  should_belong_to :team
   should_have_many :comments, :dependent => :delete_all
   
   describe "named scopes" do

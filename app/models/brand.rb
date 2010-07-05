@@ -6,7 +6,7 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  team_id    :integer(4)
+#  team_id    :integer(4)      indexed
 #
 
 class Brand < ActiveRecord::Base

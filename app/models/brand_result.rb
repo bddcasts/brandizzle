@@ -11,11 +11,13 @@
 #  comments_count :integer(4)      default(0)
 #  temperature    :integer(4)      indexed
 #  read           :boolean(1)      default(FALSE), indexed
+#  team_id        :integer(4)      indexed
 #
 
 class BrandResult < ActiveRecord::Base
   belongs_to :brand
   belongs_to :result
+  belongs_to :team
   has_many :comments, :dependent => :delete_all
     
   class << self

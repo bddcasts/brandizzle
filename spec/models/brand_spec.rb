@@ -6,7 +6,7 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  team_id    :integer(4)
+#  team_id    :integer(4)      indexed
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')

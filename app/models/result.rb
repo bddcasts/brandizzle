@@ -6,7 +6,7 @@
 #  body       :text
 #  source     :string(255)
 #  url        :string(255)     indexed
-#  created_at :datetime
+#  created_at :datetime        indexed
 #  updated_at :datetime
 #
 
@@ -21,6 +21,6 @@ class Result < ActiveRecord::Base
   end
   
   def add_brand(brand)
-    brands << brand unless brands.include?(brand)
+    self.brand_results.create(:brand => brand, :team => brand.team) unless brands.include?(brand)
   end
 end
