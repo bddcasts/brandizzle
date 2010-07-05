@@ -36,6 +36,29 @@ class Account < ActiveRecord::Base
   
   attr_accessor :card_number, :expiration_month, :expiration_year, :cvv, :first_name, :last_name, :postal_code
   
+  named_scope :past_due, :conditions => [ "next_billing_date < ? AND subscription_id IS NOT NULL", Date.today ]
+  
+  class << self
+    def update_past_due_subscriptions!
+      braintree_subscriptions = Braintree::Subscription.search do |s|
+        s.ids.in past_due.map(&:subscription_id)
+      end
+      
+      failed_subscriptions = []
+      
+      braintree_subscriptions.each do |bts|
+        account = find_by_subscription_id(bts.id)
+        account.next_billing_date = bts.next_billing_date
+        account.status = bts.status
+        account.save(false)
+        
+        failed_subscriptions << account if account.next_billing_date < Date.today
+      end
+      
+      Notifier.deliver_failed_subscriptions(failed_subscriptions) if failed_subscriptions.size > 0
+    end
+  end
+  
   def card_fields_present?
     !@card_number.blank? && !@expiration_month.blank? && !@expiration_year.blank? && !@cvv.blank? && !@first_name.blank? && !@last_name.blank? && !@postal_code.blank?
   end

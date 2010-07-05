@@ -53,6 +53,23 @@ describe Account do
   end
   
   it { should_not be_comp }
+  
+  describe "named scopes" do
+    describe "past_due" do      
+      before(:each) do
+        result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
+        Braintree::Customer.stub!(:create).and_return(result)
+      end
+      
+      it "fetches only subscribed accounts whose next_billing_date is it the past" do        
+        past_due_account = Factory.create(:subscribed_account, :next_billing_date => 3.days.ago)
+        unsubscribed_account = Factory.create(:account)
+        valid_account = Factory.create(:subscribed_account, :next_billing_date => 3.days.from_now)
+
+        Account.past_due.should == [past_due_account]
+      end
+    end
+  end
  
   it "creating a new account also creates a braintree account and sets customer_id" do
     create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
@@ -394,6 +411,27 @@ describe Account do
     context "subscription id is NOT present" do
       let(:subscription_id) { nil }
       its(:have_subscription?) { should be_false }
+    end
+  end
+
+  describe ".update_past_due_subscriptions!" do    
+    before(:each) do
+      result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
+      Braintree::Customer.stub!(:create).and_return(result)
+    end
+    
+    it "does something" do
+      past_due_account_1 = Factory.create(:subscribed_account, :subscription_id => "subs-1", :next_billing_date => 2.days.ago)
+      past_due_account_2 = Factory.create(:subscribed_account, :subscription_id => "subs-2", :next_billing_date => 2.days.ago)
+      
+      subscription_1 = mock("subscription", :id => "subs-1", :status => "Active", :next_billing_date => 2.days.from_now)
+      subscription_2 = mock("subscription", :id => "subs-2", :status => "PastDue", :next_billing_date => 2.days.ago)
+      
+      subscriptions = [subscription_1, subscription_2]
+      
+      Braintree::Subscription.should_receive(:search).and_return(subscriptions)
+      
+      Account.update_past_due_subscriptions!
     end
   end
 end

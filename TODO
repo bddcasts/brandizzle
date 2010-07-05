@@ -10,10 +10,11 @@ Uncomp account:
 
 Check for past-due subscriptions:
 - Account.update_past_due_subscriptions!
-- query BT for subscriptions that are past-due
-- update accounts with PastDue status
-- schedule using Whenever to run every day.
-- update next billing date
+  - query BT for subscriptions that are past-due
+  - update accounts with PastDue status
+  - schedule using Whenever to run every day.
+  - update next billing date
+  - send email with failed subscriptions 
 
 Transactions:
 - show subscription charges history

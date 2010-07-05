@@ -23,6 +23,14 @@ class Notifier < ActionMailer::Base
     body          :account_activation_url => register_url(user.perishable_token)
   end
   
+  def failed_subscriptions(subscriptions)
+    subject       "[BrandPulse] Failed Subscriptions"
+    from          sender
+    recipients    "cristi.duma@gmail.com"
+    sent_on       Time.now
+    body          :failed_subscriptions => subscriptions
+  end
+  
   private
     def sender
       "noreply@brandpulseapp.com"

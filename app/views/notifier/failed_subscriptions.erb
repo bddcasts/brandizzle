@@ -1,0 +1,11 @@
+The following subscriptions are past due:
+
+<table>
+  <% @failed_subscriptions.each do |fs| %>
+    <tr>
+      <td>
+        <%= fs.id %>
+      </td>
+    </tr>
+  <% end -%>
+</table>
