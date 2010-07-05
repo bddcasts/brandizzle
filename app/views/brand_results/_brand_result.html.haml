@@ -6,12 +6,13 @@
       = brand_result.state_links.join(" | ")
     %div.temperature_links
       = "[ #{brand_result.temperature_links.join(" | ")} ]"
+    %div.status
+      = brand_result.status
   %div.body
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
   %div.result_link
     = brand_result.result_link
-  %div.status
+  %div.view_links
     = brand_result.result.created_at.strftime("%I:%M%p")
-    = brand_result.status
     = brand_result.view_links.join(" | ")
     

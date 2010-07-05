@@ -6,7 +6,7 @@ class AddBrandResultToTeam < ActiveRecord::Migration
     BrandResult.reset_column_information
         
     Brand.all.each do |b|
-      b.brand_results.update_all("team_id" => b.team)
+      b.brand_results.update_all("team_id" => b.team_id)
     end
   end
 

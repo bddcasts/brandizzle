@@ -5,8 +5,10 @@ class AddResultCreatedAtToBrandResult < ActiveRecord::Migration
     
     BrandResult.reset_column_information
     
-    BrandResult.all.each do |br|
-      br.update_attribute(:result_created_at, br.result.created_at)
+    BrandResult.find_in_batches(:batch_size => 200) do |batch|
+      batch.each do |br|
+        br.update_attribute(:result_created_at, br.result.created_at)
+      end
     end
   end
 
