@@ -10,7 +10,7 @@ Feature: Manage brand results
       And a result "bdd" exists with source: "twitter", body: "Does anyone know any bdd screencasts?", url: "http://twitter.com/statuses/123"
   
   Scenario: Viewing a result
-    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page
      When I follow "View" for brand result "br_bdd"
      Then I should be on the brand_result "br_bdd" page
@@ -18,7 +18,7 @@ Feature: Manage brand results
   
   @javascript
   Scenario: Marking a result as follow up (also creates a log entry to be shown on the dashboard)
-    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page
      When I follow "Follow up" for brand result "br_bdd"
      Then I should be on the brand_results page
@@ -28,7 +28,7 @@ Feature: Manage brand results
   
   @javascript
   Scenario: Marking a result as done (should also create a log entry to be shown on the dashboard)
-    Given a follow_up_brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a follow_up_brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page
      When I follow "Done" for brand result "br_bdd"
      Then I should be on the brand_results page
@@ -38,7 +38,7 @@ Feature: Manage brand results
     
   @javascript
   Scenario: Marking a result as rejected (should also create a log entry to be shown on the dashboard)
-    Given a follow_up_brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a follow_up_brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page
      When I follow "Reject" for brand result "br_bdd"
      Then I should be on the brand_results page
@@ -48,7 +48,7 @@ Feature: Manage brand results
   
   @javascript
   Scenario Outline: Marking a result as positive/neutral/negative (should also create a log entry to be shown on the dashoard)
-    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page
      When I follow "<action>" for brand result "br_bdd"
      Then I should be on the brand_results page
@@ -64,7 +64,7 @@ Feature: Manage brand results
   
   @javascript
   Scenario: Marking a result as read  
-    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page
      When I follow "Mark as read" for brand result "br_bdd"
      Then I should be on the brand_results page
@@ -72,7 +72,7 @@ Feature: Manage brand results
       And brand result "br_bdd" should be read
   
   Scenario: Commenting on a result (should also create a log entry to be shown on the dashboard)
-    Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd"
+    Given a brand result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_result "br_bdd" page
      When I fill in "Leave a comment" with "OMG they killed Kenny"
       And I press "Post comment"

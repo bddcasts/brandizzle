@@ -112,7 +112,7 @@ describe AccountsController do
     before(:each) do
       login_account_holder
       @account = current_user.account
-      @account.stub!(:card_token).and_return(true)
+      @account.stub!(:have_card_on_file?).and_return(true)
     end
     
     def do_get
@@ -131,7 +131,7 @@ describe AccountsController do
     end
     
     it "redirects to edit action if account has no card_token set" do
-      @account.should_receive(:card_token).and_return(false)
+      @account.should_receive(:have_card_on_file?).and_return(false)
       do_get
       response.should redirect_to(edit_account_path)
     end

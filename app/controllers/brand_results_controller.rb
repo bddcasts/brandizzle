@@ -7,9 +7,9 @@ class BrandResultsController < ApplicationController
     @search = current_team.brand_results.search(params[:search] || {})
         
     @brand_results = @search.paginate(
-      :page => params[:page],
-      :include => [:result],
-      :order => "results.created_at DESC")
+      :page          => params[:page],
+      :include       => [:brand, :result],
+      :order         => "result_created_at DESC")
   end
 
   def show

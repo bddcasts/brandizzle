@@ -9,6 +9,7 @@ set :deploy_via, :remote_cache
 set :tag_on_deploy, false
 set :build_gems, false
 set :compress_assets, false
+set :backup_database_before_migrations, false
 
 set :keep_releases, 6
 after "deploy:update", "deploy:cleanup"

@@ -22,4 +22,13 @@ describe Comment do
   
   #validations
   should_validate_presence_of :content
+  
+  describe "#logged_attributes" do
+    subject { Factory.build(:comment) }
+    
+    it "forwards to the associated brand result" do
+      subject.brand_result.should_receive(:logged_attributes)
+      subject.logged_attributes
+    end
+  end
 end

@@ -1,13 +1,22 @@
 # app/config/application.yml
 defaults: &defaults
   standard:
-    price: 15
+    price: 29
     trial: 30
+    members: 2
+    searches: 6
     description: Standard
     id: standard
 
 development:
   <<: *defaults
+  standard:
+    price: 29
+    trial: 30
+    members: 2
+    searches: 10
+    description: Standard
+    id: standard
     
 test:
   <<: *defaults
@@ -21,6 +30,8 @@ aissac:
 production:
   standard:
     price: 29
+    members: 2
     trial: 30
+    searches: 10
     description: Standard
     id: standard

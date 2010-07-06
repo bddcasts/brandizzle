@@ -6,7 +6,7 @@
 #  body       :text
 #  source     :string(255)
 #  url        :string(255)     indexed
-#  created_at :datetime
+#  created_at :datetime        indexed
 #  updated_at :datetime
 #
 
@@ -18,5 +18,9 @@ class Result < ActiveRecord::Base
   
   def twitter?
     source == "twitter"
+  end
+  
+  def add_brand(brand)
+    brand_results.create(:brand => brand, :team => brand.team, :result_created_at => created_at) unless brands.include?(brand)
   end
 end

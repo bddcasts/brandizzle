@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100619155941) do
+ActiveRecord::Schema.define(:version => 20100705085415) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -27,7 +27,10 @@ ActiveRecord::Schema.define(:version => 20100619155941) do
     t.string   "card_number_last_4_digits"
     t.string   "card_expiration_date"
     t.boolean  "comp",                      :default => false
+    t.date     "next_billing_date"
   end
+
+  add_index "accounts", ["next_billing_date"], :name => "index_accounts_on_next_billing_date"
 
   create_table "brand_queries", :force => true do |t|
     t.integer "brand_id"
@@ -44,16 +47,20 @@ ActiveRecord::Schema.define(:version => 20100619155941) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "state"
-    t.integer  "comments_count", :default => 0
+    t.integer  "comments_count",    :default => 0
     t.integer  "temperature"
-    t.boolean  "read",           :default => false
+    t.boolean  "read",              :default => false
+    t.integer  "team_id"
+    t.datetime "result_created_at"
   end
 
   add_index "brand_results", ["brand_id", "result_id"], :name => "index_brand_results_on_brand_id_and_result_id"
   add_index "brand_results", ["brand_id"], :name => "index_brand_results_on_brand_id"
   add_index "brand_results", ["read"], :name => "index_brand_results_on_read"
+  add_index "brand_results", ["result_created_at"], :name => "index_brand_results_on_result_created_at"
   add_index "brand_results", ["result_id"], :name => "index_brand_results_on_result_id"
   add_index "brand_results", ["state"], :name => "index_brand_results_on_state"
+  add_index "brand_results", ["team_id"], :name => "index_brand_results_on_team_id"
   add_index "brand_results", ["temperature"], :name => "index_brand_results_on_temperature"
 
   create_table "brands", :force => true do |t|
@@ -62,6 +69,8 @@ ActiveRecord::Schema.define(:version => 20100619155941) do
     t.datetime "updated_at"
     t.integer  "team_id"
   end
+
+  add_index "brands", ["team_id"], :name => "index_brands_on_team_id"
 
   create_table "comments", :force => true do |t|
     t.integer  "brand_result_id"
@@ -115,6 +124,7 @@ ActiveRecord::Schema.define(:version => 20100619155941) do
     t.datetime "updated_at"
   end
 
+  add_index "results", ["created_at"], :name => "index_results_on_created_at"
   add_index "results", ["url"], :name => "index_results_on_url", :unique => true
 
   create_table "search_results", :force => true do |t|

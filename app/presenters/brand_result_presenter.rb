@@ -9,12 +9,9 @@ class BrandResultPresenter < Viewtastic::Base
   def dom_id
    brand_result_dom_id
   end
-  
-  def action_links
+
+  def state_links
     returning([]) do |links|
-      links << link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
-      links << link_to("View", brand_result_path(brand_result))
-      links << link_to_remote_update("Mark as read", mark_as_read_brand_result_path(brand_result)) unless brand_result.read?
       case brand_result.state
       when "normal"
         links << link_to_remote_update('Follow up', follow_up_brand_result_path(brand_result))
@@ -22,16 +19,28 @@ class BrandResultPresenter < Viewtastic::Base
         links << link_to_remote_update('Done', finish_brand_result_path(brand_result))
         links << link_to_remote_update('Reject', reject_brand_result_path(brand_result))
       end
+      links << link_to_remote_update("Mark as read", mark_as_read_brand_result_path(brand_result)) unless brand_result.read?
       links << link_to("Reply", twitter_reply_url, :target => "_blank") if current_user.using_twitter? && result.twitter?
     end
   end
   
   def temperature_links
-    returning([]) do |links|      
+    returning([]) do |links|
       brand_result.positive? ? links << content_tag("span", "+", :class => "strong positive") : links << link_to_remote_update("+", positive_brand_result_path(brand_result))
       brand_result.neutral? ? links << content_tag("span", "=", :class => "strong neutral") : links << link_to_remote_update("=", neutral_brand_result_path(brand_result))
       brand_result.negative? ? links << content_tag("span", "-", :class => "strong negative") : links << link_to_remote_update("-", negative_brand_result_path(brand_result))
     end
+  end
+  
+  def view_links
+    returning([]) do |links|
+      links << link_to("View", brand_result_path(brand_result))
+      links << link_to(pluralize(comments_count, "comment"), brand_result_path(brand_result, :anchor => "comments"))
+    end
+  end
+  
+  def result_link
+    link_to(truncate_url(brand_result.result), brand_result.result.url, :target => "_blank", :title => brand_result.result.url)
   end
   
   def status

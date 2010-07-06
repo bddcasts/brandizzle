@@ -1,6 +1,6 @@
 Comp account:
 - Account#comp!
-- if BT subscription exists, update it with :price => 0
+- if BT subscription exists, update it with :price => 0 (or remove it)
 - set 'comp' flag to true
 
 Uncomp account:
@@ -10,6 +10,29 @@ Uncomp account:
 
 Check for past-due subscriptions:
 - Account.update_past_due_subscriptions!
-- query BT for subscriptions that are past-due
-- update accounts with PastDue status
-- schedule using Whenever to run every day.
+  - query BT for subscriptions that are past-due
+  - update accounts with PastDue status
+  - schedule using Whenever to run every day.
+  - update next billing date
+  - send email with failed subscriptions 
+
+Transactions:
+- show subscription charges history
+
+ssl_requirement:
+- login
+- register
+- account update
+
+results:
+- Jeff's notes
+  + brand_results index and show pages
+  - dashboard
+  - brands index
+
+Optimizations:
++ add direct has many association between team and brand result (now it goes through brand)
+
++ Querying brand results
+  + add result_created_at field to BrandResult to hold the result's created_at timestap;
+  + when linking brands with results, create the BrandResult explicitly and set the result_created_at timestamp 

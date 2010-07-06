@@ -1,30 +1,54 @@
 require 'spec_helper'
 
 describe LogService do
-  before do
-    @user = mock_model(User)
-    @log = LogService.new
-  end
+  subject                 { LogService.new }
+  let(:user)              { mock_model(User) }
+  let(:logged_attributes) { mock("logged attributes") }
 
   describe "#update_brand_result" do
+    let(:brand_result) { mock_model(BrandResult, :result => mock_model(Result)) }
+    
+    
     before(:each) do
-      @brand_result = mock_model(BrandResult, :result => mock_model(Result))
+      brand_result.stub(:logged_attributes => logged_attributes)
+    end
+    
+    def call_update
+      subject.updated_brand_result(brand_result, user, {"state" => "follow_up" })
+    end
+    
+    it "gets the logged attributes from the brand result" do
+      brand_result.should_receive(:logged_attributes).with({"state" => "follow_up" }).and_return(logged_attributes)
+      call_update
     end
     
     it "logs the update of the brand result" do
-      Log.should_receive(:create).with(hash_including(:loggable => @brand_result, :user => @user, :loggable_attributes => {"state" => "follow_up" }))
-      @log.updated_brand_result(@brand_result, @user, {"state" => "follow_up" })
+      Log.
+        should_receive(:create).
+        with(hash_including(
+          :loggable            => brand_result,
+          :user                => user,
+          :loggable_attributes => logged_attributes)
+        )
+      call_update
     end
   end
   
   describe "#create_comment" do
+    let(:comment) { mock_model(Comment) }
+    
     before(:each) do
-      @comment = mock_model(Comment)
+      comment.stub(:logged_attributes => logged_attributes)
+    end
+    
+    it "gets the logged attributes from the brand result" do
+      comment.should_receive(:logged_attributes).and_return(logged_attributes)
+      subject.created_comment(comment, user)
     end
     
     it "logs the creation of a new comment" do
-      Log.should_receive(:create).with(hash_including(:loggable => @comment, :user => @user))
-      @log.created_comment(@comment, @user)
+      Log.should_receive(:create).with(hash_including(:loggable => comment, :user => user))
+      subject.created_comment(comment, user)
     end
   end
 end

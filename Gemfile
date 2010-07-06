@@ -1,7 +1,5 @@
 source :gemcutter
 
-# gem "rake"
-
 group :default do
   gem 'haml',             '~> 3.0'
   gem 'aasm',             '2.1.5'
@@ -14,16 +12,19 @@ group :default do
   gem 'delayed_job',      '2.0.3'
   gem 'settingslogic',    '2.0.5'
   gem 'twitter',          '0.8.6'
-  gem 'compass',          '0.8.17'
+  gem 'compass',          '0.10.2'
   gem 'annotate',         '2.4.0'
   gem 'viewtastic',       '0.1.2'
   gem 'oauth',            '0.3.6'
   gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth"
   gem 'typus'
   gem 'RedCloth',         '4.2.3'
-  gem 'braintree',        '2.2.0'
+  gem 'braintree',        '2.3.1'
   gem 'newrelic_rpm',     '2.12.3'
   gem 'hoptoad_notifier', '2.2.6'
+  gem 'crack',            '0.1.7'
+  gem 'san_juan'
+  gem 'capistrano'
 end
 
 group :rails do
@@ -55,7 +56,7 @@ group :cucumber do
   gem 'rspec',              '1.3.0'
   gem 'rspec-rails',        '1.3.2'
   gem 'factory_girl',       '1.2.3'
-  gem 'pickle',             '0.2.8'
+  gem 'pickle',             '0.3.0'
   gem 'email_spec',         '0.6.2'
   gem 'thin',               '1.2.7'
   gem 'launchy',            '0.3.5'

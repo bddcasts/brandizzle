@@ -38,6 +38,19 @@ describe UsersController do
         end
       end
     end
+  
+    context "create requires account not have reached the limit of team members" do
+      before(:each) do
+        login_account_holder
+        current_user.account.stub(:team_members_left).and_return(0)
+      end
+      
+      it "sets the flash message and redirects to the account path" do
+        get :create
+        flash[:notice].should == "You reached the limit of team member. User registration failed."
+        response.should redirect_to(account_path)
+      end
+    end
   end
   
   describe "handling GET new" do
@@ -67,6 +80,7 @@ describe UsersController do
   describe "handling POST create" do
     before(:each) do
       login_user
+      current_user.team.account.stub(:team_members_left).and_return(1)
       @current_team = @current_user.team
       @user = mock_model(User)
       @current_team.stub_chain(:members, :build).and_return(@user)

@@ -35,33 +35,68 @@ class LogPresenter < Viewtastic::Base
   end
   
   def brand_result_state_log_description(brand_result, state)
-    returning("") do |s|
-      s << user.to_s
-      s << " marked "
-      s << link_to("a result", polymorphic_path(brand_result))
-      s << " as "
-      s << get_brand_result_state_label(state)
-    end
+    message = [
+      user,
+      action_description,
+      subject_description,
+      "as",
+      get_brand_result_state_label(state)
+    ]
+    
+    message.map(&:to_s).join(' ')
   end
   
-  def brand_result_temperature_log_description(brand_result, temperature)
-    returning("") do |s|
-      s << user.to_s
-      s << " marked "
-      s << link_to("a result", polymorphic_path(brand_result))
-      s << " as "
-      s << get_brand_result_temperature_label(temperature)
-    end
+  def brand_result_temperature_log_description(brand_result, temperature)    
+    message = [
+      user,
+      action_description,
+      subject_description,
+      "as",
+      get_brand_result_temperature_label(temperature)
+    ]
+    
+    message.map(&:to_s).join(' ')
   end
   
   def comment_log_description(comment)
-    returning("") do |s|
-      s << user.to_s
-      s << " "
-      s << link_to("commented", brand_result_path(comment.brand_result, :anchor => "comment_#{comment.id}"))
-      s << " on "
-      s << link_to("a result", brand_result_path(comment.brand_result))
+    message = [
+      user,
+      action_description,
+      "on",
+      subject_description
+    ]
+    
+    message.map(&:to_s).join(' ')
+  end
+  
+  def action_description
+    if comment?
+      if loggable.nil?
+        "commented"
+      else
+        link_to("commented", brand_result_path(loggable.brand_result, :anchor => "comment_#{loggable.id}"))
+      end
+    else
+      "marked"
     end
+  end
+  
+  def subject_description
+    description = h(truncate(loggable_attributes["body"] || "a result"))
+    
+    if loggable.nil?
+      description
+    else
+      link_to(description, comment? ? loggable.brand_result : loggable)
+    end
+  end
+  
+  def comment?
+    loggable_type == "Comment"
+  end
+  
+  def result?
+    loggable_type == "BrandResult"
   end
   
   def get_brand_result_state_label(state)

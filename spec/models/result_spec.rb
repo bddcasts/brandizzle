@@ -6,7 +6,7 @@
 #  body       :text
 #  source     :string(255)
 #  url        :string(255)     indexed
-#  created_at :datetime
+#  created_at :datetime        indexed
 #  updated_at :datetime
 #
 
@@ -50,6 +50,29 @@ describe Result do
       it "returns false" do
         should_not be_twitter
       end
+    end
+  end
+  
+  describe "#add_brand" do
+    subject              { Factory.create(:result, :brands => [existing_brand]) }
+    let(:existing_brand) { Factory.create(:brand) }
+    let(:new_brand)      { Factory.create(:brand) }
+    
+    it "adds the brand to brands if it does not have it already" do
+      subject.add_brand(new_brand)
+      subject.reload.brands.should include(new_brand)
+    end
+    
+    it "creates a new brand_result if it does not have the brand already" do
+      subject.brand_results.should_receive(:create).
+        with(:brand => new_brand, :team => new_brand.team, :result_created_at => subject.created_at)
+      subject.add_brand(new_brand)
+    end
+    
+    it "does not add the brand if it has it already" do
+      expect {
+        subject.add_brand(existing_brand)
+      }.to_not change(subject.brands, :count)
     end
   end
 end

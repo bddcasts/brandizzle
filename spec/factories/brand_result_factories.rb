@@ -12,6 +12,7 @@ end
 Factory.define(:brand_result) do |f|
   f.association :brand
   f.association :result
+  f.association :team
   f.state "normal"
 end
 

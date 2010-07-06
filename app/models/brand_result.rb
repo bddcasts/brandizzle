@@ -2,24 +2,35 @@
 #
 # Table name: brand_results
 #
-#  id             :integer(4)      not null, primary key
-#  brand_id       :integer(4)      indexed, indexed => [result_id]
-#  result_id      :integer(4)      indexed, indexed => [brand_id]
-#  created_at     :datetime
-#  updated_at     :datetime
-#  state          :string(255)     indexed
-#  comments_count :integer(4)      default(0)
-#  temperature    :integer(4)      indexed
-#  read           :boolean(1)      default(FALSE), indexed
+#  id                :integer(4)      not null, primary key
+#  brand_id          :integer(4)      indexed, indexed => [result_id]
+#  result_id         :integer(4)      indexed, indexed => [brand_id]
+#  created_at        :datetime
+#  updated_at        :datetime
+#  state             :string(255)     indexed
+#  comments_count    :integer(4)      default(0)
+#  temperature       :integer(4)      indexed
+#  read              :boolean(1)      default(FALSE), indexed
+#  team_id           :integer(4)      indexed
+#  result_created_at :datetime        indexed
 #
 
 class BrandResult < ActiveRecord::Base
   belongs_to :brand
   belongs_to :result
-  has_many :comments
+  belongs_to :team
+  has_many :comments, :dependent => :delete_all
     
-  def self.per_page
-    per_page = Settings.pagination.results_per_page
+  class << self
+    def per_page
+      per_page = Settings.pagination.results_per_page
+    end
+    
+    def cleanup_for_brand(brand_id)
+      find_in_batches(:batch_size => 200, :conditions => { :brand_id => brand_id }) do |batch|
+        batch.each(&:destroy)
+      end
+    end
   end
 
   named_scope :between_date, lambda { |date_range|
@@ -96,5 +107,12 @@ class BrandResult < ActiveRecord::Base
   def mark_as_read!
     self.read = true
     save!
+  end
+  
+  def logged_attributes(options = {})
+    options.merge({
+      "body" => result.body,
+      "url"  => result.url
+    })
   end
 end

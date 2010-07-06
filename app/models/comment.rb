@@ -15,4 +15,8 @@ class Comment < ActiveRecord::Base
   belongs_to :brand_result, :counter_cache => true
   
   validates_presence_of :content
+  
+  def logged_attributes
+    brand_result.logged_attributes
+  end
 end

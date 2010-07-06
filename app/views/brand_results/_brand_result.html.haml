@@ -1,11 +1,18 @@
 %div.result{ :id => brand_result.dom_id, :class => brand_result.read? && "read"}
-  %div.status{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
-    = brand_result.result.created_at.strftime("%I:%M%p")
-    = brand_result.status
-    = pluralize(brand_result.comments_count, "comment")
-    %p.temperature_links
+  %div.links{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
+    %div
+      = brand_result.brand
+    %div.state_links
+      = brand_result.state_links.join(" | ")
+    %div.temperature_links
       = "[ #{brand_result.temperature_links.join(" | ")} ]"
+    %div.status
+      = brand_result.status
   %div.body
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
-  %div.leenks
-    = brand_result.action_links.join(" | ")
+  %div.result_link
+    = brand_result.result_link
+  %div.view_links
+    = brand_result.result.created_at.strftime("%I:%M%p")
+    = brand_result.view_links.join(" | ")
+    

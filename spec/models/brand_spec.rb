@@ -6,7 +6,7 @@
 #  name       :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  team_id    :integer(4)
+#  team_id    :integer(4)      indexed
 #
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
@@ -16,9 +16,9 @@ describe Brand do
   should_have_column :name, :type => :string
   
   #associations
-  should_have_many :brand_queries
+  should_have_many :brand_queries, :dependent => :delete_all
   should_have_many :queries, :through => :brand_queries
-  should_have_many :brand_results, :dependent => :destroy
+  should_have_many :brand_results
   should_have_many :results, :through => :brand_results
   should_belong_to :team
   
@@ -44,6 +44,13 @@ describe Brand do
       }.to_not change(Query, :count)
       
       subject.queries.map(&:term).should include('foo')
+    end
+    
+    it "tells the query to link all its results to the brand" do
+      query = mock_model(Query)
+      Query.should_receive(:find_or_create_by_term).with("foo").and_return(query)
+      query.should_receive(:send_later).with(:link_all_results_to_brand, subject)
+      subject.add_query('foo')
     end
     
     it "returns the query" do
@@ -84,6 +91,13 @@ describe Brand do
     
     it "returns the name of the brand" do
       subject.to_s.should == "foo"
+    end
+  end
+
+  describe "cleaning up on destroy" do
+    it "calls cleanup its brand results" do
+      BrandResult.should_receive(:send_later).with(:cleanup_for_brand, subject.id)
+      subject.destroy
     end
   end
 end

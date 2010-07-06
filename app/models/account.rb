@@ -17,6 +17,8 @@
 #  card_type                 :string(255)
 #  card_number_last_4_digits :string(255)
 #  card_expiration_date      :string(255)
+#  comp                      :boolean(1)      default(FALSE)
+#  next_billing_date         :date            indexed
 #
 
 class Account < ActiveRecord::Base
@@ -34,6 +36,29 @@ class Account < ActiveRecord::Base
   
   attr_accessor :card_number, :expiration_month, :expiration_year, :cvv, :first_name, :last_name, :postal_code
   
+  named_scope :past_due, :conditions => [ "next_billing_date < ? AND subscription_id IS NOT NULL", Date.today ]
+  
+  class << self
+    def update_past_due_subscriptions!
+      braintree_subscriptions = Braintree::Subscription.search do |s|
+        s.ids.in past_due.map(&:subscription_id)
+      end
+      
+      failed_subscriptions = []
+      
+      braintree_subscriptions.each do |bts|
+        account = find_by_subscription_id(bts.id)
+        account.next_billing_date = bts.next_billing_date
+        account.status = bts.status
+        account.save(false)
+        
+        failed_subscriptions << account if account.next_billing_date < Date.today
+      end
+      
+      Notifier.deliver_failed_subscriptions(failed_subscriptions) if failed_subscriptions.size > 0
+    end
+  end
+  
   def card_fields_present?
     !@card_number.blank? && !@expiration_month.blank? && !@expiration_year.blank? && !@cvv.blank? && !@first_name.blank? && !@last_name.blank? && !@postal_code.blank?
   end
@@ -48,6 +73,30 @@ class Account < ActiveRecord::Base
   
   def subscription_needed?
     card_token && !subscription_id
+  end
+  
+  def have_subscription?
+    !!subscription_id
+  end
+  
+  def have_card_on_file?
+    !!card_token
+  end
+  
+  def plan
+    !plan_id.blank? && Plan.send(plan_id)
+  end
+  
+  def trial?
+    trial_days_left > 0
+  end
+  
+  def search_terms_left
+    [plan.searches - team.total_search_terms, 0].max
+  end
+  
+  def team_members_left
+    [plan.members - team.members_count, 0].max
   end
   
   private
@@ -102,6 +151,7 @@ class Account < ActiveRecord::Base
       if result.success?
         self.subscription_id = result.subscription.id
         self.status = result.subscription.status
+        self.next_billing_date = result.subscription.next_billing_date
         save!
       else
         logger.error("Count not create subscription. Details: #{result.inspect}")

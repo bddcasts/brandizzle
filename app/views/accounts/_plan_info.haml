@@ -1,0 +1,22 @@
+#plan-info
+  %table
+    %tr
+      %th Plan
+      %td= @account.plan.description
+    %tr
+      %th Price
+      %td #{number_to_currency @account.plan.price}/mo
+    - if @account.trial?
+      %tr
+        %th Your trial expires on
+        %td #{@account.trial_days_left.days.from_now.to_date.to_s(:long)}
+    - if @account.have_subscription?
+      %tr
+        %th Your next charge
+        %td= @account.next_billing_date.to_s(:long)
+    %tr
+      %th Search terms left
+      %td= @account.search_terms_left
+    %tr
+      %th Team members left
+      %td= @account.team_members_left
