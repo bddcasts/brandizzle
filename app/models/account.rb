@@ -24,7 +24,8 @@
 class Account < ActiveRecord::Base
   belongs_to :holder, :class_name => "User", :foreign_key => "user_id"
   has_one :team
-    
+  has_many :subscription_transactions
+  
   accepts_nested_attributes_for :holder
   
   validates_presence_of :holder
@@ -40,19 +41,33 @@ class Account < ActiveRecord::Base
   
   class << self
     def update_past_due_subscriptions!
-      braintree_subscriptions = Braintree::Subscription.search do |s|
-        s.ids.in past_due.map(&:subscription_id)
-      end
-      
       failed_subscriptions = []
       
-      braintree_subscriptions.each do |bts|
-        account = find_by_subscription_id(bts.id)
-        account.next_billing_date = bts.next_billing_date
-        account.status = bts.status
-        account.save(false)
+      past_due.find_in_batches(:batch_size => 100) do |accounts|
+        indexed_accounts = accounts.index_by(&:subscription_id)
         
-        failed_subscriptions << account if account.next_billing_date < Date.today
+        braintree_subscriptions = Braintree::Subscription.search do |search|
+          search.ids.in accounts.map(&:subscription_id)
+        end
+        
+        braintree_subscriptions.each do |bts|
+          account = indexed_accounts[bts.id]
+          account.next_billing_date = bts.next_billing_date
+          account.status = bts.status
+          account.save
+          
+          bts.transactions.each do |btt|
+            account.subscription_transactions.create(
+              :token => btt.id,
+              :amount => btt.amount.to_s,
+              :card_number_last_4_digits => btt.credit_card_details.last_4,
+              :plan => bts.plan_id,
+              :last_update => btt.updated_at
+            ) unless account.subscription_transactions.exists?(:token => btt.id)
+          end
+          
+          failed_subscriptions << account if !account.next_billing_date.blank? && account.next_billing_date < Date.today
+        end
       end
       
       Notifier.deliver_failed_subscriptions(failed_subscriptions) if failed_subscriptions.size > 0
@@ -97,6 +112,22 @@ class Account < ActiveRecord::Base
   
   def team_members_left
     [plan.members - team.members_count, 0].max
+  end
+  
+  def comp!
+    if have_subscription? && update_braintree_subscription(Plan.comped).success?
+      update_attribute(:comp, true)
+    else
+      logger.warn("Account not comped!")
+    end
+  end
+  
+  def uncomp!
+    if have_subscription? && update_braintree_subscription.success?
+      update_attribute(:comp, false)
+    else
+      logger.warn("Account not uncomped!")
+    end
   end
   
   private
@@ -162,6 +193,13 @@ class Account < ActiveRecord::Base
       result = Braintree::Customer.update(customer_id,
         :first_name => first_name,
         :last_name => last_name
+      )
+    end
+    
+    def update_braintree_subscription(p=plan)
+      result = Braintree::Subscription.update(subscription_id,
+        :price => p.price,
+        :plan_id => p.id
       )
     end
     

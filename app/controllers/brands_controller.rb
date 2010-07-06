@@ -1,5 +1,6 @@
 class BrandsController < ApplicationController
   before_filter :require_user
+  before_filter :require_account_holder, :except => [:index]
   before_filter :find_brands, :only => [:index, :new, :edit]
   
   def new

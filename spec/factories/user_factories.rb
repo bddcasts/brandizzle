@@ -56,3 +56,12 @@ end
 Factory.define(:inactive_user, :parent => :user) do |f|
   f.active false
 end
+
+Factory.define(:subscription_transaction) do |f|
+  f.association :account
+  f.sequence(:token) { |i| "token#{i}"}
+  f.amount "15.0"
+  f.card_number_last_4_digits "1111"
+  f.plan "standard"
+  f.last_update 3.days.ago
+end

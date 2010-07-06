@@ -16,7 +16,7 @@ group :default do
   gem 'annotate',         '2.4.0'
   gem 'viewtastic',       '0.1.2'
   gem 'oauth',            '0.3.6'
-  gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth"
+  gem 'authlogic-oauth',  '1.0.8', :require => "authlogic_oauth", :git => "http://github.com/jrallison/authlogic_oauth.git"  
   gem 'typus'
   gem 'RedCloth',         '4.2.3'
   gem 'braintree',        '2.3.1'

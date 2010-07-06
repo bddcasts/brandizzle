@@ -77,7 +77,7 @@ class ApplicationController < ActionController::Base
     
     def require_account_holder
       unless current_user.account_holder?
-        flash[:notice] = "Access denied! Only the account holder can modify settings."
+        flash[:warning] = "Access denied! Only the account holder can modify settings."
         redirect_to team_path
       end
     end
@@ -88,14 +88,14 @@ class ApplicationController < ActionController::Base
     
     def check_search_terms_limit
       if current_account.search_terms_left == 0
-        flash[:notice] = "You reached the limit of search terms. Query term not added."
+        flash[:warning] = "You reached the limit of search terms. Query term not added."
         redirect_to account_path
       end
     end
 
     def check_team_members_limit
       if current_account.team_members_left == 0
-        flash[:notice] = "You reached the limit of team member. User registration failed."
+        flash[:warning] = "You reached the limit of team members. User registration failed."
         redirect_to account_path
       end
     end

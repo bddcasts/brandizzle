@@ -1,11 +1,22 @@
 The following subscriptions are past due:
 
 <table>
+  <tr>
+    <th>Holder</th>
+    <th>Holder's email</th>
+    <th>Plan</th>
+    <th>BT Customer ID</th>
+    <th>BT Subscription ID</th>
+    <th>Next Billing Date</th>
+  </tr>
   <% @failed_subscriptions.each do |fs| %>
     <tr>
-      <td>
-        <%= fs.id %>
-      </td>
+      <td><%= fs.holder %></td>
+      <td><%= fs.holder.email %></td>
+      <td><%= fs.plan.description %></td>
+      <td><%= fs.customer_id %></td>
+      <td><%= fs.subscription_id %></td>
+      <td><%= fs.next_billing_date %></td>
     </tr>
   <% end -%>
 </table>

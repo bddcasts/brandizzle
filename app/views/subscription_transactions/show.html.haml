@@ -1,0 +1,16 @@
+%table
+  %tr
+    %th Receipt Number
+    %td= @subscription_transaction.token
+  %tr
+    %th Date
+    %td= @subscription_transaction.last_update.to_s(:long)
+  %tr
+    %th Plan
+    %td= @subscription_transaction.plan
+  %tr
+    %th Amount
+    %td= @subscription_transaction.amount
+  %tr
+    %th Credit Card last 4 digits
+    %td= @subscription_transaction.card_number_last_4_digits

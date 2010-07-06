@@ -1,29 +1,13 @@
 - title "Result"
 
-- brand_result_with_presenter @brand_result do |brand_result|
-  %div.result{ :id => brand_result.dom_id}
-    %div.links{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
-      %div
-        = brand_result.brand
-      %div.state_links
-        = brand_result.state_links.join(" | ")
-      %div.temperature_links
-        = "[ #{brand_result.temperature_links.join(" | ")} ]"
-      %div.status
-        = brand_result.status
-    %div.body
-      = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
-    %div.result_link
-      = brand_result.result_link
-    %div.view_links
-      = brand_result.result.created_at.strftime("%I:%M%p")
+= render "brand_result", :object => present_brand_result(@brand_result)  
+
+%div.comments
+  - @comments.each do |comment|
+    = render "comments/comment", :object => comment
   
-  %div.comments
-    - @comments.each do |comment|
-      = render "comments/comment", :object => comment
-    
-    - semantic_form_for [@brand_result, @comment] do |f|
-      - f.inputs do
-        = f.input :content, :label => "Leave a comment"
-      - f.buttons do
-        = f.commit_button "Post comment"
+  - semantic_form_for [@brand_result, @comment] do |f|
+    - f.inputs do
+      = f.input :content, :label => "Leave a comment"
+    - f.buttons do
+      = f.commit_button "Post comment"

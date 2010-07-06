@@ -34,7 +34,7 @@ Feature: Manage Brands
      Then I should see "Brand deleted"
       And I should be on the brands page
       And I should not see "Kerfluegle"
-  
+
   Scenario: Add a query
     Given I am on the brand edit page for "Kerfluegle"
      When I fill in "query_term" with "jschoolcraft"
@@ -59,7 +59,7 @@ Feature: Manage Brands
       And I follow "Remove" for query "jschoolcraft"
      Then I should see "Deleted query term."
       And I should not see "jschoolcraft"
-  
+            
   Scenario: Trying to add a query when account has reached search terms limit
     Given I am on the brand edit page for "Kerfluegle"
       And 10 brand_queries exist with brand: brand "Kerfluegle"

@@ -40,3 +40,17 @@ Feature: Viewing account information
         | Search terms left | 2                      |
         | Team members left | 1                      |
   
+  Scenario: Viewing my payment history
+    Given I am logged in as subscribed account holder "cartman"
+      And a subscription_transaction exists with account: account "cartman_account", amount: "29.0"
+     When I am on the account page
+     Then I should see "Payments history"
+      And I should see "29.0"
+  
+  Scenario: Viewing a payment
+    Given I am logged in as subscribed account holder "cartman"
+      And a subscription_transaction exists with account: account "cartman_account", amount: "29.0"
+      And I am on the account page
+     When I follow "Receipt"
+     Then I should see "29.0"
+  

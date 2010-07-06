@@ -15,7 +15,7 @@ describe AccountsController do
       it "requires user to be account holder for action #{action}" do
         login_user
         get action
-        flash[:notice].should == "Access denied! Only the account holder can modify settings."
+        flash[:warning].should == "Access denied! Only the account holder can modify settings."
         response.should redirect_to(team_path)
       end
     end

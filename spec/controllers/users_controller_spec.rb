@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UsersController do  
   describe "access_control" do
-    [:new, :create, :edit, :update, :destroy].each do |action|
+    [:new, :create, :edit, :update, :destroy, :alter_status].each do |action|
       it "requires user to be logged in for action #{action}" do
         get action
         flash[:notice].should == "You must be logged in to access this page"
@@ -10,12 +10,12 @@ describe UsersController do
       end
     end
     
-    context "account holder" do
+    context "unsubscribed account holder" do
       before(:each) do
         login_unsubscribed_account_holder
       end
       
-      [:new, :create, :edit, :update, :destroy].each do |action|
+      [:new, :create, :edit, :update, :destroy, :alter_status].each do |action|
         it "requires a subscribed account #{action}" do
           get action
           flash[:notice].should == "You must be subscribed in order to keep using our services!"
@@ -24,13 +24,13 @@ describe UsersController do
       end
     end
     
-    context "team member" do
+    context "unsubscribed team member" do
       before(:each) do
         login_unsubscribed_user
         user_session.stub(:destroy)
       end
       
-      [:new, :create, :edit, :update, :destroy].each do |action|
+      [:new, :create, :edit, :update, :destroy, :alter_status].each do |action|
         it "requires a subscribed account for action #{action}" do
           get action
           flash[:notice].should == "The subscription for this account has expired. Please inform your account holder."
@@ -38,7 +38,22 @@ describe UsersController do
         end
       end
     end
-  
+    
+    context "team member" do
+      before(:each) do
+        login_user
+      end
+      
+      [:new, :create, :destroy, :alter_status].each do |action|
+        it "requires user to be account holder for action #{action}" do
+          login_user
+          get action
+          flash[:warning].should == "Access denied! Only the account holder can modify settings."
+          response.should redirect_to(team_path)
+        end
+      end
+    end
+    
     context "create requires account not have reached the limit of team members" do
       before(:each) do
         login_account_holder
@@ -47,7 +62,7 @@ describe UsersController do
       
       it "sets the flash message and redirects to the account path" do
         get :create
-        flash[:notice].should == "You reached the limit of team member. User registration failed."
+        flash[:warning].should == "You reached the limit of team members. User registration failed."
         response.should redirect_to(account_path)
       end
     end
@@ -55,7 +70,7 @@ describe UsersController do
   
   describe "handling GET new" do
     before(:each) do
-      login_user
+      login_account_holder
       @current_team = @current_user.team
       @user = mock_model(User)
       @current_team.stub_chain(:members, :build).and_return(@user)
@@ -79,7 +94,7 @@ describe UsersController do
 
   describe "handling POST create" do
     before(:each) do
-      login_user
+      login_account_holder
       current_user.team.account.stub(:team_members_left).and_return(1)
       @current_team = @current_user.team
       @user = mock_model(User)
@@ -183,7 +198,7 @@ describe UsersController do
 
   describe "handling DELETE destroy" do
     before(:each) do
-      login_user
+      login_account_holder
       @current_team = @current_user.team
       @user = mock_model(User)
       @current_team.stub_chain(:members, :find).and_return(@user)
@@ -209,7 +224,7 @@ describe UsersController do
 
   describe "handling POST alter_status" do
     before(:each) do
-      login_user
+      login_account_holder
       @current_team = @current_user.team
       @user = mock_model(User)
       @current_team.stub_chain(:members, :find).and_return(@user)

@@ -38,6 +38,7 @@ describe Account do
   #associations
   should_belong_to :holder, :class_name => "User", :foreign_key => "user_id"
   should_have_one :team
+  should_have_many :subscription_transactions
   should_accept_nested_attributes_for :holder
   
   let(:valid_credit_card_fields) do
@@ -413,25 +414,91 @@ describe Account do
       its(:have_subscription?) { should be_false }
     end
   end
-
-  describe ".update_past_due_subscriptions!" do    
+  
+  describe "#comp!" do
+    subject { Factory.create(:subscribed_account, :subscription_id => "subs") }
+    
     before(:each) do
-      result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
-      Braintree::Customer.stub!(:create).and_return(result)
+      create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
+      Braintree::Customer.stub(:create).and_return(create_customer_result)
     end
     
-    it "does something" do
-      past_due_account_1 = Factory.create(:subscribed_account, :subscription_id => "subs-1", :next_billing_date => 2.days.ago)
-      past_due_account_2 = Factory.create(:subscribed_account, :subscription_id => "subs-2", :next_billing_date => 2.days.ago)
+    it "updates braintree subscription with plan_id: 'comped' and price: '0' and sets account comp flag to true" do
+      response = mock("result", :success? => true)
       
-      subscription_1 = mock("subscription", :id => "subs-1", :status => "Active", :next_billing_date => 2.days.from_now)
-      subscription_2 = mock("subscription", :id => "subs-2", :status => "PastDue", :next_billing_date => 2.days.ago)
+      Braintree::Subscription.should_receive(:update).
+        with("subs", :price => 0, :plan_id => 'comped').
+        and_return(response)
       
-      subscriptions = [subscription_1, subscription_2]
+      subject.comp!
       
-      Braintree::Subscription.should_receive(:search).and_return(subscriptions)
+      subject.should be_comp
+    end
+  end
+
+  describe "#uncomp!" do
+    subject { Factory.create(:subscribed_account, :subscription_id => "subs", :comp => true) }
+    
+    before(:each) do
+      create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
+      Braintree::Customer.stub(:create).and_return(create_customer_result)
+    end
+    
+    it "updates braintree subscription with plan_id: 'comped' and price: '0' and sets account comp flag to true" do
+      response = mock("result", :success? => true)
+      
+      Braintree::Subscription.should_receive(:update).
+        with("subs", :price => subject.plan.price, :plan_id => subject.plan.id).
+        and_return(response)
+      
+      subject.uncomp!
+      
+      subject.should_not be_comp
+    end
+  end
+
+  describe "update_past_due_subscriptions!" do
+    before(:each) do
+      create_customer_result = mock("result", :success? => true, :customer => mock("customer", :id => "42"))
+      Braintree::Customer.stub(:create).and_return(create_customer_result)
+    end
+    
+    it "updates the past_due accounts and creates subscription transactions" do
+      past_due_account_1 = Factory.create(:account, :subscription_id => "subs1", :next_billing_date => 2.days.ago)
+      past_due_account_2 = Factory.create(:account, :subscription_id => "subs2", :next_billing_date => 2.days.ago)
+      
+      subscription_1 = mock("subscription", 
+        :id => "subs1", 
+        :next_billing_date => 2.days.from_now, 
+        :status => "Active", 
+        :plan_id => "standard",
+        :transactions => [mock("transaction",
+          :id => "trans1",
+          :amount => "15.0",
+          :credit_card_details => mock("credit-card", :last_4 => "1111"),
+          :updated_at => 3.days.ago)
+        ]
+      )
+      
+      subscription_2 = mock("subscription",
+        :id => "subs2", 
+        :next_billing_date => 2.days.ago, 
+        :status => "PastDue", 
+        :transactions => []
+      )
+      
+      Braintree::Subscription.should_receive(:search).and_return([subscription_1, subscription_2])
+      Notifier.should_receive(:deliver_failed_subscriptions).with([past_due_account_2])
       
       Account.update_past_due_subscriptions!
+      
+      past_due_account_1.subscription_transactions.should_not be_empty
+      past_due_account_1.reload.status.should == "Active"
+      past_due_account_1.reload.next_billing_date.should == 2.days.from_now.to_date
+
+      past_due_account_2.subscription_transactions.should be_empty
+      past_due_account_2.reload.status.should == "PastDue"
+      past_due_account_2.reload.next_billing_date.should == 2.days.ago.to_date
     end
   end
 end

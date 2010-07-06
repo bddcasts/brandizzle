@@ -62,6 +62,12 @@ Feature: Account management
       And I fill in "Email" with "kenny@example.com"
       And I press "Create user"
      Then I should be on my account page
-      And I should see "You reached the limit of team member. User registration failed."
+      And I should see "You reached the limit of team members. User registration failed."
       And a user should not exist with login: "kenny", email: "kenny@example.com", team: team "cartman_team"
-     
+  
+  Scenario: Trying to create a new user when not account holder
+    Given I am logged in as "cartman"
+     When I go to the team: "cartman_team"'s new user page
+     Then I should be on the team page
+      And I should see "Access denied! Only the account holder can modify settings."
+  

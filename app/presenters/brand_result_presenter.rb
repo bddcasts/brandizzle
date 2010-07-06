@@ -36,6 +36,7 @@ class BrandResultPresenter < Viewtastic::Base
     returning([]) do |links|
       links << link_to("View", brand_result_path(brand_result))
       links << link_to(pluralize(comments_count, "comment"), brand_result_path(brand_result, :anchor => "comments"))
+      links << result_link
     end
   end
   

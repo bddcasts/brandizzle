@@ -10,9 +10,7 @@
       = brand_result.status
   %div.body
     = auto_link(sanitize(brand_result.result.body), :urls, :html => { :target => '_blank'})
-  %div.result_link
-    = brand_result.result_link
   %div.view_links
     = brand_result.result.created_at.strftime("%I:%M%p")
-    = brand_result.view_links.join(" | ")
+    = controller.action_name == "show" ? brand_result.result_link : brand_result.view_links.join(" | ")
     

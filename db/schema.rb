@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100705085415) do
+ActiveRecord::Schema.define(:version => 20100706123827) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -135,6 +135,19 @@ ActiveRecord::Schema.define(:version => 20100705085415) do
   add_index "search_results", ["query_id", "result_id"], :name => "index_search_results_on_query_id_and_result_id"
   add_index "search_results", ["query_id"], :name => "index_search_results_on_query_id"
   add_index "search_results", ["result_id"], :name => "index_search_results_on_result_id"
+
+  create_table "subscription_transactions", :force => true do |t|
+    t.integer  "account_id"
+    t.string   "token"
+    t.string   "amount"
+    t.string   "card_number_last_4_digits"
+    t.string   "plan"
+    t.datetime "last_update"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscription_transactions", ["account_id"], :name => "index_subscription_transactions_on_account_id"
 
   create_table "teams", :force => true do |t|
     t.integer  "account_id"

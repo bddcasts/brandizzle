@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_user, :current_team
+  before_filter :require_account_holder, :except => [:edit, :update]
   before_filter :check_team_members_limit, :only => [:create]
   
   def new

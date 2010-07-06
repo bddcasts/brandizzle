@@ -23,6 +23,21 @@ describe BrandsController do
         end
       end
     end
+    
+    context "team member" do
+      before(:each) do
+        login_user
+      end
+      
+      [:new, :create, :edit, :update, :destroy].each do |action|
+        it "requires user to be account holder for action #{action}" do
+          login_user
+          get action
+          flash[:warning].should == "Access denied! Only the account holder can modify settings."
+          response.should redirect_to(team_path)
+        end
+      end
+    end
 
     context "team member" do
       before(:each) do
@@ -42,7 +57,7 @@ describe BrandsController do
 
   describe "actions" do
     before(:each) do
-      login_user
+      login_account_holder
       @current_team = current_user.team
     end
 

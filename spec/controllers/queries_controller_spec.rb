@@ -10,7 +10,7 @@ describe QueriesController do
       end
     end
     
-    context "account holder" do
+    context "unsubscribed account holder" do
       [:create, :destroy].each do |action|
         before(:each) do
           login_unsubscribed_account_holder
@@ -24,7 +24,7 @@ describe QueriesController do
       end
     end
     
-    context "team member" do
+    context "unsubscribed team member" do
       before(:each) do
         login_unsubscribed_user
         user_session.stub(:destroy)
@@ -38,7 +38,22 @@ describe QueriesController do
         end
       end
     end
-  
+    
+    context "team member" do
+      before(:each) do
+        login_user
+      end
+      
+      [:create, :destroy].each do |action|
+        it "requires user to be account holder for action #{action}" do
+          login_user
+          get action
+          flash[:warning].should == "Access denied! Only the account holder can modify settings."
+          response.should redirect_to(team_path)
+        end
+      end
+    end
+    
     context "create requires account not have reached the limit of search terms" do
       before(:each) do
         login_account_holder
@@ -47,7 +62,7 @@ describe QueriesController do
       
       it "sets the flash message and redirects to the account path" do
         get :create
-        flash[:notice].should == "You reached the limit of search terms. Query term not added."
+        flash[:warning].should == "You reached the limit of search terms. Query term not added."
         response.should redirect_to(account_path)
       end
     end
@@ -55,7 +70,7 @@ describe QueriesController do
   
   describe "actions" do
     before(:each) do
-      login_user
+      login_account_holder
       @brand = mock_model(Brand, :queries => mock("brand queries"))
       Brand.stub!(:find).and_return(@brand)
       @query = mock_model(Query)

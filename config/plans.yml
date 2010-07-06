@@ -7,6 +7,10 @@ defaults: &defaults
     searches: 6
     description: Standard
     id: standard
+  comped:
+    price: 0
+    description: Comped
+    id: comped
 
 development:
   <<: *defaults
@@ -17,6 +21,10 @@ development:
     searches: 10
     description: Standard
     id: standard
+  comped:
+    price: 0
+    description: Comped
+    id: comped
     
 test:
   <<: *defaults
@@ -35,3 +43,7 @@ production:
     searches: 10
     description: Standard
     id: standard
+  comped:
+    price: 0
+    description: Comped
+    id: comped
