@@ -1,193 +1,197 @@
 --- 
 dependencies: 
-  tzinfo: 
-    group: 
-    - :rails
-    version: ~> 0.3.12
   compass: 
     group: 
     - :default
     version: = 0.10.2
-  rails: 
+  tzinfo: 
     group: 
     - :rails
-    version: = 2.3.8
-  annotate: 
-    group: 
-    - :default
-    version: = 2.4.0
+    version: ~> 0.3.12
   text-format: 
     group: 
     - :rails
     version: ">= 0.6.3"
     require: 
     - text/format
-  mysql: 
-    group: 
-    - :rails
-    version: = 2.8.1
-  typus: 
+  annotate: 
     group: 
     - :default
+    version: = 2.4.0
+  rails: 
+    group: 
+    - :rails
+    version: = 2.3.8
+  selenium-webdriver: 
+    group: 
+    - :cucumber
     version: ">= 0"
-  authlogic: 
-    group: 
-    - :default
-    version: = 2.1.3
-  haml: 
-    group: 
-    - :default
-    version: ~> 3.0
-  searchlogic: 
-    group: 
-    - :default
-    version: = 2.4.10
-  viewtastic: 
-    group: 
-    - :default
-    version: = 0.1.2
-  rake: 
-    group: 
-    - :rails
-    version: = 0.8.7
   memcache-client: 
     group: 
     - :rails
     version: ">= 1.7.4"
-  san_juan: 
+  rake: 
+    group: 
+    - :rails
+    version: = 0.8.7
+  viewtastic: 
+    group: 
+    - :default
+    version: = 0.1.2
+  searchlogic: 
+    group: 
+    - :default
+    version: = 2.4.10
+  haml: 
+    group: 
+    - :default
+    version: ~> 3.0
+  authlogic: 
+    group: 
+    - :default
+    version: = 2.1.3
+  typus: 
     group: 
     - :default
     version: ">= 0"
-  oauth: 
+  mysql: 
     group: 
-    - :default
-    version: = 0.3.6
+    - :rails
+    version: = 2.8.1
   newrelic_rpm: 
     group: 
     - :default
     version: = 2.12.3
-  tmail: 
-    group: 
-    - :rails
-    version: ~> 1.2.3
-  delayed_job: 
+  oauth: 
     group: 
     - :default
-    version: = 2.0.3
-  whenever: 
+    version: = 0.3.6
+  san_juan: 
     group: 
     - :default
-    version: = 0.4.1
+    version: ">= 0"
+  rspec: 
+    group: 
+    - :cucumber
+    version: = 1.3.0
+  crack: 
+    group: 
+    - :default
+    version: = 0.1.7
   authlogic-oauth: 
     group: 
     - :default
     version: = 1.0.8
     require: 
     - authlogic_oauth
-  crack: 
+  whenever: 
     group: 
     - :default
-    version: = 0.1.7
-  rspec: 
+    version: = 0.4.1
+  delayed_job: 
     group: 
-    - :cucumber
-    version: = 1.3.0
+    - :default
+    version: = 2.0.3
+  tmail: 
+    group: 
+    - :rails
+    version: ~> 1.2.3
   thin: 
     group: 
     - :cucumber
     version: = 1.2.7
-  rspec-rails: 
-    group: 
-    - :cucumber
-    version: = 1.3.2
-  formtastic: 
-    group: 
-    - :default
-    version: = 0.9.7
-  rack: 
-    group: 
-    - :rails
-    version: = 1.1.0
   database_cleaner: 
     group: 
     - :cucumber
     version: = 0.4.3
-  cucumber-rails: 
+  rack: 
     group: 
-    - :cucumber
-    version: = 0.3.0
-  factory_girl: 
-    group: 
-    - :cucumber
-    version: = 1.2.3
-  json: 
+    - :rails
+    version: = 1.1.0
+  formtastic: 
     group: 
     - :default
-    version: = 1.2.0
+    version: = 0.9.7
+  rspec-rails: 
+    group: 
+    - :cucumber
+    version: = 1.3.2
   will_paginate: 
     group: 
     - :default
     version: = 2.3.12
-  bundler: 
+  json: 
     group: 
-    - :rails
-    version: = 0.9.26
+    - :default
+    version: = 1.2.0
+  factory_girl: 
+    group: 
+    - :cucumber
+    version: = 1.2.3
+  cucumber-rails: 
+    group: 
+    - :cucumber
+    version: = 0.3.0
   settingslogic: 
     group: 
     - :default
     version: = 2.0.5
+  bundler: 
+    group: 
+    - :rails
+    version: = 0.9.26
   pickle: 
     group: 
     - :cucumber
     version: = 0.3.0
-  hoptoad_notifier: 
-    group: 
-    - :default
-    version: = 2.2.6
-  aasm: 
-    group: 
-    - :default
-    version: = 2.1.5
-  i18n: 
-    group: 
-    - :rails
-    version: ">= 0.1.3"
   remarkable_rails: 
     group: 
     - :test
     version: = 3.1.13
+  i18n: 
+    group: 
+    - :rails
+    version: ">= 0.1.3"
+  aasm: 
+    group: 
+    - :default
+    version: = 2.1.5
+  hoptoad_notifier: 
+    group: 
+    - :default
+    version: = 2.2.6
   email_spec: 
     group: 
     - :cucumber
     version: = 0.6.2
-  builder: 
-    group: 
-    - :rails
-    version: ~> 2.1.2
-  braintree: 
-    group: 
-    - :default
-    version: = 2.3.1
   RedCloth: 
     group: 
     - :default
     version: = 4.2.3
-  capybara: 
-    group: 
-    - :cucumber
-    version: = 0.3.7
-  twitter: 
+  braintree: 
     group: 
     - :default
-    version: = 0.8.6
-  capistrano: 
+    version: = 2.3.1
+  builder: 
     group: 
-    - :default
-    version: ">= 0"
+    - :rails
+    version: ~> 2.1.2
   webmock: 
     group: 
     - :cucumber
     version: = 1.2.2
+  capistrano: 
+    group: 
+    - :default
+    version: ">= 0"
+  twitter: 
+    group: 
+    - :default
+    version: = 0.8.6
+  capybara: 
+    group: 
+    - :cucumber
+    version: = 0.3.7
   launchy: 
     group: 
     - :cucumber
@@ -306,7 +310,7 @@ specs:
 - launchy: 
     version: 0.3.5
 - memcache-client: 
-    version: 1.8.4
+    version: 1.8.5
 - mysql: 
     version: 2.8.1
 - newrelic_rpm: 
@@ -357,7 +361,7 @@ specs:
     version: 0.4.1
 - will_paginate: 
     version: 2.3.12
-hash: 554a4e688494475aefe653ca1bea76ffae052cfe
+hash: 4a964070d3e7381a729b8c0c4209b9d611a75c0b
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

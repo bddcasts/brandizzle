@@ -53,6 +53,7 @@ group :cucumber do
   gem 'cucumber-rails',     '0.3.0'
   gem 'database_cleaner',   '0.4.3'
   gem 'capybara',           '0.3.7'
+  gem 'selenium-webdriver'
   gem 'rspec',              '1.3.0'
   gem 'rspec-rails',        '1.3.2'
   gem 'factory_girl',       '1.2.3'
