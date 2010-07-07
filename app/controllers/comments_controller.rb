@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_filter :require_user, :find_brand_result
   
   def create
-    @comment = @brand_result.comments.build((params[:comment] || {}).merge(:user => current_user))
+    @comment = @brand_result.comments.build((params[:comment] || {}).merge({:user => current_user, :team => current_user.team}))
     if @comment.save
       log.created_comment(@comment, current_user)
       flash[:notice] = "Comment posted"

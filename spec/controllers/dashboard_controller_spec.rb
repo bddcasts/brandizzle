@@ -51,10 +51,12 @@ describe DashboardController do
         @logs = (1..3).map { mock_model(Log)}
         @brand_results = (1..3).map{ mock_model(BrandResult) }
         @comments = (1..3).map{ mock_model(Comment) }
+        @brand_results_count = 11
         
         @current_team.stub_chain(:logs, :paginate).and_return(@logs)
         @current_team.stub_chain(:brand_results, :latest_follow_up).and_return(@brand_results)
         @current_team.stub_chain(:comments, :latest).and_return(@comments)
+        @current_team.stub_chain(:brand_results, :follow_up, :count).and_return(@brand_results_count)
       end
     
       def do_get(options={})
@@ -75,7 +77,15 @@ describe DashboardController do
           should_receive(:latest_follow_up).
           and_return(@brand_results)
         do_get
-        assigns[:follow_up_brand_results].should == @brand_results
+        assigns[:latest_follow_up_brand_results].should == @brand_results
+      end
+      
+      it "counts all the follow_up brand_results and assigns the result to the view" do
+        @current_team.brand_results.follow_up.
+          should_receive(:count).
+          and_return(@brand_results_count)
+        do_get
+        assigns[:follow_up_brand_results_count].should == @brand_results_count
       end
       
       it "finds the latest comments and assigns them for the view" do

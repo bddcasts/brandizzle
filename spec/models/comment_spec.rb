@@ -8,6 +8,7 @@
 #  content         :text
 #  created_at      :datetime
 #  updated_at      :datetime
+#  team_id         :integer(4)      indexed
 #
 
 require 'spec_helper'
@@ -19,15 +20,16 @@ describe Comment do
   #associations
   should_belong_to :user
   should_belong_to :brand_result
+  should_belong_to :team
   
   #validations
   should_validate_presence_of :content
 
   describe "named scopes" do
     describe "latest" do
-      it "fetches latest 10 comments" do
-        @comments = (1..11).map{ Factory.create(:comment) }
-        Comment.latest.length.should == 10
+      it "fetches latest comments" do
+        @comments = (1..Settings.dashboard.latest_comments_number+1).map{ Factory.create(:comment) }
+        Comment.latest.length.should == Settings.dashboard.latest_comments_number
       end
     end
   end

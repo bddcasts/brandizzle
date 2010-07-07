@@ -67,7 +67,7 @@ Feature: Dashboard
      Then I should see "View all follow up results" within ".results"
   
   Scenario: Viewing latest comments
-    Given a comment exists with content: "Respect My Authority!", user: user "cartman"
+    Given a comment exists with content: "Respect My Authority!", user: user "cartman", team: team "cartman_team"
       And I am on the dashboard page
      Then I should see "Respect My Authority!" within ".comments"
   

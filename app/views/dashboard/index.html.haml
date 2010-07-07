@@ -4,17 +4,17 @@
   .span-16
     .results
       %h2 Follow up results
-      - if @follow_up_brand_results && @follow_up_brand_results.length > 0
-        - @follow_up_brand_results.each do |br|
+      - if @latest_follow_up_brand_results && @latest_follow_up_brand_results.length > 0
+        - @latest_follow_up_brand_results.each do |br|
           = render "brand_results/brand_result", :object => present_brand_result(br)
-        - if @follow_up_brand_results.size > 15
+        - if @follow_up_brand_results_count > Settings.dashboard.follow_up_results_number
           = link_to "View all follow up results", brand_results_path(:search => {:state_is => "follow_up"}), :class => "view_all"
       - else
         %p There are no results to follow up.
       
     .comments
       %h2 Latest comments
-      - if @latest_comments && @latest_comments.size > 0
+      - if @latest_comments && @latest_comments.length > 0
         - @latest_comments.each do |comment|
           = render "comments/comment", :object => comment
       - else

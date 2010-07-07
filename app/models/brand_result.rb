@@ -57,7 +57,11 @@ class BrandResult < ActiveRecord::Base
     {:conditions => ["#{BrandResult.table_name}.read = ?", state ]}
   }
   
-  named_scope :latest_follow_up, :conditions => { :state => "follow_up" }, :order => "#{BrandResult.table_name}.updated_at DESC", :limit => 15
+  named_scope :latest_follow_up, 
+    :include => [:brand, :result],
+    :conditions => { :state => "follow_up" }, 
+    :order => "#{BrandResult.table_name}.updated_at DESC", 
+    :limit => Settings.dashboard.follow_up_results_number
   
   include AASM
   aasm_column :state

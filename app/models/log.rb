@@ -20,6 +20,6 @@ class Log < ActiveRecord::Base
   belongs_to :loggable, :polymorphic => true
     
   def self.per_page
-    per_page = Settings.pagination.results_per_page
+    per_page = Settings.dashboard.logs_per_page
   end
 end

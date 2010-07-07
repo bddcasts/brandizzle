@@ -16,6 +16,7 @@ describe Team do
   should_have_many :brands
   should_have_many :brand_results
   should_have_many :logs
+  should_have_many :comments
   should_belong_to :account
   
   describe "#total_search_terms" do
