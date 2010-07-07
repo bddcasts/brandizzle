@@ -1,3 +1,15 @@
+.dashboard
+  .results
+    :margin-bottom 40px
+    a.view_all
+      :font-size 11px
+  .results, .comments
+    h2
+      :margin-bottom 5px
+  .logs
+    :border-left 1px solid #ccc
+    :padding-left 9px
+
 div
   &.updates
     h3
@@ -20,11 +32,14 @@ div
     span
       :display block
       :float left
+      :font-size 11px
       &.status
         .tag
-          :font-size 11px
           :width 65px
           :text-align right
           :margin-right 10px
+      &.description
+        :clear both
+        :font-size 12px
       &.time
-        :float right
+        :padding 2px 0

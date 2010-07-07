@@ -13,6 +13,7 @@ class Team < ActiveRecord::Base
   has_many :brands
   has_many :brand_results
   has_many :logs
+  has_many :comments, :through => :members
   belongs_to :account
   
   def total_search_terms

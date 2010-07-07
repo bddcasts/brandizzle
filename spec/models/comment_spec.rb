@@ -22,6 +22,15 @@ describe Comment do
   
   #validations
   should_validate_presence_of :content
+
+  describe "named scopes" do
+    describe "latest" do
+      it "fetches latest 10 comments" do
+        @comments = (1..11).map{ Factory.create(:comment) }
+        Comment.latest.length.should == 10
+      end
+    end
+  end
   
   describe "#logged_attributes" do
     subject { Factory.build(:comment) }

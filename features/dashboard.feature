@@ -6,9 +6,11 @@ Feature: Dashboard
   Background:
     Given I am logged in as account holder "cartman"
   
-  Scenario: Viewing the dashboard with no logs
+  Scenario: Viewing the dashboard with no records
     Given I am on the dashboard page
-     Then I should see "There are no logs"
+     Then I should see "There are no logs."
+      And I should see "There are no results to follow up."
+      And I should see "There are no comments."
   
   Scenario Outline: Viewing a follow_up/rejected/done brand_result log on the dashboard
     Given a result "foo" exists with body: "<body>"
@@ -52,3 +54,20 @@ Feature: Dashboard
      Then current page for ".logs" should be 1
      When I follow "2" within ".pagination"
      Then current page for ".logs" should be 2
+  
+  Scenario: Viewing latest follow up brand results
+    Given a result "r" exists with body: "Oh, my God! They killed Kenny."
+      And a follow_up_brand_result exists with team: team "cartman_team", result: result "r"
+     When I am on the dashboard page
+     Then I should see "Oh, my God! They killed Kenny." within ".results"
+  
+  Scenario: Viewing latest follow up brand result when more then 15
+    Given 20 follow_up_brand_results exist with team: team "cartman_team"
+     When I am on the dashboard page
+     Then I should see "View all follow up results" within ".results"
+  
+  Scenario: Viewing latest comments
+    Given a comment exists with content: "Respect My Authority!", user: user "cartman"
+      And I am on the dashboard page
+     Then I should see "Respect My Authority!" within ".comments"
+  

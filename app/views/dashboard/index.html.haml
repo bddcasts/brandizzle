@@ -1,14 +1,35 @@
 - title "Dashboard"
 
-.content.logs
-  - if @logs && !@logs.empty?
-    .updates
-      - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
-        %h3
-          %span= show_day(day)
-        - present_logs(logs) do |log|
-          = render "log", :object => log
-  - else
-    %p There are no logs
+.content.dashboard
+  .span-16
+    .results
+      %h2 Follow up results
+      - if @follow_up_brand_results && @follow_up_brand_results.length > 0
+        - @follow_up_brand_results.each do |br|
+          = render "brand_results/brand_result", :object => present_brand_result(br)
+        - if @follow_up_brand_results.size > 1
+          = link_to "View all follow up results", brand_results_path(:search => {:state_is => "follow_up"}), :class => "view_all"
+      - else
+        %p There are no results to follow up.
+      
+    .comments
+      %h2 Latest comments
+      - if @latest_comments && @latest_comments.size > 0
+        - @latest_comments.each do |comment|
+          = render "comments/comment", :object => comment
+      - else
+        %p There are no comments.
+  
+  .span-8.last.logs
+    - if @logs && @logs.length > 0
+      %h2 Activity
+      .updates
+        - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
+          %h3
+            %span= show_day(day)
+          - present_logs(logs) do |log|
+            = render "log", :object => log
+    - else
+      %p There are no logs.
 
-  = will_paginate @logs, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'
+    = will_paginate @logs, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'

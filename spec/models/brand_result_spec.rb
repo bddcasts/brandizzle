@@ -84,6 +84,17 @@ describe BrandResult do
         BrandResult.unread.should == [@unread_brand_result]
       end
     end
+  
+    describe "latest_follow_up" do
+      it "fetches 15 latest modified follow up results" do
+        follow_up_brand_results = (1..16).map{ |i| Factory.create(:follow_up_brand_result, :updated_at => i.days.ago) }
+        done_brand_result = Factory.create(:done_brand_result)
+        
+        BrandResult.latest_follow_up.length.should == 15
+        BrandResult.latest_follow_up.should_not include(done_brand_result)
+        BrandResult.latest_follow_up.should == follow_up_brand_results.values_at(0..14)
+      end      
+    end
   end
   
   describe "aasm_events" do

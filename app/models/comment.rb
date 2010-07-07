@@ -16,6 +16,8 @@ class Comment < ActiveRecord::Base
   
   validates_presence_of :content
   
+  named_scope :latest, :order => "#{Comment.table_name}.created_at DESC", :limit => 10
+  
   def logged_attributes
     brand_result.logged_attributes
   end

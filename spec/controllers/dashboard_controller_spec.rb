@@ -49,7 +49,12 @@ describe DashboardController do
     describe "handling GET index" do
       before(:each) do
         @logs = (1..3).map { mock_model(Log)}
+        @brand_results = (1..3).map{ mock_model(BrandResult) }
+        @comments = (1..3).map{ mock_model(Comment) }
+        
         @current_team.stub_chain(:logs, :paginate).and_return(@logs)
+        @current_team.stub_chain(:brand_results, :latest_follow_up).and_return(@brand_results)
+        @current_team.stub_chain(:comments, :latest).and_return(@comments)
       end
     
       def do_get(options={})
@@ -63,6 +68,27 @@ describe DashboardController do
           and_return(@logs)
         do_get(:page => 7)
         assigns[:logs].should == @logs
+      end
+      
+      it "finds the latest follow_up brand_results and assigns them for the view" do
+        @current_team.brand_results.
+          should_receive(:latest_follow_up).
+          and_return(@brand_results)
+        do_get
+        assigns[:follow_up_brand_results].should == @brand_results
+      end
+      
+      it "finds the latest comments and assigns them for the view" do
+        @current_team.comments.
+          should_receive(:latest).
+          and_return(@comments)
+        do_get
+        assigns[:latest_comments].should == @comments
+      end
+      
+      it "renders the index template" do
+        do_get
+        response.should render_template(:index)
       end
     end
   end
