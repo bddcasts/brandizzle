@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   
   def create
     @user = current_team.members.build(params[:user])
+    @user.build_user_detail
     if @user.save_without_session_maintenance
       @user.deliver_user_invitation!
       flash[:notice] = "The user has been created."
@@ -35,7 +36,6 @@ class UsersController < ApplicationController
         render :edit
       end
     end
-    
   end
   
   def destroy

@@ -17,8 +17,7 @@ class ActivationsController < ApplicationController
 
   def create
     @user = User.find(params[:id])
-    @user.password = params[:user][:password]
-    @user.password_confirmation = params[:user][:password_confirmation]
+    @user.attributes = params[:user]
     @user.active = true
     
     if @user.save

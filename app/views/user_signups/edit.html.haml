@@ -5,5 +5,8 @@
     - f.inputs do
       = f.input :password
       = f.input :password_confirmation
+      = f.input :tos_agreement, :as => :boolean, :label => "I agree to the terms of service."
+      - f.fields_for :user_detail do |user_detail|
+        = user_detail.input :email_updates, :required => false, :label => "I want to receive updates through email."
     - f.buttons do
       = f.commit_button "Set up my account and log me in"

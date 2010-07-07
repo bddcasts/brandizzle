@@ -1,6 +1,7 @@
 Given /^I am logged in as "([^\"]*)"$/ do |login|
   Given %Q{a team: "#{login}_team" exists}
   Given %Q{a user: "#{login}" exists with login: "#{login}", password: "secret"}
+  Given %Q{a user detail exists with user: user "#{login}"}
   When %Q{I am on the login page}
    And %Q{I fill in "Login" with "#{login}"}
    And %Q{I fill in "Password" with "secret"}
@@ -10,6 +11,7 @@ end
 Given /^I am logged in as account holder "([^\"]*)"(?: registered "([^\"]*)")?$/ do |login, registered_on|
   Given %Q{a team: "#{login}_team" exists}
   Given %Q{a user: "#{login}" exists with login: "#{login}", team: team "#{login}_team"}
+  Given %Q{a user detail exists with user: user "#{login}"}
   
   account_options = [
     %{holder: user "#{login}"},
@@ -29,6 +31,7 @@ end
 Given /^I am logged in as subscribed account holder "([^\"]*)"(?: registered "([^\"]*)")?$/ do |login, registered_on|
   Given %Q{a team: "#{login}_team" exists}
   Given %Q{a user: "#{login}" exists with login: "#{login}", team: team "#{login}_team"}
+  Given %Q{a user detail exists with user: user "#{login}"}
   
   account_options = [
     %{holder: user "#{login}"},

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AccountsController do
   
-  describe "access control" do        
+  describe "access control" do
     [:edit, :update, :show].each do |action|
       it "requires user to be logged in for action #{action}" do
         get action
@@ -60,6 +60,7 @@ describe AccountsController do
       @team = mock_model(Team)
       @account.stub!(:build_team).and_return(@team)
       @account.stub_chain(:holder, :team=)
+      @account.stub_chain(:holder, :build_user_detail)
       @account.stub_chain(:holder, :deliver_activation_instructions!)
     end
     
@@ -87,6 +88,11 @@ describe AccountsController do
     
     it "assigns the account team to the account holder" do
       @account.holder.should_receive(:team=).with(@team)
+      do_post_with_valid_attributes
+    end
+    
+    it "builds a new user_detail for account holder" do
+      @account.holder.should_receive(:build_user_detail)
       do_post_with_valid_attributes
     end
     

@@ -10,8 +10,7 @@ class UserSignupsController < ApplicationController
   end
   
   def update
-    @user.password = params[:user][:password]
-    @user.password_confirmation = params[:user][:password_confirmation]
+    @user.attributes = params[:user]
     @user.active = true
     
     if @user.save

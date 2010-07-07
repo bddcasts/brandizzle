@@ -1,6 +1,7 @@
 Given /^a Twitter user "([^\"]*)" registered with BrandPulse$/ do |name|
   Given %Q{a team "t" exists}
-  Given %Q{a twitter user "#{name}" exists with oauth_token: "foo", oauth_secret: "secret", screen_name: "#{name}", name: "#{name}", team: team "t"}
+  Given %Q{a twitter user "#{name}" exists with oauth_token: "foo", oauth_secret: "secret", name: "#{name}", team: team "t"}
+  Given %Q{an user detail exists with user: user "#{name}", twitter_screen_name: "#{name}"} 
   Given %Q{an account exists with team: team "t"} 
   
   UserSession.class_eval do
@@ -30,7 +31,7 @@ Given /^a Twitter user "([^\"]*)" that is not registered with BrandPulse$/ do |t
   end
 end
 
-Given /^user "([^\"]*)" has not authorized BrandPulse to user Twitter account$/ do |twitter_name|
+Given /^user "([^\"]*)" has not authorized BrandPulse to use Twitter account$/ do |twitter_name|
   User.class_eval do
     define_method("user_twitter_name") do
       twitter_name

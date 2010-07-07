@@ -17,8 +17,6 @@
 #  oauth_secret      :string(255)
 #  twitter_uid       :string(255)
 #  name              :string(255)
-#  screen_name       :string(255)
-#  location          :string(255)
 #  avatar_url        :string(255)
 #  login_count       :integer(4)      default(0), not null
 #  last_request_at   :datetime
@@ -29,7 +27,7 @@ require 'spec_helper'
 describe User do
   #columns
   should_have_column :login, :email, :crypted_password, :password_salt, :persistence_token, :perishable_token,
-                     :oauth_token, :oauth_secret, :twitter_uid, :name, :screen_name, :location, :avatar_url,
+                     :oauth_token, :oauth_secret, :twitter_uid, :name, :avatar_url,
                      :type => :string
   
   should_have_column :active, :type => :boolean
@@ -38,9 +36,12 @@ describe User do
 
   #associations
   should_have_one :account
+  should_have_one :user_detail
   should_belong_to :team
   should_have_many :logs
   should_have_many :comments
+  
+  should_accept_nested_attributes_for :user_detail
   
   #validations
   should_validate_presence_of :email, :on => :create
@@ -223,29 +224,23 @@ describe User do
         @user.save
       end
       
-      it "sets the user's attributes to the ones in the user's Twitter profile" do
-        attribute_mapping = {
-          :name => "name",
-          :id => "twitter_uid",
-          :screen_name => "screen_name",
-          :location => "location",
-          :profile_image_url => "avatar_url"
-        }
-        
+      it "sets the user's attributes to the ones in the user's Twitter profile" do        
         fetched_attributes = {
           :name => "Twitter Guy",
-          :screen_name => "twitter_guy",
           :id => "123456",
-          :location => "NY",
+          :screen_name => "twitter_screen_name",
+          :location => "twitter_location",
           :profile_image_url => "http://twitter.com/123456/avatar.png"
         }
         
         @twitter_response.should_receive(:is_a?).and_return(true)
         @twitter_response.stub!(:body).and_return(fetched_attributes.to_json)
         
-        fetched_attributes.each do |key, value|
-          @user.should_receive("#{attribute_mapping[key]}=").with(value)
-        end
+        @user.should_receive(:name=).with(fetched_attributes[:name])
+        @user.should_receive(:twitter_uid=).with(fetched_attributes[:id])
+        @user.should_receive(:avatar_url=).with(fetched_attributes[:profile_image_url])
+        @user.user_detail.should_receive(:twitter_screen_name=).with(fetched_attributes[:screen_name])
+        @user.user_detail.should_receive(:twitter_location=).with(fetched_attributes[:location])
         
         @user.save
       end

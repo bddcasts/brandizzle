@@ -17,8 +17,6 @@
 #  oauth_secret      :string(255)
 #  twitter_uid       :string(255)
 #  name              :string(255)
-#  screen_name       :string(255)
-#  location          :string(255)
 #  avatar_url        :string(255)
 #  login_count       :integer(4)      default(0), not null
 #  last_request_at   :datetime
@@ -31,16 +29,20 @@ class User < ActiveRecord::Base
   end
   
   has_one :account
+  has_one :user_detail
   belongs_to :team
   has_many :logs
   has_many :comments
   
+  accepts_nested_attributes_for :user_detail
+  
   before_save :populate_oauth_user
-    
-  attr_accessible :name, :login, :email, :password, :password_confirmation, :active
+  
+  attr_accessible :name, :login, :email, :password, :password_confirmation, :active, :user_detail_attributes, :tos_agreement
   
   validates_presence_of :email, :on => :create
   validates_format_of :email, :with => Authlogic::Regex.email
+  validates_acceptance_of :tos_agreement, :message => "You must accept the terms of service"
     
   def to_s
     name.blank? && login || name
@@ -104,11 +106,11 @@ class User < ActiveRecord::Base
         if @response.is_a?(Net::HTTPSuccess)
           user_info = JSON.parse(@response.body)
 
-          self.name        = user_info['name']
-          self.twitter_uid = user_info['id']
-          self.screen_name = user_info['screen_name']
-          self.location    = user_info['location']
-          self.avatar_url  = user_info['profile_image_url']
+          self.name                            = user_info['name']
+          self.twitter_uid                     = user_info['id']
+          self.avatar_url                      = user_info['profile_image_url']
+          self.user_detail.twitter_screen_name = user_info['screen_name']
+          self.user_detail.twitter_location    = user_info['location']
         end
       end
     end    

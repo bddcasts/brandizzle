@@ -65,3 +65,8 @@ Factory.define(:subscription_transaction) do |f|
   f.plan "standard"
   f.last_update 3.days.ago
 end
+
+Factory.define(:user_detail) do |f|
+  f.association :user
+  f.email_updates false
+end

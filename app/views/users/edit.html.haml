@@ -8,16 +8,18 @@
         = f.input :name
         %li
           %label Screen name:
-          %p= h @user.screen_name
+          %p= h @user.user_detail.twitter_screen_name
         %li
           %label Location:
-          %p= h @user.location
+          %p= h @user.user_detail.twitter_location
     - else
       %h2 Account Information
       - f.inputs do
         = f.input :password
         = f.input :password_confirmation
         %li= oauth_register_button :value => "Authorize with Twitter"
+    - f.fields_for :user_detail do |user_detail|
+      = user_detail.input :email_updates, :required => false, :label => "I want to receive updates through email."
     - f.buttons do
       = f.commit_button "Update information"
       or

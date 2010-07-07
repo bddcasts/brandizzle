@@ -99,6 +99,7 @@ describe UsersController do
       @current_team = @current_user.team
       @user = mock_model(User)
       @current_team.stub_chain(:members, :build).and_return(@user)
+      @user.stub(:build_user_detail)
       @user.stub!(:deliver_user_invitation!)
     end
     
@@ -116,6 +117,11 @@ describe UsersController do
       @current_team.members.should_receive(:build).with("login" => "Cartman").and_return(@user)
       do_post_with_valid_attributes(:login => "Cartman")
       assigns[:user].should == @user
+    end
+    
+    it "builds a new user_detail" do
+      @user.should_receive(:build_user_detail)
+      do_post_with_valid_attributes
     end
     
     it "delivers the user invitation on success" do

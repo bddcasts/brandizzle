@@ -7,7 +7,7 @@
       - if @follow_up_brand_results && @follow_up_brand_results.length > 0
         - @follow_up_brand_results.each do |br|
           = render "brand_results/brand_result", :object => present_brand_result(br)
-        - if @follow_up_brand_results.size > 1
+        - if @follow_up_brand_results.size > 15
           = link_to "View all follow up results", brand_results_path(:search => {:state_is => "follow_up"}), :class => "view_all"
       - else
         %p There are no results to follow up.
@@ -21,8 +21,8 @@
         %p There are no comments.
   
   .span-8.last.logs
+    %h2 Activity
     - if @logs && @logs.length > 0
-      %h2 Activity
       .updates
         - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
           %h3

@@ -16,6 +16,7 @@ class AccountsController < ApplicationController
     @account = Account.new((params[:account] || {}).merge(:plan_id => Plan.standard.id))
     @team = @account.build_team
     @account.holder.team = @team
+    @user_detail = @account.holder.build_user_detail
     
     if @account.save
       @account.holder.deliver_activation_instructions!

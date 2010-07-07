@@ -23,7 +23,7 @@ Feature: Twitter oauth
   
   Scenario: Authorizing BrandPulse using Twitter account
     Given I am logged in as "cartman"
-      And user "cartman" has not authorized BrandPulse to user Twitter account
+      And user "cartman" has not authorized BrandPulse to use Twitter account
       And I am on my info page
      When I press "Authorize with Twitter"
      Then I should see "Account information updated!"

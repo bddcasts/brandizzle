@@ -35,8 +35,7 @@ describe ActivationsController do
       @user = mock_model(User)
       User.stub!(:find).and_return(@user)
       
-      @user.stub(:password=)
-      @user.stub(:password_confirmation=)
+      @user.stub(:attributes=)
       @user.stub(:active=)
     end
     
@@ -51,9 +50,8 @@ describe ActivationsController do
       assigns[:user].should == @user
     end
     
-    it "assigns the password and password confirmation to the user" do
-      @user.should_receive(:password=).with("foo")
-      @user.should_receive(:password_confirmation=).with("bar")
+    it "assigns the attributes to the user" do
+      @user.should_receive(:attributes=).with(hash_including(:password => "foo", :password_confirmation => "bar"))
       do_post_with_valid_attributes(:password => "foo", :password_confirmation => "bar")
     end
     
