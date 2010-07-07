@@ -4,7 +4,7 @@ class Notifier < ActionMailer::Base
     from          sender
     recipients    user.email
     sent_on       Time.now
-    body          :edit_password_reset_url => edit_password_reset_url(user.perishable_token)
+    body          :edit_password_reset_url => edit_password_reset_url(user.perishable_token, :protocol => "https")
   end
   
   def user_invitation(user)
@@ -12,7 +12,7 @@ class Notifier < ActionMailer::Base
     from          user.team.account.holder
     recipients    user.email
     sent_on       Time.now
-    body          :signup_url => edit_user_signup_url(user.perishable_token)
+    body          :signup_url => edit_user_signup_url(user.perishable_token, :protocol => "https")
   end
   
   def activation_instructions(user)
@@ -20,7 +20,7 @@ class Notifier < ActionMailer::Base
     from          sender
     recipients    user.email
     sent_on       Time.now
-    body          :account_activation_url => register_url(user.perishable_token)
+    body          :account_activation_url => register_url(user.perishable_token, :protocol => "https")
   end
   
   def failed_subscriptions(subscriptions)

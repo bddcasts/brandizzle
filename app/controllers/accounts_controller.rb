@@ -47,6 +47,11 @@ class AccountsController < ApplicationController
     redirect_to edit_account_path unless @account.have_card_on_file?
   end
   
+  protected
+    def ssl_required?
+      true
+    end
+  
   private
     def detect_layout
       case action_name

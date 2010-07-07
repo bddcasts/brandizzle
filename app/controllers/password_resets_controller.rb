@@ -38,15 +38,20 @@ class PasswordResetsController < ApplicationController
     end
   end
   
+  protected
+    def ssl_required?
+      true
+    end
+  
   private
-   def find_user_by_perishable_token
-     @user = User.find_using_perishable_token(params[:id])
-     unless @user
-       flash[:notice] = "We're sorry, but we could not locate your account. " +  
-       "If you are having issues try copying and pasting the URL " +  
-       "from your email into your browser or restarting the " +  
-       "reset password process."
-       redirect_to new_user_session_path
-     end
-   end 
+    def find_user_by_perishable_token
+      @user = User.find_using_perishable_token(params[:id])
+      unless @user
+        flash[:notice] = "We're sorry, but we could not locate your account. " +  
+        "If you are having issues try copying and pasting the URL " +  
+        "from your email into your browser or restarting the " +  
+        "reset password process."
+        redirect_to new_user_session_path
+      end
+    end 
 end

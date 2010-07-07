@@ -23,8 +23,7 @@ group :default do
   gem 'newrelic_rpm',     '2.12.3'
   gem 'hoptoad_notifier', '2.2.6'
   gem 'crack',            '0.1.7'
-  gem 'san_juan'
-  gem 'capistrano'
+  gem 'sslrequirement',   '1.1.1'
 end
 
 group :rails do
@@ -41,25 +40,29 @@ group :rails do
   gem 'mysql',            '2.8.1'
 end
 
+group :development do
+  gem 'san_juan',   :require => false
+  gem 'capistrano', :require => false
+end
+
+group :test, :cucumber do
+  gem 'rspec',        '1.3.0', :require => false
+  gem 'rspec-rails',  '1.3.2', :require => false  
+  gem 'factory_girl', '1.2.3', :require => false
+  gem 'webmock',      '1.2.2', :require => false  
+  gem 'email_spec',   '0.6.2', :require => false
+end
+
 group :test do
-  gem 'rspec',            '1.3.0'
-  gem 'rspec-rails',      '1.3.2'
   gem 'remarkable_rails', '3.1.13'
-  gem 'factory_girl',     '1.2.3'
-  gem 'webmock',           '1.2.2'
 end
 
 group :cucumber do
-  gem 'cucumber-rails',     '0.3.0'
-  gem 'database_cleaner',   '0.4.3'
-  gem 'capybara',           '0.3.7'
-  gem 'selenium-webdriver'
-  gem 'rspec',              '1.3.0'
-  gem 'rspec-rails',        '1.3.2'
-  gem 'factory_girl',       '1.2.3'
-  gem 'pickle',             '0.3.0'
-  gem 'email_spec',         '0.6.2'
-  gem 'thin',               '1.2.7'
-  gem 'launchy',            '0.3.5'
-  gem 'webmock',            '1.2.2'
+  gem 'cucumber-rails',     '0.3.0' , :require => false
+  gem 'database_cleaner',   '0.4.3' , :require => false
+  gem 'capybara',           '0.3.7' , :require => false
+  gem 'selenium-webdriver', '0.0.24', :require => false
+  gem 'pickle',             '0.3.0' , :require => false
+  gem 'thin',               '1.2.7' , :require => false
+  gem 'launchy',            '0.3.5' , :require => false
 end

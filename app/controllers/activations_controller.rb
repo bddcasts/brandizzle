@@ -29,4 +29,9 @@ class ActivationsController < ApplicationController
       render :action => :new
     end
   end
+  
+  protected
+    def ssl_required?
+      true
+    end
 end

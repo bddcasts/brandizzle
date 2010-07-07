@@ -30,4 +30,5 @@ config.action_mailer.delivery_method = :test
 config.after_initialize do
   require "webmock"
   WebMock.disable_net_connect!
+  SslRequirement.disable_ssl_check = true
 end
