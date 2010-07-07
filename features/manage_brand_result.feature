@@ -24,7 +24,7 @@ Feature: Manage brand results
      Then I should be on the brand_results page
       And I should see "follow up" for brand_result "br_bdd"
       And brand result "br_bdd" should be follow_up
-      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
+      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman", team: team "cartman_team"
   
   @javascript
   Scenario: Marking a result as done (should also create a log entry to be shown on the dashboard)
@@ -34,7 +34,7 @@ Feature: Manage brand results
      Then I should be on the brand_results page
       And I should see "done" for brand_result "br_bdd"
       And brand result "br_bdd" should be done
-      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
+      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman", team: team "cartman_team"
     
   @javascript
   Scenario: Marking a result as rejected (should also create a log entry to be shown on the dashboard)
@@ -44,7 +44,7 @@ Feature: Manage brand results
      Then I should be on the brand_results page
       And I should not see "follow up" for brand_result "br_bdd"
       And brand result "br_bdd" should be normal
-      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
+      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman", team: team "cartman_team"
   
   @javascript
   Scenario Outline: Marking a result as positive/neutral/negative (should also create a log entry to be shown on the dashoard)
@@ -54,7 +54,7 @@ Feature: Manage brand results
      Then I should be on the brand_results page
       And I should see "<action>" for brand_result "br_bdd"
       And brand result "br_bdd" should be <temperature>
-      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman"
+      And a log should exist with loggable: brand_result "br_bdd", user: user "cartman", team: team "cartman_team"
   
     Examples:
       | action | temperature |
@@ -81,4 +81,4 @@ Feature: Manage brand results
       And I should see "OMG they killed Kenny" within ".comments"
       And I should see "cartman" within ".comments"
       And a comment "comm" should exist with user: user "cartman", brand_result: brand_result "br_bdd", content: "OMG they killed Kenny"
-      And a log should exist with loggable: comment "comm", user: user "cartman"
+      And a log should exist with loggable: comment "comm", user: user "cartman", team: team "cartman_team"

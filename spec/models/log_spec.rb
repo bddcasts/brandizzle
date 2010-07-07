@@ -9,6 +9,7 @@
 #  created_at          :datetime
 #  updated_at          :datetime
 #  loggable_attributes :text
+#  team_id             :integer(4)      indexed
 #
 
 require 'spec_helper'
@@ -20,5 +21,6 @@ describe Log do
   
   #associations
   should_belong_to :user
+  should_belong_to :team
   should_belong_to :loggable, :polymorphic => true
 end

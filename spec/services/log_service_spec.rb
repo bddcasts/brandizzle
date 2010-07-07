@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe LogService do
   subject                 { LogService.new }
-  let(:user)              { mock_model(User) }
+  let(:user)              { mock_model(User, :team => mock_model(Team)) }
   let(:logged_attributes) { mock("logged attributes") }
 
   describe "#update_brand_result" do
@@ -28,6 +28,7 @@ describe LogService do
         with(hash_including(
           :loggable            => brand_result,
           :user                => user,
+          :team                => user.team,
           :loggable_attributes => logged_attributes)
         )
       call_update
@@ -47,7 +48,7 @@ describe LogService do
     end
     
     it "logs the creation of a new comment" do
-      Log.should_receive(:create).with(hash_including(:loggable => comment, :user => user))
+      Log.should_receive(:create).with(hash_including(:loggable => comment, :user => user, :team => user.team))
       subject.created_comment(comment, user)
     end
   end

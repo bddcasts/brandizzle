@@ -1,6 +1,7 @@
 Factory.define(:log) do |f|
   f.loggable_attributes { |l| l.loggable.logged_attributes }
   f.association :user
+  f.association :team
 end
 
 Factory.define(:brand_result_log, :parent => :log) do |f|

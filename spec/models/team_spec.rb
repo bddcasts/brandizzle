@@ -15,8 +15,8 @@ describe Team do
   should_have_many :members, :class_name => "User"
   should_have_many :brands
   should_have_many :brand_results
+  should_have_many :logs
   should_belong_to :account
-  should_have_many :logs, :through => :members
   
   describe "#total_search_terms" do
     let(:brands) { (1..3).map { |i| mock_model(Brand, :brand_queries_count => i) } }

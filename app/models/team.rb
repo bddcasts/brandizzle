@@ -12,8 +12,8 @@ class Team < ActiveRecord::Base
   has_many :members, :class_name => "User"
   has_many :brands
   has_many :brand_results
+  has_many :logs
   belongs_to :account
-  has_many :logs, :through => :members
   
   def total_search_terms
     brands.to_a.sum(&:brand_queries_count)

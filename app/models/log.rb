@@ -9,12 +9,14 @@
 #  created_at          :datetime
 #  updated_at          :datetime
 #  loggable_attributes :text
+#  team_id             :integer(4)      indexed
 #
 
 class Log < ActiveRecord::Base
   serialize :loggable_attributes
   
   belongs_to :user
+  belongs_to :team
   belongs_to :loggable, :polymorphic => true
     
   def self.per_page
