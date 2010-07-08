@@ -23,7 +23,14 @@ class Comment < ActiveRecord::Base
     :order => "#{Comment.table_name}.created_at DESC",
     :limit => Settings.dashboard.latest_comments_number
   
+  before_create :assign_team
+  
   def logged_attributes
     brand_result.logged_attributes
   end
+  
+  private
+    def assign_team
+      self.team = user.team
+    end
 end
