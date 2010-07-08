@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(:version => 20100707161837) do
     t.integer  "user_id"
     t.string   "twitter_screen_name"
     t.string   "twitter_location"
-    t.boolean  "email_updates"
+    t.boolean  "email_updates",       :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
