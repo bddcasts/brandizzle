@@ -8,7 +8,7 @@ group :default do
   gem 'json',             '1.2.0'
   gem 'searchlogic',      '2.4.10'
   gem 'authlogic',        '2.1.3'
-  gem 'formtastic',       '0.9.7'
+  gem 'formtastic',       '0.9.10'
   gem 'delayed_job',      '2.0.3'
   gem 'settingslogic',    '2.0.5'
   gem 'twitter',          '0.8.6'
