@@ -1,7 +1,7 @@
 set :application, "brandpulse"
 
 ssh_options[:forward_agent] = true
-set :repository,  "git@git.aissac.ro:/brandizzle"
+set :repository,  "git@github.com:ihoka/brandpulse.git"
 
 set :deploy_via, :remote_cache
 
@@ -21,7 +21,7 @@ san_juan.role :app, %w[delayed_job]
 before "deploy:restart", "god:all:reload"
 before "deploy:restart", "god:app:delayed_job:restart"
 
-set :config_files, %w(database.yml)
+set :config_files, %w[database.yml application.yml]
 namespace :deploy do
   desc 'symlink config files'
   task :link_config, :roles => :app do
