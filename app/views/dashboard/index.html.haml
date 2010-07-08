@@ -32,4 +32,4 @@
     - else
       %p There are no logs.
 
-    = will_paginate @logs, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'
+    = will_paginate @logs, :previous_label => '&larr;', :next_label => '&rarr;', :inner_window => 1, :outer_window => 0
