@@ -20,7 +20,7 @@ Feature: User Accounts
      When I click the first link in the email
       And I fill in "Password" with "secret"
       And I fill in "Password confirmation" with "secret"
-      And I check "I agree to the terms of service."
+      And I check "I agree to the terms of use."
       And I press "Activate my account and log me in"
      Then I should be on the homepage
       And I should see "Welcome cartman!"

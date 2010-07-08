@@ -46,7 +46,7 @@ Feature: Manage brand results
       And brand result "br_bdd" should be normal
       And a log should exist with loggable: brand_result "br_bdd", user: user "cartman", team: team "cartman_team"
   
-  @javascript
+  @javascript @disabled
   Scenario Outline: Marking a result as positive/neutral/negative (should also create a log entry to be shown on the dashoard)
     Given a brand_result "br_bdd" exists with brand: brand "BDDCasts", result: result "bdd", team: team "cartman_team"
       And I am on the brand_results page

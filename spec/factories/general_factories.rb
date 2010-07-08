@@ -25,5 +25,6 @@ Factory.define(:comment) do |f|
   f.content "Lorem ipsum .."
   f.association :user
   f.association :brand_result
+  f.association :team
 end
 
