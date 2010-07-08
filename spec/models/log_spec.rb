@@ -23,4 +23,13 @@ describe Log do
   should_belong_to :user
   should_belong_to :team
   should_belong_to :loggable, :polymorphic => true
+  
+  describe "#assign_team (before_create)" do
+    subject { Log.new(:user => Factory.create(:user))}
+    
+    it "assigns the team as the user's team" do
+      subject.should_receive(:team=).with(subject.user.team)
+      subject.save
+    end
+  end
 end

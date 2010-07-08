@@ -7,7 +7,6 @@ class LogService
     @log_klass.create(
       :loggable            => brand_result,
       :user                => user,
-      :team                => user.team,
       :loggable_attributes => brand_result.logged_attributes(options)
     )
   end
@@ -16,7 +15,6 @@ class LogService
     @log_klass.create(
       :loggable            => comment,
       :user                => user,
-      :team                => user.team,
       :loggable_attributes => comment.logged_attributes
     )
   end

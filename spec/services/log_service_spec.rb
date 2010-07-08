@@ -28,7 +28,6 @@ describe LogService do
         with(hash_including(
           :loggable            => brand_result,
           :user                => user,
-          :team                => user.team,
           :loggable_attributes => logged_attributes)
         )
       call_update
@@ -48,7 +47,7 @@ describe LogService do
     end
     
     it "logs the creation of a new comment" do
-      Log.should_receive(:create).with(hash_including(:loggable => comment, :user => user, :team => user.team))
+      Log.should_receive(:create).with(hash_including(:loggable => comment, :user => user))
       subject.created_comment(comment, user)
     end
   end

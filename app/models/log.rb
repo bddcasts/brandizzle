@@ -18,8 +18,15 @@ class Log < ActiveRecord::Base
   belongs_to :user
   belongs_to :team
   belongs_to :loggable, :polymorphic => true
-    
+  
+  before_create :assign_team  
+  
   def self.per_page
     per_page = Settings.dashboard.logs_per_page
   end
+  
+  private
+    def assign_team
+      self.team = user.team
+    end
 end
