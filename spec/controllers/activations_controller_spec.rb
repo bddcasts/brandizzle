@@ -25,7 +25,7 @@ describe ActivationsController do
     it "sets the flash and redirects to login page if user not found" do
       User.should_receive(:find_using_perishable_token).and_return(nil)
       do_get
-      flash[:notice].should_not be_nil
+      flash[:warning].should_not be_nil
       response.should redirect_to(new_user_session_path)
     end
   end

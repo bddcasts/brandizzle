@@ -6,7 +6,7 @@ ul#accepted_cards
     text-indent: -9999px
     margin-right: 5px
     padding: 0
-    background: transparent url(../../images/sprite.jpg) no-repeat -200px 0
+    background: transparent #{image_url("sprite.jpg")} no-repeat -200px 0
     &.mastercard
       background-position: -239px 0
     &.amex
@@ -47,9 +47,3 @@ ul#accepted_cards
       :padding 3px 5px
     th
       :font-weight bold
-      +right
-      
-#transactions-info
-  table
-    th
-      +left

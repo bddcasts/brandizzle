@@ -20,6 +20,18 @@ form.formtastic
           textarea
             :width 500px
             :height 100px
+        &.boolean
+          label
+            padding-top: 2px
+          input
+            margin:
+              top: 0
+              left: 0
+          &.error
+            input
+              :width auto
+        &.actions
+          padding: 2px 0 0 3px
   &.large
     fieldset ol li
       &.string, &.password
@@ -31,15 +43,15 @@ form.formtastic
       &.string, &.password
         input
           :width 480px
-      &.boolean
-        input
-          :margin 0 5px 0 0
         &.error
           input
             :width auto
       &.error
         input
           :width 455px
+        &.error
+          input
+            :width auto
       &.inline-error
         :width 482px
         p

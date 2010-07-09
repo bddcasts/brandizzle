@@ -7,7 +7,7 @@ class ActivationsController < ApplicationController
   def new
     @user = User.find_using_perishable_token(params[:activation_code], 1.week)
     unless @user
-      flash[:notice] = "We're sorry, but we could not locate your account. " +  
+      flash[:warning] = "We're sorry, but we could not locate your account. " +  
       "If you are having issues try copying and pasting the URL " +  
       "from your email into your browser or restarting the " +  
       "activation process."

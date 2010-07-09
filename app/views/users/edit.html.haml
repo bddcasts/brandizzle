@@ -19,8 +19,10 @@
         = f.input :password_confirmation
         %li= oauth_register_button :value => "Authorize with Twitter"
     - f.fields_for :user_detail do |user_detail|
-      = user_detail.input :email_updates, :required => false, :label => "I want to receive updates through email."
+      - f.inputs do
+        = user_detail.input :email_updates, :required => false, :label => "I want to receive updates through email."
     - f.buttons do
       = f.commit_button "Update information"
-      or
-      = link_to "Cancel", team_path
+      %li.actions
+        or
+        = link_to "Cancel", team_path

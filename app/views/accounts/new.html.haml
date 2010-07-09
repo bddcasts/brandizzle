@@ -1,10 +1,7 @@
 - title "Register for an account"
 
 .content
-
-  :textile
-    All we need from you to get started with BrandPulse is a login and an email address to send your password to.
-    <br />
+  %p All we need from you to get started with BrandPulse is a login and an email address to send your password to.
     
   - semantic_form_for @account, :url => account_path, :html => { :class => "account large" } do |f|
     - f.fields_for :holder do |holder_form|

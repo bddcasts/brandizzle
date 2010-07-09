@@ -25,7 +25,7 @@ describe UserSignupsController do
     it "sets the flash message nad redirects to the home page when user not found" do
       User.should_receive(:find_using_perishable_token).with("foo").and_return(nil)
       do_get
-      flash[:notice].should_not be_nil
+      flash[:warning].should_not be_nil
       response.should redirect_to(new_user_session_path)
     end
   end
@@ -53,7 +53,7 @@ describe UserSignupsController do
     it "sets the flash message and redirects to the home page when invalid token" do
       User.stub(:find_using_perishable_token).and_return(nil)
       put :update, :id => "foo"
-      flash[:notice].should_not be_nil
+      flash[:warning].should_not be_nil
       response.should redirect_to(new_user_session_path)
     end
     
