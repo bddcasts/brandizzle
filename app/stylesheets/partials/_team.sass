@@ -1,14 +1,12 @@
 div
   &.users
     h3
-      font-size: 14px
+      +font-size(14px)
       padding: 0px
-
       img
         vertical-align: middle
-
       span
-        font-size: 11px
+        +font-size(11px)
         color: rgb(255,255,255)
         font-weight: normal
         padding: 1px 5px
@@ -22,20 +20,15 @@ div
         padding: 5px 10px
         padding-left: 5px
         border-bottom: solid 1px rgb(230,230,230)
-
       &.odd
         background: rgb(245,245,245)
-
       &.actions
-        font-size: 11px
+        +font-size(11px)
         float: right
-
         a
           color: rgb(180,180,180)
-
           &:hover
             color: rgb(255,255,255)
-
           &.delete:hover
             background: rgb(255,0,0)
   &.buttons

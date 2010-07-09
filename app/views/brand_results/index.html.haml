@@ -11,44 +11,45 @@
     = read_state_filter("Read", 1)
     or
     = all_filter
-    
-.sidebar
-  %h3 Brands
-  %ul#brand_filters
-    %li= brand_filter("All")
-    - @brands.each do |brand|
-      %li= brand_filter(brand, brand.id)
-  
-  %h3 Timeframe
-  %form#dp{:action => brand_results_path}
-    - unless params[:search].blank?
-      - unless params[:search][:brand_id_is].blank?
-        %input{ :type => :hidden, :name => "search[brand_id_is]", :value => params[:search][:brand_id_is].to_s }
-      - unless params[:search][:state_is].blank?
-        %input{ :type => :hidden, :name => "search[state_is]", :value => params[:search][:state_is].to_s }
-      - unless params[:search][:read_state].blank?
-        %input{ :type => :hidden, :name => "search[read_state]", :value => params[:search][:read_state].to_s }
-      
-    %input{ :type => "text", :id => "between_date", :name => "search[between_date]", :value => params[:search] && params[:search][:between_date], :class => 'txt', :autocomplete => "off"}
 
-    %input{ :type => "submit", :value => "GO" }
+.results
+  .sidebar
+    %h3 Brands
+    %ul#brand_filters
+      %li= brand_filter("All")
+      - @brands.each do |brand|
+        %li= brand_filter(brand, brand.id)
   
-.content.results
-  .top
-    .applied_filters
-      = applied_filters(@search.conditions)
-    .entries
-      = page_entries_info @brand_results, :entry_name => "result" unless @brand_results.empty?
-  - if @brand_results && !@brand_results.empty?
-    .updates
-      - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|
-        %h3
-          %span= show_day(day)
-        - brand_result.each do |br|
-          = render "brand_result", :object => present_brand_result(br)
-  - else
-    %p.center No results found.
-    - if params[:search].blank?
-      %p.center It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working, please let us know.
+    %h3 Timeframe
+    %form#dp{:action => brand_results_path}
+      - unless params[:search].blank?
+        - unless params[:search][:brand_id_is].blank?
+          %input{ :type => :hidden, :name => "search[brand_id_is]", :value => params[:search][:brand_id_is].to_s }
+        - unless params[:search][:state_is].blank?
+          %input{ :type => :hidden, :name => "search[state_is]", :value => params[:search][:state_is].to_s }
+        - unless params[:search][:read_state].blank?
+          %input{ :type => :hidden, :name => "search[read_state]", :value => params[:search][:read_state].to_s }
+      
+      %input{ :type => "text", :id => "between_date", :name => "search[between_date]", :value => params[:search] && params[:search][:between_date], :class => 'txt', :autocomplete => "off"}
+
+      %input{ :type => "submit", :value => "GO" }
   
-  = will_paginate @brand_results, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'
+  .content
+    .top
+      .applied_filters
+        = applied_filters(@search.conditions)
+      .entries
+        = page_entries_info @brand_results, :entry_name => "result" unless @brand_results.empty?
+    - if @brand_results && !@brand_results.empty?
+      .updates
+        - @brand_results.group_by{ |br| br.result.created_at.at_beginning_of_day}.each do |day, brand_result|
+          %h3
+            %span= show_day(day)
+          - brand_result.each do |br|
+            = render "brand_result", :object => present_brand_result(br)
+    - else
+      %p.center No results found.
+      - if params[:search].blank?
+        %p.center It may take up to 15 minutes before you start seeing search results.  If you think it's been longer, or something isn't working, please let us know.
+  
+    = will_paginate @brand_results, :previous_label => '&larr; Newer', :next_label => 'Older &rarr;'

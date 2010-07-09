@@ -2,10 +2,9 @@
 
 = error_messages_for :account
 
-.span-12
-  = render :partial => "plan_info"
+= render :partial => "plan_info"
 
-.span-12
+#card-form
   - semantic_form_for @account, :url => account_path, :html => { :class => "card" } do |f|
     - f.inputs do
       = f.input :first_name, :label => "First name on card", :input_html => { :value => @account.card_first_name }

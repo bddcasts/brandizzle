@@ -1,44 +1,55 @@
 ul#accepted_cards
   +horizontal-list
   li
-    :width 31px
-    :height 25px
-    :text-indent -9999px
-    :margin-right 5px
-    &.visa
-      :background transparent url(../../images/accepted_card_types.png) no-repeat 0 0
+    width: 39px
+    height: 25px
+    text-indent: -9999px
+    margin-right: 5px
+    padding: 0
+    background: transparent url(../../images/accepted_card_types.png) no-repeat 0 0
     &.mastercard                                                 
-      :background transparent url(../../images/accepted_card_types.png) no-repeat -39px 0
+      background-position: -39px 0
     &.amex                                                       
-      :background transparent url(../../images/accepted_card_types.png) no-repeat -78px 0
+      background-position: -78px 0
     &.discover                                                   
-      :background transparent url(../../images/accepted_card_types.png) no-repeat -117px 0
+      background-position: -117px 0
     &.jcb                                                        
-      :background transparent url(../../images/accepted_card_types.png) no-repeat -156px 0
+      background-position: -156px 0
     &.dinners                                                    
-      :background transparent url(../../images/accepted_card_types.png) no-repeat -195px 0
+      background-position: -195px 0
 
 #errorExplanation
-  :margin-bottom 10px
+  margin-bottom: 10px
   ul
     +no-bullets
     li
-      :padding-left 10px
-      :color #8A1F11
+      padding-left: 10px
+      color: #8A1F11
 
-.card-info, #plan-info, .transactions-info
+#card-info, #card-form
+  +column(12, true)
+  
+#plan-info
+  +column(12)
+  
+#transactions-info
+  +column(24, true)
+  margin-top: 10px
+  border-top: 1px solid #ddd
+  
+#card-info, #plan-info, #transactions-info
+  h3
+    :padding-left 5px
+    +strong
+    +font-size(14px)
   table
     th, td
       :padding 3px 5px
     th
       :font-weight bold
-
-.transactions-info
+      +right
+      
+#transactions-info
   table
-    td
-      :border-top 1px solid #ddd
-  h3
-    :padding-left 5px
-    :font
-      :size 14px
-      :weight bold
+    th
+      +left

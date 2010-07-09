@@ -1,49 +1,78 @@
-div
-  &.updates
-    h3
-      border-bottom: solid 1px rgb(170,184,190)
-      font-weight: normal
-      font-size: 11px
-      padding: 4px 0px
-      padding-bottom: 3px
-      margin: 10px 0px 5px 0
-
-      span
-        background: rgb(230,230,230)
-        padding: 4px 10px
-        padding-bottom: 3px
-  .result
-    :border-bottom 1px dotted #ccc
-    :padding-bottom 5px
-    :margin-bottom 10px
-    .links
-      :font-size 11px
-      :padding-left 15px
+.results
+  .content
+    float: right
+    width: 760px
+    .updates
+      h3
+        border-bottom: solid 1px rgb(170,184,190)
+        font-weight: normal
+        +font-size(11px)
+        padding: 4px 0px 3px 0
+        margin: 10px 0px 5px 0
+        span
+          background: rgb(230,230,230)
+          padding: 4px 10px 2px 10px
+    .top
+      +font-size(12px)
+      :margin-bottom 10px
       +clearfix
-      :margin-bottom 5px
-      div
+      .applied_filters
         :float left
-        :margin-left 5px
-        &.temperature_links
-          +clearfix
-          :float right
-          a
-            :text-decoration none
-        &.status
-          :float right
-    .body
-      +general_font
-      :margin-bottom 5px
-    .view_links
-      :font-size 11px
-      :margin-bottom 5px
+      .entries
+        :float right
+
+  .sidebar
+    float: left
+    width: 190px
+    :padding-right 10px
+    h3
+      :border-bottom 1px solid #000
+      :padding 10px 0 0 10px
+    ul
+      :margin 10px 0 10px 10px
+      +no-bullets
+      li
+        a
+          :font-size 13px
+          &.active
+            color: rgb(255,255,255)
+            background: rgb(0,0,255)
+    form
+      +clearfix
+      :margin 10px 0
+      input
+        :display block
+        :margin 3px 0
+        :float left
+        &.txt
+          :width 142px
+          :margin 1px 5px 3px 0
+    a
+      +hover-link
+
+.result
+  :border-bottom 1px dotted #ccc
+  :padding-bottom 5px
+  :margin-bottom 10px
+  .links
+    +font-size(11px)
+    :padding-left 15px
+    +clearfix
+    :margin-bottom 5px
+    div
+      :float left
+      :margin-left 5px
+      &.temperature_links
+        +clearfix
+        :float right
+        a
+          :text-decoration none
+      &.status
+        :float right
+  .body
+    :margin-bottom 5px
+  .view_links
+    +font-size(11px)
+    :margin-bottom 5px
   &.read
     :color = !general_font_color + #666666
-  .top
-    :font-size 12px
-    :margin-bottom 10px
-    +clearfix
-    .applied_filters
-      :float left
-    .entries
-      :float right

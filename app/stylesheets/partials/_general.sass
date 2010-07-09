@@ -1,19 +1,4 @@
-!general_font_color = #000000
-!general_link_color = #0000FF
-
-!follow_up_color = #C87800
-!done_color = #0000FF
-!rejected_color = #FF0000
-!comment_color = #6492AC
-!negative_color = #FF0000
-!positive_color = #009966
-!neutral_color = #333333
-
-= general_font(!size=13px)
-  :font
-    :size= !size
-    :weight normal
-    :family Arial, Tahoma, Verdana, sans-serif
++yui-base-fonts
 
 html
   margin: 0px
@@ -24,7 +9,6 @@ body
   padding: 0px
   background: rgb(146,146,146)
   :color = !general_font_color
-  +general_font
 
 h1, h2, h3, h4
   font-family: 'Lucida Grande', Verdana, Arial, sans-serif
@@ -46,9 +30,8 @@ h3
   margin: 0px
 
 p
-  +general_font
   margin: 0px
-  line-height: 1.4em
+  +font-size(13px)
 
 a
   :color = !general_link_color
@@ -102,16 +85,12 @@ div
             background: rgb(0,0,255)
             text-decoration: none
   &.main-content
-    font-size: 14px
     padding: 10px
     clear: both
     +clearfix
     :min-height 500px
     
   &.content
-    &.results
-      float: right
-      width: 760px
     &.account
       h3
         
@@ -119,7 +98,8 @@ div
   &.buttons
     padding: 10px
     +clearfix
-    
+    a
+      outline: none
     .add
       display: block
       float: right

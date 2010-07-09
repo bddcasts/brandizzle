@@ -1,36 +1,30 @@
 div
   &.brands
     h3
-      font-size: 14px
+      +font-size(14px)
       padding: 0px
-
     div
       &.brand
-        padding: 5px 10px
-        padding-left: 5px
+        padding: 5px 10px 5px 7px
         border-bottom: solid 1px rgb(230,230,230)
-
       &.odd
         background: rgb(245,245,245)
-
       &.actions
-        font-size: 11px
+        +font-size(11px)
         float: right
-
         a
           color: rgb(180,180,180)
-
           &:hover
             color: rgb(255,255,255)
-
           &.delete:hover
             background: rgb(255,0,0)
+
   &.box
     :margin-bottom 10px
     :padding 10px
     +clearfix
     h3
-      font-size: 15px
+      +font-size(15px)
       margin: 0
       padding: 0 0 10px 0
     .left

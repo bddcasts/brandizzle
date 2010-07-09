@@ -1,34 +1,17 @@
-.clearfix:after
-  :content "."
-  :display block
-  :height 0
-  :clear both
-  :visibility hidden
-.clearfix
-  :display inline-block
-.clearfix
-  :display block
-  
-.right
-  :text-align right
+!default_base_font_size ||= 13px
+!default_base_line_height ||= 1.231
+!default_font_family ||= "Arial,Tahoma,Verdana,sans-serif"
 
-.left
-  :text-align left
+!general_font_color = #000000
+!general_link_color = #0000FF
 
-.center
-  :text-align center
-
-.strong
-  :font-weight bold
-
-.nowrap
-  +nowrap
-
-.float-right
-  +float-right
-
-.float-left
-  +float-left
+!follow_up_color = #C87800
+!done_color = #0000FF
+!rejected_color = #FF0000
+!comment_color = #6492AC
+!negative_color = #FF0000
+!positive_color = #009966
+!neutral_color = #333333
 
 =rounded(!radius = 5px)
   :border-radius = !radius
@@ -57,3 +40,62 @@
   :min-height 350px
   +rounded
   +clearfix
+
+=font-size(!size, !base_font_size = !default_base_font_size)
+  :font-size= percentage(!size / !base_font_size)
+
+=yui-base-fonts(!family = !default_font_family, !size = !default_base_font_size, !line_height = !default_base_line_height)
+  body
+    :font
+      :size= !size
+      :family= !family
+    :line-height= !line_height
+
+  select,
+  input,
+  button,
+  textarea,
+  button
+    :font 99% arial,helvetica,clean,sans-serif
+
+  table
+    :font-size inherit
+    :font 100%
+
+  pre, code, kbd, samp, tt
+    :font-family monospace
+    :*font-size 108%
+    :line-height 100%
+
+=right
+  text-align: right
+=left
+  text-align: left
+=center
+  text-align: center
+=strong
+  font-weight: bold
+
+.clearfix
+  +pie-clearfix
+  
+.right
+  +right
+
+.left
+  +left
+
+.center
+  +center
+
+.strong
+  +strong
+
+.nowrap
+  +nowrap
+
+.float-right
+  +float-right
+
+.float-left
+  +float-left

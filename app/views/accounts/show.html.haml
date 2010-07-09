@@ -1,30 +1,30 @@
 - title "Your account information"
 
-.span-12
-  = render :partial => "plan_info"
+.buttons
+  = link_to "Edit", edit_account_path, :class => "edit"
 
-.span-12
-  .buttons
-    = link_to "Edit", edit_account_path, :class => "edit"
-  .card-info
-    %table
-      %tr
-        %th Full Name on card:
-        %td= "#{h @account.card_first_name} #{h @account.card_last_name}"
-      %tr
-        %th Postal Code:
-        %td= h @account.card_postal_code
-      %tr
-        %th Card Type: 
-        %td= @account.card_type
-      %tr
-        %th Credit Card last 4 digits:
-        %td= @account.card_number_last_4_digits
-      %tr
-        %th Credit Card expiration date:
-        %td= @account.card_expiration_date
+= render :partial => "plan_info"
 
-.span-24.last.transactions-info
+#card-info.info
+  %h3 Card information
+  %table
+    %tr
+      %th Full Name on card:
+      %td= "#{h @account.card_first_name} #{h @account.card_last_name}"
+    %tr
+      %th Postal Code:
+      %td= h @account.card_postal_code
+    %tr
+      %th Card Type: 
+      %td= @account.card_type
+    %tr
+      %th Credit Card last 4 digits:
+      %td= @account.card_number_last_4_digits
+    %tr
+      %th Credit Card expiration date:
+      %td= @account.card_expiration_date
+
+#transactions-info.info
   - if @account.subscription_transactions && @account.subscription_transactions.size > 0
     %h3 Payments history
     %table

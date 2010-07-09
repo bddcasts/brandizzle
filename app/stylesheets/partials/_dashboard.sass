@@ -1,45 +1,42 @@
 .dashboard
+  .content
+    +column(16)
+  .sidebar
+    +column(8, true)
+    border-left: 1px solid #ccc
+    padding: 0 0 0 9px
   .results
-    :margin-bottom 40px
+    margin-bottom: 40px
     a.view_all
-      :font-size 11px
-  .results, .comments
-    h2
-      :margin-bottom 5px
-  .logs
-    :border-left 1px solid #ccc
-    :padding-left 9px
+      +font-size(11px)
 
-div
-  &.updates
+  .updates
     h3
       border-bottom: solid 1px rgb(170,184,190)
-      font-weight: normal
-      font-size: 11px
-      padding: 4px 0px
-      padding-bottom: 3px
+      +font-size(11px)
+      padding: 4px 0px 3px 0
       margin: 10px 0px 5px 0
-
       span
         background: rgb(230,230,230)
-        padding: 4px 10px
-        padding-bottom: 3px
+        padding: 4px 10px 3px 10px
   .log
-    :border-bottom 1px dotted #ccc
-    :padding-bottom 5px
-    :margin-bottom 10px
+    border-bottom: 1px dotted #ccc
+    padding-bottom: 5px
+    margin-bottom: 10px
     +clearfix
     span
-      :display block
-      :float left
-      :font-size 11px
+      display: block
+      float: left
+      +font-size(11px)
       &.status
         .tag
-          :width 65px
-          :text-align right
-          :margin-right 10px
-      &.description
-        :clear both
-        :font-size 12px
+          +right
+          width: 65px
+          margin-right: 10px
+          +font-size(11px, 11px)
+          padding: 3px 5px 3px 0px
       &.time
-        :padding 2px 0
+        padding: 4px 0
+      &.description
+        clear: both
+        margin-top: 3px

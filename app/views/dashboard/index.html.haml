@@ -1,7 +1,7 @@
 - title "Dashboard"
 
-.content.dashboard
-  .span-16
+.dashboard
+  .content
     .results
       %h2 Follow up results
       - if @latest_follow_up_brand_results && @latest_follow_up_brand_results.length > 0
@@ -19,17 +19,17 @@
           = render "comments/comment", :object => comment
       - else
         %p There are no comments.
-  
-  .span-8.last.logs
-    %h2 Activity
-    - if @logs && @logs.length > 0
-      .updates
-        - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
-          %h3
-            %span= show_day(day)
-          - present_logs(logs) do |log|
-            = render "log", :object => log
-    - else
-      %p There are no logs.
+  .sidebar
+    .logs
+      %h2 Activity
+      - if @logs && @logs.length > 0
+        .updates
+          - @logs.group_by{ |l| l.created_at.at_beginning_of_day}.each do |day, logs|
+            %h3
+              %span= show_day(day)
+            - present_logs(logs) do |log|
+              = render "log", :object => log
+      - else
+        %p There are no logs.
 
-    = will_paginate @logs, :previous_label => '&larr;', :next_label => '&rarr;', :inner_window => 1, :outer_window => 0
+      = will_paginate @logs, :previous_label => '&larr;', :next_label => '&rarr;', :inner_window => 1, :outer_window => 0
