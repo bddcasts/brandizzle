@@ -1,5 +1,5 @@
 %div.result{ :id => brand_result.dom_id, :class => brand_result.read? && "read"}
-  %div.links{:style => "background:transparent url('/images/#{brand_result.result.source}.png') no-repeat left center"}
+  %div.links{:class => brand_result.result.source}
     %div
       = brand_result.brand
     %div.state_links

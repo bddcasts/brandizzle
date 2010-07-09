@@ -55,10 +55,15 @@
   :padding-bottom 5px
   :margin-bottom 10px
   .links
+    line-height: 16px
     +font-size(11px)
     :padding-left 15px
     +clearfix
     :margin-bottom 5px
+    &.blog
+      background: transparent #{image_url('blog.png')} no-repeat left center
+    &.twitter
+      background: transparent #{image_url('twitter.png')} no-repeat left center
     div
       :float left
       :margin-left 5px
@@ -75,4 +80,4 @@
     +font-size(11px)
     :margin-bottom 5px
   &.read
-    :color = !general_font_color + #666666
+    color= !general_font_color + #666666
