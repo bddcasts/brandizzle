@@ -61,31 +61,34 @@ div
     li
       display: block
       float: left
-      background: url(../../images/navigation_li_bg.jpg) no-repeat right top
+      background: url(../../images/nav_bg.jpg) no-repeat left top
       list-style: none
       margin: 0px
       margin-right: 4px
       padding: 0px
+      height: 24px
 
     a
       display: block
       float: left
       +font-size(12px)
-      background: url(../../images/navigation_a_bg.jpg) no-repeat left top
+      background: url(../../images/nav_bg.jpg) no-repeat right top
       color: rgb(255,255,255)
       text-decoration: none
       margin: 0px
-      padding: 5px 12px
+      padding: 5px 12px 5px 4px
+      margin-left: 8px
+      height: 14px
 
       &:hover
         color: rgb(255,255,0)
 
     li
       &.active
-        background: url(../../images/navigation_li_active_bg.jpg) no-repeat right top
+        background: url(../../images/nav_bg.jpg) no-repeat left -24px
 
         a
-          background: url(../../images/navigation_a_active_bg.jpg) no-repeat left top
+          background: url(../../images/nav_bg.jpg) no-repeat right -24px
 
       &.right_side
         float: right
