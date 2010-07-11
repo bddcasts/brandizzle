@@ -2,8 +2,12 @@
   %a{:href => '/'} Home
   |
   %a{:href => '/about'} About
+  |
+  %a{:href => "http://getbrandpulse.com/terms-of-use", :title => "Terms of use", :target => "_blank"} Terms of use
+  |
+  %a{:href => "http://getbrandpulse.com/privacy-policy", :title => "Privacy policy", :target => "_blank"} Privacy policy
 %p
   &copy;
   = Date.today.year
-  %a{:href => 'http://bddcasts.com', :title => 'BDD Screencasts'} BDDCasts.com
+  %a{:href => "http://bddcasts.com", :title => "BDD Screencasts", :target => "_blank"} BDDCasts.com
 = render "shared/uservoice"
