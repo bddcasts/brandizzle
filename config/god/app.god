@@ -13,7 +13,7 @@ def rails_env
   end
 end
 
-2.times do |num|
+4.times do |num|
   God.watch do |w|
     w.name = "dj-#{num}"
     w.group = "delayed_job"
