@@ -28,12 +28,25 @@ describe Brand do
   subject { Factory.create(:brand) }
   
   describe "#add_query" do
+    subject              { Factory.create(:brand, :queries => [existing_query]) }
+    let(:existing_query) { Factory.build(:query) }
+    
+    before(:each) do
+      subject # force creation before running examples
+    end
+    
     it "creates a new query associated if it does not exist yet" do
       expect {
         subject.add_query('foo')
       }.to change(Query, :count)
       
       subject.queries.map(&:term).should include('foo')
+    end
+    
+    it "does not add duplicate queries" do
+      expect {
+        subject.add_query(existing_query.term)
+      }.to_not change(subject.queries, :count)
     end
     
     it "for an existing query it associates it with the brand and does not create a new one" do
@@ -46,11 +59,25 @@ describe Brand do
       subject.queries.map(&:term).should include('foo')
     end
     
-    it "tells the query to link all its results to the brand" do
-      query = mock_model(Query)
-      Query.should_receive(:find_or_create_by_term).with("foo").and_return(query)
-      query.should_receive(:send_later).with(:link_all_results_to_brand, subject)
-      subject.add_query('foo')
+    context "when query has results" do
+      let(:query) { mock_model(Query, :results => [mock_model(Result)]) }
+      
+      it "tells the query to link all its results to the brand" do
+        Query.should_receive(:find_or_create_by_term).with("foo").and_return(query)
+        query.should_receive(:send_later).with(:link_all_results_to_brand, subject)
+        subject.add_query('foo')
+      end
+    end
+    
+    context "when query does not have results" do
+      let(:query) { mock_model(Query, :results => []) }
+      
+      it "tells the query to run" do
+        Query.should_receive(:find_or_create_by_term).with("foo").and_return(query)
+        query.should_receive(:send_later).with(:run)
+        subject.add_query('foo')
+      end
+      
     end
     
     it "returns the query" do

@@ -19,12 +19,15 @@ class Query < ActiveRecord::Base
 
   class << self
     def run
-      queries = Query.find(:all)
-      queries.each do |query|
-        query.run_against_twitter
-        query.run_against_blog_search
+      Query.find_in_batches(:batch_size => 200) do |queries|
+        queries.each(&:run)
       end
     end
+  end
+  
+  def run
+    send_later(:run_against_twitter)
+    send_later(:run_against_blog_search)
   end
   
   def run_against_twitter
@@ -65,7 +68,9 @@ class Query < ActiveRecord::Base
 
       pages.concat(parse_response(open(url).read, start))
       
-      break if pages.empty?      
+      break if pages.empty?
+      
+      sleep Settings.crawler.blog_search.sleep
     end
   rescue StandardError => e
     logger.warn("Query '#{term}' failed in run_against_blog_search: #{e.message}")

@@ -25,26 +25,41 @@ describe Query do
   should_have_many :search_results
   
   describe ".run" do
+    let(:queries) { (1..3).map { mock_model(Query) } }
+    
     before(:each) do
-      @queries = (1..2).map { |i| Factory.create(:query) }
-      @queries.each do |query|
-        query.stub!(:run_against_twitter)
-        query.stub!(:run_against_blog_search)
+      queries.each do |query|
+        query.stub!(:run)
       end
-      Query.stub!(:find).and_return(@queries)
+      Query.stub!(:find_in_batches).and_yield(queries)
     end
     
     it "should find all the queries" do
-      Query.should_receive(:find).with(:all).and_return(@queries)
+      Query.should_receive(:find_in_batches).with(:batch_size => 200).and_yield(queries)
       Query.run
     end
     
-    it "runs a twitter search and blog_search for each query" do
-      @queries.each do |query|
-        query.should_receive(:run_against_twitter)
-        query.should_receive(:run_against_blog_search)
+    it "runs each query" do
+      queries.each do |query|
+        query.should_receive(:run)
       end
       Query.run
+    end
+  end
+  
+  describe "#run" do
+    before(:each) do
+      subject.stub(:send_later)
+    end
+    
+    it "sends later #run_against_twitter" do
+      subject.should_receive(:send_later).with(:run_against_twitter)
+      subject.run
+    end
+    
+    it "sends later #run_against_blog_search" do
+      subject.should_receive(:send_later).with(:run_against_blog_search)
+      subject.run
     end
   end
   

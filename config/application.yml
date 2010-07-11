@@ -15,6 +15,9 @@ defaults: &defaults
     merchant_id: h6h56phxnnyhhj56
     public_key: 76wdmh6hhfpf3d5m
     private_key: 92nsjcq8f9ynrj9q
+  crawler:
+    blog_search:
+      sleep: 1
 
 development:
   <<: *defaults
@@ -26,10 +29,16 @@ development:
 test:
   <<: *defaults
   host: "example.com"
+  crawler:
+    blog_search:
+      sleep: 0
 
 cucumber:
   <<: *defaults
   host: "example.com"
+  crawler:
+    blog_search:
+      sleep: 0
 
 aissac:
   <<: *defaults
@@ -44,3 +53,7 @@ production:
   twitter:
     consumer_key: DOaquy8EyO07RXzqDbKFA
     consumer_secret: Z4aO0rrOFaNOXWgs9zRIhZvP5BCJK7nEVkfXGPHOo
+  crawler:
+    blog_search:
+      sleep: 5
+  

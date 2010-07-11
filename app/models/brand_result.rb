@@ -54,7 +54,7 @@ class BrandResult < ActiveRecord::Base
   named_scope :unread, :conditions => { :read => false }
   
   named_scope :read_state, lambda { |state|
-    {:conditions => ["#{BrandResult.table_name}.read = ?", state ]}
+    {:conditions => ["#{BrandResult.table_name}.read = ?", state]}
   }
   
   named_scope :latest_follow_up, 

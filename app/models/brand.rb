@@ -23,10 +23,14 @@ class Brand < ActiveRecord::Base
   after_destroy :cleanup
   
   def add_query(term)
-    query = Query.find_or_create_by_term(term)
-    queries << query
-    query.send_later(:link_all_results_to_brand, self)
-    query
+    returning Query.find_or_create_by_term(term) do |query|
+      queries << query unless queries.include?(query)
+      if query.results.empty?
+        query.send_later(:run)
+      else
+        query.send_later(:link_all_results_to_brand, self)
+      end
+    end
   end
   
   def remove_query(query)

@@ -1,0 +1,32 @@
+development:
+  adapter: mysql
+  socket: /tmp/mysql.sock
+  database: brandizzle_development
+  username: root
+  password:
+
+# development:
+#   adapter: mysql
+#   host: 127.0.0.1
+#   port: 3332
+#   database: brandizzle_production
+#   username: root
+#   password:
+
+test: &TEST
+  adapter: mysql
+  socket: /tmp/mysql.sock
+  database: brandizzle_test
+  username: root
+  password:
+
+production:
+  adapter: mysql
+  socket: /tmp/mysql.sock
+  database: brandizzle_production
+  host: localhost
+  username: root
+  password: 
+
+cucumber:
+  <<: *TEST
